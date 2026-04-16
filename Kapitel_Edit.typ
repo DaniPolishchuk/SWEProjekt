@@ -1,12 +1,15 @@
-#let question(body) = text(fill: color.rgb("#d88d1d"), body)
-
 #let QaA(question, answer) = {
   block(
-    inset: (left: 1em), // Ganzen Block einrücken
     [
       #text(fill: orange, weight: "bold")[#question] \
       #text(fill: green)[#sym.arrow #answer]
     ]
+  )
+}
+ 
+#let tableGrid(cells) = {
+  table(..cells, columns: 2, stroke: none,
+    inset: (right: 0.5em),
   )
 }
 
@@ -84,17 +87,6 @@ Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich 
 === Zielsetzung
 Ziel des Entwicklungsauftrags soll eine Software für die Verwaltung unserer Bauunternehmensdaten sein. Eine zentrale Datenhaltung sowie ein Mehrbenutzersystem müssen realisiert werden. Daneben soll ein Zugriff von unseren Baustellen aus auf Teile des Systems möglich sein.
 Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen möglichst alle Daten aus dem alten System in das neue System übertragen werden
-
-- #QaA[Wie viele Mitarbeiter sind im Büro und vor Ort?][
-  Ca. 30 Mitarbeiter arbeiten im Büro (Verwaltung, Planung, Projektleitung), ca. 170 Mitarbeiter sind auf den Baustellen tätig.
-]
-- #QaA[Wie viele Mitarbeiter sollen gleichzeitig durchschnittlich auf das System zugreifen können? ][
-  Im Durchschnitt sollen 10 bis 15 Mitarbeiter gleichzeitig auf das System zugreifen. In Spitzenzeiten bis zu 20.
-]
-
-
-=== Anwendungsbereiche
-Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
 - #QaA[Auf welchen Geräten soll die Software laufen können?][
   Primär auf Desktop-PCs im Büro (Windows, Linux). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags).
 ]
@@ -151,6 +143,47 @@ Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspe
 ]
 - #QaA[[INTERN] Sollen die Exportdaten verschlüsselt werden?][
   Nein, eine Verschlüsselung der Exportdaten ist nicht erforderlich. Die Dateien werden nur intern verwendet.
+]
+
+=== Anwendungsbereiche
+Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
+[INTERN] Welche Leistung haben die PCs (Welche technische Anforderungen)? 
+
+- #QaA[[INTERN] Soll es eine Webapp oder eine eigene Applikation sein?][
+
+]
+- #QaA[Wie viele Tablets und PCs sollen gleichzeitig mit der neuen Software verwendet werden? ][
+  
+]
+- #QaA[Welche Betriebssysteme sollen unterstützt werden? ][
+  
+]
+- #QaA[Welche Betriebssysteme sollen bei den Tablets und Laptops Einsatz sein? ][
+  
+]
+- #QaA[Welche charakteristischen Merkmale weisen die bauunternehmensspezifischen Daten auf und welche Daten sollen darunter verstanden werden? ][
+  
+]
+- #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
+  
+]
+- #QaA[Wie soll die Anbindung dieser PCs an die Software realisiert werden? ][
+  
+]
+- #QaA[Auf welche Teile genau sollen Bauleiter zugreifen können? ][
+  
+]
+- #QaA[[INTERN] Wie sollen diese Bauleiter auf das System zugreifen? ][
+  
+]
+- #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
+  
+]
+- #QaA[Da die Bauleiter vor Ort per Tablet zugreifen sollen, wie soll der Datenaustausch technisch erfolgen, wenn die Bürorechner keine Netzverbindung nach außen haben dürfen? ][
+  
+]
+- #QaA[[INTERN] Soll der Zugriff der Endgeräte über ein internes WLAN vor Ort oder über eine physische Synchronisation (Docking-Station) nach Rückkehr ins Büro erfolgen? ][
+  
 ]
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten
@@ -235,125 +268,129 @@ In einem weiterführenden Entwicklungsauftrag sollen ausgewählte Daten über ei
 Die finanztechnischen Daten über die Mitarbeiter und Projekte (Gehälter bzw. Löhne, Projektkosten, Anschaffungen, Reparaturen, Reinigung usw.) werden separat durch ein vorhandenes Finanzbuchhaltungsprogramm verwaltet und müssen hier nicht berücksichtigt werden.
 Die finanztechnischen Daten über Projekte (Rechnungen bzw. Mahnungen und Kostenvor-anschläge) müssen vom Finanzbuchhaltungssystem gelesen werden können, um sie im neuen System darstellen zu können. Die Erstellung und Änderung dieser Finanzdaten erfolgt ausschließlich im Finanzbuchhaltungssystem.
 Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
-#question[
-- Wie genau erfolgt die Anbindung an das Finanzbuchhaltungssystem? (Dateiimport, API, Datenbankzugriff?)
-  - Die Anbindung erfolgt über einen Dateiimport. Das Finanzbuchhaltungssystem exportiert Rechnungen, Mahnungen und Kostenvoranschläge als CSV-Dateien, die vom neuen System eingelesen werden.
-- In welchem Format liegen die Daten vor (CSV, XML, JSON)?
-  - Die Finanzdaten liegen im CSV-Format (Semikolon-separiert) vor.
-- Wie oft müssen Daten synchronisiert werden?
-  - Die Synchronisation erfolgt manuell bei Bedarf, z.B. einmal täglich durch einen Verwaltungsmitarbeiter oder den Administrator.
-- Wie sieht die Struktur der Altdaten aus?
-  - Die Altdaten liegen in einer lokalen relationalen Datenbank (einzelne Tabellen für Aufträge, Mitarbeiter, Maschinen) sowie in separaten Excel-Dateien vor. Ein einheitliches Schema gibt es nicht.
-- Gibt es Dokumentation zum Altsystem?
-  - Es gibt keine vollständige Dokumentation. Die Tabellenstrukturen der Datenbank und die Spaltenbezeichnungen der Excel-Dateien sind aber bekannt.
-- Müssen Daten validiert oder bereinigt werden beim Import?
-  - Ja, beim Import sollen die Daten auf Vollständigkeit und Duplikate geprüft werden (siehe auch LF100). Fehlerhafte Datensätze sollen markiert und dem Administrator zur Prüfung angezeigt werden.
+
+- #QaA[Wie lange soll die alte Software parallel betrieben werden – bis zur vollständigen Datenmigration oder darüber hinaus?][
+ 
+]
+- #QaA[Welche charakteristischen Daten sollen aus dem Altsystem übernommen werden, und in welchem Format liegen diese vor?][
+  
+]
+- #QaA[Soll die Anforderung „keine externe Netzverbindung" für alle Arbeitsplätze, oder nur für bestimmte gelten?][
+  
+]
+- #QaA[Wie sollen Mitarbeiter von der Baustelle aus auf das System zugreifen können?][
+  
+]
+- #QaA[Soll es weitere finanzbezogene Daten geben, die beachter werden sollen?][
+  
+]
+- #QaA[[INTERN] Über welche Schnittstelle soll das neue System die Finanzdaten (Rechnungen, Mahnungen, Kostenvoranschläge) aus dem Finanzbuchhaltungssystem einlesen?][
+  
+]
+- #QaA[[INTERN] In welchem Format liefert das Finanzbuchhaltungssystem die Daten – z. B. CSV, XML oder eine direkte Datenbankanbindung?][
+  
+]
+- #QaA[Wie häufig sollen die Finanzdaten aus dem Buchhaltungssystem synchronisiert werden – in Echtzeit, täglich oder manuell?][
+  
+]
+- #QaA[An wie viele Drucker soll das System angebunden werden, und sollen bestimmte Drucker für bestimmte Dokumente vorgesehen sein?][
+  
+]
+- #QaA[[INTERN] Wie sollen die Drucker mit den Geräten verbunden werden (WLAN)?][
+  
+]
+- #QaA[Welche konkreten Anforderungen bestehen für das „Tablet-Projekt" – welche Daten und Funktionen sollen mobil verfügbar sein?][
+  
+]
+- #QaA[Soll die mobile Lösung auch offline funktionieren?][
+  
+]
+- #QaA[[INTERN] Wie sollen Datenkonflikte bei der Synchronisation behandelt werden?][
+  
+]
+- #QaA[Welche Verfügbarkeit des Systems soll bereitgestellt werden. Gibt es Zeiten, in denen das System nicht verwendet wird?][
+  
 ]
 
 === Produktfunktionen
-- LF 10: Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
-#question[
-- Sollen die einzelnen User unterschiedliche Konfigurationen haben oder soll es eine globale Konfiguration geben?
-  - Jeder Benutzer soll eine eigene benutzerspezifische Konfiguration haben (z.B. Fenstergröße, Position). Daneben gibt es eine globale Konfiguration für Überschriften und Schriftarten.
-- Welche Daten sollen lesbar gespeichert werden (z.B. JSON, XML, CSV, ...)?
-  - Die Konfigurationsdaten sollen im CSV-Format gespeichert werden, da das gesamte System zunächst auf lesbaren Dateien basiert (siehe LD10).
-- Sollen Konfigurationen exportierbar sein?
-  - Nein, Konfigurationen sind rein lokal und müssen nicht exportiert werden.
-- Sollen Konfigurationen lokal oder zentral gespeichert werden (z.B. in der Cloud)?
-  - Benutzerspezifische Konfigurationen werden lokal auf dem jeweiligen Arbeitsplatz gespeichert. Die globale Konfiguration liegt auf der zentralen Datenbasis.
-- Gibt es Einschränkungen bezüglich Farbenblindheit, Sehschwäche, ...?
-  - Derzeit keine. Es soll aber auf ausreichenden Kontrast und lesbare Schriftgrößen geachtet werden.
-]
 
-- LF 20: Als Mitarbeiter unterscheiden wir Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte und ungelernte Bauarbeiter sowie Verwaltungsmitarbeiter. Daneben gibt es mehrere Gruppen (Verwaltung, Planung (z.B. Bauingenieure und Architekten), Projektleitung (v.a. Bauingenieure), Bauleitung, Baugruppen (enthalten Arbeitsgruppen)). Eine Gruppe kann dabei mehrere Mitarbeiter beinhalten, ein Mitarbeiter kann mehreren Gruppen angehören.
-#question[
-  - Wer kann Mitarbeiter und Gruppen anlegen, bearbeiten und löschen?
-    - Mitarbeiter anlegen und löschen: nur der Administrator. Mitarbeiter bearbeiten (z.B. Gruppenzuordnung): Administrator und Verwaltungsmitarbeiter. Gruppen anlegen und löschen: nur der Administrator. Mitarbeiter zu Gruppen zuordnen: Administrator und Verwaltungsmitarbeiter.
-]
+== Produktfunktionen
+#tableGrid(arguments(
+  [LF 10], [Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
+  - #QaA[Welche charakteristischen Daten sollen verwaltet werden? ][
 
-- LF 30: Zu den zentralen Daten eines Auftrags gehören: Projekt- und Baupläne, alle erstellten Angebote, Rechnungen und Mahnungen, Kostenvoranschläge, alle am Auftrag beteiligte Personen, Großgeräte, Einsatzort, Start-, End- und Zwischentermine usw.
-#question[
-  - Sind alles Pflichtfelder?
-  - Soll es Vorlagen geben?
-  - Sollen Personen referenziert werden oder als Zeichenkette angegeben werden?
-]
+  ]
+  - #QaA[Was soll eine übersichtliche Verwaltung bedeuten? Welche Kriterien soll die Benutzeroberfläche erfüllen?][
 
-- LF 40: Ein Auftrag kann von mehreren Unterauftragnehmern ausgeführt werden, d.h. Aufträge können Unteraufträge enthalten. Zur Abwicklung eines Auftrags ist ein Terminplaner erforderlich, der sämtliche Daten eines Auftrags bzw. Projekts beinhaltet.
-#question[
-  - Soll es Templates für Aufträge geben?
-  - Gibt es Pflichtfelder für Aufträge?
-  - Was sind "sämtliche Daten eines Auftrags bzw. Projekts"?
-]
+  ]
+  - #QaA[Was gehört zu den Konfigurationsdaten? Welche Daten sollen konfiguriert werden können? ][
+    
+  ]
+  - #QaA[Welche Elemente sollen vor dem Start konfigurierbar sein? Sollen sie nur einmal eingestellt werden können?  ][
+    
+  ]
+  - #QaA[[INTERN] In welcher Form, soll die Konfiguration erfolgen (GUI, CLI)? ][
+    
+  ]
+  - #QaA[[INTERN] In welchem Format sollen die Konfigurationsdaten gespeichert werden? ][
+    
+  ]
+  ],
+  [LF 20], [Als Mitarbeiter unterscheiden wir Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte und ungelernte Bauarbeiter sowie Verwaltungsmitarbeiter. Daneben gibt es mehrere Gruppen (Verwaltung, Planung (z.B. Bauingenieure und Architekten), Projektleitung (v.a. Bauingenieure), Bauleitung, Baugruppen (enthalten Arbeitsgruppen)). Eine Gruppe kann dabei mehrere Mitarbeiter beinhalten, ein Mitarbeiter kann mehreren Gruppen angehören.
+  - #QaA[[INTERN] Wie stehen die Gruppen in der technischen Umsetzung in Relation mit den Mitarbeitern? ][
 
-- LF 50: Es müssen die Baumaschinen (Bagger, LKWs, Kräne, Rüttler, Großbohrmaschinen, uvm.) sowie größere Bauwerkzeuge (Schalungsteile, Bausicherungen, Zäune, etc.) verwaltet werden. Die Baumaschinen und -werkzeuge haben unterschiedliche Ausrüstungen, nach denen sie bei der Suche unterschieden werden (z.B. Baggerschaufel, Kranzubehör (Behälter, Gewichte, Haken, usw.). Damit Baumaschinen und Geräte planbar zur Verfügung stehen, müssen sie über das System gebucht werden. Die Buchung kann direkt beim Anlegen eines Auftrags geschehen oder auch später bei Bedarf. Alle Baumaschinen und -werkzeuge sind einzelnen Lagern zugeordnet (Plätze und/oder Gebäude auf mehreren Grundstücken). Der momentane Standort muss zur Optimierung der Projektabläufe aktualisiert werden können. Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können („welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?“)
+  ]
+  - #QaA[Welche Kriterien müssen die einzelnen Gruppen bei der Auswahl der Mitarbeiter beachten (mind. Ein bestimmter Mitarbeiter, max. x verschiedene Mitarbeiter)? ][
+    
+  ]
+  - #QaA[Gehören die Gruppen und/ oder Mitarbeiter zu den relevanten Daten aus LF10, die angezeigt werden sollen? ][
+    
+  ]
+  - #QaA[Sollen Arbeitsgruppen innerhalb einer Baugruppe denselben Mitarbeiter mehrfach einsetzten können? ][
+    
+  ]
+  - #QaA[Sollen die Gruppen einmalig festgelegt werden oder sollen sie manuell erstellt werden können? ][
+    
+  ]
+  ],
+  [LF 30], [Zu den zentralen Daten eines Auftrags gehören: Projekt- und Baupläne, alle erstellten Angebote, Rechnungen und Mahnungen, Kostenvoranschläge, alle am Auftrag beteiligte Personen, Großgeräte, Einsatzort, Start-, End- und Zwischentermine usw.
+  - #QaA[Über welche charakteristischen Merkmale sollen die zentralen Daten verfügen? ][
 
-- LF 60: Nach allen wesentlichen Daten sollen mittels einer oder mehrerer Suchmaske im Datenbestand gesucht werden können.
-#question[
-  - Was sind die wesentlichen Daten, nach denen gesucht werden soll?
-  - Ist eine Sortierung nötig?
-  - Welche Suchmaske(n) sind nötig?
-  - Wie sollen die Suchmasken aufgeteilt werden?
-  - Wie viele Suchmasken soll es maximal geben?
-  - Wie soll die Suche erfolgen? Volltextsuche, Suche nach Schlüsselwörtern, Suche nach Kategorien, ...
-]
-
-- LF 70: Die Auswahl der Daten soll möglichst über (eventuell durchsuchbare) Auswahllisten erfolgen. Dies gilt vor allem für Zuordnungen von Daten zu anderen Daten (z.B. Bau- fahrzeuge und Personen zu Projekten und Arbeitsaufträgen usw.). Die Auswahllisten sollen auf einfache Weise erweiterbar und für sämtliche Mitarbeiter im System verfügbar sein. 
-#question[
-  - Was sollen es für Auswahllisten sein (einzelne Auswahllisten mit einzelnen Objekte oder mit komplexen Beziehung)?
-  - Welche Such- und Filtermöglichkeiten sollen die Auswahllisten haben?
-  - Soll es eine Vorauswahl geben?
-  - Wie sollen die Beziehungen zwischen den Daten dargestellt werden?
-  - Wie sollen die Auswahllisten angezeigt werden? (z.B. Dropdown-Menüs, Listen, Scrollbar)?
-  - Wie sollen die Auswahllisten erweitert werden? 
-  - Soll Mehrfachauswahl möglich sein?
-  - Sollen gelöschte oder inaktive Einträge bestimmt angezeigt werden?
-  - INTERN: Soll es Lazy Loading geben oder sollen alle Daten direkt geladen werden?
-]
-
-- LF 80: Allen Elementen sollen beliebig viele Bilder mit Titel zugeordnet werden können, die zentral auf einem Verzeichnis liegen sollen
-#question[
-  - Was ist ein Element (z.B. auch Terminplaner)?
-  - Für welche Elemente gilt das? Wirkliche alle?
-  - Welche Bildformate sollen verwendet werden?
-  - Dürfen gleiche Bilder doppelt existieren oder soll es eine zentrale Bildverwaltung geben?
-  - Wie sollen die Bilder organisiert werden? Nach Kategorien, nach Datum, nach Projekten, ...
-  - Wie sollen die Bilder angezeigt werden? In einer Galerie, als Thumbnails, ...
-  - Welche Informationen sollen in den Bildern enthalten sein (Metadaten)?
-  - Wie viel Speicherplatz soll für die Bilder vorgesehen werden?
-  - Welche Dateiformate sind erlaubt?
-  - Ist eine Versionshistorie notwendig?
-  - Muss das Urheberrecht der Bilder beachtet werden?
-]
-
-- LF 90: Viele unserer Angestellten sind teilzeitbeschäftigt. Für alle Angestellten sollen deshalb die Anwesenheitszeiten erfasst werden.
-#question[
-  - Wie sollen die Anwesenheitszeiten erfasst werden? Manuell, automatisch, durch Stempelkarten, ...
-  - Wer hat Lese- und Schreibrechte für die Anwesenheitszeiten?
-  - Wie sollen die Anwesenheitszeiten organisiert werden? Nach Tagen, nach Wochen, nach Monaten, nach Stunden, nach Minuten...
-  - Welche Informationen sollen in den Anwesenheitszeiten enthalten sein (z.B. Uhrzeit, Dauer, Grund für Abwesenheit, ...)?
-  - Muss Abwesenheit auch erfasst werden? Wenn ja, wie soll das erfolgen?
-  - Muss Datenschutz beachtet werden?
-  - In Bezug auf die Zielsetzung: müssen die Daten exportierbar und importierbar sein?
-]
-
-- LF 100: Vor dem Hinzufügen von neuen Daten soll eine Überprüfung stattfinden, ob diese eventuell schon vorhanden sind.
-#question[
-  - Wie soll die Überprüfung erfolgen (manuell, automatisch, durch eine Suchfunktion, bei welchen Daten soll die Prüfung durchgeführt werden ...)?
-  - Wer darf eine Überprüfung durchführen (wer hat Überschreibrechte)? 
-  - Welche Informationen sollen bei der Überprüfung berücksichtigt werden (z.B. Name, Datum, Kategorie, ...)?
-  - Was soll passieren, wenn die Daten bereits vorhanden sind? Sollen sie aktualisiert werden, sollen sie ignoriert werden, soll eine Fehlermeldung ausgegeben werden, ...?
-]
-
-=== Produktdaten
-- LD 10: Die Daten sollen zunächst in einer zentralen Datenbasis (lesbare Dateien) abgespeichert und später in eine Datenbank überführt werden.
-
-
-=== Produktleistungen
-- LL10 Die Anzahl der zu verwaltenden Elemente wird auf ca. 100.000 geschätzt. 
-- LL20 Die Daten müssen aus rechtlichen Gründen 10 Jahre online verfügbar sein.
-- LL30 Um bei HW- und SW-Anschaffungen und -neuerungen flexibel zu bleiben, ist auf Platt-formunabhängigkeit besonders zu achten.
-
-=== Qualitätsanforderung
+  ]
+  - #QaA[Sollen alle Daten auf einer einzelnen GUI sichtbar sein oder sollen sie weiter unterteilt werden? ][
+    
+  ]
+  - #QaA[[INTERN] In welcher Form sollen die Daten vorliegen (einzelne Dateien, Daten in der Datenbank)? ][
+    
+  ]
+  - #QaA[Sollen die beteiligten Personen aufgelistet werden oder sollen im Zuge der Übersichtlichkeit Gruppen aufgezeigt werden, die Auskunft über die Mitarbeiter geben? ][
+    
+  ]
+  ],
+  [LF 40], [Ein Auftrag kann von mehreren Unterauftragnehmern ausgeführt werden, d.h. Aufträge können Unteraufträge enthalten. Zur Abwicklung eines Auftrags ist ein Terminplaner erforderlich, der sämtliche Daten eines Auftrags bzw. Projekts beinhaltet.],
+  [LF 50], [Es müssen die Baumaschinen (Bagger, LKWs, Kräne, Rüttler, Großbohrmaschinen, uvm.) sowie größere Bauwerkzeuge (Schalungsteile, Bausicherungen, Zäune, etc.) verwaltet werden. Die Baumaschinen und -werkzeuge haben unterschiedliche Ausrüstungen, nach denen sie bei der Suche unterschieden werden (z.B. Baggerschaufel, Kranzubehör (Behälter, Gewichte, Haken, usw.). Damit Baumaschinen und Geräte planbar zur Verfügung stehen, müssen sie über das System gebucht werden. Die Buchung kann direkt beim Anlegen eines Auftrags geschehen oder auch später bei Bedarf. Alle Baumaschinen und -werkzeuge sind einzelnen Lagern zugeordnet (Plätze und/oder Gebäude auf mehreren Grundstücken). Der momentane Standort muss zur Optimierung der Projektabläufe aktualisiert werden können. Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können („welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?“)],
+  [LF 60], [Nach allen wesentlichen Daten sollen mittels einer oder mehrerer Suchmaske im Datenbestand gesucht werden können.],
+  [LF 70], [Die Auswahl der Daten soll möglichst über (eventuell durchsuchbare) Auswahllisten erfolgen. Dies gilt vor allem für Zuordnungen von Daten zu anderen Daten (z.B. Bau- fahrzeuge und Personen zu Projekten und Arbeitsaufträgen usw.). Die Auswahllisten sollen auf einfache Weise erweiterbar und für sämtliche Mitarbeiter im System verfügbar sein.
+],
+  [LF 80], [Allen Elementen sollen beliebig viele Bilder mit Titel zugeordnet werden können, die zentral auf einem Verzeichnis liegen sollen],
+  [LF 90], [Viele unserer Angestellten sind teilzeitbeschäftigt. Für alle Angestellten sollen deshalb die Anwesenheitszeiten erfasst werden.],
+  [LF 100], [Vor dem Hinzufügen von neuen Daten soll eine Überprüfung stattfinden, ob diese eventuell schon vorhanden sind.],
+))
+ 
+== Produktdaten
+#tableGrid(arguments(
+  [LD 10], [Die Daten sollen zunächst in einer zentralen Datenbasis (lesbare Dateien) abgespeichert und später in eine Datenbank überführt werden.],
+))
+ 
+ 
+== Produktleistungen
+#tableGrid(arguments(
+  [LL 10], [Die Anzahl der zu verwaltenden Elemente wird auf ca. 100.000 geschätzt.],
+  [LL 20], [Die Daten müssen aus rechtlichen Gründen 10 Jahre online verfügbar sein.],
+  [LL 30], [Um bei HW- und SW-Anschaffungen und -neuerungen flexibel zu bleiben, ist auf Platt-formunabhängigkeit besonders zu achten.],
+))
+ 
+== Qualitätsanforderung
 #table(columns: 5,
   [Produktqualität], [sehr gut], [gut], [normal], [nicht relevant],
   [Funktionalität], [], [X], [], [],
@@ -363,49 +400,3 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
   [Wartbarkeit], [], [], [X], [],
   [Übertragbarkeit (Portabilität)], [], [X], [], [],
 )
-
-- #QaA[Wie soll die als „sehr gut" bewertete Benutzbarkeit konkret umgesetzt werden – soll die grafische Oberfläche nach bestimmten Usability-Richtlinien (z.B. DIN EN ISO 9241) gestaltet werden?][
-
-]
-- #QaA[Wie soll die Gestaltung der Benutzeroberfläche aussehen – soll ein einheitliches Farbschema, ein firmeneigenes Corporate Design oder ein modernes, minimalistisches Design verwendet werden?][
-
-]
-- #QaA[Soll die hohe Benutzbarkeit durch integrierte Hilfefunktionen, Tooltips oder eine kontextsensitive Benutzerdokumentation unterstützt werden?][
-
-]
-- #QaA[Wie soll die als „gut" bewertete Funktionalität sichergestellt werden – soll die korrekte Funktion durch automatisierte Tests, manuelle Abnahmetests oder beides verifiziert werden?][
-
-]
-- #QaA[Wie soll die als „gut" bewertete Zuverlässigkeit gewährleistet werden – wie soll das System bei unerwarteten Fehlern (z.B. Datenbankausfall, Netzwerkunterbrechung) reagieren?][
-
-]
-- #QaA[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
-
-]
-- #QaA[Wie soll die als „gut" eingestufte Effizienz konkret gemessen werden – gibt es maximale Antwortzeiten für typische Verwaltungsoperationen wie die Suche nach Aufträgen oder Baumaschinen (z.B. unter 2 Sekunden)?][
-
-]
-- #QaA[Wie soll die als „gut" bewertete Übertragbarkeit (Portabilität) sichergestellt werden – soll die fertige Software ohne größere Anpassungen auf unterschiedlichen Betriebssystemen (Windows, Linux, macOS) lauffähig sein?][
-
-]
-- #QaA[Soll die portierbare Software auch auf verschiedenen Bildschirmauflösungen und Displaygrößen (Desktop-Monitor, Laptop, Tablet) ohne Einbußen bei der Benutzbarkeit funktionieren?][
-
-]
-- #QaA[Wie soll die als „normal" bewertete Wartbarkeit umgesetzt werden – soll die Software modular aufgebaut sein, sodass einzelne Komponenten (z.B. GUI, Datenbankzugriff, Geschäftslogik) unabhängig voneinander gewartet und aktualisiert werden können?][
-
-]
-- #QaA[Soll die wartbare Software so dokumentiert werden, dass ein neues Entwicklerteam ohne aufwendige Einarbeitung Fehler beheben und Erweiterungen vornehmen kann?][
-
-]
-- #QaA[Wer soll die langfristige Wartung der fertigen Software übernehmen – das interne IT-Personal des Bauunternehmens oder ein externer Dienstleister?][
-
-]
-- #QaA[Steht die „normale" Wartbarkeit im Widerspruch zur gewünschten 10-jährigen Datenverfügbarkeit – wie soll sichergestellt werden, dass Software-Updates über diesen langen Zeitraum die bestehende Funktionalität nicht beeinträchtigen?][
-
-]
-- #QaA[Gibt es bestimmte Qualitätsmerkmale, die in der obigen Tabelle nicht aufgeführt sind, aber für das Bauunternehmen trotzdem wichtig wären (z.B. Sicherheit, Skalierbarkeit, Datenschutzkonformität)?][
-
-]
-- #QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen (Verwaltungsmitarbeiter, Bauleiter, Vorarbeiter, Administrator) differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
-
-]
