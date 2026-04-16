@@ -1,18 +1,27 @@
 #let qa-counter = counter("qa-counter")
 
+#show figure.where(kind: "qa"): it => align(left, it.body)
+
 #let QaA(question, answer) = {
   qa-counter.step()
   context {
     let n = qa-counter.get().first()
-    [#block(
-      inset: (left: 1em),
-      [
-        #text(fill: orange, weight: "bold")[F#str(n). #question] \
-        #text(fill: blue)[#sym.arrow #answer]
-      ]
-    ) #metadata(n) #label("q" + str(n))]
+    let lbl = label("q" + str(n))
+    [#figure(
+      block(
+        inset: (left: 1em),
+        [
+          #text(fill: orange, weight: "bold")[F#str(n). #question] \
+          #text(fill: green)[ #answer]
+        ]
+      ),
+      kind: "qa",
+      supplement: "Frage",
+      caption: none,
+    )#lbl]
   }
 }
+
  
 #let tableGrid(cells) = {
   table(..cells, columns: 2, stroke: none,
