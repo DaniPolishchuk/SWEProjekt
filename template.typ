@@ -191,12 +191,21 @@
 
   show heading: it => {
     text(font: "Libertinus Serif", it)
-    v(0.5cm)
+    v(0.2cm)
+  }
+
+  show heading.where(level: 1): it => {
+    text(size: 18pt, it)
   }
 
   show heading.where(level: 2): it => {
     v(weak: true, 1.2cm)
-    it
+    text(size: 16pt, it)
+  }
+
+
+  show heading.where(level: 3): it => {
+    text(size: 14pt, it)
   }
 
   // load additional syntaxes for code
