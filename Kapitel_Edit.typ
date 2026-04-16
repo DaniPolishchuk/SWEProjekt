@@ -8,7 +8,7 @@
       inset: (left: 1em),
       [
         #text(fill: orange, weight: "bold")[F#str(n). #question] \
-        #text(fill: green)[#sym.arrow #answer]
+        #text(fill: blue)[#sym.arrow #answer]
       ]
     ) #metadata(n) #label("q" + str(n))]
   }
@@ -672,7 +672,7 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
  
 == Qualitätsanforderung
 #table(columns: 5,
-  [Produktqualität], [sehr gut], [gut], [normal], [nicht relevant],
+  [*Produktqualität*], [*sehr gut*], [*gut*], [*normal*], [*nicht relevant*],
   [Funktionalität], [], [X], [], [],
   [Zuverlässigkeit], [], [X], [], [],
   [Effizienz], [], [X], [], [],
@@ -681,49 +681,77 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
   [Übertragbarkeit (Portabilität)], [], [X], [], [],
 )
 
+#table(columns: 2,
+  [*Produktqualität*], [*Fragen und Antworten*],
+  [Funktionalität], 
+  [
+    #QaA[Wie soll die als „gut" bewertete Funktionalität sichergestellt werden – soll die korrekte Funktion durch automatisierte Tests, manuelle Abnahmetests oder beides verifiziert werden?][
 
-#QaA[Wie soll die als „sehr gut" bewertete Benutzbarkeit konkret umgesetzt werden – soll die grafische Oberfläche nach bestimmten Usability-Richtlinien (z.B. DIN EN ISO 9241) gestaltet werden?][
+    ]
+    #QaA[Gibt es bestimmte Qualitätsmerkmale, die in der obigen Tabelle nicht aufgeführt sind, aber für das Bauunternehmen trotzdem wichtig wären (z.B. Sicherheit, Skalierbarkeit, Datenschutzkonformität)?][
 
-]
-#QaA[Wie soll die Gestaltung der Benutzeroberfläche aussehen – soll ein einheitliches Farbschema, ein firmeneigenes Corporate Design oder ein modernes, minimalistisches Design verwendet werden?][
+    ]
+  ],
+  [Zuverlässigkeit], 
+  [
+    #QaA[Wie soll die als „gut" bewertete Zuverlässigkeit gewährleistet werden – wie soll das System bei unerwarteten Fehlern (z.B. Datenbankausfall, Netzwerkunterbrechung) reagieren?][
+    
+    ]
+    #QaA[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
+    
+    ]
+  ],
+  [Effizienz], 
+  [
+    #QaA[Wie soll die als „gut" eingestufte Effizienz konkret gemessen werden – gibt es maximale Antwortzeiten für typische Verwaltungsoperationen wie die Suche nach Aufträgen oder Baumaschinen (z.B. unter 2 Sekunden)?][
 
-]
-#QaA[Soll die hohe Benutzbarkeit durch integrierte Hilfefunktionen, Tooltips oder eine kontextsensitive Benutzerdokumentation unterstützt werden?][
+    ]
+  ],
+  [Benutzbarkeit (auch Gestaltung)],
+  [
+    #QaA[Wie soll die als „sehr gut" bewertete Benutzbarkeit konkret umgesetzt werden – soll die grafische Oberfläche nach bestimmten Usability-Richtlinien (z.B. DIN EN ISO 9241) gestaltet werden?][
+    
+    ]
+    #QaA[Wie soll die Gestaltung der Benutzeroberfläche aussehen – soll ein einheitliches Farbschema, ein firmeneigenes Corporate Design oder ein modernes, minimalistisches Design verwendet werden?][
+    
+    ]
+    #QaA[Soll die hohe Benutzbarkeit durch integrierte Hilfefunktionen, Tooltips oder eine kontextsensitive Benutzerdokumentation unterstützt werden?][
+    
+    ]
+    #QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen (Verwaltungsmitarbeiter, Bauleiter, Vorarbeiter, Administrator) differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
 
-]
-#QaA[Wie soll die als „gut" bewertete Funktionalität sichergestellt werden – soll die korrekte Funktion durch automatisierte Tests, manuelle Abnahmetests oder beides verifiziert werden?][
+    ]
+  ],
+  [Wartbarkeit], 
+  [
+    #QaA[Wie soll die als „normal" bewertete Wartbarkeit umgesetzt werden – soll die Software modular aufgebaut sein, sodass einzelne Komponenten (z.B. GUI, Datenbankzugriff, Geschäftslogik) unabhängig voneinander gewartet und aktualisiert werden können?][
 
-]
-#QaA[Wie soll die als „gut" bewertete Zuverlässigkeit gewährleistet werden – wie soll das System bei unerwarteten Fehlern (z.B. Datenbankausfall, Netzwerkunterbrechung) reagieren?][
+    ]
+    #QaA[Soll die wartbare Software so dokumentiert werden, dass ein neues Entwicklerteam ohne aufwendige Einarbeitung Fehler beheben und Erweiterungen vornehmen kann?][
 
-]
-#QaA[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
+    ]
+    #QaA[Wer soll die langfristige Wartung der fertigen Software übernehmen – das interne IT-Personal des Bauunternehmens oder ein externer Dienstleister?][
 
-]
-#QaA[Wie soll die als „gut" eingestufte Effizienz konkret gemessen werden – gibt es maximale Antwortzeiten für typische Verwaltungsoperationen wie die Suche nach Aufträgen oder Baumaschinen (z.B. unter 2 Sekunden)?][
+    ]
+    #QaA[Steht die „normale" Wartbarkeit im Widerspruch zur gewünschten 10-jährigen Datenverfügbarkeit – wie soll sichergestellt werden, dass Software-Updates über diesen langen Zeitraum die bestehende Funktionalität nicht beeinträchtigen?][
 
-]
-#QaA[Wie soll die als „gut" bewertete Übertragbarkeit (Portabilität) sichergestellt werden – soll die fertige Software ohne größere Anpassungen auf unterschiedlichen Betriebssystemen (Windows, Linux, macOS) lauffähig sein?][
+    ]
+  ],
+  [Übertragbarkeit (Portabilität)],
+  [
+    #QaA[Wie soll die als „gut" bewertete Übertragbarkeit (Portabilität) sichergestellt werden – soll die fertige Software ohne größere Anpassungen auf unterschiedlichen Betriebssystemen (Windows, Linux, macOS) lauffähig sein?][
 
-]
-#QaA[Soll die portierbare Software auch auf verschiedenen Bildschirmauflösungen und Displaygrößen (Desktop-Monitor, Laptop, Tablet) ohne Einbußen bei der Benutzbarkeit funktionieren?][
+    ]
+    #QaA[Soll die portierbare Software auch auf verschiedenen Bildschirmauflösungen und Displaygrößen (Desktop-Monitor, Laptop, Tablet) ohne Einbußen bei der Benutzbarkeit funktionieren?][
 
-]
-#QaA[Wie soll die als „normal" bewertete Wartbarkeit umgesetzt werden – soll die Software modular aufgebaut sein, sodass einzelne Komponenten (z.B. GUI, Datenbankzugriff, Geschäftslogik) unabhängig voneinander gewartet und aktualisiert werden können?][
+    ]
+  ],
+)
 
-]
-#QaA[Soll die wartbare Software so dokumentiert werden, dass ein neues Entwicklerteam ohne aufwendige Einarbeitung Fehler beheben und Erweiterungen vornehmen kann?][
 
-]
-#QaA[Wer soll die langfristige Wartung der fertigen Software übernehmen – das interne IT-Personal des Bauunternehmens oder ein externer Dienstleister?][
 
-]
-#QaA[Steht die „normale" Wartbarkeit im Widerspruch zur gewünschten 10-jährigen Datenverfügbarkeit – wie soll sichergestellt werden, dass Software-Updates über diesen langen Zeitraum die bestehende Funktionalität nicht beeinträchtigen?][
 
-]
-#QaA[Gibt es bestimmte Qualitätsmerkmale, die in der obigen Tabelle nicht aufgeführt sind, aber für das Bauunternehmen trotzdem wichtig wären (z.B. Sicherheit, Skalierbarkeit, Datenschutzkonformität)?][
 
-]
-#QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen (Verwaltungsmitarbeiter, Bauleiter, Vorarbeiter, Administrator) differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
 
-]
+
+
