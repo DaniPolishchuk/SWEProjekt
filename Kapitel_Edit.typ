@@ -136,7 +136,7 @@
   Derzeit kein Zugriff von außerhalb geplant. Der externe Zugriff ist Teil des späteren Tablet-Projekts.
 ]
 #QaA[Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
-  Das gesamte System läuft aus Sicherheitsgründen ohne externe Netzverbindung (nur Intranet). Ein Zugriff "von außen" im klassischen Sinne (über Internet) ist nicht vorgesehen. Für das spätere Tablet-Projekt erfolgt der Zugriff über das interne Firmen-WLAN im Bürogebäude, nicht über externe Netzwerke.
+  Das System hat keine direkte externe Internetverbindung (kein Zugriff über öffentliche Netzwerke). Der Server läuft im internen Firmennetz. Für das spätere Tablet-Projekt: Bauleiter können per VPN auf das interne Firmennetz zugreifen (z.B. über gesichertes VPN vom Laptop/Tablet). Die Daten werden dabei vor der Fahrt zur Baustelle synchronisiert (Offline-First-Ansatz), sodass auch ohne aktive Verbindung gearbeitet werden kann. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Eine ungeschützte Internet-Exposition des Servers ist nicht vorgesehen.
 ]
 #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
   Der Zugriff richtet sich nach den Benutzerrollen: Verwaltung hat Leserechte auf alles und Vollzugriff auf Verwaltungsdaten. Bau-/Projektleiter haben Vollzugriff auf projektbezogene Daten. Vorarbeiter haben Lesezugriff auf ihre Arbeitsaufträge. Administrator hat Vollzugriff auf alles.
@@ -208,16 +208,16 @@
   Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte, Baupläne. Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
 ]
 #QaA[[INTERN] Wie sollen diese Bauleiter auf das System zugreifen? ][
-  Das ist Teil des späteren Tablet-Projekts. Vorschläge: Web-App oder native App mit Offline-Fähigkeit. Die Synchronisation erfolgt über das interne Firmen-WLAN beim Betreten/Verlassen des Bürogebäudes. Eine externe Internetverbindung ist nicht vorgesehen, da das gesamte System aus Sicherheitsgründen nur im Intranet läuft.
+  Das ist Teil des späteren Tablet-Projekts. Vorschläge: Web-App oder native App mit Offline-Fähigkeit. Die Bauleiter verbinden sich per VPN zum internen Firmennetz und synchronisieren Daten *vor* der Fahrt zur Baustelle. Auf der Baustelle arbeiten sie komplett offline. Nach Rückkehr (oder bei verfügbarem gesicherten Netzwerk) synchronisieren sie Änderungen wieder per VPN. Der Server selbst hat keine direkte Internet-Exposition.
 ]
 #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
   Im ersten Auftrag: nein. Im Tablet-Projekt: Tablets und Laptops vor Ort auf den Baustellen.
 ]
 #QaA[Da die Bauleiter vor Ort per Tablet zugreifen sollen, wie soll der Datenaustausch technisch erfolgen, wenn das gesamte System keine Netzverbindung nach außen haben darf? ][
-  Das Tablet-Projekt nutzt eine Offline-First-Lösung: Die Tablets laden die benötigten Daten (Aufträge, Baupläne, Maschinendaten) herunter, wenn sie sich im Bürogebäude im internen WLAN befinden. Vor Ort arbeiten die Bauleiter offline mit den zwischengespeicherten Daten. Bei Rückkehr ins Büro (bzw. beim nächsten WLAN-Kontakt) werden Änderungen automatisch synchronisiert. Eine externe Internetverbindung ist nicht erforderlich.
+  Das Tablet-Projekt nutzt eine Offline-First-Lösung kombiniert mit VPN-Zugriff: Die Bauleiter verbinden sich per VPN zum internen Firmennetz (z.B. vor der Fahrt zur Baustelle im Büro oder von zu Hause) und laden die benötigten Daten herunter (Aufträge, Baupläne, Maschinendaten). Vor Ort auf der Baustelle arbeiten sie komplett offline mit den zwischengespeicherten Daten. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Der Server bleibt im internen Netz und ist nur per VPN erreichbar, nicht direkt über das Internet.
 ]
 #QaA[[INTERN] Soll der Zugriff der Endgeräte über ein internes WLAN vor Ort oder über eine physische Synchronisation (Docking-Station) nach Rückkehr ins Büro erfolgen? ][
-  Vorschlag für Tablet-Projekt: Automatische WLAN-Synchronisation im Bürogebäude beim Betreten/Verlassen. Die Tablets verbinden sich mit dem internen Firmen-WLAN und synchronisieren Daten mit dem zentralen Server. Eine physische Docking-Station ist optional als Backup-Lösung denkbar. Eine externe Internetverbindung ist nicht vorgesehen.
+  Vorschlag für Tablet-Projekt: VPN-basierte Synchronisation (vor/nach Baustellenbesuch). Die Tablets verbinden sich per VPN zum internen Firmennetz und synchronisieren Daten. Alternativ: Automatische Synchronisation im Büro-WLAN beim Betreten/Verlassen. Eine physische Docking-Station ist optional als Backup-Lösung denkbar, aber nicht primär erforderlich.
 ]
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten
@@ -347,10 +347,10 @@
   Ja, jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer, die automatisch vom System vergeben wird.
 ]
 #QaA[Wie soll die Anmeldung funktionieren (Zertifikat, Passwort)? ][
-  Laut den Vereinfachungen ist kein Login-Vorgang erforderlich. Die Anmeldung entfällt für den Programmentwurf.
+  Das vollständige System würde über ein Login mit Benutzername und Passwort verfügen, um die Benutzerrolle zu identifizieren. Laut den Vereinfachungen für den Programmentwurf soll der Login-Vorgang jedoch nicht implementiert werden. Für die Modellierung wird davon ausgegangen, dass jeder Benutzer eine Rolle hat, die Zugriffskontrolle wird konzeptionell berücksichtigt, aber der Authentifizierungsprozess selbst wird nicht ausmodelliert.
 ]
 #QaA[Soll es eine 2FA geben? ][
-  Nein, da kein Login-Vorgang erforderlich ist (siehe Vereinfachungen), entfällt auch eine 2FA.
+  In einem produktiven System wäre eine Zwei-Faktor-Authentifizierung für Administratoren und Benutzer mit erhöhten Rechten sinnvoll. Laut den Vereinfachungen für den Programmentwurf entfällt die Modellierung der Authentifizierung (inkl. 2FA) jedoch.
 ]
 
 === Zusammenspiel mit anderen Systemen
@@ -915,7 +915,7 @@
       Ja, Tooltips bei allen wichtigen UI-Elementen und eine integrierte Hilfe-Funktion (F1-Taste). Eine ausführliche Benutzerdokumentation (PDF) soll separat bereitgestellt werden.
     ]
     #QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen (Verwaltungsmitarbeiter, Bauleiter, Vorarbeiter, Administrator) differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
-      Ja, die GUI passt sich der Rolle an. Verwaltungsmitarbeiter sehen alle Verwaltungsfunktionen, Vorarbeiter nur ihre Arbeitsaufträge, Bau-/Projektleiter ihre Projekte, Administrator alle Funktionen. Die Basis-GUI bleibt einheitlich.
+      Ja, die GUI passt sich der Rolle an. Verwaltungsmitarbeiter sehen alle Verwaltungsfunktionen, Vorarbeiter nur ihre Arbeitsaufträge, Bau-/Projektleiter ihre Projekte, Administrator alle Funktionen. Die Basis-GUI bleibt einheitlich. Hinweis: Laut den Vereinfachungen wird die Authentifizierung nicht implementiert - für die Modellierung wird jedoch von einem rollenbasierten Zugriffssystem ausgegangen, bei dem die Rolle beim Programmstart festgelegt wird (z.B. durch Konfiguration oder Auswahl).
     ]
   ],
   [Wartbarkeit], 
