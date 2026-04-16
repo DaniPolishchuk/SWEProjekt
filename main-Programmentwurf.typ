@@ -31,13 +31,13 @@ TINF24B1
   // Other information about you and your project
   authors: (
     (
-      firstname: "Jamie",
-      lastname: "Paul",
+      firstname: "",
+      lastname: "",
       identification_number: "",
     ),
     (
-      firstname: "Simon",
-      lastname: "Boschmann",
+      firstname: "",
+      lastname: "",
       identification_number: "...",
     ),
   ),
