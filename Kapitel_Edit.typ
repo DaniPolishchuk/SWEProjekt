@@ -1,5 +1,15 @@
 #let question(body) = text(fill: color.rgb("#d88d1d"), body)
 
+#let QaA(question, answer) = {
+  block(
+    inset: (left: 1em), // Ganzen Block einrücken
+    [
+      #text(fill: orange, weight: "bold")[#question] \
+      #text(fill: green)[#sym.arrow #answer]
+    ]
+  )
+}
+
 = Einleitung
 Unser Bauunternehmen ist ein überregional agierendes Unternehmen im Hoch- und Tiefbau. Mit einem breiten Angebotsspektrum und ca. 200 Mitarbeitern gehören wir zu den führenden mittelständischen Unternehmen in der Rhein-Neckar-Region für den Bereich mittelgroßer Bauwerke (Ein- und Mehrfamilienhäuser, kleinere Brücken und Unterführungen, mittlere Hallenbauten wie Sport- und Festhallen sowie mittelgroße Bürogebäude).
 Da die vorhandene Verwaltungssoftware teilweise auf veralteten Technologien basiert und eine Überarbeitung verhältnismäßig teuer ist, hat der Vorstand beschlossen eine neue Verwaltungssoftware mit zusätzlicher Funktionalität erstellen zu lassen.
@@ -12,17 +22,73 @@ Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich 
 == Zielsetzung
 Ziel des Entwicklungsauftrags soll eine Software für die Verwaltung unserer Bauunternehmensdaten sein. Eine zentrale Datenhaltung sowie ein Mehrbenutzersystem müssen realisiert werden. Daneben soll ein Zugriff von unseren Baustellen aus auf Teile des Systems möglich sein.
 Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen möglichst alle Daten aus dem alten System in das neue System übertragen werden
-#question[
+
+- #QaA[Wie viele Mitarbeiter sind im Büro und vor Ort?][
+
+]
+- #QaA[Wie viele Mitarbeiter sollen gleichzeitig durchschnittlich auf das System zugreifen können? ][
 
 ]
 
+
 == Anwendungsbereiche
 Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
-#question[
-- Wie viele Benutzer arbeiten gleichzeitig im System?
-- Gibt es unterschiedliche Standorte oder nur ein zentrales Büro?
-- Wie stabil ist die Internetverbindung auf Baustellen?
-- Soll das System auch offlinefähig sein (z. B. Tablet)?
+- #QaA[Auf welchen Geräten soll die Software laufen können?][
+  siehe 2.2: auf PC, Laptop, Tablet 
+]
+- #QaA[Soll der Server extern oder intern gehostet werden?][
+  TODO
+]
+- #QaA[Wie viele Personen sollen die Software gleichzeitig nutzen?][
+
+]
+- #QaA[Gibt es besondere Anforderungen an Performance?][
+
+]
+- #QaA[Welche Erfahrungen hatten die Nutzer mit dem alten System (Postivie/Negative Askpekte)?][
+
+]
+- #QaA[Von wo aus soll auf die Software zugegriffen werden können?][
+
+]
+- #QaA[Wo soll die zentrale Datenhaltung sein?][
+
+]
+- #QaA[[INTERN] Wie kann man sich das Mehrbenutzersystem genau vorstellen?][
+
+]
+- #QaA[[INTERN] Wie soll dieser Zugriff aussehen?][
+
+]
+- #QaA[Wie oft soll auf das System von außerhalb zugegriffen werden?][
+
+]
+- #QaA[Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
+
+]
+- #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
+
+]
+- #QaA[Sollen alle Daten von der Baustelle aus verfügbar sein?][
+
+]
+- #QaA[Wie sind die alten Daten gespeichert?][
+
+]
+- #QaA[Welche Formate der Daten sollen im Import bevorzugt werden?][
+
+]
+- #QaA[Welche Formate der Daten sollen im Export bevorzugt werden?][
+
+]
+- #QaA[Welche Daten sollen genau Importiert bzw. Exportiert werden?][
+
+]
+- #QaA[Gibt es Daten, die nicht aus dem alten System übertragen werden sollen?][
+
+]
+- #QaA[[INTERN] Sollen die Exportdaten verschlüsselt werden?][
+
 ]
 
 == Zielgruppen, Benutzerrollen und Verantwortlichkeiten
@@ -34,12 +100,74 @@ Der Zugriff auf einzelne Daten soll je nach Berechtigung unterschiedlich erfolge
 -	Ein Administrator hat Vollzugriff auf sämtliche Daten, vor allem für deren Import und Export sowie deren Backup.
 Es sollen keine besonderen Computerkenntnisse zur Bedienung der Software erforderlich sein.
 
-#question[
-- Wie genau sollen die Berechtigungen technisch umgesetzt werden (rollenbasiert, individuell)?
-- Können Benutzer mehrere Rollen gleichzeitig haben?
-- Wer verwaltet Benutzer und Rechte (nur Admin oder delegierbar)?
-- Müssen Aktionen protokolliert werden (z. B. wer hat was geändert)?
-- Gibt es rechtliche Anforderungen (z. B. Datenschutz, DSGVO)?
+- #QaA[Welche Mitarbeiterpositionen soll es geben?][
+
+]
+- #QaA[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
+
+]
+- #QaA[Wie sollen die Berechtigungen umgesetzt werden? Soll es ein bestimmtes Rollensystem geben?][
+
+]
+- #QaA[Wer soll genau zur „Verwaltung" zählen – nur Büromitarbeiter oder auch Bau- und Projektleiter im Büro? ][
+
+]
+- #QaA[Was sollen „reine Verwaltungsdaten" konkret sein – welche Daten fallen darunter, welche sind ausgeschlossen? ][
+
+]
+- #QaA[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
+
+]
+- #QaA[Soll ein Bau-/Projektleiter Vollzugriff auf alle oder nur auf seine eigenen Projekte haben? ][
+
+]
+- #QaA[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
+
+]
+- #QaA[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
+
+]
+- #QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten? – ausschließlich der Administrator? ][
+
+]
+- #QaA[Soll der Administrator eine dedizierte IT-Person oder ein normaler Mitarbeiter mit Zusatzrechten sein? ][
+
+]
+- #QaA[Sollen die Rollen fest vordefiniert sein oder soll der Administrator neue Rollen konfigurieren können? ][
+
+]
+- #QaA[Welche charakteristischen Merkmale soll die Benutzeroberfläche erfüllen, um für Menschen ohne besondere Computerkenntnisse?][
+
+]
+- #QaA[bedienbar zu sein? ][
+
+]
+- #QaA[Welche charakteristischen Daten sollen Projekte verwalten? ][
+
+]
+- #QaA[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
+
+]
+- #QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
+
+]
+- #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
+
+]
+- #QaA[Soll es Projekte ohne Aufträge geben können? ][
+
+]
+- #QaA[Soll es Aufträge ohne Projekte geben können? ][
+
+]
+- #QaA[Sollen Mitarbeiter eine Mitarbeiternummer haben? ][
+
+]
+- #QaA[Wie soll die Anmeldung funktionieren (Zertifikat, Passwort)? ][
+
+]
+- #QaA[Soll es eine 2FA geben? ][
+
 ]
 
 == Zusammenspiel mit anderen Systemen
