@@ -20,64 +20,64 @@ Wir wünschen eine plattformunabhängige Lösung, die es ermöglicht, die komple
 Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich sein, auf die Daten von mehreren Arbeitsplätzen aus zugreifen zu können. Hierzu ist eine zentrale Daten-haltung unerlässlich. Eine intuitive, leicht bedienbare Benutzeroberfläche setzen wir als selbstverständlich voraus
 
 - #QaA[Wie viele Mitarbeiter sind konkret in der Verwaltung tätig und wie viele arbeiten auf den Baustellen?][
-
+  Von den ca. 200 Mitarbeitern arbeiten etwa 30 in der Verwaltung (Büro) und etwa 170 auf den Baustellen.
 ]
 - #QaA[Welche überregionalen Gebiete deckt das Bauunternehmen ab und gibt es geplante Expansionen in weitere Regionen?][
-
+  Das Kerngebiet ist die Rhein-Neckar-Region sowie angrenzende Gebiete in Baden-Württemberg und Rheinland-Pfalz. Eine Expansion ist derzeit nicht geplant.
 ]
 - #QaA[Welche konkreten Fachbereiche umfasst das breite Angebotsspektrum im Hoch- und Tiefbau neben den genannten Bauwerkstypen?][
-
+  Hochbau: Wohngebäude, Bürogebäude, Hallenbauten. Tiefbau: Brücken, Unterführungen, Kanalbau. Zusätzlich: Sanierung und Modernisierung bestehender Bauwerke.
 ]
 - #QaA[Wie soll die neue Verwaltungssoftware die bisherigen Verwaltungsarbeiten konkret vereinfachen – welche manuellen Arbeitsschritte sollen automatisiert werden?][
-
+  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen und auf Papier verwaltet. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
 ]
 - #QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt und auf welcher technologischen Basis ist dieses aufgebaut?][
-
+  Aktuell wird eine Kombination aus einer älteren Desktop-Anwendung (basierend auf Visual Basic) und diversen Excel-Tabellen verwendet. Die Daten liegen in einer lokalen Datenbank.
 ]
 - #QaA[Was waren die positiven Aspekte der alten Verwaltungssoftware, die in das neue System übernommen werden sollen?][
-
+  Die übersichtliche Darstellung der Auftragsdaten und die einfache Suche nach Mitarbeitern wurden als positiv bewertet. Diese Übersichtlichkeit soll beibehalten werden.
 ]
 - #QaA[Welche negativen Erfahrungen haben die Mitarbeiter mit der bisherigen veralteten Software gemacht, die im neuen System vermieden werden sollen?][
-
+  Die alte Software war langsam, konnte nur von einem Arbeitsplatz bedient werden und bot keine Möglichkeit, Daten mobil abzurufen. Außerdem fehlte eine zentrale Datenhaltung, sodass Daten teilweise doppelt gepflegt wurden.
 ]
 - #QaA[Wie kamen technisch weniger versierte Mitarbeiter mit der bisherigen Software zurecht und welche Bedienungsprobleme traten dabei regelmäßig auf?][
-
+  Vorarbeiter und Bauleiter hatten Schwierigkeiten mit der unübersichtlichen Menüstruktur. Häufig wurden falsche Eingabefelder befüllt. Die neue Software soll deshalb klare, einfache Eingabemasken bieten.
 ]
 - #QaA[Was genau wird unter einer „intuitiven, leicht bedienbaren Benutzeroberfläche" verstanden – soll die neue Oberfläche nach einem bestimmten Gestaltungsprinzip aufgebaut sein (z.B. möglichst wenige Klicks, alle wesentlichen Informationen auf einen Blick)?][
-
+  Die wichtigsten Informationen (Aufträge, Baumaschinen, Mitarbeiter) sollen von einer zentralen Übersichtsseite aus erreichbar sein. Maximal drei Klicks bis zur gewünschten Information. Keine Kommandozeile oder technische Fehlermeldungen.
 ]
 - #QaA[Soll eine bestimmte Barrierefreiheit (Accessibility) bei der grafischen Benutzeroberfläche beachtet werden (z.B. Unterstützung für Sehbehinderte, Spracheingabe)?][
-
+  Barrierefreiheit ist derzeit keine Anforderung. Es gibt keine Mitarbeiter mit entsprechenden Einschränkungen.
 ]
 - #QaA[Wie stellt man sich die plattformunabhängige Lösung konkret vor – soll es eine native Desktop-Anwendung mit Java, eine Web-Applikation oder eine hybride Lösung sein?][
-
+  Es soll eine Java-Desktop-Anwendung sein, die plattformunabhängig auf Windows, Linux und macOS läuft. Für das spätere Tablet-Projekt wird eine separate Web- oder App-Lösung in Betracht gezogen.
 ]
 - #QaA[Wie viele Desktoprechnern im Büro sollen gleichzeitig auf die zentrale Datenbasis zugreifen können?][
-
+  Bis zu 15 Desktop-Rechner sollen gleichzeitig auf die zentrale Datenbasis zugreifen können.
 ]
 - #QaA[Welche ausgewählten Teile der Daten und Arbeitsabläufe sollen auf den mobilen Endgeräten (Laptops, Tablets) vor Ort verfügbar sein?][
-
+  Auf mobilen Endgeräten sollen Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Baumaschinenstandorte und Arbeitsaufträge lesend verfügbar sein. Das Tablet-Projekt ist aber nicht Bestandteil des ersten Entwicklungsauftrags.
 ]
 - #QaA[Sollen die mobilen Endgeräte auch ohne bestehende Netzverbindung (offline) auf zwischengespeicherte Daten zugreifen können und wie sollen Datenänderungen bei der anschließenden Synchronisation behandelt werden?][
-
+  Ja, eine Offline-Fähigkeit ist wünschenswert. Änderungen sollen beim nächsten Verbindungsaufbau synchronisiert werden. Dies ist jedoch Teil des späteren Tablet-Projekts und nicht des aktuellen Auftrags.
 ]
 - #QaA[Wie viele verantwortliche Mitarbeiter arbeiten typischerweise gleichzeitig im Büro an der Software?][
-
+  Typischerweise arbeiten 5 bis 10 Verwaltungsmitarbeiter gleichzeitig mit der Software.
 ]
 - #QaA[Welche beteiligte Personen und Verantwortliche sollen neben Bau- und Projektleitern im neuen System verwaltet werden (z.B. externe Auftragnehmer, Architekten, Behördenkontakte)?][
-
+  Neben den eigenen Mitarbeitern sollen auch externe Unterauftragnehmer als Kontaktdaten verwaltet werden. Architekten und Behörden werden nicht im System gepflegt.
 ]
 - #QaA[Gibt es konkrete zeitliche Erwartungen oder einen gewünschten Projektfahrplan für die Einführung der neuen Verwaltungssoftware?][
-
+  Die Analyse und der Entwurf sollen innerhalb des aktuellen Semesters abgeschlossen werden. Ein konkreter Produktionstermin ist nicht festgelegt.
 ]
 - #QaA[Soll bei der Überarbeitung der veralteten Technologien auf eine bestimmte Programmiersprache oder ein bestimmtes Framework gesetzt werden, oder ist die technologische Entscheidung dem Entwicklungsteam überlassen?][
-
+  Es soll Java eingesetzt werden, da es plattformunabhängig ist und in die bestehende Systemlandschaft passt. Die GUI soll mit der bereitgestellten swe-utils-Bibliothek umgesetzt werden.
 ]
 - #QaA[Wie hoch ist das Budget für die neue Verwaltungssoftware und gibt es finanzielle Einschränkungen bei der Wahl der eingesetzten Technologien oder Lizenzen?][
-
+  Es sollen ausschließlich kostenfreie und quelloffene Technologien verwendet werden. Es stehen keine zusätzlichen Lizenzbudgets zur Verfügung.
 ]
 - #QaA[Gibt es gesetzliche oder branchenspezifische Vorschriften (z.B. Datenschutz, Baurecht, Aufbewahrungsfristen), die bei der neuen Verwaltungssoftware zwingend berücksichtigt werden müssen?][
-
+  Ja, alle Auftragsdaten müssen gemäß gesetzlicher Aufbewahrungsfristen mindestens 10 Jahre verfügbar bleiben. Personenbezogene Mitarbeiterdaten unterliegen den Datenschutzbestimmungen (DSGVO).
 ]
 
 == Lastenheft
@@ -86,71 +86,71 @@ Ziel des Entwicklungsauftrags soll eine Software für die Verwaltung unserer Bau
 Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen möglichst alle Daten aus dem alten System in das neue System übertragen werden
 
 - #QaA[Wie viele Mitarbeiter sind im Büro und vor Ort?][
-
+  Ca. 30 Mitarbeiter arbeiten im Büro (Verwaltung, Planung, Projektleitung), ca. 170 Mitarbeiter sind auf den Baustellen tätig.
 ]
 - #QaA[Wie viele Mitarbeiter sollen gleichzeitig durchschnittlich auf das System zugreifen können? ][
-
+  Im Durchschnitt sollen 10 bis 15 Mitarbeiter gleichzeitig auf das System zugreifen. In Spitzenzeiten bis zu 20.
 ]
 
 
 === Anwendungsbereiche
 Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
 - #QaA[Auf welchen Geräten soll die Software laufen können?][
-  siehe 2.2: auf PC, Laptop, Tablet 
+  Primär auf Desktop-PCs im Büro (Windows, Linux). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags).
 ]
 - #QaA[Soll der Server extern oder intern gehostet werden?][
-  TODO
+  Der Server soll intern im eigenen Bürogebäude gehostet werden. Ein externer Server ist aus Sicherheitsgründen nicht gewünscht.
 ]
 - #QaA[Wie viele Personen sollen die Software gleichzeitig nutzen?][
-
+  Bis zu 15 Personen gleichzeitig im Normalbetrieb, maximal 20 in Spitzenzeiten.
 ]
 - #QaA[Gibt es besondere Anforderungen an Performance?][
-
+  Suchanfragen und das Laden von Auftrags- oder Maschinendaten sollen innerhalb weniger Sekunden abgeschlossen sein. Lange Wartezeiten sind nicht akzeptabel.
 ]
 - #QaA[Welche Erfahrungen hatten die Nutzer mit dem alten System (Postivie/Negative Askpekte)?][
-
+  Positiv: einfache Auftragsübersicht. Negativ: langsame Reaktionszeiten, kein Mehrbenutzerzugriff, keine mobile Nutzung, Daten mussten doppelt gepflegt werden.
 ]
 - #QaA[Von wo aus soll auf die Software zugegriffen werden können?][
-
+  Primär von den Büroarbeitsplätzen im Bürogebäude. Später soll ein Zugriff von Baustellen per Tablet möglich sein (Tablet-Projekt).
 ]
 - #QaA[Wo soll die zentrale Datenhaltung sein?][
-
+  Auf einem zentralen Server im Bürogebäude. Alle Büro-PCs greifen über das interne Netzwerk darauf zu.
 ]
 - #QaA[[INTERN] Wie kann man sich das Mehrbenutzersystem genau vorstellen?][
-
+  Mehrere Benutzer greifen gleichzeitig über das interne Netzwerk auf dieselbe zentrale Datenbasis zu. Jeder Benutzer hat eine eigene Rolle mit entsprechenden Rechten. Ein Locking-Mechanismus ist laut Vereinfachung nicht erforderlich.
 ]
 - #QaA[[INTERN] Wie soll dieser Zugriff aussehen?][
-
+  Über eine Java-Desktop-Anwendung, die auf jedem Büro-PC installiert wird und sich per Netzwerk mit der zentralen Datenbasis verbindet.
 ]
 - #QaA[Wie oft soll auf das System von außerhalb zugegriffen werden?][
-
+  Derzeit kein Zugriff von außerhalb geplant. Der externe Zugriff ist Teil des späteren Tablet-Projekts.
 ]
 - #QaA[Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
-
+  Da das System zunächst ohne Netzverbindung nach außen lauffähig sein soll, ist kein externer Zugriff vorgesehen. Für das spätere Tablet-Projekt soll ein gesicherter Zugang (z.B. VPN) vorgesehen werden.
 ]
 - #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
-
+  Der Zugriff richtet sich nach den Benutzerrollen: Verwaltung hat Leserechte auf alles und Vollzugriff auf Verwaltungsdaten. Bau-/Projektleiter haben Vollzugriff auf projektbezogene Daten. Vorarbeiter haben Lesezugriff auf ihre Arbeitsaufträge. Administrator hat Vollzugriff auf alles.
 ]
 - #QaA[Sollen alle Daten von der Baustelle aus verfügbar sein?][
-
+  Nein, nur ausgewählte Daten: Auftragsinformationen, Einsatzort, beteiligte Personen und Baumaschinenstandorte. Dies ist aber Teil des Tablet-Projekts.
 ]
 - #QaA[Wie sind die alten Daten gespeichert?][
-
+  Die alten Daten liegen in einer lokalen Datenbank und teilweise in Excel-Dateien vor.
 ]
 - #QaA[Welche Formate der Daten sollen im Import bevorzugt werden?][
-
+  CSV-Dateien (Semikolon-separiert) als primäres Importformat. Diese sind lesbar und einfach zu verarbeiten.
 ]
 - #QaA[Welche Formate der Daten sollen im Export bevorzugt werden?][
-
+  Der Export soll ebenfalls im CSV-Format erfolgen, um Kompatibilität mit anderen Systemen zu gewährleisten.
 ]
 - #QaA[Welche Daten sollen genau Importiert bzw. Exportiert werden?][
-
+  Import: alle bestehenden Auftragsdaten, Mitarbeiterdaten, Baumaschinen- und Werkzeugdaten aus dem Altsystem. Export: selektiver Export einzelner Datensätze (z.B. Aufträge, Mitarbeiterlisten) für Berichte oder Backups.
 ]
 - #QaA[Gibt es Daten, die nicht aus dem alten System übertragen werden sollen?][
-
+  Finanztechnische Daten (Gehälter, Löhne, Projektkosten) werden nicht übertragen, da sie im separaten Finanzbuchhaltungssystem verwaltet werden.
 ]
 - #QaA[[INTERN] Sollen die Exportdaten verschlüsselt werden?][
-
+  Nein, eine Verschlüsselung der Exportdaten ist nicht erforderlich. Die Dateien werden nur intern verwendet.
 ]
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten
@@ -163,73 +163,70 @@ Der Zugriff auf einzelne Daten soll je nach Berechtigung unterschiedlich erfolge
 Es sollen keine besonderen Computerkenntnisse zur Bedienung der Software erforderlich sein.
 
 - #QaA[Welche Mitarbeiterpositionen soll es geben?][
-
+  Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte Bauarbeiter, ungelernte Bauarbeiter und Verwaltungsmitarbeiter.
 ]
 - #QaA[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
-
+  Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig. Es gibt keine dedizierten Datenbankadministratoren – diese Aufgabe übernimmt der Administrator.
 ]
 - #QaA[Wie sollen die Berechtigungen umgesetzt werden? Soll es ein bestimmtes Rollensystem geben?][
-
+  Ja, es soll ein festes Rollensystem mit vier vordefinierten Rollen geben: Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter und Administrator. Die Rollen sind fest vorgegeben und nicht konfigurierbar.
 ]
 - #QaA[Wer soll genau zur „Verwaltung" zählen – nur Büromitarbeiter oder auch Bau- und Projektleiter im Büro? ][
-
+  Zur Verwaltung zählen ausschließlich die Verwaltungsmitarbeiter im Büro. Bau- und Projektleiter haben eine eigene Rolle mit anderen Rechten.
 ]
 - #QaA[Was sollen „reine Verwaltungsdaten" konkret sein – welche Daten fallen darunter, welche sind ausgeschlossen? ][
-
+  Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen, Anwesenheitszeiten und allgemeine Konfigurationsdaten. Ausgeschlossen sind projektbezogene Daten (Aufträge, Baumaschinen-Buchungen).
 ]
 - #QaA[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
-
+  Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator.
 ]
 - #QaA[Soll ein Bau-/Projektleiter Vollzugriff auf alle oder nur auf seine eigenen Projekte haben? ][
-
+  Ein Bau-/Projektleiter hat Vollzugriff nur auf die Projekte und Aufträge, denen er zugeordnet ist. Auf andere Projekte hat er Lesezugriff.
 ]
 - #QaA[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
-
+  Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
 ]
 - #QaA[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
-
+  Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten.
 ]
 - #QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten? – ausschließlich der Administrator? ][
-
+  Ja, ausschließlich der Administrator verwaltet Benutzerkonten und weist Rollen zu.
 ]
 - #QaA[Soll der Administrator eine dedizierte IT-Person oder ein normaler Mitarbeiter mit Zusatzrechten sein? ][
-
+  Der Administrator ist ein Verwaltungsmitarbeiter mit erweiterten Rechten. Eine dedizierte IT-Person ist nicht vorgesehen.
 ]
 - #QaA[Sollen die Rollen fest vordefiniert sein oder soll der Administrator neue Rollen konfigurieren können? ][
-
+  Die vier Rollen (Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter, Administrator) sind fest vordefiniert. Der Administrator kann keine neuen Rollen erstellen.
 ]
-- #QaA[Welche charakteristischen Merkmale soll die Benutzeroberfläche erfüllen, um für Menschen ohne besondere Computerkenntnisse?][
-
-]
-- #QaA[bedienbar zu sein? ][
-
+- #QaA[Welche charakteristischen Merkmale soll die Benutzeroberfläche erfüllen, um für Menschen ohne besondere Computerkenntnisse bedienbar zu sein? ][
+  Klare Beschriftungen, große Schaltflächen, übersichtliche Eingabemasken, keine technischen Fachbegriffe in der Oberfläche. Maximal drei Klicks bis zur gewünschten Funktion.
 ]
 - #QaA[Welche charakteristischen Daten sollen Projekte verwalten? ][
-
+  Ein Projekt hat: Projektname, Projektleiter, Einsatzort, Start- und Endtermin, zugeordnete Aufträge, zugeordnete Baugruppen und eine Beschreibung.
 ]
 - #QaA[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
-
+  Ein Arbeitsauftrag hat: Auftragsbezeichnung, zugehöriges Projekt, Baupläne (als Dateipfad), beteiligte Personen, gebuchte Baumaschinen, Einsatzort, Start-/End-/Zwischentermine, Kostenvoranschlag, Status (offen, in Bearbeitung, abgeschlossen).
 ]
 - #QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
-
+  Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
 ]
 - #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
-
+  Nein, ein Arbeitsauftrag gehört immer zu genau einem Projekt.
 ]
 - #QaA[Soll es Projekte ohne Aufträge geben können? ][
-
+  Ja, ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren. Aufträge werden dann später hinzugefügt.
 ]
 - #QaA[Soll es Aufträge ohne Projekte geben können? ][
-
+  Nein, jeder Auftrag muss einem Projekt zugeordnet sein.
 ]
 - #QaA[Sollen Mitarbeiter eine Mitarbeiternummer haben? ][
-
+  Ja, jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer, die automatisch vom System vergeben wird.
 ]
 - #QaA[Wie soll die Anmeldung funktionieren (Zertifikat, Passwort)? ][
-
+  Laut den Vereinfachungen ist kein Login-Vorgang erforderlich. Die Anmeldung entfällt für den Programmentwurf.
 ]
 - #QaA[Soll es eine 2FA geben? ][
-
+  Nein, da kein Login-Vorgang erforderlich ist (siehe Vereinfachungen), entfällt auch eine 2FA.
 ]
 
 === Zusammenspiel mit anderen Systemen
@@ -240,26 +237,38 @@ Die finanztechnischen Daten über Projekte (Rechnungen bzw. Mahnungen und Kosten
 Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
 #question[
 - Wie genau erfolgt die Anbindung an das Finanzbuchhaltungssystem? (Dateiimport, API, Datenbankzugriff?)
+  - Die Anbindung erfolgt über einen Dateiimport. Das Finanzbuchhaltungssystem exportiert Rechnungen, Mahnungen und Kostenvoranschläge als CSV-Dateien, die vom neuen System eingelesen werden.
 - In welchem Format liegen die Daten vor (CSV, XML, JSON)?
+  - Die Finanzdaten liegen im CSV-Format (Semikolon-separiert) vor.
 - Wie oft müssen Daten synchronisiert werden?
+  - Die Synchronisation erfolgt manuell bei Bedarf, z.B. einmal täglich durch einen Verwaltungsmitarbeiter oder den Administrator.
 - Wie sieht die Struktur der Altdaten aus?
+  - Die Altdaten liegen in einer lokalen relationalen Datenbank (einzelne Tabellen für Aufträge, Mitarbeiter, Maschinen) sowie in separaten Excel-Dateien vor. Ein einheitliches Schema gibt es nicht.
 - Gibt es Dokumentation zum Altsystem?
+  - Es gibt keine vollständige Dokumentation. Die Tabellenstrukturen der Datenbank und die Spaltenbezeichnungen der Excel-Dateien sind aber bekannt.
 - Müssen Daten validiert oder bereinigt werden beim Import?
+  - Ja, beim Import sollen die Daten auf Vollständigkeit und Duplikate geprüft werden (siehe auch LF100). Fehlerhafte Datensätze sollen markiert und dem Administrator zur Prüfung angezeigt werden.
 ]
 
 === Produktfunktionen
 - LF 10: Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
 #question[
 - Sollen die einzelnen User unterschiedliche Konfigurationen haben oder soll es eine globale Konfiguration geben?
+  - Jeder Benutzer soll eine eigene benutzerspezifische Konfiguration haben (z.B. Fenstergröße, Position). Daneben gibt es eine globale Konfiguration für Überschriften und Schriftarten.
 - Welche Daten sollen lesbar gespeichert werden (z.B. JSON, XML, CSV, ...)?
+  - Die Konfigurationsdaten sollen im CSV-Format gespeichert werden, da das gesamte System zunächst auf lesbaren Dateien basiert (siehe LD10).
 - Sollen Konfigurationen exportierbar sein?
+  - Nein, Konfigurationen sind rein lokal und müssen nicht exportiert werden.
 - Sollen Konfigurationen lokal oder zentral gespeichert werden (z.B. in der Cloud)?
+  - Benutzerspezifische Konfigurationen werden lokal auf dem jeweiligen Arbeitsplatz gespeichert. Die globale Konfiguration liegt auf der zentralen Datenbasis.
 - Gibt es Einschränkungen bezüglich Farbenblindheit, Sehschwäche, ...?
+  - Derzeit keine. Es soll aber auf ausreichenden Kontrast und lesbare Schriftgrößen geachtet werden.
 ]
 
 - LF 20: Als Mitarbeiter unterscheiden wir Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte und ungelernte Bauarbeiter sowie Verwaltungsmitarbeiter. Daneben gibt es mehrere Gruppen (Verwaltung, Planung (z.B. Bauingenieure und Architekten), Projektleitung (v.a. Bauingenieure), Bauleitung, Baugruppen (enthalten Arbeitsgruppen)). Eine Gruppe kann dabei mehrere Mitarbeiter beinhalten, ein Mitarbeiter kann mehreren Gruppen angehören.
 #question[
   - Wer kann Mitarbeiter und Gruppen anlegen, bearbeiten und löschen?
+    - Mitarbeiter anlegen und löschen: nur der Administrator. Mitarbeiter bearbeiten (z.B. Gruppenzuordnung): Administrator und Verwaltungsmitarbeiter. Gruppen anlegen und löschen: nur der Administrator. Mitarbeiter zu Gruppen zuordnen: Administrator und Verwaltungsmitarbeiter.
 ]
 
 - LF 30: Zu den zentralen Daten eines Auftrags gehören: Projekt- und Baupläne, alle erstellten Angebote, Rechnungen und Mahnungen, Kostenvoranschläge, alle am Auftrag beteiligte Personen, Großgeräte, Einsatzort, Start-, End- und Zwischentermine usw.
