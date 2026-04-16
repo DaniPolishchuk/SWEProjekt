@@ -17,6 +17,66 @@ Neben Projekten, Aufträgen, den Fahrzeugen, Großwerkzeugen sollen sämtliche b
 Wir wünschen eine plattformunabhängige Lösung, die es ermöglicht, die kompletten Arbeits-abläufe auf unseren Desktoprechnern im Büro sowie ausgewählte Teile unserer Daten und Arbeitsabläufe auch auf Laptops und Tablets vor Ort einsehen und ändern zu können.
 Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich sein, auf die Daten von mehreren Arbeitsplätzen aus zugreifen zu können. Hierzu ist eine zentrale Daten-haltung unerlässlich. Eine intuitive, leicht bedienbare Benutzeroberfläche setzen wir als selbstverständlich voraus
 
+- #QaA[Wie viele Mitarbeiter sind konkret in der Verwaltung tätig und wie viele arbeiten auf den Baustellen?][
+
+]
+- #QaA[Welche überregionalen Gebiete deckt das Bauunternehmen ab und gibt es geplante Expansionen in weitere Regionen?][
+
+]
+- #QaA[Welche konkreten Fachbereiche umfasst das breite Angebotsspektrum im Hoch- und Tiefbau neben den genannten Bauwerkstypen?][
+
+]
+- #QaA[Wie soll die neue Verwaltungssoftware die bisherigen Verwaltungsarbeiten konkret vereinfachen – welche manuellen Arbeitsschritte sollen automatisiert werden?][
+
+]
+- #QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt und auf welcher technologischen Basis ist dieses aufgebaut?][
+
+]
+- #QaA[Was waren die positiven Aspekte der alten Verwaltungssoftware, die in das neue System übernommen werden sollen?][
+
+]
+- #QaA[Welche negativen Erfahrungen haben die Mitarbeiter mit der bisherigen veralteten Software gemacht, die im neuen System vermieden werden sollen?][
+
+]
+- #QaA[Wie kamen technisch weniger versierte Mitarbeiter mit der bisherigen Software zurecht und welche Bedienungsprobleme traten dabei regelmäßig auf?][
+
+]
+- #QaA[Was genau wird unter einer „intuitiven, leicht bedienbaren Benutzeroberfläche" verstanden – soll die neue Oberfläche nach einem bestimmten Gestaltungsprinzip aufgebaut sein (z.B. möglichst wenige Klicks, alle wesentlichen Informationen auf einen Blick)?][
+
+]
+- #QaA[Soll eine bestimmte Barrierefreiheit (Accessibility) bei der grafischen Benutzeroberfläche beachtet werden (z.B. Unterstützung für Sehbehinderte, Spracheingabe)?][
+
+]
+- #QaA[Wie stellt man sich die plattformunabhängige Lösung konkret vor – soll es eine native Desktop-Anwendung mit Java, eine Web-Applikation oder eine hybride Lösung sein?][
+
+]
+- #QaA[Wie viele Desktoprechnern im Büro sollen gleichzeitig auf die zentrale Datenbasis zugreifen können?][
+
+]
+- #QaA[Welche ausgewählten Teile der Daten und Arbeitsabläufe sollen auf den mobilen Endgeräten (Laptops, Tablets) vor Ort verfügbar sein?][
+
+]
+- #QaA[Sollen die mobilen Endgeräte auch ohne bestehende Netzverbindung (offline) auf zwischengespeicherte Daten zugreifen können und wie sollen Datenänderungen bei der anschließenden Synchronisation behandelt werden?][
+
+]
+- #QaA[Wie viele verantwortliche Mitarbeiter arbeiten typischerweise gleichzeitig im Büro an der Software?][
+
+]
+- #QaA[Welche beteiligte Personen und Verantwortliche sollen neben Bau- und Projektleitern im neuen System verwaltet werden (z.B. externe Auftragnehmer, Architekten, Behördenkontakte)?][
+
+]
+- #QaA[Gibt es konkrete zeitliche Erwartungen oder einen gewünschten Projektfahrplan für die Einführung der neuen Verwaltungssoftware?][
+
+]
+- #QaA[Soll bei der Überarbeitung der veralteten Technologien auf eine bestimmte Programmiersprache oder ein bestimmtes Framework gesetzt werden, oder ist die technologische Entscheidung dem Entwicklungsteam überlassen?][
+
+]
+- #QaA[Wie hoch ist das Budget für die neue Verwaltungssoftware und gibt es finanzielle Einschränkungen bei der Wahl der eingesetzten Technologien oder Lizenzen?][
+
+]
+- #QaA[Gibt es gesetzliche oder branchenspezifische Vorschriften (z.B. Datenschutz, Baurecht, Aufbewahrungsfristen), die bei der neuen Verwaltungssoftware zwingend berücksichtigt werden müssen?][
+
+]
 
 = Lastenheft
 == Zielsetzung
@@ -289,6 +349,52 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
   [Zuverlässigkeit], [], [X], [], [],
   [Effizienz], [], [X], [], [],
   [Benutzbarkeit (auch Gestaltung)], [X], [], [], [],
-  [Wartbarkeit], [], [], [X], [], 
+  [Wartbarkeit], [], [], [X], [],
   [Übertragbarkeit (Portabilität)], [], [X], [], [],
 )
+
+- #QaA[Wie soll die als „sehr gut" bewertete Benutzbarkeit konkret umgesetzt werden – soll die grafische Oberfläche nach bestimmten Usability-Richtlinien (z.B. DIN EN ISO 9241) gestaltet werden?][
+
+]
+- #QaA[Wie soll die Gestaltung der Benutzeroberfläche aussehen – soll ein einheitliches Farbschema, ein firmeneigenes Corporate Design oder ein modernes, minimalistisches Design verwendet werden?][
+
+]
+- #QaA[Soll die hohe Benutzbarkeit durch integrierte Hilfefunktionen, Tooltips oder eine kontextsensitive Benutzerdokumentation unterstützt werden?][
+
+]
+- #QaA[Wie soll die als „gut" bewertete Funktionalität sichergestellt werden – soll die korrekte Funktion durch automatisierte Tests, manuelle Abnahmetests oder beides verifiziert werden?][
+
+]
+- #QaA[Wie soll die als „gut" bewertete Zuverlässigkeit gewährleistet werden – wie soll das System bei unerwarteten Fehlern (z.B. Datenbankausfall, Netzwerkunterbrechung) reagieren?][
+
+]
+- #QaA[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
+
+]
+- #QaA[Wie soll die als „gut" eingestufte Effizienz konkret gemessen werden – gibt es maximale Antwortzeiten für typische Verwaltungsoperationen wie die Suche nach Aufträgen oder Baumaschinen (z.B. unter 2 Sekunden)?][
+
+]
+- #QaA[Wie soll die als „gut" bewertete Übertragbarkeit (Portabilität) sichergestellt werden – soll die fertige Software ohne größere Anpassungen auf unterschiedlichen Betriebssystemen (Windows, Linux, macOS) lauffähig sein?][
+
+]
+- #QaA[Soll die portierbare Software auch auf verschiedenen Bildschirmauflösungen und Displaygrößen (Desktop-Monitor, Laptop, Tablet) ohne Einbußen bei der Benutzbarkeit funktionieren?][
+
+]
+- #QaA[Wie soll die als „normal" bewertete Wartbarkeit umgesetzt werden – soll die Software modular aufgebaut sein, sodass einzelne Komponenten (z.B. GUI, Datenbankzugriff, Geschäftslogik) unabhängig voneinander gewartet und aktualisiert werden können?][
+
+]
+- #QaA[Soll die wartbare Software so dokumentiert werden, dass ein neues Entwicklerteam ohne aufwendige Einarbeitung Fehler beheben und Erweiterungen vornehmen kann?][
+
+]
+- #QaA[Wer soll die langfristige Wartung der fertigen Software übernehmen – das interne IT-Personal des Bauunternehmens oder ein externer Dienstleister?][
+
+]
+- #QaA[Steht die „normale" Wartbarkeit im Widerspruch zur gewünschten 10-jährigen Datenverfügbarkeit – wie soll sichergestellt werden, dass Software-Updates über diesen langen Zeitraum die bestehende Funktionalität nicht beeinträchtigen?][
+
+]
+- #QaA[Gibt es bestimmte Qualitätsmerkmale, die in der obigen Tabelle nicht aufgeführt sind, aber für das Bauunternehmen trotzdem wichtig wären (z.B. Sicherheit, Skalierbarkeit, Datenschutzkonformität)?][
+
+]
+- #QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen (Verwaltungsmitarbeiter, Bauleiter, Vorarbeiter, Administrator) differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
+
+]
