@@ -1,6 +1,8 @@
 #let question(body) = text(fill: color.rgb("#d88d1d"), body)
 
-= Einleitung
+= Aufgabenstellung
+
+== Einleitung
 Unser Bauunternehmen ist ein überregional agierendes Unternehmen im Hoch- und Tiefbau. Mit einem breiten Angebotsspektrum und ca. 200 Mitarbeitern gehören wir zu den führenden mittelständischen Unternehmen in der Rhein-Neckar-Region für den Bereich mittelgroßer Bauwerke (Ein- und Mehrfamilienhäuser, kleinere Brücken und Unterführungen, mittlere Hallenbauten wie Sport- und Festhallen sowie mittelgroße Bürogebäude).
 Da die vorhandene Verwaltungssoftware teilweise auf veralteten Technologien basiert und eine Überarbeitung verhältnismäßig teuer ist, hat der Vorstand beschlossen eine neue Verwaltungssoftware mit zusätzlicher Funktionalität erstellen zu lassen.
 Neben Projekten, Aufträgen, den Fahrzeugen, Großwerkzeugen sollen sämtliche beteiligte Personen und Verantwortliche sowie mehrere Benutzer verwaltet werden, um die anfallenden Verwaltungsarbeiten einfacher und schneller erledigen zu können.
@@ -8,15 +10,15 @@ Wir wünschen eine plattformunabhängige Lösung, die es ermöglicht, die komple
 Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich sein, auf die Daten von mehreren Arbeitsplätzen aus zugreifen zu können. Hierzu ist eine zentrale Daten-haltung unerlässlich. Eine intuitive, leicht bedienbare Benutzeroberfläche setzen wir als selbstverständlich voraus
 
 
-= Lastenheft
-== Zielsetzung
+== Lastenheft
+=== Zielsetzung
 Ziel des Entwicklungsauftrags soll eine Software für die Verwaltung unserer Bauunternehmensdaten sein. Eine zentrale Datenhaltung sowie ein Mehrbenutzersystem müssen realisiert werden. Daneben soll ein Zugriff von unseren Baustellen aus auf Teile des Systems möglich sein.
 Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen möglichst alle Daten aus dem alten System in das neue System übertragen werden
 
-== Anwendungsbereiche
+=== Anwendungsbereiche
 Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
 
-== Zielgruppen, Benutzerrollen und Verantwortlichkeiten
+=== Zielgruppen, Benutzerrollen und Verantwortlichkeiten
 Zur Zielgruppe zählen alle angestellten Mitarbeiter, die für die Erfassung und Verwaltung der Daten angestellt sind. 
 Der Zugriff auf einzelne Daten soll je nach Berechtigung unterschiedlich erfolgen:
 -	Alle Mitarbeiter in der Verwaltung sollen für sämtliche Daten Leserechte besitzen. Das bezieht sich auch auf den (selektiven) Export von Daten. Sie haben Vollzugriff auf die reinen Verwaltungsdaten.
@@ -25,14 +27,14 @@ Der Zugriff auf einzelne Daten soll je nach Berechtigung unterschiedlich erfolge
 -	Ein Administrator hat Vollzugriff auf sämtliche Daten, vor allem für deren Import und Export sowie deren Backup.
 Es sollen keine besonderen Computerkenntnisse zur Bedienung der Software erforderlich sein.
 
-== Zusammenspiel mit anderen Systemen
+=== Zusammenspiel mit anderen Systemen
 Es soll zunächst für unsere Bürorechner lauffähig gemacht werden. Parallel dazu soll die alte Software so lange weiterlaufen. Das zu entwickelnde Softwaresystem soll für unsere Büro-rechner aus Sicherheitsgründen ohne Netzverbindung nach Außen lauffähig sein. Mehrere Drucker sollen für die Erstellung der Rechnungen angeschlossen sein.
 In einem weiterführenden Entwicklungsauftrag sollen ausgewählte Daten über einen Laptop oder ein Tablet direkt vor Ort verwaltet werden können. Das erhöht die Flexibilität unserer Bau- und Projektleiter vor Ort und senkt die Wartezeit bei Anfragen, Wünschen und kleineren Änderungen. Dieses „Tablet-Projekt“ selbst ist nicht direkter Bestandteil des ersten Entwicklungsauftrags, es sollen jedoch konkrete Vorschläge zur Realisierung (GUI, Schnittstellen, grobe Architektur) gemacht werden.
 Die finanztechnischen Daten über die Mitarbeiter und Projekte (Gehälter bzw. Löhne, Projektkosten, Anschaffungen, Reparaturen, Reinigung usw.) werden separat durch ein vorhandenes Finanzbuchhaltungsprogramm verwaltet und müssen hier nicht berücksichtigt werden.
 Die finanztechnischen Daten über Projekte (Rechnungen bzw. Mahnungen und Kostenvor-anschläge) müssen vom Finanzbuchhaltungssystem gelesen werden können, um sie im neuen System darstellen zu können. Die Erstellung und Änderung dieser Finanzdaten erfolgt ausschließlich im Finanzbuchhaltungssystem.
 Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
 
-== Produktfunktionen
+=== Produktfunktionen
 - LF 10: Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
 
 - LF 20: Als Mitarbeiter unterscheiden wir Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte und ungelernte Bauarbeiter sowie Verwaltungsmitarbeiter. Daneben gibt es mehrere Gruppen (Verwaltung, Planung (z.B. Bauingenieure und Architekten), Projektleitung (v.a. Bauingenieure), Bauleitung, Baugruppen (enthalten Arbeitsgruppen)). Eine Gruppe kann dabei mehrere Mitarbeiter beinhalten, ein Mitarbeiter kann mehreren Gruppen angehören.
@@ -53,16 +55,16 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
 
 - LF 100: Vor dem Hinzufügen von neuen Daten soll eine Überprüfung stattfinden, ob diese eventuell schon vorhanden sind.
 
-== Produktdaten
+=== Produktdaten
 - LD 10: Die Daten sollen zunächst in einer zentralen Datenbasis (lesbare Dateien) abgespeichert und später in eine Datenbank überführt werden.
 
 
-== Produktleistungen
+=== Produktleistungen
 - LL10 Die Anzahl der zu verwaltenden Elemente wird auf ca. 100.000 geschätzt. 
 - LL20 Die Daten müssen aus rechtlichen Gründen 10 Jahre online verfügbar sein.
 - LL30 Um bei HW- und SW-Anschaffungen und -neuerungen flexibel zu bleiben, ist auf Platt-formunabhängigkeit besonders zu achten.
 
-== Qualitätsanforderung
+=== Qualitätsanforderung
 #table(columns: 5,
   [Produktqualität], [sehr gut], [gut], [normal], [nicht relevant],
   [Funktionalität], [], [X], [], [],
@@ -73,10 +75,10 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
   [Übertragbarkeit (Portabilität)], [], [X], [], [],
 )
 
-= Aufgabe
+== Aufgabe
 Es handelt sich hier um eine stark vereinfachte Verwaltungs-Software. Einzelne Lastenheft-punkte sind bewusst offengehalten. Denken Sie darüber nach, welche Informationen zusätz-lich sinnvoll oder auch notwendig sind. Recherchieren Sie auch nach einzelnen Zusammen-hängen im Internet.
 
-== Analyse
+=== Analyse
 Für die Analyse sind zu erstellen:
 -	Analyse des Lastenhefts (Fragen und Antworten). 
 -	Ein Use-Case-Diagramm der gesamten Anwendung incl. Beschreibung.
@@ -85,7 +87,7 @@ Für die Analyse sind zu erstellen:
 -	Einfache GUI-Skizzen (Mockups) von mindestens zwei wesentlichen GUI-Komponenten (Hauptseite, Tabs, etc.). Die Skizzen können mit einem einfachen Gra-fikprogramm erstellt werden. Auch sorgfältige Handzeichnungen sind erlaubt. Keine Login-GUI skizzieren (wird zumindest nicht bewertet)
 
 
-== Sequenzdiagramm und Aktivitätsdiagramm (Analyse oder Ent-wurf)
+=== Sequenzdiagramm und Aktivitätsdiagramm (Analyse oder Ent-wurf)
 Erstellen Sie ein Sequenzdiagramm und ein Aktivitätsdiagramm (incl. Beschreibung) für fol-gende Szenarios (ein AD für das eine Szenario, ein SD für das andere Szenario):
 -	Aktion „Auftrag anlegen und Auftrag löschen“ (z.B. Bau einer Garage oder eines Hau-ses)
 -	Aktion "Anlegen und Buchung einer Baumaschine (z.B. Bagger mit Zubehör)“ 
@@ -94,14 +96,14 @@ Fassen Sie bei beiden Diagrammen die Eingabe aller primitiven Attribute eines El
 Für das Sequenzdiagramm ist das gewählte Szenario ausführlich zu entwickeln (idealer-weise mit Pseudocode oder einer anderen Modellierungsmethode Ihrer Wahl). Es sind sämtli-che referenzierten Elemente zu berücksichtigen, die zugeordnet werden können. 
 In allen Fällen wird eine (noch) *leere Datenbasis* angenommen. Denken Sie an geeignete Diagrammverfeinerungen. 
 
-== Entwurf 
+=== Entwurf 
 Abzuliefern sind hier jeweils mit Beschreibung:
 -	Entwurfsklassendiagramm (Untersuchen Sie dabei den Einsatz geeigneter Entwurfs-muster)
 -	GUI-Modellierung (UML): Es ist das Kommunikationsschema eines Teils der während der Analyse skizzierten GUI mit UML zu modellieren. Die Anwendung selbst soll dabei nach dem einfachen Model-View-Control-Muster aufgebaut sein. Dazu sind mindestens ein Controller, die erforderlichen Modellklassen sowie eine unabhängige GUI (View) erforderlich.
 -	Die meisten GUI-Elemente sowie einzelne Tools werden über eine einfache kleine Ja-va-Bibliothek zur Verfügung gestellt (swe-utils), deren GUI-Komponenten in das Klas-sendiagramm zu integrieren sind, wo immer sie verwendet werden können.
 -	Die GUI-Modellierung kann in einem separaten Diagramm mit den relevanten (gewähl-ten bzw. benötigten) Modellklassen erfolgen, falls das Entwurfsklassendiagramm sonst zu komplex werden würde. 
 
-= Vereinfachungen für den Programmentwurf
+== Vereinfachungen für den Programmentwurf
 #enum(numbering: "a)",
 [Es muss nicht dafür gesorgt werden, dass auf dieselben Daten bzw. CSV-Dateien nicht gleichzeitig zugegriffen werden kann, d.h. es ist kein Locking-Mechanismus er-forderlich.],
 [Eine Protokollierfunktion und ein Login-Vorgang sind für die Anwendung nicht erforder-lich (in der Realität natürlich schon!).],
@@ -111,7 +113,7 @@ Abzuliefern sind hier jeweils mit Beschreibung:
 
 )
 
-= Besonderheiten
+== Besonderheiten
 #highlight()[In diesem Abschnitt nennen Sie alle Besonderheiten, die ich als Bewertender zusätzlich be-urteilen soll, damit ich Ihre besonderen Ideen und Realisierungen beim Korrigieren nicht über-sehe. 
 
 Dazu gehören auch einzelne Beiträge, welche die mit den anderen Gruppen gemeinsam er-stellten Analyseergebnisse erweitern.

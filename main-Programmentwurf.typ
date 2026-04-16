@@ -45,7 +45,6 @@ TINF24B1
   theme: "Thema: Verwaltungssoftware für Bauunternehmen",
 )
 
-
 #include "Kapitel_Original.typ"
 
 #include "Kapitel_Edit.typ"

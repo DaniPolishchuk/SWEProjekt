@@ -10,7 +10,9 @@
   )
 }
 
-= Einleitung
+= Analyse des Lastenhefts
+
+== Einleitung
 Unser Bauunternehmen ist ein überregional agierendes Unternehmen im Hoch- und Tiefbau. Mit einem breiten Angebotsspektrum und ca. 200 Mitarbeitern gehören wir zu den führenden mittelständischen Unternehmen in der Rhein-Neckar-Region für den Bereich mittelgroßer Bauwerke (Ein- und Mehrfamilienhäuser, kleinere Brücken und Unterführungen, mittlere Hallenbauten wie Sport- und Festhallen sowie mittelgroße Bürogebäude).
 Da die vorhandene Verwaltungssoftware teilweise auf veralteten Technologien basiert und eine Überarbeitung verhältnismäßig teuer ist, hat der Vorstand beschlossen eine neue Verwaltungssoftware mit zusätzlicher Funktionalität erstellen zu lassen.
 Neben Projekten, Aufträgen, den Fahrzeugen, Großwerkzeugen sollen sämtliche beteiligte Personen und Verantwortliche sowie mehrere Benutzer verwaltet werden, um die anfallenden Verwaltungsarbeiten einfacher und schneller erledigen zu können.
@@ -78,8 +80,8 @@ Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich 
 
 ]
 
-= Lastenheft
-== Zielsetzung
+== Lastenheft
+=== Zielsetzung
 Ziel des Entwicklungsauftrags soll eine Software für die Verwaltung unserer Bauunternehmensdaten sein. Eine zentrale Datenhaltung sowie ein Mehrbenutzersystem müssen realisiert werden. Daneben soll ein Zugriff von unseren Baustellen aus auf Teile des Systems möglich sein.
 Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen möglichst alle Daten aus dem alten System in das neue System übertragen werden
 
@@ -91,7 +93,7 @@ Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen mö
 ]
 
 
-== Anwendungsbereiche
+=== Anwendungsbereiche
 Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
 - #QaA[Auf welchen Geräten soll die Software laufen können?][
   siehe 2.2: auf PC, Laptop, Tablet 
@@ -151,7 +153,7 @@ Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspe
 
 ]
 
-== Zielgruppen, Benutzerrollen und Verantwortlichkeiten
+=== Zielgruppen, Benutzerrollen und Verantwortlichkeiten
 Zur Zielgruppe zählen alle angestellten Mitarbeiter, die für die Erfassung und Verwaltung der Daten angestellt sind. 
 Der Zugriff auf einzelne Daten soll je nach Berechtigung unterschiedlich erfolgen:
 -	Alle Mitarbeiter in der Verwaltung sollen für sämtliche Daten Leserechte besitzen. Das bezieht sich auch auf den (selektiven) Export von Daten. Sie haben Vollzugriff auf die reinen Verwaltungsdaten.
@@ -230,7 +232,7 @@ Es sollen keine besonderen Computerkenntnisse zur Bedienung der Software erforde
 
 ]
 
-== Zusammenspiel mit anderen Systemen
+=== Zusammenspiel mit anderen Systemen
 Es soll zunächst für unsere Bürorechner lauffähig gemacht werden. Parallel dazu soll die alte Software so lange weiterlaufen. Das zu entwickelnde Softwaresystem soll für unsere Büro-rechner aus Sicherheitsgründen ohne Netzverbindung nach Außen lauffähig sein. Mehrere Drucker sollen für die Erstellung der Rechnungen angeschlossen sein.
 In einem weiterführenden Entwicklungsauftrag sollen ausgewählte Daten über einen Laptop oder ein Tablet direkt vor Ort verwaltet werden können. Das erhöht die Flexibilität unserer Bau- und Projektleiter vor Ort und senkt die Wartezeit bei Anfragen, Wünschen und kleineren Änderungen. Dieses „Tablet-Projekt“ selbst ist nicht direkter Bestandteil des ersten Entwicklungsauftrags, es sollen jedoch konkrete Vorschläge zur Realisierung (GUI, Schnittstellen, grobe Architektur) gemacht werden.
 Die finanztechnischen Daten über die Mitarbeiter und Projekte (Gehälter bzw. Löhne, Projektkosten, Anschaffungen, Reparaturen, Reinigung usw.) werden separat durch ein vorhandenes Finanzbuchhaltungsprogramm verwaltet und müssen hier nicht berücksichtigt werden.
@@ -245,7 +247,7 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
 - Müssen Daten validiert oder bereinigt werden beim Import?
 ]
 
-== Produktfunktionen
+=== Produktfunktionen
 - LF 10: Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
 #question[
 - Sollen die einzelnen User unterschiedliche Konfigurationen haben oder soll es eine globale Konfiguration geben?
@@ -333,16 +335,16 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
   - Was soll passieren, wenn die Daten bereits vorhanden sind? Sollen sie aktualisiert werden, sollen sie ignoriert werden, soll eine Fehlermeldung ausgegeben werden, ...?
 ]
 
-== Produktdaten
+=== Produktdaten
 - LD 10: Die Daten sollen zunächst in einer zentralen Datenbasis (lesbare Dateien) abgespeichert und später in eine Datenbank überführt werden.
 
 
-== Produktleistungen
+=== Produktleistungen
 - LL10 Die Anzahl der zu verwaltenden Elemente wird auf ca. 100.000 geschätzt. 
 - LL20 Die Daten müssen aus rechtlichen Gründen 10 Jahre online verfügbar sein.
 - LL30 Um bei HW- und SW-Anschaffungen und -neuerungen flexibel zu bleiben, ist auf Platt-formunabhängigkeit besonders zu achten.
 
-== Qualitätsanforderung
+=== Qualitätsanforderung
 #table(columns: 5,
   [Produktqualität], [sehr gut], [gut], [normal], [nicht relevant],
   [Funktionalität], [], [X], [], [],
