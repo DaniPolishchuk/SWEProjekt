@@ -168,6 +168,11 @@
   acronyms: (),
   body,
 ) = {
+  //base colors
+  let colorBlue = color.rgb("0000FF");
+  let colorLightBlue = color.rgb("3479CC")
+  let colorRed = color.rgb("FF0000");
+
   // page setup
   set document(title: title_long)
   set page(paper: "a4")
@@ -179,7 +184,7 @@
   set par(justify: true)
 
   // font setup (LaTeX Look: 'New Computer Modern')
-  set text(font: "New Computer Modern", size: 12pt)
+  set text(font: "Arial", size: 12pt)
 
   // heading setup
   set heading(numbering: heading_numbering)
@@ -190,7 +195,7 @@
   }
 
   show heading: it => {
-    text(font: "Libertinus Serif", it)
+    text(fill: colorLightBlue, it)
     v(0.2cm)
   }
 
