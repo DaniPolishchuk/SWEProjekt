@@ -1,10 +1,17 @@
+#let qa-counter = counter("qa-counter")
+
 #let QaA(question, answer) = {
-  block(
-    [
-      - #text(fill: orange, weight: "bold")[#question] \
+  qa-counter.step()
+  context {
+    let n = qa-counter.get().first()
+    [#block(
+      inset: (left: 1em),
+      [
+        #text(fill: orange, weight: "bold")[F#str(n). #question] \
         #text(fill: green)[#sym.arrow #answer]
-    ]
-  )
+      ]
+    ) #metadata(n) #label("q" + str(n))]
+  }
 }
  
 #let tableGrid(cells) = {
