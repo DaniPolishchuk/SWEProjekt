@@ -32,11 +32,7 @@
 = Analyse des Lastenhefts
 
 == Einleitung
-Unser Bauunternehmen ist ein überregional agierendes Unternehmen im Hoch- und Tiefbau. Mit einem breiten Angebotsspektrum und ca. 200 Mitarbeitern gehören wir zu den führenden mittelständischen Unternehmen in der Rhein-Neckar-Region für den Bereich mittelgroßer Bauwerke (Ein- und Mehrfamilienhäuser, kleinere Brücken und Unterführungen, mittlere Hallenbauten wie Sport- und Festhallen sowie mittelgroße Bürogebäude).
-Da die vorhandene Verwaltungssoftware teilweise auf veralteten Technologien basiert und eine Überarbeitung verhältnismäßig teuer ist, hat der Vorstand beschlossen eine neue Verwaltungssoftware mit zusätzlicher Funktionalität erstellen zu lassen.
-Neben Projekten, Aufträgen, den Fahrzeugen, Großwerkzeugen sollen sämtliche beteiligte Personen und Verantwortliche sowie mehrere Benutzer verwaltet werden, um die anfallenden Verwaltungsarbeiten einfacher und schneller erledigen zu können.
-Wir wünschen eine plattformunabhängige Lösung, die es ermöglicht, die kompletten Arbeits-abläufe auf unseren Desktoprechnern im Büro sowie ausgewählte Teile unserer Daten und Arbeitsabläufe auch auf Laptops und Tablets vor Ort einsehen und ändern zu können.
-Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich sein, auf die Daten von mehreren Arbeitsplätzen aus zugreifen zu können. Hierzu ist eine zentrale Daten-haltung unerlässlich. Eine intuitive, leicht bedienbare Benutzeroberfläche setzen wir als selbstverständlich voraus
+#include "chapter/original/1.0_Einleitung.typ"
 
 #QaA[Wie viele Mitarbeiter sind konkret in der Verwaltung tätig und wie viele arbeiten auf den Baustellen?][
   Von den ca. 200 Mitarbeitern arbeiten etwa 30 in der Verwaltung (Büro) und etwa 170 auf den Baustellen.
@@ -101,8 +97,8 @@ Da in den Büros mehrere verantwortliche Mitarbeiter arbeiten, muss es möglich 
 
 == Lastenheft
 === Zielsetzung
-Ziel des Entwicklungsauftrags soll eine Software für die Verwaltung unserer Bauunternehmensdaten sein. Eine zentrale Datenhaltung sowie ein Mehrbenutzersystem müssen realisiert werden. Daneben soll ein Zugriff von unseren Baustellen aus auf Teile des Systems möglich sein.
-Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen möglichst alle Daten aus dem alten System in das neue System übertragen werden
+#include "chapter/original/2.1_Zielsetzung.typ"
+
 #QaA[Auf welchen Geräten soll die Software laufen können?][
   Primär auf Desktop-PCs im Büro (Windows, Linux). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags).
 ]
@@ -162,8 +158,11 @@ Ein Import und Export ausgewählter Daten muss möglich sein, ebenso müssen mö
 ]
 
 === Anwendungsbereiche
-Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspezifischen Daten eingesetzt. Es sollen mehrere PCs in den Büros installiert werden und mehrere PCs in Planungsräumen, in denen die Vorarbeiter alle relevanten Informationen über ihre Arbeitsaufträge lesen können. Sämtliche PCs befinden sich in unserem Bürogebäude, Bauleiter sollen vor Ort per Tablet oder Laptop auf Teile des Systems zugreifen können.
-[INTERN] Welche Leistung haben die PCs (Welche technische Anforderungen)? 
+#include "chapter/original/2.2_Anwendungsbereiche.typ" 
+
+#QaA[[INTERN] Welche Leistung haben die PCs (Welche technische Anforderungen)?][
+
+]
 
 #QaA[[INTERN] Soll es eine Webapp oder eine eigene Applikation sein?][
 
@@ -203,13 +202,7 @@ Die Software wird ausschließlich für die Verwaltung unserer bauunternehmensspe
 ]
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten
-Zur Zielgruppe zählen alle angestellten Mitarbeiter, die für die Erfassung und Verwaltung der Daten angestellt sind. 
-Der Zugriff auf einzelne Daten soll je nach Berechtigung unterschiedlich erfolgen:
--	Alle Mitarbeiter in der Verwaltung sollen für sämtliche Daten Leserechte besitzen. Das bezieht sich auch auf den (selektiven) Export von Daten. Sie haben Vollzugriff auf die reinen Verwaltungsdaten.
--	Bau- und Projektleiter sollen Vollzugriff auf projektbezogene Daten haben.
--	Vorarbeiter sollen lesenden Zugriff auf ihre Arbeitsaufträge haben.
--	Ein Administrator hat Vollzugriff auf sämtliche Daten, vor allem für deren Import und Export sowie deren Backup.
-Es sollen keine besonderen Computerkenntnisse zur Bedienung der Software erforderlich sein.
+#include "chapter/original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
 
 #QaA[Welche Mitarbeiterpositionen soll es geben?][
   Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte Bauarbeiter, ungelernte Bauarbeiter und Verwaltungsmitarbeiter.
@@ -279,11 +272,7 @@ Es sollen keine besonderen Computerkenntnisse zur Bedienung der Software erforde
 ]
 
 === Zusammenspiel mit anderen Systemen
-Es soll zunächst für unsere Bürorechner lauffähig gemacht werden. Parallel dazu soll die alte Software so lange weiterlaufen. Das zu entwickelnde Softwaresystem soll für unsere Büro-rechner aus Sicherheitsgründen ohne Netzverbindung nach Außen lauffähig sein. Mehrere Drucker sollen für die Erstellung der Rechnungen angeschlossen sein.
-In einem weiterführenden Entwicklungsauftrag sollen ausgewählte Daten über einen Laptop oder ein Tablet direkt vor Ort verwaltet werden können. Das erhöht die Flexibilität unserer Bau- und Projektleiter vor Ort und senkt die Wartezeit bei Anfragen, Wünschen und kleineren Änderungen. Dieses „Tablet-Projekt“ selbst ist nicht direkter Bestandteil des ersten Entwicklungsauftrags, es sollen jedoch konkrete Vorschläge zur Realisierung (GUI, Schnittstellen, grobe Architektur) gemacht werden.
-Die finanztechnischen Daten über die Mitarbeiter und Projekte (Gehälter bzw. Löhne, Projektkosten, Anschaffungen, Reparaturen, Reinigung usw.) werden separat durch ein vorhandenes Finanzbuchhaltungsprogramm verwaltet und müssen hier nicht berücksichtigt werden.
-Die finanztechnischen Daten über Projekte (Rechnungen bzw. Mahnungen und Kostenvor-anschläge) müssen vom Finanzbuchhaltungssystem gelesen werden können, um sie im neuen System darstellen zu können. Die Erstellung und Änderung dieser Finanzdaten erfolgt ausschließlich im Finanzbuchhaltungssystem.
-Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
+#include "chapter/original/2.4_Zusammenspiel-mit-anderen-Systemen.typ"
 
 #QaA[Wie lange soll die alte Software parallel betrieben werden – bis zur vollständigen Datenmigration oder darüber hinaus?][
  
@@ -680,15 +669,7 @@ Vorhandene Daten aus dem Altsystem sollen in das neue System übernommen werden.
 ))
  
 == Qualitätsanforderung
-#table(columns: 5,
-  [*Produktqualität*], [*sehr gut*], [*gut*], [*normal*], [*nicht relevant*],
-  [Funktionalität], [], [X], [], [],
-  [Zuverlässigkeit], [], [X], [], [],
-  [Effizienz], [], [X], [], [],
-  [Benutzbarkeit (auch Gestaltung)], [X], [], [], [],
-  [Wartbarkeit], [], [], [X], [],
-  [Übertragbarkeit (Portabilität)], [], [X], [], [],
-)
+#include "chapter/original/2.8_Qualitätsanforderung.typ"
 
 #table(columns: 2,
   [*Produktqualität*], [*Fragen und Antworten*],
