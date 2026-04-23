@@ -41,13 +41,15 @@
   Das Kerngebiet ist die Rhein-Neckar-Region sowie angrenzende Gebiete in Baden-Württemberg und Rheinland-Pfalz. Eine Expansion ist derzeit nicht geplant.
 ]
 #QaA[Welche konkreten Fachbereiche umfasst das breite Angebotsspektrum im Hoch- und Tiefbau neben den genannten Bauwerkstypen?][
-  Hochbau: Wohngebäude, Bürogebäude, Hallenbauten. Tiefbau: Brücken, Unterführungen, Kanalbau. Zusätzlich: Sanierung und Modernisierung bestehender Bauwerke.
+  Hochbau: Wohngebäude, Bürogebäude, Hallenbauten \
+  Tiefbau: Brücken, Unterführungen, Kanalbau \
+  Zusätzlich: Sanierung und Modernisierung bestehender Bauwerke.
 ]
 #QaA[Wie soll die neue Verwaltungssoftware die bisherigen Verwaltungsarbeiten konkret vereinfachen – welche manuellen Arbeitsschritte sollen automatisiert werden?][
-  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen und auf Papier verwaltet. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
+  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
 ]
-#QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt und auf welcher technologischen Basis ist dieses aufgebaut?][
-  Aktuell wird eine Kombination aus einer älteren Desktop-Anwendung (basierend auf Visual Basic) und diversen Excel-Tabellen verwendet. Die Daten liegen in einer lokalen Datenbank.
+#QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt?][
+  Aktuell wird eine Kombination aus einer älteren Desktop-Anwendung und diversen Excel-Tabellen verwendet. Die Daten liegen in einer lokalen Datenbank.
 ]
 #QaA[Was waren die positiven Aspekte der alten Verwaltungssoftware, die in das neue System übernommen werden sollen?][
   Die übersichtliche Darstellung der Auftragsdaten und die einfache Suche nach Mitarbeitern wurden als positiv bewertet. Diese Übersichtlichkeit soll beibehalten werden.
@@ -62,34 +64,38 @@
   Die wichtigsten Informationen (Aufträge, Baumaschinen, Mitarbeiter) sollen von einer zentralen Übersichtsseite aus erreichbar sein. Maximal drei Klicks bis zur gewünschten Information. Keine Kommandozeile oder technische Fehlermeldungen.
 ]
 #QaA[Soll eine bestimmte Barrierefreiheit (Accessibility) bei der grafischen Benutzeroberfläche beachtet werden (z.B. Unterstützung für Sehbehinderte, Spracheingabe)?][
-  Barrierefreiheit ist derzeit keine Anforderung. Es gibt keine Mitarbeiter mit entsprechenden Einschränkungen.
+  TODO: Löschen
 ]
 #QaA[Wie stellt man sich die plattformunabhängige Lösung konkret vor – soll es eine native Desktop-Anwendung mit Java, eine Web-Applikation oder eine hybride Lösung sein?][
-  Es soll eine Java-Desktop-Anwendung sein, die plattformunabhängig auf Windows, Linux und macOS läuft. Für das spätere Tablet-Projekt wird eine separate Web- oder App-Lösung in Betracht gezogen.
+  Es soll eine Java-Desktop-Anwendung sein, die plattformunabhängig auf Windows, Linux und macOS läuft(TODO: F40 referenzieren). Für das spätere Tablet-Projekt wird eine separate Web- oder App-Lösung in Betracht gezogen.
 ]
 #QaA[Wie viele Desktoprechnern im Büro sollen gleichzeitig auf die zentrale Datenbasis zugreifen können?][
   Bis zu 15 Desktop-Rechner sollen gleichzeitig auf die zentrale Datenbasis zugreifen können.
 ]
 #QaA[Welche ausgewählten Teile der Daten und Arbeitsabläufe sollen auf den mobilen Endgeräten (Laptops, Tablets) vor Ort verfügbar sein?][
-  Auf mobilen Endgeräten sollen Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Baumaschinenstandorte und Arbeitsaufträge lesend verfügbar sein. Das Tablet-Projekt ist aber nicht Bestandteil des ersten Entwicklungsauftrags.
+  Auf mobilen Endgeräten sollen Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Baumaschinenstandorte und Arbeitsaufträge lesend verfügbar sein.
 ]
 #QaA[Sollen die mobilen Endgeräte auch ohne bestehende Netzverbindung (offline) auf zwischengespeicherte Daten zugreifen können und wie sollen Datenänderungen bei der anschließenden Synchronisation behandelt werden?][
-  Ja, eine Offline-Fähigkeit ist wünschenswert. Änderungen sollen beim nächsten Verbindungsaufbau synchronisiert werden. Dies ist jedoch Teil des späteren Tablet-Projekts und nicht des aktuellen Auftrags.
+  Ja, eine Offline-Fähigkeit ist wünschenswert. Änderungen sollen beim nächsten Verbindungsaufbau synchronisiert werden.
 ]
 #QaA[Wie viele verantwortliche Mitarbeiter arbeiten typischerweise gleichzeitig im Büro an der Software?][
-  Typischerweise arbeiten 5 bis 10 Verwaltungsmitarbeiter gleichzeitig mit der Software.
+  TODO: löschen
 ]
 #QaA[Welche beteiligte Personen und Verantwortliche sollen neben Bau- und Projektleitern im neuen System verwaltet werden (z.B. externe Auftragnehmer, Architekten, Behördenkontakte)?][
   Neben den eigenen Mitarbeitern sollen auch externe Unterauftragnehmer als Kontaktdaten verwaltet werden. Architekten und Behörden werden nicht im System gepflegt.
+
+  TODO: Verweis auf LF20
 ]
 #QaA[Gibt es konkrete zeitliche Erwartungen oder einen gewünschten Projektfahrplan für die Einführung der neuen Verwaltungssoftware?][
   Die Analyse und der Entwurf sollen innerhalb des aktuellen Semesters abgeschlossen werden. Ein konkreter Produktionstermin ist nicht festgelegt.
 ]
 #QaA[Soll bei der Überarbeitung der veralteten Technologien auf eine bestimmte Programmiersprache oder ein bestimmtes Framework gesetzt werden, oder ist die technologische Entscheidung dem Entwicklungsteam überlassen?][
-  Es soll Java eingesetzt werden, da es plattformunabhängig ist und in die bestehende Systemlandschaft passt. Die GUI soll mit der bereitgestellten swe-utils-Bibliothek umgesetzt werden.
+  TODO:löschen
 ]
 #QaA[Wie hoch ist das Budget für die neue Verwaltungssoftware und gibt es finanzielle Einschränkungen bei der Wahl der eingesetzten Technologien oder Lizenzen?][
   Es sollen ausschließlich kostenfreie und quelloffene Technologien verwendet werden. Es stehen keine zusätzlichen Lizenzbudgets zur Verfügung.
+
+  TODO: Lutz fragen, ob Budget nötig
 ]
 #QaA[Gibt es gesetzliche oder branchenspezifische Vorschriften (z.B. Datenschutz, Baurecht, Aufbewahrungsfristen), die bei der neuen Verwaltungssoftware zwingend berücksichtigt werden müssen?][
   Ja, alle Auftragsdaten müssen gemäß gesetzlicher Aufbewahrungsfristen mindestens 10 Jahre verfügbar bleiben. Personenbezogene Mitarbeiterdaten unterliegen den Datenschutzbestimmungen (DSGVO).
@@ -100,55 +106,69 @@
 #include "chapter/original/2.1_Zielsetzung.typ"
 
 #QaA[Auf welchen Geräten soll die Software laufen können?][
-  Primär auf Desktop-PCs im Büro (Windows, Linux). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags).
+  Primär auf Desktop-PCs im Büro (Windows, Linux)(TODO: F40 referenzieren). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags).
+
+  TODO: F11 referenzieren
 ]
-#QaA[Soll der Server extern oder intern gehostet werden?][
-  Der Server soll intern im eigenen Bürogebäude gehostet werden. Ein externer Server ist aus Sicherheitsgründen nicht gewünscht.
+#QaA[Gibt es bereits einen internen Server?][
+  Ja, es gibt bereits einen internen Server, der verwendet werden soll.
 ]
 #QaA[Wie viele Personen sollen die Software gleichzeitig nutzen?][
-  Bis zu 15 Personen gleichzeitig im Normalbetrieb, maximal 20 in Spitzenzeiten.
+  Bis zu 15 Personen gleichzeitig im Normalbetrieb. Bei Zugriffen von außen maximal 20 in Spitzenzeiten.
 ]
 #QaA[Gibt es besondere Anforderungen an Performance?][
-  Ja, die Anwendung muss folgende Performance-Anforderungen erfüllen:
-  - Suchanfragen: maximal 2-3 Sekunden
-  - Laden von Auftrags- oder Maschinendaten: unter 1 Sekunde
-  - Öffnen von Detailansichten: unter 1 Sekunde
-  - Längere Operationen (Import, Export): Anzeige eines Fortschrittsbalkens
-
-  Lange Wartezeiten (über 5 Sekunden) sind nicht akzeptabel und müssen durch Optimierung oder Hintergrundverarbeitung vermieden werden.
+  TODO: Löschen
 ]
 #QaA[Welche Erfahrungen hatten die Nutzer mit dem alten System (Postivie/Negative Askpekte)?][
-  Positiv: einfache Auftragsübersicht. Negativ: langsame Reaktionszeiten, kein Mehrbenutzerzugriff, keine mobile Nutzung, Daten mussten doppelt gepflegt werden.
+  TODO: Löschen
 ]
 #QaA[Von wo aus soll auf die Software zugegriffen werden können?][
   Primär von den Büroarbeitsplätzen im Bürogebäude. Später soll ein Zugriff von Baustellen per Tablet möglich sein (Tablet-Projekt).
+
+  TODO: Einleitung referenzieren
 ]
 #QaA[Wo soll die zentrale Datenhaltung sein?][
-  Auf einem zentralen Server im Bürogebäude. Alle Büro-PCs greifen über das interne Netzwerk darauf zu.
+  Auf einem bereits vorhandenen internen Server im Bürogebäude. Alle Büro-PCs greifen über das interne Netzwerk darauf zu.
 ]
 #QaA[[INTERN] Wie kann man sich das Mehrbenutzersystem genau vorstellen?][
   Mehrere Benutzer greifen gleichzeitig über das interne Netzwerk auf dieselbe zentrale Datenbasis zu. Jeder Benutzer hat eine eigene Rolle mit entsprechenden Rechten. Ein Locking-Mechanismus ist laut Vereinfachung nicht erforderlich.
 ]
 #QaA[[INTERN] Wie soll dieser Zugriff aussehen?][
-  Über eine Java-Desktop-Anwendung, die auf jedem Büro-PC installiert wird und sich per Netzwerk mit der zentralen Datenbasis verbindet.
+  Alle PCs im Büro und in den Planungsräumen sind über das interne LAN mit dem zentralen Server verbunden. Die Java-Anwendung läuft lokal auf jedem PC und greift über Netzwerk auf die zentrale Datenbasis zu. Planungsräume haben PCs speziell für Vorarbeiter zum Lesen ihrer Arbeitsaufträge.
+
+  Beim Tablet-System: Zugriff über die Tablet-App mittels einer VPN und einer REST-API zum Server. Die App synchronisiert Daten vor Ort und ermöglicht auch Offline-Arbeit.
 ]
 #QaA[Wie oft soll auf das System von außerhalb zugegriffen werden?][
-  Derzeit kein Zugriff von außerhalb geplant. Der externe Zugriff ist Teil des späteren Tablet-Projekts.
+  Es wird eine Anzahl von maximal 5 zeitglichen Zugriffen erwartet. Zudem ist ein Offline-Betrieb mit Synchronisation bei Rückkehr ins Büro vorgesehen, sodass auch ohne aktive Verbindung gearbeitet werden kann und sich die Anzahl an Zugriffen entsprechend anpasst.
 ]
-#QaA[Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
+#QaA[[INTERN] Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
   Das System hat keine direkte externe Internetverbindung (kein Zugriff über öffentliche Netzwerke). Der Server läuft im internen Firmennetz. Für das spätere Tablet-Projekt: Bauleiter können per VPN auf das interne Firmennetz zugreifen (z.B. über gesichertes VPN vom Laptop/Tablet). Die Daten werden dabei vor der Fahrt zur Baustelle synchronisiert (Offline-First-Ansatz), sodass auch ohne aktive Verbindung gearbeitet werden kann. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Eine ungeschützte Internet-Exposition des Servers ist nicht vorgesehen.
 ]
 #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
-  Der Zugriff richtet sich nach den Benutzerrollen: Verwaltung hat Leserechte auf alles und Vollzugriff auf Verwaltungsdaten. Bau-/Projektleiter haben Vollzugriff auf projektbezogene Daten. Vorarbeiter haben Lesezugriff auf ihre Arbeitsaufträge. Administrator hat Vollzugriff auf alles.
+  Der Zugriff richtet sich nach den Benutzerrollen:
+  - Verwaltung hat Leserechte auf alles und Vollzugriff auf Verwaltungsdaten
+  - Bau-/Projektleiter haben Vollzugriff auf projektbezogene Daten
+  - Vorarbeiter haben Lesezugriff auf ihre Arbeitsaufträge
+  - Administrator hat Vollzugriff auf alles.
+  TODO: Verweis auf Kapitel 2.2.3
 ]
-#QaA[Sollen alle Daten von der Baustelle aus verfügbar sein?][
-  Nein, nur ausgewählte Daten: Auftragsinformationen, Einsatzort, beteiligte Personen und Baumaschinenstandorte. Dies ist aber Teil des Tablet-Projekts.
+#QaA[Sollen alle Daten vom Tablet aus auf der Baustelle verfügbar sein?][
+  Nein, nur ausgewählte Daten: 
+  - Auftragsinformationen
+  - Einsatzort
+  - beteiligte Personen 
+  - Baumaschinenstandorte
+
+  Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte, Baupläne. \
+  Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
 ]
 #QaA[Wie sind die alten Daten gespeichert?][
-  Die alten Daten liegen in einer lokalen Datenbank und teilweise in Excel-Dateien vor.
+  TODO: löschen
 ]
 #QaA[Welche Formate der Daten sollen im Import bevorzugt werden?][
   CSV-Dateien (Semikolon-separiert, UTF-8-kodiert) als primäres Importformat. Diese sind lesbar und einfach zu verarbeiten.
+
+  TODO: Formatierung anpassen
 
   Intern: Beispiel-Format für Mitarbeiter-Import:
   ```csv
@@ -184,40 +204,44 @@
 ]
 
 #QaA[[INTERN] Soll es eine Webapp oder eine eigene Applikation sein?][
-  Eine Java-Desktop-Applikation für die Büro-PCs. Für das spätere Tablet-Projekt kann eine Web-App oder native App entwickelt werden.
+  TODO: löschen
 ]
 #QaA[Wie viele Tablets und PCs sollen gleichzeitig mit der neuen Software verwendet werden? ][
-  Im ersten Entwicklungsauftrag: bis zu 15 Desktop-PCs im Büro. Im späteren Tablet-Projekt: zusätzlich 5-10 Tablets für Bauleiter.
+  TODO: löschen
 ]
 #QaA[Welche Betriebssysteme sollen unterstützt werden? ][
-  Für Desktop-PCs: Windows, Linux und macOS. Java garantiert die Plattformunabhängigkeit.
+  TODO: Löschen
 ]
 #QaA[Welche Betriebssysteme sollen bei den Tablets und Laptops Einsatz sein? ][
   Das ist Teil des späteren Tablet-Projekts. Voraussichtlich iOS (iPad) und Android. Die konkrete Entscheidung erfolgt im zweiten Entwicklungsauftrag.
 ]
 #QaA[Welche charakteristischen Merkmale weisen die bauunternehmensspezifischen Daten auf und welche Daten sollen darunter verstanden werden? ][
   Mitarbeiter- und Gruppendaten, Aufträge und Projekte, Baumaschinen und Werkzeuge mit Standorten, Buchungen, Termine, Anwesenheitszeiten, Baupläne (als Dateipfade) und Bilder.
+
+  TODO: Verweis auf Tabellen wenn es passende gibt, sonst erstellen
 ]
 #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
   Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem).
+
+  TODO: Verweis auf Tabellen wenn es passende gibt, sonst erstellen
 ]
 #QaA[Wie soll die Anbindung dieser PCs an die Software realisiert werden? ][
-  Alle PCs im Büro und in den Planungsräumen sind über das interne LAN mit dem zentralen Server verbunden. Die Java-Anwendung läuft lokal auf jedem PC und greift über Netzwerk auf die zentrale Datenbasis zu. Planungsräume haben PCs speziell für Vorarbeiter zum Lesen ihrer Arbeitsaufträge.
+  TODO: Löschen
 ]
 #QaA[Auf welche Teile genau sollen Bauleiter zugreifen können? ][
-  Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte, Baupläne. Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
+  TODO: Löschen
 ]
 #QaA[[INTERN] Wie sollen diese Bauleiter auf das System zugreifen? ][
-  Das ist Teil des späteren Tablet-Projekts. Vorschläge: Web-App oder native App mit Offline-Fähigkeit. Die Bauleiter verbinden sich per VPN zum internen Firmennetz und synchronisieren Daten *vor* der Fahrt zur Baustelle. Auf der Baustelle arbeiten sie komplett offline. Nach Rückkehr (oder bei verfügbarem gesicherten Netzwerk) synchronisieren sie Änderungen wieder per VPN. Der Server selbst hat keine direkte Internet-Exposition.
+  TODO: Löschen
 ]
 #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
-  Im ersten Auftrag: nein. Im Tablet-Projekt: Tablets und Laptops vor Ort auf den Baustellen.
+  Nur über Tablets und Laptops vor Ort auf den Baustellen.
 ]
 #QaA[Da die Bauleiter vor Ort per Tablet zugreifen sollen, wie soll der Datenaustausch technisch erfolgen, wenn das gesamte System keine Netzverbindung nach außen haben darf? ][
-  Das Tablet-Projekt nutzt eine Offline-First-Lösung kombiniert mit VPN-Zugriff: Die Bauleiter verbinden sich per VPN zum internen Firmennetz (z.B. vor der Fahrt zur Baustelle im Büro oder von zu Hause) und laden die benötigten Daten herunter (Aufträge, Baupläne, Maschinendaten). Vor Ort auf der Baustelle arbeiten sie komplett offline mit den zwischengespeicherten Daten. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Der Server bleibt im internen Netz und ist nur per VPN erreichbar, nicht direkt über das Internet.
+  TODO: Löschen
 ]
 #QaA[[INTERN] Soll der Zugriff der Endgeräte über ein internes WLAN vor Ort oder über eine physische Synchronisation (Docking-Station) nach Rückkehr ins Büro erfolgen? ][
-  Vorschlag für Tablet-Projekt: VPN-basierte Synchronisation (vor/nach Baustellenbesuch). Die Tablets verbinden sich per VPN zum internen Firmennetz und synchronisieren Daten. Alternativ: Automatische Synchronisation im Büro-WLAN beim Betreten/Verlassen. Eine physische Docking-Station ist optional als Backup-Lösung denkbar, aber nicht primär erforderlich.
+  TODO: löschen
 ]
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten
@@ -283,6 +307,8 @@
 ]
 #QaA[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
   Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten.
+
+  TODO: Tabelle zu Rollen und Berechtigungen erstellen
 ]
 #QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten? – ausschließlich der Administrator? ][
   Ja, ausschließlich der Administrator verwaltet Benutzerkonten und weist Rollen zu.
@@ -291,7 +317,10 @@
   Der Administrator ist ein Verwaltungsmitarbeiter mit erweiterten Rechten. Eine dedizierte IT-Person ist nicht vorgesehen.
 ]
 #QaA[Sollen die Rollen fest vordefiniert sein oder soll der Administrator neue Rollen konfigurieren können? ][
-  Die vier Rollen (Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter, Administrator) sind fest vordefiniert. Der Administrator kann keine neuen Rollen erstellen.
+  Der Administrator kann keine neuen Rollen erstellen.
+
+  TODO: Verweis auf Rollenbeschreibungstabelle F62
+
 ]
 #QaA[Welche charakteristischen Merkmale soll die Benutzeroberfläche erfüllen, um für Menschen ohne besondere Computerkenntnisse bedienbar zu sein? ][
   Klare Beschriftungen, große Schaltflächen, übersichtliche Eingabemasken, keine technischen Fachbegriffe in der Oberfläche. Maximal drei Klicks bis zur gewünschten Funktion.
@@ -336,6 +365,8 @@
 ]
 #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
   Nein, ein Arbeitsauftrag gehört immer zu genau einem Projekt.
+
+  TODO: Lutz fragen
 ]
 #QaA[Soll es Projekte ohne Aufträge geben können? ][
   Ja, ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren. Aufträge werden dann später hinzugefügt.
@@ -345,12 +376,14 @@
 ]
 #QaA[Sollen Mitarbeiter eine Mitarbeiternummer haben? ][
   Ja, jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer, die automatisch vom System vergeben wird.
+
+  TODO: F54 referenzieren
 ]
 #QaA[Wie soll die Anmeldung funktionieren (Zertifikat, Passwort)? ][
-  Das vollständige System würde über ein Login mit Benutzername und Passwort verfügen, um die Benutzerrolle zu identifizieren. Laut den Vereinfachungen für den Programmentwurf soll der Login-Vorgang jedoch nicht implementiert werden. Für die Modellierung wird davon ausgegangen, dass jeder Benutzer eine Rolle hat, die Zugriffskontrolle wird konzeptionell berücksichtigt, aber der Authentifizierungsprozess selbst wird nicht ausmodelliert.
+  Aufgrund von Vereinfachung nicht weiter betrachtet.
 ]
 #QaA[Soll es eine 2FA geben? ][
-  In einem produktiven System wäre eine Zwei-Faktor-Authentifizierung für Administratoren und Benutzer mit erhöhten Rechten sinnvoll. Laut den Vereinfachungen für den Programmentwurf entfällt die Modellierung der Authentifizierung (inkl. 2FA) jedoch.
+  Aufgrund von Vereinfachung nicht weiter betrachtet.
 ]
 
 === Zusammenspiel mit anderen Systemen
@@ -360,13 +393,13 @@
   Die alte Software soll parallel betrieben werden, bis die Datenmigration abgeschlossen ist und die neue Software im produktiven Betrieb stabil läuft. Eine Überlappungsphase von ca. 2-4 Wochen ist vorgesehen.
 ]
 #QaA[Welche charakteristischen Daten sollen aus dem Altsystem übernommen werden, und in welchem Format liegen diese vor?][
-  Alle bestehenden Mitarbeiterdaten, Auftragsdaten, Baumaschinen- und Werkzeugdaten sowie Gruppenzuordnungen. Die Daten liegen in einer lokalen Datenbank und teilweise in Excel-Dateien vor. Der Import erfolgt über CSV-Dateien.
+  TODO: löschen
 ]
 #QaA[Soll die Anforderung „keine externe Netzverbindung" für alle Arbeitsplätze, oder nur für bestimmte gelten?][
   Die Anforderung gilt für alle Bürorechner im Bürogebäude. Der Zugriff von außen (Tablet-Projekt) ist nicht Teil des ersten Entwicklungsauftrags.
 ]
 #QaA[Wie sollen Mitarbeiter von der Baustelle aus auf das System zugreifen können?][
-  Der Baustellen-Zugriff ist Teil des späteren Tablet-Projekts und nicht Bestandteil des ersten Entwicklungsauftrags. Vorschläge zur Realisierung sollen aber gemacht werden.
+  TODO: löschen
 ]
 #QaA[Soll es weitere finanzbezogene Daten geben, die beachter werden sollen?][
   Nein. Gehälter, Löhne und Projektkosten werden im separaten Finanzbuchhaltungssystem verwaltet. Nur Rechnungen, Mahnungen und Kostenvoranschläge werden lesend aus dem Finanzsystem übernommen.
@@ -375,7 +408,7 @@
   Über einen CSV-Export aus dem Finanzbuchhaltungssystem. Die Schnittstelle ist unidirektional (nur lesen).
 ]
 #QaA[[INTERN] In welchem Format liefert das Finanzbuchhaltungssystem die Daten – z. B. CSV, XML oder eine direkte Datenbankanbindung?][
-  Das Finanzbuchhaltungssystem liefert die Daten im CSV-Format (Semikolon-separiert).
+  TODO: löschen
 ]
 #QaA[Wie häufig sollen die Finanzdaten aus dem Buchhaltungssystem synchronisiert werden – in Echtzeit, täglich oder manuell?][
   Die Synchronisation erfolgt manuell durch den Administrator bei Bedarf (z.B. wöchentlich oder nach Rechnungsstellung).
@@ -383,17 +416,17 @@
 #QaA[An wie viele Drucker soll das System angebunden werden, und sollen bestimmte Drucker für bestimmte Dokumente vorgesehen sein?][
   Es sollen 3-5 Netzwerkdrucker im Büro angebunden werden. Die Drucker werden primär für die Erstellung von Rechnungen benötigt. Die Benutzer wählen den Drucker beim Druckvorgang aus.
 ]
-#QaA[[INTERN] Wie sollen die Drucker mit den Geräten verbunden werden (WLAN)?][
+#QaA[[INTERN] Wie sollen die Drucker mit den Geräten verbunden werden?][
   Die Drucker werden über das interne Büronetzwerk (LAN) angebunden. Die Java-Anwendung nutzt die Standard-Druckfunktionen des Betriebssystems.
 ]
 #QaA[Welche konkreten Anforderungen bestehen für das „Tablet-Projekt" – welche Daten und Funktionen sollen mobil verfügbar sein?][
-  Lesender Zugriff auf Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Baumaschinenstandorte und Arbeitsaufträge. Bau- und Projektleiter sollen vor Ort Informationen abrufen können.
+  TODO: Löschen
 ]
 #QaA[Soll die mobile Lösung auch offline funktionieren?][
-  Ja, eine Offline-Fähigkeit ist zwingend erforderlich, da auf den Baustellen keine Netzwerkverbindung besteht. Die Synchronisation erfolgt beim nächsten Verbindungsaufbau mit dem internen Firmen-WLAN im Bürogebäude. Dies ist jedoch Teil des späteren Tablet-Projekts.
+  Ja, eine Offline-Fähigkeit ist zwingend erforderlich, da auf den Baustellen nicht zwangsläufig eine Netzwerkverbindung besteht. Die Synchronisation erfolgt beim nächsten Verbindungsaufbau mit dem internen Firmen-WLAN im Bürogebäude oder über eine VPN.
 ]
 #QaA[[INTERN] Wie sollen Datenkonflikte bei der Synchronisation behandelt werden?][
-  Konflikte werden über einen "letzter Schreiber gewinnt"-Ansatz gelöst. Bei kritischen Daten kann eine manuelle Konfliktauflösung durch den Benutzer erfolgen.
+  Der Benutzer wird zu einer manuellen Konfliktauflösung aufgefordert.
 ]
 #QaA[Welche Verfügbarkeit des Systems soll bereitgestellt werden. Gibt es Zeiten, in denen das System nicht verwendet wird?][
   Das System soll während der Bürozeiten (Mo-Fr, 7:00-18:00 Uhr) verfügbar sein. Wartungsfenster können außerhalb dieser Zeiten oder am Wochenende eingeplant werden.
@@ -405,6 +438,8 @@
   Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
   #QaA[Welche charakteristischen Daten sollen verwaltet werden? ][
     Mitarbeiter, Gruppen, Aufträge, Projekte, Baumaschinen, Bauwerkzeuge, Lager, Buchungen, Anwesenheitszeiten, Bilder und Konfigurationsdaten.
+
+    TODO: Tabelle erstellen bzw. referenzieren
   ]
   #QaA[Was soll eine übersichtliche Verwaltung bedeuten? Welche Kriterien soll die Benutzeroberfläche erfüllen?][
     Klare Struktur mit maximal drei Klicks bis zur gewünschten Information, große Schaltflächen, verständliche Beschriftungen ohne technische Fachbegriffe, Hauptfunktionen über zentrale Übersichtsseite erreichbar.
@@ -457,12 +492,16 @@
   [LF 30], [Zu den zentralen Daten eines Auftrags gehören: Projekt- und Baupläne, alle erstellten Angebote, Rechnungen und Mahnungen, Kostenvoranschläge, alle am Auftrag beteiligte Personen, Großgeräte, Einsatzort, Start-, End- und Zwischentermine usw.
   #QaA[Über welche charakteristischen Merkmale sollen die zentralen Daten verfügen? ][
     Jeder Auftrag hat: Auftragsbezeichnung, Projekt (Referenz), Baupläne (Dateipfad), beteiligte Personen/Gruppen, gebuchte Baumaschinen, Einsatzort, Start-/End-/Zwischentermine, Kostenvoranschlag (lesend aus Finanzsystem), Status (offen, in Bearbeitung, abgeschlossen).
+
+    TODO: Tabelle erstellen bzw. referenzieren
   ]
   #QaA[Sollen alle Daten auf einer einzelnen GUI sichtbar sein oder sollen sie weiter unterteilt werden? ][
     Die Hauptinformationen (Bezeichnung, Projekt, Termine, Status) werden in einer Übersicht angezeigt. Detaildaten (Baupläne, beteiligte Personen, Baumaschinen) werden über Tabs oder Detailansichten zugänglich gemacht.
   ]
   #QaA[[INTERN] In welcher Form sollen die Daten vorliegen (einzelne Dateien, Daten in der Datenbank)? ][
-    Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV/JSON), später in einer Datenbank. Baupläne und Bilder bleiben als separate Dateien im Dateisystem, referenziert über Dateipfade.
+    Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV), später in einer Datenbank. Baupläne und Bilder bleiben als separate Dateien im Dateisystem, referenziert über Dateipfade.
+
+    TODO: Verweis auf LD10
   ]
   #QaA[Sollen die beteiligten Personen aufgelistet werden oder sollen im Zuge der Übersichtlichkeit Gruppen aufgezeigt werden, die Auskunft über die Mitarbeiter geben? ][
     Beide Ansichten sollen möglich sein. In der Übersicht werden die zugeordneten Gruppen angezeigt. In der Detailansicht können die einzelnen Mitglieder der Gruppen aufgelistet werden.
@@ -470,16 +509,16 @@
   ],
   [LF 40], [Ein Auftrag kann von mehreren Unterauftragnehmern ausgeführt werden, d.h. Aufträge können Unteraufträge enthalten. Zur Abwicklung eines Auftrags ist ein Terminplaner erforderlich, der sämtliche Daten eines Auftrags bzw. Projekts beinhaltet.
     #QaA[[INTERN] Wie sollen Unteraufträge im System abgebildet werden (Objekt im Auftrag, eigene Klasse)? ][
-      Als eigene Klasse mit Referenz zum Hauptauftrag. Die Beziehung ist 1:n (ein Auftrag kann mehrere Unteraufträge haben).
+      Als eigene Klasse mit Referenz zum Auftrag. Die Beziehung ist 1:n (ein Auftrag kann mehrere Unteraufträge haben).
     ]
     #QaA[[INTERN] Welche Abhängigkeiten soll der Unterauftrag von seinem Auftrag haben (z.B. geteilte Ressourcen)? ][
-      Der Unterauftrag erbt das Projekt und den Einsatzort vom Hauptauftrag. Er kann eigene Termine, beteiligte Personen und Baumaschinen haben.
+      Der Unterauftrag erbt das Projekt und den Einsatzort vom Auftrag. Er kann eigene Termine, beteiligte Personen und Baumaschinen haben.
     ]
     #QaA[Sollen die Unterauftragnehmer ebenfalls separat verwaltet werden? ][
       Ja, externe Unterauftragnehmer werden als Kontaktdaten (Name, Firma, Telefon, E-Mail) verwaltet und können Unteraufträgen zugeordnet werden.
     ]
     #QaA[Sollen die Unteraufträge in der Auftrag-GUI verwaltet werden? ][
-      Ja, Unteraufträge werden in der Detailansicht des Hauptauftrags angezeigt und können dort erstellt, bearbeitet und gelöscht werden.
+      Ja, Unteraufträge werden in der Detailansicht des Auftrags angezeigt und können dort erstellt, bearbeitet und gelöscht werden.
     ]
     #QaA[Welche charakteristischen Daten enthält ein Unterauftrag? ][
       Ein Unterauftrag umfasst folgende Attribute:
@@ -489,7 +528,7 @@
         [*Attribut*], [*Datentyp*], [*Beschreibung*],
         [Unterauftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
         [Bezeichnung], [Text], [Kurzbeschreibung des Unterauftrags],
-        [Hauptauftrag], [Referenz], [Referenz auf den Hauptauftrag],
+        [Auftrag], [Referenz], [Referenz auf den Auftrag],
         [Unterauftragnehmer], [Referenz], [Referenz auf externen Unterauftragnehmer],
         [Starttermin], [Datum], [Beginn des Unterauftrags],
         [Endtermin], [Datum], [Ende des Unterauftrags],
@@ -514,6 +553,8 @@
     ]
     #QaA[Welche Funktionalitäten soll der Terminplaner konkret bieten? ][
       Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter).
+
+      TODO: Tabelle erstellen
     ]
     #QaA[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
       Als Kalenderansicht mit Monats- und Wochenansicht. Aufträge werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht des Auftrags.
@@ -554,13 +595,15 @@
     Die Benutzungszeiträume werden über Buchungen ermittelt.
   ]
   #QaA[Gibt es Unterschiede in der Definition/ den Eigenschaften der Baugeräte (groß, klein, Kategorie)? ][
-    Ja, es gibt Baumaschinen (motorisiert, groß: Bagger, LKWs, Kräne) und Bauwerkzeuge (nicht motorisiert, meist kleiner: Schalungsteile, Zäune, Bausicherungen). Beide werden ähnlich verwaltet.
+    Nein, im System werden alle Baugeräte (Baumaschinen und Bauwerkzeuge) über eine gemeinsame Geräteklasse mit einem Kategorieattribut verwaltet.
   ]
   #QaA[[INTERN] Sollen die Bauwerkzeuge generisch verwaltet werden?  ][
     Ja, Baumaschinen und Bauwerkzeuge werden über eine gemeinsame Basisklasse generisch verwaltet. Spezifische Eigenschaften können über Attribute oder eine Vererbungshierarchie abgebildet werden.
   ]
   #QaA[Sollen die Arten von Baumaschinen/ -Werkzeuge/ Ausrüstung fest vorgegeben oder dynamisch vom Benutzer änderbar sein?  ][
-    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf neue Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut in einer gemeinsamen Geräteklasse.
+    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut in einer gemeinsamen Geräteklasse.
+
+    TODO: Über Tabelle verschieben
   ]
   #QaA[Falls die Arten von Baumaschinen/ -Werkzeuge/ Ausrüstung fest vorgegeben sind (z.B. durch Klassen): Welche Arten sollen jeweils konkret existieren? ][
     Es gibt vordefinierte Standardkategorien: Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung. Der Administrator kann bei Bedarf weitere Kategorien hinzufügen.
@@ -569,7 +612,7 @@
     Ja, beide werden über die gleiche Verwaltungsoberfläche verwaltet. Die Unterscheidung erfolgt über ein Kategorieattribut (Maschine vs. Werkzeug).
   ]
   #QaA[Soll die Ausrüstung für Baumaschinen und Bauwerkzeuge einzeln verwaltet werden oder soll die Ausrüstung ausschließlich über die Suche nach den Geräten verwaltet werden? ][
-    Die Ausrüstung (z.B. Baggerschaufel, Kranzubehör) wird als separate Entität verwaltet und kann Maschinen zugeordnet werden. Über die Suche kann nach Maschinen mit bestimmter Ausrüstung gefiltert werden.
+    Die Ausrüstung (z.B. Baggerschaufel, Kranzubehör) wird als separate Entität verwaltet und kann Baumaschinen zugeordnet werden. Über die Suche kann nach Baumaschinen mit bestimmter Ausrüstung gefiltert werden.
 
     Eine Ausrüstung umfasst folgende Attribute:
 
@@ -584,11 +627,13 @@
       [Status], [Text], [Verfügbar, zugeordnet, in Wartung, defekt],
     )
   ]
-  #QaA[Gibt es einen Unterschied zwischen „Baumaschine” und „Gerät”? Ist mit „Gerät” eigentlich ein „Werkzeug” gemeint? Oder ist „Gerät” ein allgemeiner Begriff für Maschinen/Werkzeuge? ][
-    „Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System wird zwischen motorisierten Baumaschinen und nicht-motorisierten Bauwerkzeugen unterschieden.
+  #QaA[Gibt es einen Unterschied zwischen „Baumaschine” und „Gerät”? Ist mit „Gerät” eigentlich ein „Werkzeug” gemeint? Oder ist „Gerät” ein allgemeiner Begriff für Baumaschinen/Werkzeuge? ][
+    „Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System wird zwischen Baumaschinen und nicht-motorisierten Bauwerkzeugen unterschieden.
+
+    TODO: Lutz fragen
   ]
   #QaA[Nach welchen Kriterien soll gesucht werden (Filter, Textsuche, Eigenschaften)? ][
-    Kombination aus Textsuch (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
+    Kombination aus Textsuche (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
   ]
   #QaA[Wie soll nach der Ausrüstung gesucht werden (Kategorie, Textsuche)? ][
     Textsuche nach Bezeichnung der Ausrüstung (z.B. "Baggerschaufel") oder Filterung nach Ausrüstungstyp (z.B. "Kranzubehör").
@@ -642,12 +687,14 @@
   ]
   #QaA[Soll ein Grundstück zu einem Lager zugeordnet werden können? Soll zwischen der Art des Lagers unterschieden werden können (Platz, Gebäude, …)? ][
     Ja, beides. Ein Lager hat ein Typ-Attribut (Platz oder Gebäude) und kann optional einem Grundstück zugeordnet werden.
+
+    TODO: verscheiben vor Tabelle
   ]
   #QaA[Sollen die Benutzungszeiträume manuell eingegeben werden oder über die Buchungen ermittelt werden? ][
     Die Benutzungszeiträume werden automatisch über die Buchungen ermittelt. Jede Buchung hat einen Start- und Endzeitpunkt.
   ]
-  #QaA[Soll die/ das nächste Baumaschine/ -Werkzeug angezeigt werden? Soll ein Ort angegeben werden und von da die Distanz des Geräts? Soll das eigene GPS verwendet werden? Soll der Mitarbeiter keine Unterstützung zur Distanz erhalten? ][
-    Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine Berechnung der Distanz zum Einsatzort ist wünschenswert, aber nicht kritisch. GPS-Ortung ist nicht erforderlich.
+  #QaA[Soll die/ das nächste Baumaschine/ -Werkzeug angezeigt werden?][
+    Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine Berechnung der Distanz zum Einsatzort wird nicht benötigt. GPS-Ortung ist nicht erforderlich.
   ]
   #QaA[Ist auch der Ort eines Objekts innerhalb eines Lagers relevant (z.B. „Regal 3, oben rechts”)? ][
     Nein, die genaue Position innerhalb eines Lagers ist nicht erforderlich. Es reicht die Zuordnung zum Lager selbst.
@@ -662,9 +709,13 @@
   [LF 60], [Nach allen wesentlichen Daten sollen mittels einer oder mehrerer Suchmaske im Datenbestand gesucht werden können.
   #QaA[In welchem Format sollen die Suchergebnisse angezeigt werden (Tabelle, Suchergebnisliste)? ][
     Als Tabelle mit den wichtigsten Attributen (z.B. Bezeichnung, Kategorie, Status, Standort). Ein Klick auf einen Eintrag öffnet die Detailansicht.
+
+    TODO: Referenz F138
   ]
   #QaA[Was sind die „wesentlichen” Daten, nach denen gesucht werden soll?][
     Mitarbeiter, Gruppen, Aufträge, Projekte, Baumaschinen, Bauwerkzeuge, Lager, Buchungen und Anwesenheitszeiten.
+
+    TODO: Tabelle erstellen bzw. referenzieren
   ] 
   #QaA[Ist eine Sortierung nötig? ][
     Ja, die Suchergebnisse sollen nach verschiedenen Spalten sortierbar sein (aufsteigend/absteigend).
@@ -684,7 +735,7 @@
   ],
   [LF 70], [Die Auswahl der Daten soll möglichst über (eventuell durchsuchbare) Auswahllisten erfolgen. Dies gilt vor allem für Zuordnungen von Daten zu anderen Daten (z.B. Bau- fahrzeuge und Personen zu Projekten und Arbeitsaufträgen usw.). Die Auswahllisten sollen auf einfache Weise erweiterbar und für sämtliche Mitarbeiter im System verfügbar sein.
   #QaA[Wie sollen Auswahllisten dargestellt werden (einzelne Auswahllisten mit einzelnen Objekten oder mit komplexer Beziehung)? ][
-    Als Listen mit einzelnen Objekten (z.B. Liste aller Mitarbeiter, Liste aller Baumaschinen). Komplexe Beziehungen werden über Attribute angezeigt (z.B. "Mitarbeiter aus Gruppe X").
+    Als Listen mit einzelnen Objekten (z.B. Liste aller Mitarbeiter, Liste aller Baumaschinen). Komplexe Beziehungen werden über Referenzlisten angezeigt (z.B. "Mitarbeiter aus Gruppe X").
   ]
   #QaA[Welche Such- und Filtermöglichkeiten sollen die Auswahllisten haben? ][
     Textsuche (Eingabefeld zum Filtern der Liste während der Eingabe) und Filterung nach Kategorien (z.B. nur Mitarbeiter einer bestimmten Gruppe anzeigen).
@@ -714,6 +765,8 @@
   [LF 80], [Allen Elementen sollen beliebig viele Bilder mit Titel zugeordnet werden können, die zentral auf einem Verzeichnis liegen sollen
   #QaA[Was ist ein Element (z.B. auch Terminplaner)? ][
     Ein Element ist jedes verwaltete Objekt: Mitarbeiter, Gruppe, Auftrag, Projekt, Baumaschine, Bauwerkzeug, Lager, Unterauftrag.
+
+    TODO: Pürfen ob komplett, Tabelle erstellen bzw. referenzieren
   ]
   #QaA[Sind alle Elemente gemeint oder sollen nur ausgewählte Elemente über Bilder verfügen? ][
     Primär Aufträge, Projekte, Baumaschinen und Bauwerkzeuge. Mitarbeiter und Gruppen können optional auch Bilder haben (z.B. Profilbilder).
@@ -754,16 +807,17 @@
   #QaA[Soll eine Versionshistorie erstellt werden? ][
     Nein, eine Versionierung der Bilder ist nicht erforderlich. Bilder können ersetzt oder gelöscht werden.
   ]
-  #QaA[Sollen sie Bilder von der Software zur Verfügung gestellt werden oder soll der Nutzer die Bilder eigenständig hinzufügen können? ][
+  #QaA[Sollen die Bilder von der Software zur Verfügung gestellt werden oder soll der Nutzer die Bilder eigenständig Hinzufügen können? ][
     Der Nutzer fügt Bilder eigenständig hinzu (Upload-Funktion). Die Software stellt keine vordefinierten Bilder bereit.
   ]
   ],
   [LF 90], [Viele unserer Angestellten sind teilzeitbeschäftigt. Für alle Angestellten sollen deshalb die Anwesenheitszeiten erfasst werden.
   #QaA[Wie sollen die Anwesenheitszeiten erfasst werden? (Manuell, automatisch, durch Stempelkarten, ...) ][
-    Manuell über die GUI. Verwaltungsmitarbeiter oder Vorgesetzte tragen die Anwesenheitszeiten ein (Datum, Start- und Endzeit).
+    In der Firma werden Stempelkarten verwendet, die automatisch die Start- und Endzeiten erfassen. Diese Daten werden täglich in das System importiert.
   ]
   #QaA[Wer hat Lese- und Schreibrechte für die Anwesenheitszeiten? ][
-    Schreibrechte: Verwaltungsmitarbeiter und Administrator. Leserechte: Verwaltungsmitarbeiter, Bau-/Projektleiter (für ihre Teams), Administrator. Jeder Mitarbeiter kann seine eigenen Zeiten einsehen.
+    Schreibrechte: Administrator \
+    Leserechte: Jeder Mitarbeiter kann seine eigenen Zeiten einsehen und der Vorgesetzte kann die Zeiten seiner direkten Mitarbeiter einsehen.
   ]
   #QaA[Wie sollen die Anwesenheitszeiten dargestellt werden? (Nach Tagen, nach Wochen, nach Monaten, nach Stunden, nach Minuten...) ][
     Als Tabelle mit Einträgen pro Tag. Anzeigemöglichkeiten: nach Tag, Woche oder Monat filtern. Jeder Eintrag zeigt Datum, Startzeit, Endzeit und Gesamtstunden.
@@ -779,7 +833,6 @@
       [Datum], [Datum], [Arbeitstag],
       [Startzeit], [Zeit], [Beginn der Arbeitszeit (z.B. 08:00)],
       [Endzeit], [Zeit], [Ende der Arbeitszeit (z.B. 17:00)],
-      [Gesamtstunden], [Dezimalzahl], [Berechnete Arbeitsstunden],
       [Typ], [Text], [Anwesend, Urlaub, Krankheit, sonstige Abwesenheit],
       [Bemerkung], [Text], [Optional: z.B. "Baustelle Projekt X"],
     )
@@ -817,7 +870,7 @@
     Ja, eine lokale Datenbank. Das neue System soll zunächst mit lesbaren Dateien arbeiten und später auf eine moderne Datenbank (z.B. SQLite, PostgreSQL) migriert werden.
   ]
   #QaA[[INTERN] Auf welchem Wege übertragen wir die alten Daten (z.B. gemeinsames Export/Import-Format)? ][
-    Über CSV-Export aus dem Altsystem und CSV-Import in das neue System. Mappings für unterschiedliche Datenstrukturen müssen definiert werden.
+    TODO: Löschen
   ]
   #QaA[Gibt es vorhandene Software-Lizenzen, die verwendet werden sollen? ][
     Nein, es sollen ausschließlich kostenfreie und quelloffene Technologien verwendet werden (Java, Open-Source-Datenbanken).
@@ -905,12 +958,14 @@
   [
     #QaA[Wie soll die als „gut" eingestufte Effizienz konkret gemessen werden – gibt es maximale Antwortzeiten für typische Verwaltungsoperationen wie die Suche nach Aufträgen oder Baumaschinen (z.B. unter 2 Sekunden)?][
       Ja, Suchoperationen sollen in unter 2-3 Sekunden abgeschlossen sein. Das Laden von Detailansichten in unter 1 Sekunde. Längere Operationen (Import, Export) zeigen einen Fortschrittsbalken.
+
+      Lange Wartezeiten (über 5 Sekunden) sind nicht akzeptabel und müssen durch Optimierung oder Hintergrundverarbeitung vermieden werden.
     ]
   ],
   [Benutzbarkeit (auch Gestaltung)],
   [
-    #QaA[Wie soll die als „sehr gut" bewertete Benutzbarkeit konkret umgesetzt werden – soll die grafische Oberfläche nach bestimmten Usability-Richtlinien (z.B. DIN EN ISO 9241) gestaltet werden?][
-      Die Oberfläche orientiert sich an bewährten Usability-Prinzipien: klare Struktur, konsistente Bedienung, verständliche Beschriftungen, maximal drei Klicks bis zur gewünschten Information. Eine formale Zertifizierung nach DIN EN ISO 9241 ist nicht erforderlich.
+    #QaA[Wie soll die als „sehr gut" bewertete Benutzbarkeit konkret umgesetzt werden – soll die grafische Oberfläche nach bestimmten Usability-Richtlinien gestaltet werden?][
+      Die Oberfläche orientiert sich an bewährten Usability-Prinzipien: klare Struktur, konsistente Bedienung, verständliche Beschriftungen, maximal drei Klicks bis zur gewünschten Information.
     ]
     #QaA[Wie soll die Gestaltung der Benutzeroberfläche aussehen – soll ein einheitliches Farbschema, ein firmeneigenes Corporate Design oder ein modernes, minimalistisches Design verwendet werden?][
       Ein modernes, minimalistisches Design mit einheitlichem Farbschema (neutral, professionell). Ein firmeneigenes Corporate Design ist nicht zwingend erforderlich.
@@ -918,8 +973,12 @@
     #QaA[Soll die hohe Benutzbarkeit durch integrierte Hilfefunktionen, Tooltips oder eine kontextsensitive Benutzerdokumentation unterstützt werden?][
       Ja, Tooltips bei allen wichtigen UI-Elementen und eine integrierte Hilfe-Funktion (F1-Taste). Eine ausführliche Benutzerdokumentation (PDF) soll separat bereitgestellt werden.
     ]
-    #QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen (Verwaltungsmitarbeiter, Bauleiter, Vorarbeiter, Administrator) differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
-      Ja, die GUI passt sich der Rolle an. Verwaltungsmitarbeiter sehen alle Verwaltungsfunktionen, Vorarbeiter nur ihre Arbeitsaufträge, Bau-/Projektleiter ihre Projekte, Administrator alle Funktionen. Die Basis-GUI bleibt einheitlich. Hinweis: Laut den Vereinfachungen wird die Authentifizierung nicht implementiert - für die Modellierung wird jedoch von einem rollenbasierten Zugriffssystem ausgegangen, bei dem die Rolle beim Programmstart festgelegt wird (z.B. durch Konfiguration oder Auswahl).
+    #QaA[Wie soll die qualitativ hochwertige Benutzbarkeit für die verschiedenen Benutzerrollen differenziert werden – sollen rollenspezifische, angepasste Oberflächen bereitgestellt werden?][
+      Ja, die GUI passt sich der Rolle an. Verwaltungsmitarbeiter sehen alle Verwaltungsfunktionen, Vorarbeiter nur ihre Arbeitsaufträge, Bau-/Projektleiter ihre Projekte, Administrator alle Funktionen. Die Basis-GUI bleibt einheitlich.
+    ]
+
+    #QaA[Soll eine bestimmte Barrierefreiheit (Accessibility) bei der grafischen Benutzeroberfläche beachtet werden (z.B. Unterstützung für Sehbehinderte, Spracheingabe)?][
+      Es reichen die gesätzlichen Anforderungen an Barrierefreiheit (z.B. ausreichende Kontraste, skalierbare Schriftgrößen). Es müssen keine weiteren speziellen Funktionen implementiert werden.
     ]
   ],
   [Wartbarkeit], 
