@@ -50,7 +50,7 @@
   
 //figure for entity tables
 #let entityFigure(entityName, body) = {
-  figure(kind: entityTable, supplement: "Entität", caption: entityName, body)
+  [#figure(kind: entityTable, supplement: "Entität", caption: entityName, body) #label("e_" + entityName)]
 }
 
 //figure for text (special for goals (LL, LD, ...))
@@ -68,6 +68,12 @@
   if el != none and el.func() == heading {
     let num = numbering(el.numbering, ..counter(heading).at(el.location()))
     [(siehe #link(el.location(), [#num #el.body]))]
+  } else if(el != none and el.func() == figure and el.kind == entityTable) {
+    context {
+      let loc = el.location()
+      let page_num = loc.page()
+      link(loc, [#el.caption.body (S. #page_num)])
+    }
   } else {
     it
   }
@@ -231,13 +237,12 @@
 ]
 #QaA[Welche charakteristischen Merkmale weisen die bauunternehmensspezifischen Daten auf und welche Daten sollen darunter verstanden werden? ][
   Mitarbeiter- und Gruppendaten, Aufträge und Projekte, Baumaschinen und Werkzeuge mit Standorten, Buchungen, Termine, Anwesenheitszeiten, Baupläne (als Dateipfade) und Bilder.
-
-  TODO: Verweis auf Tabellen wenn es passende gibt, sonst erstellen
+  TODO: doppelt
 ]
 #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
   Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem).
 
-  TODO: Verweis auf Tabellen wenn es passende gibt, sonst erstellen
+  TODO: doppelt
 ]
 #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
   Nur über Tablets und Laptops vor Ort auf den Baustellen.
@@ -247,8 +252,14 @@
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten <chapter-Zielgruppe-Rollen>
 #include "chapter/original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
 
-#QaA[Welche Mitarbeiterpositionen soll es geben?][
-  Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernte Bauarbeiter, ungelernte Bauarbeiter und Verwaltungsmitarbeiter.
+#QaA[Welche Rollen soll es geben?][
+  Administrator, Verwaltungsmitarbeiter, Projektleiter, Bauleiter, Vorarbeiter und Mitarbeiter.
+  Eine Rolle umfasst folgende Attribute:
+  #entityFigure("Rolle", table(columns: 3,
+    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    [Rollennummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+    [Name], [Text], [Name der Rolle],
+  ))
 ]
 #QaA(labelName: "Attribute-Mitarbeiter")[Welche Attribute soll ein Mitarbeiter haben?][
   Ein Mitarbeiter umfasst folgende Attribute:
@@ -306,11 +317,39 @@
   Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
 ]
 #QaA(labelName: "Rollen-gleichzeitig")[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
-  Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten.
+  Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten, die wie folgt verteilt sind:
+    #figure(table(columns: 2, align: left,
+    [*Rolle*], [*Berechtigung*],
+    [Administrator], 
+      [
+        - Vollzugriff auf sämtliche Daten (Import und Export sowie deren Backup)
+      ],
+    [Verwaltungsmitarbeiter], 
+      [
+        - Leserechte auf sämtliche Daten (Export von Daten)
+        - Vollzugriff auf reine Verwaltungsdaten
+      ],
+    [Bauarbeiter], 
+      [
+        - Vollzugriff auf projektbezogene Daten
+      ],
+    [Bauleiter], 
+      [
+        - Vollzugriff auf projektbezogene Daten
+      ],
+    [Vorarbeiter], 
+      [
+        - Lesezugriff auf Arbeitsaufträge 
+      ],
+    [Mitarbeiter], 
+      [
+        - Leserechte auf Daten, die für seine Arbeit benötigt wird
+      ],
+  ), caption: "Berechtigungen")<Rolle-Berechtigungen>
 
-  TODO: Tabelle zu Rollen und Berechtigungen erstellen
+  TODO: Genauer definieren (was sind sämtliche Daten)
 ]
-#QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten? - ausschließlich der Administrator? ][
+#QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten - ausschließlich der Administrator? ][
   Ja, ausschließlich der Administrator verwaltet Benutzerkonten und weist Rollen zu.
 ]
 #QaA[Soll der Administrator eine dedizierte IT-Person oder ein normaler Mitarbeiter mit Zusatzrechten sein? ][
@@ -421,9 +460,33 @@
   textFigure(short)[LF 10], [Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. \
   Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
   #QaA[Welche charakteristischen Daten sollen verwaltet werden? ][
-    Mitarbeiter, Gruppen, Aufträge, Projekte, Baumaschinen, Bauwerkzeuge, Lager, Buchungen, Anwesenheitszeiten, Bilder und Konfigurationsdaten.
+    Folgende charakteristischen Daten sollen verwaltet werden:
+    #figure(table(columns: 2, align: left,
+      [*Daten*], [*Verweis zur Definition*],
+      [Mitarbeiter], [@e_Mitarbeiter],
+      [Rolle], [@e_Rolle],
+      [Gruppe], [@e_Gruppe],
+      [Adresse], [@e_Adresse],
+      [Arbeitsauftrag], [@e_Arbeitsauftrag],
+      [Unterauftrag], [@e_Unterauftrag],
+      [Unterauftragnehmer], [@e_Unterauftragsnehmer],
+      [Projekt], [@e_Projekt],
+      [Gerät], [?],
+      [Baumaschine], [@e_Baumaschine],
+      [Bauwerkzeug], [?],
+      [Ausrüstung], [@e_Ausrüstung],
+      [Lager], [@e_Lager],
+      [Buchung], [@e_Buchung],
+      [Anwesenheitszeit], [@e_Anwesenheitszeit],
+      [Bild], [@e_Bild],
+      [Fahrzeuge], [?],
+      [Großwerkzeuge], [?],
+      [Standort], [?],
+      [Rechnungen], [?],
+      [Finanzbuchhaltungssystem ], [?],
 
-    TODO: Tabelle erstellen bzw. referenzieren
+    )) <verwalteten-Objekte>
+    TODO: Genauer definieren
   ]
   #QaA[Was soll eine übersichtliche Verwaltung bedeuten? Welche Kriterien soll die Benutzeroberfläche erfüllen?][
     Klare Struktur mit maximal drei Klicks bis zur gewünschten Information, große Schaltflächen, verständliche Beschriftungen ohne technische Fachbegriffe, Hauptfunktionen über zentrale Übersichtsseite erreichbar.
@@ -477,7 +540,7 @@
   #QaA[Über welche charakteristischen Merkmale sollen die zentralen Daten verfügen? ][
     Jeder Auftrag hat: Auftragsbezeichnung, Projekt (Referenz), Baupläne (Dateipfad), beteiligte Personen/Gruppen, gebuchte Baumaschinen, Einsatzort, Start-/End-/Zwischentermine, Kostenvoranschlag (lesend aus Finanzsystem), Status (offen, in Bearbeitung, abgeschlossen).
 
-    TODO: Tabelle erstellen bzw. referenzieren
+    TODO: doppelt
   ]
   #QaA[Sollen alle Daten auf einer einzelnen GUI sichtbar sein oder sollen sie weiter unterteilt werden? ][
     Die Hauptinformationen (Bezeichnung, Projekt, Termine, Status) werden in einer Übersicht angezeigt. Detaildaten (Baupläne, beteiligte Personen, Baumaschinen) werden über Tabs oder Detailansichten zugänglich gemacht.
@@ -535,8 +598,15 @@
     ]
     #QaA[Welche Funktionalitäten soll der Terminplaner konkret bieten? ][
       Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter).
-
-      TODO: Tabelle erstellen
+      Ein Terminplaner umfasst folgende Attribute:
+      #entityFigure("Terminplaner", table(
+        columns: 3,
+        [*Attribut*], [*Datentyp*], [*Beschreibung*],
+        [Aufträge], [Liste], [Liste aller Aufträge],
+        [Projekte], [Liste], [Liste aller Projekte],
+        [Buchungen], [Liste], [Liste aller Buchungen],
+      ))
+      TODO: genauer definieren
     ]
     #QaA[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
       Als Kalenderansicht mit Monats- und Wochenansicht. Aufträge werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht des Auftrags.
@@ -552,8 +622,7 @@
   Die Baumaschinen und -werkzeuge haben unterschiedliche Ausrüstungen, nach denen sie bei der Suche unterschieden werden (z.B. Baggerschaufel, Kranzubehör (Behälter, Gewichte, Haken, usw.). \
   Damit Baumaschinen und Geräte planbar zur Verfügung stehen, müssen sie über das System gebucht werden. Die Buchung kann direkt beim Anlegen eines Auftrags geschehen oder auch später bei Bedarf. \
   Alle Baumaschinen und -werkzeuge sind einzelnen Lagern zugeordnet (Plätze und/oder Gebäude auf mehreren Grundstücken). Der momentane Standort muss zur Optimierung der Projektabläufe aktualisiert werden können. \
-  Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können ("welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?“)
-  Welche Baumaschinen soll es geben? Gibt es Baumaschinen, die eine besondere Art der Verwaltung benötigen? 
+  Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können ("welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?").
   #QaA[Sollen die Arten von Baumaschinen/ -Werkzeuge/ Ausrüstung fest vorgegeben oder dynamisch vom Benutzer änderbar sein?][
     Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut in einer gemeinsamen Geräteklasse.
   ]
@@ -690,7 +759,7 @@
   #QaA(labelName: "wesentlichen-Daten")[Was sind die "wesentlichen" Daten, nach denen gesucht werden soll?][
     Mitarbeiter, Gruppen, Aufträge, Projekte, Baumaschinen, Bauwerkzeuge, Lager, Buchungen und Anwesenheitszeiten.
 
-    TODO: Tabelle erstellen bzw. referenzieren
+    TODO: Tabelle erstellen bzw. referenzieren?
   ] 
   #QaA[Ist eine Sortierung nötig? ][
     Ja, die Suchergebnisse sollen nach verschiedenen Spalten sortierbar sein (aufsteigend/absteigend).
@@ -739,9 +808,7 @@
   ],
   textFigure(short)[LF 80], [Allen Elementen sollen beliebig viele Bilder mit Titel zugeordnet werden können, die zentral auf einem Verzeichnis liegen sollen
   #QaA[Was ist ein Element (z.B. auch Terminplaner)? ][
-    Ein Element ist jedes verwaltete Objekt: Mitarbeiter, Gruppe, Auftrag, Projekt, Baumaschine, Bauwerkzeug, Lager, Unterauftrag.
-
-    TODO: Pürfen ob komplett, Tabelle erstellen bzw. referenzieren
+    Ein Element ist jedes verwaltete Objekt (siehe @verwalteten-Objekte).
   ]
   #QaA[Sind alle Elemente gemeint oder sollen nur ausgewählte Elemente über Bilder verfügen? ][
     Primär Aufträge, Projekte, Baumaschinen und Bauwerkzeuge. Mitarbeiter und Gruppen können optional auch Bilder haben (z.B. Profilbilder).
