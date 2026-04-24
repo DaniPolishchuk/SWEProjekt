@@ -1,7 +1,8 @@
+#import "utils.typ": *
+#let entityTable = "entityTable"
 #let qa-counter = counter("qa-counter")
 
-#show figure.where(kind: "qa"): it => align(left, it.body)
-
+//own functions
 #let QaA(question, answer, labelName: "") = {
   qa-counter.step()
   context {
@@ -16,9 +17,9 @@
     [#figure(
       block(
         inset: (left: 1em),
-        [
+        align(left)[
           #text(fill: orange, weight: "bold")[F#str(n). #question] \
-          #text(fill: green)[ #answer]
+          #text(fill: green)[#answer]
         ]
       ),
       kind: "qa",
@@ -28,7 +29,6 @@
   }
 }
 
- 
 #let tableGrid(cells) = {
   table(..cells, columns: 2, stroke: none,
     inset: (right: 0.5em),
@@ -47,7 +47,13 @@
 #let referenceQ(labelName) = {
  [(siehe #ref(label(labelName)))]
 }
+  
+//figure for entity tables
+#let entityFigure(entityName, body) = {
+  figure(kind: entityTable, supplement: "Entität", caption: entityName, body)
+}
 
+//figure for text (special for goals (LL, LD, ...))
 #let textFigure(short, body) = {
   context {
     let count = counter(figure.where(kind: short)).get().at(0) + 1
@@ -67,9 +73,11 @@
   }
 }
 
+#show figure.where(kind: "qa"): it => align(
+  left, it.body
+)
 
 = Analyse des Lastenhefts
-
 == Einleitung <chapter-Einleitung>
 #include "chapter/original/1.0_Einleitung.typ"
 
@@ -136,6 +144,7 @@
 #QaA[Auf welchen Geräten soll die Software laufen können?][
   Primär auf Desktop-PCs im Büro #referenceQ("q_Leistung-PC"). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags) #referenceQ("q_plattformunabhängige Lösung").
 ]
+
 #QaA[Gibt es bereits einen internen Server?][
   Ja, es gibt bereits einen internen Server, der verwendet werden soll.
 ]
@@ -244,7 +253,7 @@
 #QaA(labelName: "Attribute-Mitarbeiter")[Welche Attribute soll ein Mitarbeiter haben?][
   Ein Mitarbeiter umfasst folgende Attribute:
 
-  #table(
+  #entityFigure("Mitarbeiter", table(
     columns: 3,
     [*Attribut*], [*Datentyp*], [*Beschreibung*],
     [Mitarbeiternummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -259,11 +268,11 @@
     [Vertragsbeginn], [Datum], [Beginn des Arbeitsverhältnisses],
     [Vertragsende], [Datum], [Ende des Arbeitsverhältnisses (optional)],
     [Rolle], [Text], [Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter, Administrator],
-  )
+  ))
 
   Eine Adresse umfasst folgende Attribute (wird von Mitarbeitern, Lagern, Unterauftragnehmern referenziert):
 
-  #table(
+  #entityFigure("Adresse", table(
     columns: 3,
     [*Attribut*], [*Datentyp*], [*Beschreibung*],
     [Straße], [Text], [Straßenname],
@@ -271,7 +280,7 @@
     [PLZ], [Text], [Postleitzahl],
     [Ort], [Text], [Stadt/Ortschaft],
     [Land], [Text], [Optional: Deutschland (Standard)],
-  )
+  ))
 
   Intern: Die Datentypen "Text" und "Ganzzahl" entsprechen in Java String und int bzw. Integer. "Referenz" bedeutet eine Objektreferenz bzw. Fremdschlüssel in der Datenbank.
 ]
@@ -316,7 +325,7 @@
 #QaA[Welche charakteristischen Daten sollen Projekte verwalten? ][
   Ein Projekt umfasst folgende Attribute:
 
-  #table(
+  #entityFigure("Projekt", table(
     columns: 3,
     [*Attribut*], [*Datentyp*], [*Beschreibung*],
     [Projektnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -327,12 +336,12 @@
     [Endtermin], [Datum], [Geplantes Projektende],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
     [Status], [Text], [Geplant, laufend, abgeschlossen],
-  )
+  ))
 ]
 #QaA[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
   Ein Arbeitsauftrag umfasst folgende Attribute:
 
-  #table(
+  #entityFigure("Arbeitsauftrag", table(
     columns: 3,
     [*Attribut*], [*Datentyp*], [*Beschreibung*],
     [Auftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -346,7 +355,7 @@
     [Kostenvoranschlag], [Dezimalzahl], [Geschätzter Betrag (aus Finanzsystem lesend)],
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
-  )
+  ))
 ]
 #QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
   Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
@@ -451,7 +460,7 @@
 
     Eine Gruppe umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Gruppe", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Gruppennummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -459,7 +468,7 @@
       [Gruppentyp], [Text], [Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe],
       [Gruppenleiter], [Referenz], [Referenz auf Mitarbeiter (optional)],
       [Beschreibung], [Text], [Zusätzliche Informationen zur Gruppe],
-    )
+    ))
 
     Die Zuordnung von Mitarbeitern zu Gruppen erfolgt über eine n:m-Beziehung.
   ]
@@ -496,7 +505,7 @@
     #QaA[Welche charakteristischen Daten enthält ein Unterauftrag? ][
       Ein Unterauftrag umfasst folgende Attribute:
 
-      #table(
+      #entityFigure("Unterauftrag", table(
         columns: 3,
         [*Attribut*], [*Datentyp*], [*Beschreibung*],
         [Unterauftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -508,11 +517,11 @@
         [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
         [Kosten], [Dezimalzahl], [Vereinbarter Betrag],
         [Bemerkung], [Text], [Zusätzliche Hinweise],
-      )
+      ))
 
       Ein Unterauftragnehmer umfasst folgende Attribute:
 
-      #table(
+      #entityFigure("Unterauftragsnehmer", table(
         columns: 3,
         [*Attribut*], [*Datentyp*], [*Beschreibung*],
         [Unterauftragnehmer-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -522,7 +531,7 @@
         [E-Mail], [Text], [E-Mail-Adresse],
         [Adresse], [Referenz], [Referenz auf Adresse],
         [Fachbereich], [Text], [z.B. Elektroinstallation, Sanitär, Heizung],
-      )
+      ))
     ]
     #QaA[Welche Funktionalitäten soll der Terminplaner konkret bieten? ][
       Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter).
@@ -551,7 +560,7 @@
   #QaA[Welche Daten sind relevant für die Verwaltung einer Baumaschine/ eines Bauwerkzeugs? ][
     Eine Baumaschine bzw. ein Bauwerkzeug umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Baumaschine", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Gerätenummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -565,7 +574,7 @@
       [Anschaffungsdatum], [Datum], [Datum der Anschaffung],
       [Letzter Wartungstermin], [Datum], [Datum der letzten Wartung],
       [Nächster Wartungstermin], [Datum], [Geplanter nächster Wartungstermin],
-    )
+    ))
 
     Die Benutzungszeiträume werden über Buchungen ermittelt.
   ]
@@ -586,7 +595,7 @@
 
     Eine Ausrüstung umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Ausrüstung", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Ausrüstungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -595,7 +604,7 @@
       [Kompatibel mit], [Text], [Gerätetypen, mit denen die Ausrüstung kompatibel ist],
       [Gewicht], [Dezimalzahl], [Gewicht in kg],
       [Status], [Text], [Verfügbar, zugeordnet, in Wartung, defekt],
-    )
+    ))
   ]
   #QaA[Gibt es einen Unterschied zwischen "Baumaschine” und "Gerät”? Ist mit "Gerät” eigentlich ein "Werkzeug” gemeint? Oder ist "Gerät” ein allgemeiner Begriff für Baumaschinen/Werkzeuge? ][
     "Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System wird zwischen Baumaschinen und nicht-motorisierten Bauwerkzeugen unterschieden.
@@ -613,7 +622,7 @@
 
     Eine Buchung umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Buchung", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Buchungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -624,7 +633,7 @@
       [Gebucht von], [Referenz], [Referenz auf Mitarbeiter (wer hat gebucht)],
       [Buchungsdatum], [Datum], [Datum der Buchungserstellung],
       [Status], [Text], [Aktiv, abgeschlossen, storniert],
-    )
+    ))
   ]
   #QaA[[INTERN] Wie soll der Umgang mit gleichzeitigen Buchungen erfolgen (First come, first served)? ][
     Ja, First-come-first-served. Laut Vereinfachung ist kein Locking-Mechanismus erforderlich. Bei zeitgleichen Buchungen gewinnt die zuerst gespeicherte.
@@ -644,7 +653,7 @@
   #QaA[Was sollen die charakteristischen Eigenschaften eines Lagers sein? ][
     Ein Lager umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Lager", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Lagernummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -653,7 +662,7 @@
       [Adresse], [Referenz], [Referenz auf Adresse (Straße, Hausnummer, PLZ, Ort)],
       [Grundstück], [Text], [Optional: Grundstücksbezeichnung],
       [Kapazität], [Ganzzahl], [Optional: Maximale Anzahl Geräte],
-    )
+    ))
   ]
   #QaA[Woher soll die Information über das zugehörige Lager erhalten werden (GPS, Eintrag in der GUI, Buchungen)? ][
     Über manuelle Eingabe in der GUI. Beim Anlegen einer Baumaschine wird das Lager zugeordnet. Bei Standortwechsel wird das Lager manuell aktualisiert.
@@ -752,7 +761,7 @@
   #QaA[[INTERN] Welche Informationen sollen in den Bildern enthalten sein (Metadaten)? ][
     Ein Bild umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Bild", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Bild-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -765,7 +774,7 @@
       [Hochlader], [Referenz], [Referenz auf Benutzer (Mitarbeiter)],
       [Dateigröße], [Ganzzahl], [Größe in Bytes],
       [Format], [Text], [JPG, PNG, GIF, PDF],
-    )
+    ))
   ]
   #QaA[[INTERN] Wie viel Speicherplatz soll für die Bilder vorgesehen werden? ][
     Zunächst ca. 20-30 GB für Bilder. Der Speicherplatz kann bei Bedarf erweitert werden.
@@ -791,7 +800,7 @@
   #QaA[Welche charakteristischen Merkmale sollen die Anwesenheitszeiten enthalten (z.B. Uhrzeit, Dauer, Grund für Abwesenheit, ...)? ][
     Eine Anwesenheitszeit umfasst folgende Attribute:
 
-    #table(
+    #entityFigure("Anwesenheitszeit", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Anwesenheits-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -801,7 +810,7 @@
       [Endzeit], [Zeit], [Ende der Arbeitszeit (z.B. 17:00)],
       [Typ], [Text], [Anwesend, Urlaub, Krankheit, sonstige Abwesenheit],
       [Bemerkung], [Text], [Optional: z.B. "Baustelle Projekt X"],
-    )
+    ))
   ]
   #QaA[Soll Abwesenheit auch erfasst werden? Wenn ja, wie soll das erfolgen? ][
     Ja, Abwesenheiten (Urlaub, Krankheit) werden als separate Einträge mit Typ (Urlaub, Krankheit, sonstige) und Zeitraum erfasst.

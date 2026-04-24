@@ -10,6 +10,7 @@
 
 #let page_numbering = "1 / 1"
 #let heading_numbering = "1.1.1"
+#let entityTable = "entityTable"
 
 #let __tpl_messages_array = (
   "submission_date": (
@@ -341,6 +342,15 @@
       heading(__tpl_message("list_figures", lang), numbering: none)
       outline(
         target: figure.where(kind: image).before(<__appendix-start>),
+        title: none,
+      )
+    }
+
+    if query(figure.where(kind: entityTable)).len() > 0 {
+      pagebreak()
+      heading("Entitätsverzeichnis", numbering: none)
+      outline(
+        target: figure.where(kind: entityTable).before(<__appendix-start>),
         title: none,
       )
     }
