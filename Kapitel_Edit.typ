@@ -1,4 +1,7 @@
 #import "utils.typ": *
+#import "@preview/codly:1.3.0": *
+#import "@preview/codly-languages:0.1.1": *
+#show: codly-init.with()
 #let entityTable = "entityTable"
 #let qa-counter = counter("qa-counter")
 
@@ -137,11 +140,30 @@
 #QaA[Wie hoch ist das Budget für die neue Verwaltungssoftware und gibt es finanzielle Einschränkungen bei der Wahl der eingesetzten Technologien oder Lizenzen?][
   Es sollen ausschließlich kostenfreie und quelloffene Technologien verwendet werden. Es stehen keine zusätzlichen Lizenzbudgets zur Verfügung.
 
-  #ask[Budget nötig?]
+  #ask[Budget nötig?] //TODO
 ]
 #QaA[Gibt es gesetzliche oder branchenspezifische Vorschriften (z.B. Datenschutz, Baurecht, Aufbewahrungsfristen), die bei der neuen Verwaltungssoftware zwingend berücksichtigt werden müssen?][
   Ja, alle Auftragsdaten müssen gemäß gesetzlicher Aufbewahrungsfristen mindestens 10 Jahre verfügbar bleiben. Personenbezogene Mitarbeiterdaten unterliegen den Datenschutzbestimmungen (DSGVO).
 ]
+
+#QaA[Welche Eigenschaften müssen Fahrzeuge und Rechnungen im System haben?][
+  #entityFigure("Fahrzeug", table(
+    columns: 3,
+    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    [Fahrzeugnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+    [Fahrzeugtyp], [Text], [Bagger, Kran, LKW, etc.],
+    [Standort], [Text], [Aktueller Standort oder Lagerort],
+  ))
+  #entityFigure("Rechnung", table(
+    columns: 3,
+    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    [Rechnungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+    [Auftrag], [Referenz], [Referenz auf zugehörigen Auftrag],
+    [Betrag], [Dezimalzahl], [Rechnungsbetrag],
+
+  ))
+]
+
 
 == Lastenheft
 === Zielsetzung
@@ -197,16 +219,17 @@
 ]
 #QaA[Welche Formate der Daten sollen im Import bevorzugt werden?][
   CSV-Dateien (Semikolon-separiert, UTF-8-kodiert) als primäres Importformat. Diese sind lesbar und einfach zu verarbeiten.
+]
 
-  TODO: Formatierung anpassen
-
-  Intern: Beispiel-Format für Mitarbeiter-Import:
-  ```csv
+#codefigure(caption: "Beispiel für das Importformat")[ 
+  #set text(size: 11pt)
+    ```csv
   Mitarbeiternummer;Vorname;Nachname;Geburtsdatum;Email;Position;Rolle
-  1001;Max;Mustermann;1985-03-15;max.mustermann@bauunternehmen.de;Bauleiter;Bau-/Projektleiter
-  1002;Anna;Schmidt;1990-07-22;anna.schmidt@bauunternehmen.de;Verwaltungsmitarbeiter;Verwaltungsmitarbeiter
+  1001;Max;Mustermann;1985-03-15;max.mustermann@bau.de;Bauleiter;Projektleiter
+  1002;Anna;Schmidt;1990-07-22;anna.schmidt@bau.de;Verwaltung;Verwaltung
   ```
 ]
+
 #QaA[Welche Formate der Daten sollen im Export bevorzugt werden?][
   Der Export soll ebenfalls im CSV-Format erfolgen, um Kompatibilität mit anderen Systemen zu gewährleisten.
 ]
@@ -236,13 +259,14 @@
   Das ist Teil des späteren Tablet-Projekts. Voraussichtlich iOS (iPad) und Android. Die konkrete Entscheidung erfolgt im zweiten Entwicklungsauftrag.
 ]
 #QaA[Welche charakteristischen Merkmale weisen die bauunternehmensspezifischen Daten auf und welche Daten sollen darunter verstanden werden? ][
-  Mitarbeiter- und Gruppendaten, Aufträge und Projekte, Baumaschinen und Werkzeuge mit Standorten, Buchungen, Termine, Anwesenheitszeiten, Baupläne (als Dateipfade) und Bilder.
-  TODO: doppelt
+  Mitarbeiter- und Gruppendaten, Aufträge und Projekte, Baumaschinen und Werkzeuge mit Standorten/Lagerorten, Buchungen, Anwesenheitszeiten und Bilder.
+
+  Siehe genaue Definition der oben genannten Entitäten: @verwalteten-Objekte
 ]
 #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
-  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem).
-
-  TODO: doppelt
+  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem) 
+  
+  Siehe die genaue Definition: @e_Arbeitsauftrag.
 ]
 #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
   Nur über Tablets und Laptops vor Ort auf den Baustellen.
@@ -314,7 +338,7 @@
   Ein Bau-/Projektleiter hat Vollzugriff auf alle projektbezogenen Daten (alle Projekte und Aufträge), nicht nur auf die ihm zugeordneten. Dies ermöglicht flexible Projektzusammenarbeit und Vertretungsregelungen.
 ]
 #QaA[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
-  Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
+  Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenf alls lesbar.
 ]
 #QaA(labelName: "Rollen-gleichzeitig")[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
   Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten, die wie folgt verteilt sind:
@@ -322,11 +346,11 @@
     [*Rolle*], [*Berechtigung*],
     [Administrator], 
       [
-        - Vollzugriff auf sämtliche Daten (Import und Export sowie deren Backup)
+        - Vollzugriff auf alle Daten (Import und Export sowie deren Backup)
       ],
     [Verwaltungsmitarbeiter], 
       [
-        - Leserechte auf sämtliche Daten (Export von Daten)
+        - Leserechte auf alle Daten außer Backups
         - Vollzugriff auf reine Verwaltungsdaten
       ],
     [Bauarbeiter], 
@@ -346,8 +370,6 @@
         - Leserechte auf Daten, die für seine Arbeit benötigt wird
       ],
   ), caption: "Berechtigungen")<Rolle-Berechtigungen>
-
-  TODO: Genauer definieren (was sind sämtliche Daten)
 ]
 #QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten - ausschließlich der Administrator? ][
   Ja, ausschließlich der Administrator verwaltet Benutzerkonten und weist Rollen zu.
@@ -377,7 +399,7 @@
     [Status], [Text], [Geplant, laufend, abgeschlossen],
   ))
 ]
-#QaA[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
+#QaA(labelName: "charakteristischen-Daten")[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
   Ein Arbeitsauftrag umfasst folgende Attribute:
 
   #entityFigure("Arbeitsauftrag", table(
@@ -395,6 +417,8 @@
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
   ))
+
+  #ask[Wie sollen die beteiligten Personen referenziert werden? (extra Tabelle)] //TODO
 ]
 #QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
   Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
@@ -402,7 +426,7 @@
 #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
   Nein, ein Arbeitsauftrag gehört immer zu genau einem Projekt.
 
-  #ask[Gehört ein Arbeitsauftrag immer zu einem Projekt]
+  #ask[Gehört ein Arbeitsauftrag immer zu einem Projekt] //TODO
 ]
 #QaA[Soll es Projekte ohne Aufträge geben können? ][
   Ja, ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren. Aufträge werden dann später hinzugefügt.
@@ -471,22 +495,21 @@
       [Unterauftrag], [@e_Unterauftrag],
       [Unterauftragnehmer], [@e_Unterauftragsnehmer],
       [Projekt], [@e_Projekt],
+      [Bauplan], [wird als Text (Pfad auf Dateien im Dateisystem) modelliert @chapter-Vereinfachungen],
+      [Ausrüstung], [@e_Ausrüstung],
       [Gerät], [?],
       [Baumaschine], [@e_Baumaschine],
       [Bauwerkzeug], [?],
-      [Ausrüstung], [@e_Ausrüstung],
+      [Großwerkzeug], [?],
+      [Fahrzeug], [@e_Fahrzeug],
       [Lager], [@e_Lager],
       [Buchung], [@e_Buchung],
       [Anwesenheitszeit], [@e_Anwesenheitszeit],
       [Bild], [@e_Bild],
-      [Fahrzeuge], [?],
-      [Großwerkzeuge], [?],
-      [Standort], [?],
-      [Rechnungen], [?],
-      [Finanzbuchhaltungssystem ], [?],
+      [Rechnung], [@e_Rechnung],
 
     )) <verwalteten-Objekte>
-    TODO: Genauer definieren
+    TODO: vervollständigen
   ]
   #QaA[Was soll eine übersichtliche Verwaltung bedeuten? Welche Kriterien soll die Benutzeroberfläche erfüllen?][
     Klare Struktur mit maximal drei Klicks bis zur gewünschten Information, große Schaltflächen, verständliche Beschriftungen ohne technische Fachbegriffe, Hauptfunktionen über zentrale Übersichtsseite erreichbar.
@@ -538,9 +561,7 @@
   ],
   textFigure(short)[LF 30], [Zu den zentralen Daten eines Auftrags gehören: Projekt- und Baupläne, alle erstellten Angebote, Rechnungen und Mahnungen, Kostenvoranschläge, alle am Auftrag beteiligte Personen, Großgeräte, Einsatzort, Start-, End- und Zwischentermine usw.
   #QaA[Über welche charakteristischen Merkmale sollen die zentralen Daten verfügen? ][
-    Jeder Auftrag hat: Auftragsbezeichnung, Projekt (Referenz), Baupläne (Dateipfad), beteiligte Personen/Gruppen, gebuchte Baumaschinen, Einsatzort, Start-/End-/Zwischentermine, Kostenvoranschlag (lesend aus Finanzsystem), Status (offen, in Bearbeitung, abgeschlossen).
-
-    TODO: doppelt
+    Siehe @q_charakteristischen-Daten.
   ]
   #QaA[Sollen alle Daten auf einer einzelnen GUI sichtbar sein oder sollen sie weiter unterteilt werden? ][
     Die Hauptinformationen (Bezeichnung, Projekt, Termine, Status) werden in einer Übersicht angezeigt. Detaildaten (Baupläne, beteiligte Personen, Baumaschinen) werden über Tabs oder Detailansichten zugänglich gemacht.
@@ -606,7 +627,7 @@
         [Projekte], [Liste], [Liste aller Projekte],
         [Buchungen], [Liste], [Liste aller Buchungen],
       ))
-      TODO: genauer definieren
+      #ask[Ist der Terminplaner so in Ordnung] //TODO
     ]
     #QaA[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
       Als Kalenderansicht mit Monats- und Wochenansicht. Aufträge werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht des Auftrags.
@@ -678,7 +699,7 @@
   #QaA[Gibt es einen Unterschied zwischen "Baumaschine” und "Gerät”? Ist mit "Gerät” eigentlich ein "Werkzeug” gemeint? Oder ist "Gerät” ein allgemeiner Begriff für Baumaschinen/Werkzeuge? ][
     "Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System wird zwischen Baumaschinen und nicht-motorisierten Bauwerkzeugen unterschieden.
 
-    #ask[Was bedeutet "Gerät"?]
+    #ask[Was bedeutet "Gerät"?] //TODO
   ]
   #QaA[Nach welchen Kriterien soll gesucht werden (Filter, Textsuche, Eigenschaften)? ][
     Kombination aus Textsuche (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
@@ -759,7 +780,7 @@
   #QaA(labelName: "wesentlichen-Daten")[Was sind die "wesentlichen" Daten, nach denen gesucht werden soll?][
     Mitarbeiter, Gruppen, Aufträge, Projekte, Baumaschinen, Bauwerkzeuge, Lager, Buchungen und Anwesenheitszeiten.
 
-    TODO: Tabelle erstellen bzw. referenzieren?
+    Entnehme die oben genannten Entitäten aus den in @verwalteten-Objekte aufgelisteten zentralen Daten.
   ] 
   #QaA[Ist eine Sortierung nötig? ][
     Ja, die Suchergebnisse sollen nach verschiedenen Spalten sortierbar sein (aufsteigend/absteigend).
@@ -812,6 +833,8 @@
   ]
   #QaA[Sind alle Elemente gemeint oder sollen nur ausgewählte Elemente über Bilder verfügen? ][
     Primär Aufträge, Projekte, Baumaschinen und Bauwerkzeuge. Mitarbeiter und Gruppen können optional auch Bilder haben (z.B. Profilbilder).
+
+    Buchung, Anwesenheitszeit, Bild, Rechnung und Finanzbuchhaltungssystem können keine Bilder.
   ]
   #QaA[[INTERN] Welche Bildformate sollen, unterstützt werden können? ][
     Standard-Bildformate: JPG, PNG, GIF. Optional auch PDF für Dokumente.

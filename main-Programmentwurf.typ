@@ -31,14 +31,34 @@ TINF24B1
   // Other information about you and your project
   authors: (
     (
-      firstname: "",
-      lastname: "",
+      firstname: "Simon",
+      lastname: "Boschmann",
       identification_number: "",
     ),
     (
-      firstname: "",
-      lastname: "",
-      identification_number: "...",
+      firstname: "Justus",
+      lastname: "Koch",
+      identification_number: "",
+    ),
+    (
+      firstname: "Nico",
+      lastname: "Nöller",
+      identification_number: "",
+    ),
+    (
+      firstname: "Cynthia",
+      lastname: "Olesky",
+      identification_number: "",
+    ),
+    (
+      firstname: "Jamie",
+      lastname: "Paul",
+      identification_number: "",
+    ),
+    (
+      firstname: "Danylo",
+      lastname: "Polishchuk",
+      identification_number: "",
     ),
   ),
 

@@ -87,7 +87,7 @@ Abzuliefern sind hier jeweils mit Beschreibung:
 -	Die meisten GUI-Elemente sowie einzelne Tools werden über eine einfache kleine Ja-va-Bibliothek zur Verfügung gestellt (swe-utils), deren GUI-Komponenten in das Klas-sendiagramm zu integrieren sind, wo immer sie verwendet werden können.
 -	Die GUI-Modellierung kann in einem separaten Diagramm mit den relevanten (gewähl-ten bzw. benötigten) Modellklassen erfolgen, falls das Entwurfsklassendiagramm sonst zu komplex werden würde. 
 
-== Vereinfachungen für den Programmentwurf
+== Vereinfachungen für den Programmentwurf <chapter-Vereinfachungen>
 #enum(numbering: "a)",
 [Es muss nicht dafür gesorgt werden, dass auf dieselben Daten bzw. CSV-Dateien nicht gleichzeitig zugegriffen werden kann, d.h. es ist kein Locking-Mechanismus er-forderlich.],
 [Eine Protokollierfunktion und ein Login-Vorgang sind für die Anwendung nicht erforder-lich (in der Realität natürlich schon!).],
