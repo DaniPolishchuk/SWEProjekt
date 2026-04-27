@@ -137,11 +137,6 @@
 #QaA[Gibt es konkrete zeitliche Erwartungen oder einen gewünschten Projektfahrplan für die Einführung der neuen Verwaltungssoftware?][
   Die Analyse und der Entwurf sollen innerhalb des aktuellen Semesters abgeschlossen werden. Ein konkreter Produktionstermin ist nicht festgelegt.
 ]
-#QaA[Wie hoch ist das Budget für die neue Verwaltungssoftware und gibt es finanzielle Einschränkungen bei der Wahl der eingesetzten Technologien oder Lizenzen?][
-  Es sollen ausschließlich kostenfreie und quelloffene Technologien verwendet werden. Es stehen keine zusätzlichen Lizenzbudgets zur Verfügung.
-
-  #ask[Budget nötig?] //TODO
-]
 #QaA[Gibt es gesetzliche oder branchenspezifische Vorschriften (z.B. Datenschutz, Baurecht, Aufbewahrungsfristen), die bei der neuen Verwaltungssoftware zwingend berücksichtigt werden müssen?][
   Ja, alle Auftragsdaten müssen gemäß gesetzlicher Aufbewahrungsfristen mindestens 10 Jahre verfügbar bleiben. Personenbezogene Mitarbeiterdaten unterliegen den Datenschutzbestimmungen (DSGVO).
 ]
@@ -151,8 +146,14 @@
     columns: 3,
     [*Attribut*], [*Datentyp*], [*Beschreibung*],
     [Fahrzeugnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-    [Fahrzeugtyp], [Text], [Bagger, Kran, LKW, etc.],
+    [Bezeichnung], [Text], [Name oder Modell des Fahrzeugs],
+    [Kategorie], [Text], [z.B. LKW, PKW, Transporter, etc.],
+    [Seriennummer], [Text], [Herstellerseriennummer],
+    [Lager], [Referenz], [Referenz auf aktuwllws Lager],
     [Standort], [Text], [Aktueller Standort oder Lagerort],
+    [Anschaffungsdatum], [Datum], [Datum der Anschaffung],
+    [Letzte Wartung], [Datum], [Datum der letzten Wartung],
+    [Nächster Wartungstermin], [Datum], [Datum der nächsten geplanten Wartung],
   ))
   #entityFigure("Rechnung", table(
     columns: 3,
@@ -160,7 +161,8 @@
     [Rechnungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Auftrag], [Referenz], [Referenz auf zugehörigen Auftrag],
     [Betrag], [Dezimalzahl], [Rechnungsbetrag],
-
+    [Fälligkeitsdatum], [Datum], [Fälligkeitsdatum der Rechnung],
+    [Status], [Text], [Offen, bezahlt, überfällig],
   ))
 ]
 
@@ -424,9 +426,7 @@
   Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
 ]
 #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
-  Nein, ein Arbeitsauftrag gehört immer zu genau einem Projekt.
-
-  #ask[Gehört ein Arbeitsauftrag immer zu einem Projekt] //TODO
+  Ja, ein Arbeitsauftrag kann aus mehreren Projekten bestehen, wenn er z.B. in mehrere kleinere Projekte aufgeteilt wird. Die Zuordnung erfolgt n:m.
 ]
 #QaA[Soll es Projekte ohne Aufträge geben können? ][
   Ja, ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren. Aufträge werden dann später hinzugefügt.
@@ -497,7 +497,6 @@
       [Projekt], [@e_Projekt],
       [Bauplan], [wird als Text (Pfad auf Dateien im Dateisystem) modelliert @chapter-Vereinfachungen],
       [Ausrüstung], [@e_Ausrüstung],
-      [Gerät], [?],
       [Baumaschine], [@e_Baumaschine],
       [Bauwerkzeug], [?],
       [Großwerkzeug], [?],
@@ -697,9 +696,7 @@
     ))
   ]
   #QaA[Gibt es einen Unterschied zwischen "Baumaschine” und "Gerät”? Ist mit "Gerät” eigentlich ein "Werkzeug” gemeint? Oder ist "Gerät” ein allgemeiner Begriff für Baumaschinen/Werkzeuge? ][
-    "Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System wird zwischen Baumaschinen und nicht-motorisierten Bauwerkzeugen unterschieden.
-
-    #ask[Was bedeutet "Gerät"?] //TODO
+    "Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System findet eine Unterscheidung statt.
   ]
   #QaA[Nach welchen Kriterien soll gesucht werden (Filter, Textsuche, Eigenschaften)? ][
     Kombination aus Textsuche (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
