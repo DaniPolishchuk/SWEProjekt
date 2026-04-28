@@ -68,3 +68,5 @@ TINF24B1
 #include "Kapitel_Original.typ"
 
 #include "Kapitel_Edit.typ"
+
+#include "chapter/3.1_UseCase-Diagramm.typ"
