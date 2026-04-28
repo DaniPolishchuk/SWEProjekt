@@ -36,7 +36,7 @@
 }
 
 #let tableGrid(cells) = {
-  show table.cell: it => {
+  show table.cell.where(y: 0): it => {
     text(fill: black, weight: "regular", it)
   }
   table(..cells, fill: white, columns: 2, stroke: none,
