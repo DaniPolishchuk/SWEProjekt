@@ -141,20 +141,10 @@
   Ja, alle Auftragsdaten müssen gemäß gesetzlicher Aufbewahrungsfristen mindestens 10 Jahre verfügbar bleiben. Personenbezogene Mitarbeiterdaten unterliegen den Datenschutzbestimmungen (DSGVO).
 ]
 
-#QaA[Welche Eigenschaften müssen Fahrzeuge und Rechnungen im System haben?][
-  #entityFigure("Fahrzeug", table(
-    columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
-    [Fahrzeugnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-    [Bezeichnung], [Text], [Name oder Modell des Fahrzeugs],
-    [Kategorie], [Text], [z.B. LKW, PKW, Transporter, etc.],
-    [Seriennummer], [Text], [Herstellerseriennummer],
-    [Lager], [Referenz], [Referenz auf aktuwllws Lager],
-    [Standort], [Text], [Aktueller Standort oder Lagerort],
-    [Anschaffungsdatum], [Datum], [Datum der Anschaffung],
-    [Letzte Wartung], [Datum], [Datum der letzten Wartung],
-    [Nächster Wartungstermin], [Datum], [Datum der nächsten geplanten Wartung],
-  ))
+#QaA(labelName: "Eigenschaften-Fahrzeuge")[Welche Eigenschaften müssen Fahrzeuge im System haben?][
+  Fahrzeuge werden im System als "Baumaschinen" bezeichnet.]
+#QaA[Welche Eigenschaften müssen Rechnungen im System haben?][
+  Rechnungen umfassen folgende Attribute:
   #entityFigure("Rechnung", table(
     columns: 3,
     [*Attribut*], [*Datentyp*], [*Beschreibung*],
@@ -304,7 +294,7 @@
     [Beschäftigungsart], [Text], [Vollzeit oder Teilzeit],
     [Vertragsbeginn], [Datum], [Beginn des Arbeitsverhältnisses],
     [Vertragsende], [Datum], [Ende des Arbeitsverhältnisses (optional)],
-    [Rolle], [Text], [Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter, Administrator],
+    [Rolle], [Referenz], [Referenz auf Rolle],
   ))
 
   Eine Adresse umfasst folgende Attribute (wird von Mitarbeitern, Lagern, Unterauftragnehmern referenziert):
@@ -394,7 +384,7 @@
     [Projektnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Projektname], [Text], [Bezeichnung des Projekts],
     [Projektleiter], [Referenz], [Referenz auf Mitarbeiter (Projektleiter)],
-    [Einsatzort], [Text], [Adresse der Baustelle],
+    [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
     [Starttermin], [Datum], [Geplanter Projektbeginn],
     [Endtermin], [Datum], [Geplantes Projektende],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
@@ -410,20 +400,22 @@
     [Auftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Auftragsbezeichnung], [Text], [Kurzbeschreibung des Auftrags],
     [Projekt], [Referenz], [Referenz auf zugehöriges Projekt],
-    [Baupläne], [Text], [Dateipfad zu Bauplänen (PDF-Dateien)],
-    [Einsatzort], [Text], [Adresse der Baustelle],
+    [Bauplan], [Text], [Dateipfad zu Bauplänen (PDF-Dateien)],
+    [Person], [Referenzen], [Liste der beteiligten Personen],
+    [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
     [Starttermin], [Datum], [Auftragsbeginn],
     [Endtermin], [Datum], [Geplantes Auftragsende],
-    [Zwischentermine], [Referenz], [Liste von Zwischenterminen (0 bis viele)],
+    [Zwischentermin], [Referenzen], [Liste von Zwischenterminen (0 bis viele)],
     [Kostenvoranschlag], [Dezimalzahl], [Geschätzter Betrag (aus Finanzsystem lesend)],
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
   ))
 
-  #ask[Wie sollen die beteiligten Personen referenziert werden? (extra Tabelle)] //TODO
+  //INFO: lieber keine Gruppen referenzieren, da z.V. die verantwortlichen Personen fett sein sollen oder zusätzliche Referenzen
 ]
 #QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
   Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
+  //TODO: mit Frage 53 abgleichen -> aus was besteht was
 ]
 #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
   Ja, ein Arbeitsauftrag kann aus mehreren Projekten bestehen, wenn er z.B. in mehrere kleinere Projekte aufgeteilt wird. Die Zuordnung erfolgt n:m.
@@ -493,15 +485,13 @@
       [Adresse], [@e_Adresse],
       [Arbeitsauftrag], [@e_Arbeitsauftrag],
       [Unterauftrag], [@e_Unterauftrag],
-      [Unterauftragnehmer], [@e_Unterauftragsnehmer],
+      [Unterauftragnehmer], [@e_Unterauftragnehmer],
       [Projekt], [@e_Projekt],
       [Bauplan], [wird als Text (Pfad auf Dateien im Dateisystem) modelliert @chapter-Vereinfachungen],
       [Ausrüstung], [@e_Ausrüstung],
-      [Baumaschine], [@e_Baumaschine],
-      [Bauwerkzeug], [?],
-      [Großwerkzeug], [?],
-      [Fahrzeug], [@e_Fahrzeug],
+      [Gerät], [@e_Gerät],
       [Lager], [@e_Lager],
+      [Termin], [@e_Termin],
       [Buchung], [@e_Buchung],
       [Anwesenheitszeit], [@e_Anwesenheitszeit],
       [Bild], [@e_Bild],
@@ -593,7 +583,7 @@
         [*Attribut*], [*Datentyp*], [*Beschreibung*],
         [Unterauftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
         [Bezeichnung], [Text], [Kurzbeschreibung des Unterauftrags],
-        [Auftrag], [Referenz], [Referenz auf den Auftrag],
+        [Arbeitsauftrag], [Referenz], [Referenz auf den Arbeitsauftrag],
         [Unterauftragnehmer], [Referenz], [Referenz auf externen Unterauftragnehmer],
         [Starttermin], [Datum], [Beginn des Unterauftrags],
         [Endtermin], [Datum], [Ende des Unterauftrags],
@@ -604,7 +594,7 @@
 
       Ein Unterauftragnehmer umfasst folgende Attribute:
 
-      #entityFigure("Unterauftragsnehmer", table(
+      #entityFigure("Unterauftragnehmer", table(
         columns: 3,
         [*Attribut*], [*Datentyp*], [*Beschreibung*],
         [Unterauftragnehmer-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -618,15 +608,15 @@
     ]
     #QaA[Welche Funktionalitäten soll der Terminplaner konkret bieten? ][
       Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter).
-      Ein Terminplaner umfasst folgende Attribute:
-      #entityFigure("Terminplaner", table(
+
+      Der Terminplan verweist dabei auf einen oder mehrere Termine, wobei diese folgende Attribute umfassen:
+      #entityFigure("Termin", table(
         columns: 3,
         [*Attribut*], [*Datentyp*], [*Beschreibung*],
-        [Aufträge], [Liste], [Liste aller Aufträge],
-        [Projekte], [Liste], [Liste aller Projekte],
-        [Buchungen], [Liste], [Liste aller Buchungen],
-      ))
-      #ask[Ist der Terminplaner so in Ordnung] //TODO
+        [Arbeitsauftrag], [Referenzen], [Liste aller Arbeitsaufträge],
+        [Projekt], [Referenzen], [Liste aller Projekte],
+        [Buchung], [Referenzen], [Liste aller Buchungen],
+      )) //INFO: Termin nötig => Termin verweist jeweils => Überschrfift => Termin
     ]
     #QaA[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
       Als Kalenderansicht mit Monats- und Wochenansicht. Aufträge werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht des Auftrags.
@@ -643,21 +633,21 @@
   Damit Baumaschinen und Geräte planbar zur Verfügung stehen, müssen sie über das System gebucht werden. Die Buchung kann direkt beim Anlegen eines Auftrags geschehen oder auch später bei Bedarf. \
   Alle Baumaschinen und -werkzeuge sind einzelnen Lagern zugeordnet (Plätze und/oder Gebäude auf mehreren Grundstücken). Der momentane Standort muss zur Optimierung der Projektabläufe aktualisiert werden können. \
   Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können ("welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?").
-  #QaA[Sollen die Arten von Baumaschinen/ -Werkzeuge/ Ausrüstung fest vorgegeben oder dynamisch vom Benutzer änderbar sein?][
-    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut in einer gemeinsamen Geräteklasse.
+  #QaA[Sollen die Arten von Baumaschinen, Bauwerkzeugen und Ausrüstung fest vorgegeben oder dynamisch vom Benutzer änderbar sein?][
+    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut..
   ]
-  #QaA[Welche Daten sind relevant für die Verwaltung einer Baumaschine/ eines Bauwerkzeugs? ][
-    Eine Baumaschine bzw. ein Bauwerkzeug umfasst folgende Attribute:
 
-    #entityFigure("Baumaschine", table(
+  #QaA(labelName: "Oberbegriff-Gerät")[Gibt es einen Unterschied zwischen "Baumaschine”, "Bauwerkzeug" und "Gerät” bzw. ist "Gerät” ein allgemeiner Begriff für Baumaschinen und Bauwerkzeuge?][
+    Ja, Gerät wird als Oberbegriff für Baumaschinen und Bauwerkzeuge verwendet, wobei es sich bei Baumaschinen um Fahrzeuge handelt #referenceQ("q_Eigenschaften-Fahrzeuge"). Die Unterscheidung findet im Attribut "Typ" statt. Ein Gerät umfasst folgende Attribute:
+     #entityFigure("Gerät", table(
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Gerätenummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Bezeichnung], [Text], [Name des Geräts (z.B. "Bagger CAT 320")],
+      [Typ], [Text], [Baumaschine oder Bauwerkzeug],
       [Kategorie], [Text], [Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung],
-      [Typ], [Text], [Baumaschine (motorisiert) oder Bauwerkzeug (nicht motorisiert)],
       [Seriennummer], [Text], [Herstellerseriennummer],
-      [Lager], [Referenz], [Referenz auf aktuelles Lager],
+      [Lager], [Referenz], [Referenz auf das Lager],
       [Standort], [Text], [Aktueller Standort (falls nicht im Lager)],
       [Status], [Text], [Verfügbar, gebucht, in Wartung, defekt],
       [Anschaffungsdatum], [Datum], [Datum der Anschaffung],
@@ -667,17 +657,18 @@
 
     Die Benutzungszeiträume werden über Buchungen ermittelt.
   ]
-  #QaA[Gibt es Unterschiede in der Definition/ den Eigenschaften der Baugeräte (groß, klein, Kategorie)? ][
-    Nein, im System werden alle Baugeräte (Baumaschinen und Bauwerkzeuge) über eine gemeinsame Geräteklasse mit einem Kategorieattribut verwaltet.
+
+  #QaA[Gibt es Unterschiede in der Definition/ den Eigenschaften der Geräte (groß, klein, Kategorie)? ][
+    Nein, im System werden alle Baumaschinen und Bauwerkzeuge über den Oberbegriff "Gerät" mit einem Typ- und Kategorieattribut verwaltet.
   ]
-  #QaA[[INTERN] Sollen die Bauwerkzeuge generisch verwaltet werden?  ][
+  #QaA[[INTERN] Sollen die Bauwerkzeuge generisch verwaltet werden?][
     Ja, Baumaschinen und Bauwerkzeuge werden über eine gemeinsame Basisklasse generisch verwaltet. Spezifische Eigenschaften können über Attribute oder eine Vererbungshierarchie abgebildet werden.
   ]
-  #QaA[Falls die Arten von Baumaschinen/ -Werkzeuge/ Ausrüstung fest vorgegeben sind (z.B. durch Klassen): Welche Arten sollen jeweils konkret existieren? ][
+  #QaA[Falls die Arten von Baumaschinen/-werkzeuge fest vorgegeben sind (z.B. durch Klassen): Welche Arten sollen jeweils konkret existieren?][
     Es gibt vordefinierte Standardkategorien: Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung. Der Administrator kann bei Bedarf weitere Kategorien hinzufügen.
   ]
-  #QaA[Sollen Bauwerkzeuge und Baumaschinen zusammen verwaltet werden? ][
-    Ja, beide werden über die gleiche Verwaltungsoberfläche verwaltet. Die Unterscheidung erfolgt über ein Kategorieattribut (Maschine vs. Werkzeug).
+  #QaA[Sollen Bauwerkzeuge und Baumaschinen zusammen verwaltet werden?][
+    Ja, beide werden über die gleiche Verwaltungsoberfläche verwaltet. Die Unterscheidung erfolgt über ein Typattribut.
   ]
   #QaA[Soll die Ausrüstung für Baumaschinen und Bauwerkzeuge einzeln verwaltet werden oder soll die Ausrüstung ausschließlich über die Suche nach den Geräten verwaltet werden? ][
     Die Ausrüstung (z.B. Baggerschaufel, Kranzubehör) wird als separate Entität verwaltet und kann Baumaschinen zugeordnet werden. Über die Suche kann nach Baumaschinen mit bestimmter Ausrüstung gefiltert werden.
@@ -695,9 +686,6 @@
       [Status], [Text], [Verfügbar, zugeordnet, in Wartung, defekt],
     ))
   ]
-  #QaA[Gibt es einen Unterschied zwischen "Baumaschine” und "Gerät”? Ist mit "Gerät” eigentlich ein "Werkzeug” gemeint? Oder ist "Gerät” ein allgemeiner Begriff für Baumaschinen/Werkzeuge? ][
-    "Gerät” ist der Oberbegriff für sowohl Baumaschinen als auch Bauwerkzeuge. Im System findet eine Unterscheidung statt.
-  ]
   #QaA[Nach welchen Kriterien soll gesucht werden (Filter, Textsuche, Eigenschaften)? ][
     Kombination aus Textsuche (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
   ]
@@ -713,7 +701,7 @@
       columns: 3,
       [*Attribut*], [*Datentyp*], [*Beschreibung*],
       [Buchungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-      [Gerät], [Referenz], [Referenz auf Baumaschine/Bauwerkzeug],
+      [Gerät], [Referenzen], [Liste der Geräte],
       [Auftrag], [Referenz], [Referenz auf Arbeitsauftrag],
       [Startdatum], [Datum], [Beginn der Buchung],
       [Enddatum], [Datum], [Ende der Buchung],
