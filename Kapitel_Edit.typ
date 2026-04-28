@@ -4,6 +4,9 @@
 #show: codly-init.with()
 #let entityTable = "entityTable"
 #let qa-counter = counter("qa-counter")
+#let basicStroke = (0.5pt + gray)
+#let basicForeGround = arguments(weight: "bold", fill: white)
+#let answerColor = green
 
 //own functions
 #let QaA(question, answer, labelName: "") = {
@@ -22,7 +25,7 @@
         inset: (left: 1em),
         align(left)[
           #text(fill: orange, weight: "bold")[F#str(n). #question] \
-          #text(fill: green)[#answer]
+          #text(fill: answerColor)[#answer]
         ]
       ),
       kind: "qa",
@@ -33,7 +36,10 @@
 }
 
 #let tableGrid(cells) = {
-  table(..cells, columns: 2, stroke: none,
+  show table.cell: it => {
+    text(fill: black, weight: "regular", it)
+  }
+  table(..cells, fill: white, columns: 2, stroke: none,
     inset: (right: 0.5em),
   )
 }
@@ -52,8 +58,16 @@
 }
   
 //figure for entity tables
-#let entityFigure(entityName, body) = {
-  [#figure(kind: entityTable, supplement: "Entität", caption: entityName, body) #label("e_" + entityName)]
+#let entityFigure(entityName, cells) = {
+  [#figure(kind: entityTable, supplement: "Entität", caption: entityName, table(
+    fill: (x, y) => if y == 0 { rgb("#9b9b9b") 
+    } else if y == 1 {
+      rgb("#b7b7b7") 
+    },
+    columns: 3,
+    table.cell(colspan: 3, text(..basicForeGround)[*Entität: #entityName*]),
+    table.cell(text(..basicForeGround)[*Attribut*]), table.cell(text(..basicForeGround)[*Datentyp*]), table.cell(text(..basicForeGround)[*Beschreibung*]),
+     ..cells, align: left)) #label("e_" + entityName)]
 }
 
 //figure for text (special for goals (LL, LD, ...))
@@ -84,6 +98,16 @@
 
 #show figure.where(kind: "qa"): it => align(
   left, it.body
+)
+
+#show table.cell.where(y: 0): set text(..basicForeGround)
+
+
+#set table(
+  fill: (x, y) => if y == 0 { rgb("#959595") } else if calc.even(y) { gray.lighten(90%) },
+  stroke: basicStroke,
+  align: left,
+  inset: 8pt,
 )
 
 = Analyse des Lastenhefts
@@ -145,9 +169,7 @@
   Fahrzeuge werden im System als "Baumaschinen" bezeichnet.]
 #QaA[Welche Eigenschaften müssen Rechnungen im System haben?][
   Rechnungen umfassen folgende Attribute:
-  #entityFigure("Rechnung", table(
-    columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  #entityFigure("Rechnung", arguments(
     [Rechnungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Auftrag], [Referenz], [Referenz auf zugehörigen Auftrag],
     [Betrag], [Dezimalzahl], [Rechnungsbetrag],
@@ -271,18 +293,16 @@
 #QaA[Welche Rollen soll es geben?][
   Administrator, Verwaltungsmitarbeiter, Projektleiter, Bauleiter, Vorarbeiter und Mitarbeiter.
   Eine Rolle umfasst folgende Attribute:
-  #entityFigure("Rolle", table(columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  #entityFigure("Rolle", arguments(
     [Rollennummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Name], [Text], [Name der Rolle],
   ))
 ]
+
 #QaA(labelName: "Attribute-Mitarbeiter")[Welche Attribute soll ein Mitarbeiter haben?][
   Ein Mitarbeiter umfasst folgende Attribute:
 
-  #entityFigure("Mitarbeiter", table(
-    columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  #entityFigure("Mitarbeiter", arguments(
     [Mitarbeiternummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Vorname], [Text], [Vorname des Mitarbeiters],
     [Nachname], [Text], [Nachname des Mitarbeiters],
@@ -296,12 +316,12 @@
     [Vertragsende], [Datum], [Ende des Arbeitsverhältnisses (optional)],
     [Rolle], [Referenz], [Referenz auf Rolle],
   ))
-
+]
+//TODO gehört zur oberen Frage
+#[#set text(fill: answerColor)
   Eine Adresse umfasst folgende Attribute (wird von Mitarbeitern, Lagern, Unterauftragnehmern referenziert):
 
-  #entityFigure("Adresse", table(
-    columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  #entityFigure("Adresse", arguments(
     [Straße], [Text], [Straßenname],
     [Hausnummer], [Text], [Hausnummer],
     [PLZ], [Text], [Postleitzahl],
@@ -311,6 +331,7 @@
 
   Intern: Die Datentypen "Text" und "Ganzzahl" entsprechen in Java String und int bzw. Integer. "Referenz" bedeutet eine Objektreferenz bzw. Fremdschlüssel in der Datenbank.
 ]
+
 #QaA[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
   Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig. Es gibt keine dedizierten Datenbankadministratoren - diese Aufgabe übernimmt der Administrator. Hinweis zur Begriffstrennung: "Verwaltungsmitarbeiter" ist sowohl eine Position (Mitarbeitertyp) als auch eine Benutzerrolle (Zugriffskontrolle). Diese Mitarbeiter werden der Gruppe "Verwaltung" zugeordnet.
 ]
@@ -378,9 +399,7 @@
 #QaA[Welche charakteristischen Daten sollen Projekte verwalten? ][
   Ein Projekt umfasst folgende Attribute:
 
-  #entityFigure("Projekt", table(
-    columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  #entityFigure("Projekt", arguments(
     [Projektnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Projektname], [Text], [Bezeichnung des Projekts],
     [Projektleiter], [Referenz], [Referenz auf Mitarbeiter (Projektleiter)],
@@ -394,9 +413,7 @@
 #QaA(labelName: "charakteristischen-Daten")[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
   Ein Arbeitsauftrag umfasst folgende Attribute:
 
-  #entityFigure("Arbeitsauftrag", table(
-    columns: 3,
-    [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  #entityFigure("Arbeitsauftrag", arguments(
     [Auftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Auftragsbezeichnung], [Text], [Kurzbeschreibung des Auftrags],
     [Projekt], [Referenz], [Referenz auf zugehöriges Projekt],
@@ -478,7 +495,7 @@
   #QaA[Welche charakteristischen Daten sollen verwaltet werden? ][
     Folgende charakteristischen Daten sollen verwaltet werden:
     #figure(table(columns: 2, align: left,
-      [*Daten*], [*Verweis zur Definition*],
+      text(..basicForeGround)[*Daten*], text(..basicForeGround)[*Verweis zur Definition*],
       [Mitarbeiter], [@e_Mitarbeiter],
       [Rolle], [@e_Rolle],
       [Gruppe], [@e_Gruppe],
@@ -497,8 +514,7 @@
       [Bild], [@e_Bild],
       [Rechnung], [@e_Rechnung],
 
-    )) <verwalteten-Objekte>
-    TODO: vervollständigen
+    ), caption: "Übersicht der Entitäten") <verwalteten-Objekte>
   ]
   #QaA[Was soll eine übersichtliche Verwaltung bedeuten? Welche Kriterien soll die Benutzeroberfläche erfüllen?][
     Klare Struktur mit maximal drei Klicks bis zur gewünschten Information, große Schaltflächen, verständliche Beschriftungen ohne technische Fachbegriffe, Hauptfunktionen über zentrale Übersichtsseite erreichbar.
@@ -535,9 +551,7 @@
 
     Eine Gruppe umfasst folgende Attribute:
 
-    #entityFigure("Gruppe", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    #entityFigure("Gruppe", arguments(
       [Gruppennummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Gruppenname], [Text], [Name der Gruppe (z.B. "Baugruppe Süd", "Verwaltung")],
       [Gruppentyp], [Text], [Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe],
@@ -578,9 +592,7 @@
     #QaA[Welche charakteristischen Daten enthält ein Unterauftrag? ][
       Ein Unterauftrag umfasst folgende Attribute:
 
-      #entityFigure("Unterauftrag", table(
-        columns: 3,
-        [*Attribut*], [*Datentyp*], [*Beschreibung*],
+      #entityFigure("Unterauftrag", arguments(
         [Unterauftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
         [Bezeichnung], [Text], [Kurzbeschreibung des Unterauftrags],
         [Arbeitsauftrag], [Referenz], [Referenz auf den Arbeitsauftrag],
@@ -592,11 +604,12 @@
         [Bemerkung], [Text], [Zusätzliche Hinweise],
       ))
 
+    ]
+
+    #[#set text(fill: answerColor)
       Ein Unterauftragnehmer umfasst folgende Attribute:
 
-      #entityFigure("Unterauftragnehmer", table(
-        columns: 3,
-        [*Attribut*], [*Datentyp*], [*Beschreibung*],
+      #entityFigure("Unterauftragnehmer", arguments(
         [Unterauftragnehmer-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
         [Firmenname], [Text], [Name der Firma],
         [Ansprechperson], [Text], [Vor- und Nachname],
@@ -606,13 +619,12 @@
         [Fachbereich], [Text], [z.B. Elektroinstallation, Sanitär, Heizung],
       ))
     ]
+
     #QaA[Welche Funktionalitäten soll der Terminplaner konkret bieten? ][
       Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter).
 
       Der Terminplan verweist dabei auf einen oder mehrere Termine, wobei diese folgende Attribute umfassen:
-      #entityFigure("Termin", table(
-        columns: 3,
-        [*Attribut*], [*Datentyp*], [*Beschreibung*],
+      #entityFigure("Termin", arguments(
         [Arbeitsauftrag], [Referenzen], [Liste aller Arbeitsaufträge],
         [Projekt], [Referenzen], [Liste aller Projekte],
         [Buchung], [Referenzen], [Liste aller Buchungen],
@@ -639,9 +651,10 @@
 
   #QaA(labelName: "Oberbegriff-Gerät")[Gibt es einen Unterschied zwischen "Baumaschine”, "Bauwerkzeug" und "Gerät” bzw. ist "Gerät” ein allgemeiner Begriff für Baumaschinen und Bauwerkzeuge?][
     Ja, Gerät wird als Oberbegriff für Baumaschinen und Bauwerkzeuge verwendet, wobei es sich bei Baumaschinen um Fahrzeuge handelt #referenceQ("q_Eigenschaften-Fahrzeuge"). Die Unterscheidung findet im Attribut "Typ" statt. Ein Gerät umfasst folgende Attribute:
-     #entityFigure("Gerät", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+  ]
+
+  #[#set text(fill: answerColor)
+       #entityFigure("Gerät", arguments(
       [Gerätenummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Bezeichnung], [Text], [Name des Geräts (z.B. "Bagger CAT 320")],
       [Typ], [Text], [Baumaschine oder Bauwerkzeug],
@@ -675,9 +688,7 @@
 
     Eine Ausrüstung umfasst folgende Attribute:
 
-    #entityFigure("Ausrüstung", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    #entityFigure("Ausrüstung", arguments(
       [Ausrüstungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Bezeichnung], [Text], [Name der Ausrüstung (z.B. "Baggerschaufel 1,5m")],
       [Typ], [Text], [Baggerschaufel, Kranzubehör (Behälter, Gewichte, Haken), Anbaugeräte],
@@ -697,9 +708,7 @@
 
     Eine Buchung umfasst folgende Attribute:
 
-    #entityFigure("Buchung", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    #entityFigure("Buchung", arguments(
       [Buchungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Gerät], [Referenzen], [Liste der Geräte],
       [Auftrag], [Referenz], [Referenz auf Arbeitsauftrag],
@@ -728,9 +737,7 @@
   #QaA[Was sollen die charakteristischen Eigenschaften eines Lagers sein? ][
     Ein Lager umfasst folgende Attribute:
 
-    #entityFigure("Lager", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    #entityFigure("Lager", arguments(
       [Lagernummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Lagerbezeichnung], [Text], [Name des Lagers (z.B. "Lager Nord", "Hauptlager")],
       [Typ], [Text], [Platz (Außengelände) oder Gebäude (Lagerhalle)],
@@ -836,9 +843,7 @@
   #QaA[[INTERN] Welche Informationen sollen in den Bildern enthalten sein (Metadaten)? ][
     Ein Bild umfasst folgende Attribute:
 
-    #entityFigure("Bild", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    #entityFigure("Bild", arguments(
       [Bild-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Titel], [Text], [Vom Benutzer vergebener Titel],
       [Dateipfad], [Text], [Pfad zur Bilddatei im Verzeichnis],
@@ -875,9 +880,7 @@
   #QaA[Welche charakteristischen Merkmale sollen die Anwesenheitszeiten enthalten (z.B. Uhrzeit, Dauer, Grund für Abwesenheit, ...)? ][
     Eine Anwesenheitszeit umfasst folgende Attribute:
 
-    #entityFigure("Anwesenheitszeit", table(
-      columns: 3,
-      [*Attribut*], [*Datentyp*], [*Beschreibung*],
+    #entityFigure("Anwesenheitszeit", arguments(
       [Anwesenheits-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Mitarbeiter], [Referenz], [Referenz auf Mitarbeiter],
       [Datum], [Datum], [Arbeitstag],
@@ -978,6 +981,8 @@
   ]
   ],
 ))
+
+#pagebreak()
  
 == Qualitätsanforderung
 #include "chapter/original/2.8_Qualitätsanforderung.typ"
