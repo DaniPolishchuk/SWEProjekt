@@ -1,42 +1,52 @@
 = Use-Case-Diagramm
 
-Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktionalität der gesamten Verwaltungsanwendung für das Bauunternehmen untersucht und verdeutlicht. Zunächst wird ein allgemeines Use-Case-Diagramm erstellt, welches die Hauptfunktionalitäten der Anwendung abbildet. Hierbei wird ein funktionsorientierter Ansatz verfolgt, sodass differenziert auf die einzelnen Funktionalitäten eingegangen werden kann. Beispielhaft wird für ausgewählte Use-Cases eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens komplexerer Entitäten näher darzustellen. Die Darstellung orientiert sich an den im Lastenheft definierten Produktfunktionen (LF10-LF100) und berücksichtigt die unterschiedlichen Benutzerrollen mit ihren jeweiligen Zugriffsrechten.
+Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktionalität der gesamten Verwaltungsanwendung für das Bauunternehmen untersucht und verdeutlicht. Zunächst wird ein allgemeines Use-Case-Diagramm erstellt, welches die Hauptfunktionalitäten der Anwendung abbildet. Hierbei wird ein funktionsorientierter Ansatz verfolgt, sodass differenziert auf die einzelnen Funktionalitäten eingegangen werden kann. Beispielhaft wird für ausgewählte Use-Cases eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens komplexerer Entitäten näher darzustellen. Beispielhaft wurde für einen Use-Case eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens der Geräte näher darzustellen.
 
 == Rollen-Erläuterung der Anwendung
 
-Das Diagramm wird aus sieben Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie im Lastenheft (Sektion 2.3) definiert wurden. Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren definiert, während spezialisierte Rollen diese Funktionen erben und um weitere Fähigkeiten erweitern. Diese Modellierung ermöglicht eine klare Darstellung der Rechtehierarchie im System.
+Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie in @chapter-Zielgruppen-Rollen definiert wurden. Lediglich das Finanzbuchhaltungssystem ist keine wie in @chapter-Zielgruppen-Rollen beschriebene klassische Benutzerrolle, sondern ein externes System, welches über eine unidirektionale Schnittstelle mit der Verwaltungssoftware verbunden ist.
+Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
-=== Benutzer
+=== Mitarbeiter
 
-Hierbei handelt es sich um eine abstrakte Basisrolle, die Grundlage aller Akteure innerhalb der Anwendung ist. Dies ist allerdings eine fiktive Rolle, die den Anforderungen des Lastenheftes entsprechend keinem Endnutzer direkt zugewiesen wird. Diese Rolle wurde eingeführt, um die Gemeinsamkeiten der anderen Rollen durch Generalisierungen der Akteure deutlicher darzustellen. Jeder Benutzer verfügt über die grundlegende Fähigkeit, nach Daten zu suchen und die GUI für seinen Arbeitsplatz zu konfigurieren (LF10). Die Suchfunktionen sind dabei rollenbasiert eingeschränkt, sodass jeder Benutzer nur auf die für ihn relevanten Daten zugreifen kann (LF60).
+Der Mitarbeiter stellt die grundlegende Basisrolle innerhalb der Anwendung dar. Diese Rolle fasst allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
 
-=== Mitarbeiter (Bauarbeiter)
+Diese Rolle hat minimale Systemrechte und dient primär der Selbstauskunft. Jeder Mitarbeiter kann seine eigenen Anwesenheitszeiten einsehen und zusätzlich grundlegende Daten abrufen. Die Rolle verfügt über keine Bearbeitungsrechte und keinen Zugriff auf Verwaltungsfunktionen.
 
-Der Mitarbeiter repräsentiert die Bauarbeiter des Unternehmens, die auf den Baustellen tätig sind. Dies umfasst sowohl gelernte als auch ungelernte Bauarbeiter und macht den größten Teil der Belegschaft aus (ca. 170 von 200 Mitarbeitern). Diese Rolle hat minimale Systemrechte und dient primär der Selbstauskunft. Jeder Mitarbeiter kann seine eigenen Anwesenheitszeiten einsehen (LF90), die über Stempelkarten automatisch erfasst werden. Zusätzlich kann er grundlegende Informationen zu seinen zugeordneten Arbeitsaufträgen abrufen, sofern diese für seine tägliche Arbeit relevant sind. Die Rolle verfügt über keine Bearbeitungsrechte und keinen Zugriff auf Verwaltungsfunktionen.
-
-=== Vorarbeiter
-
-Der Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf detaillierte Informationen zu seinen eigenen Arbeitsaufträgen. Er leitet Arbeitsgruppen auf Baustellen und benötigt daher umfassende Einsicht in die ihm zugeordneten Aufträge. Dies umfasst die Auftragsbezeichnung, den Einsatzort, Start-, End- und Zwischentermine, beteiligte Personen und Gruppen, zugeordnete Baumaschinen und Werkzeuge sowie die Baupläne (als PDF-Dateien) (LF30, LF40). Der Vorarbeiter kann sowohl aktuelle als auch zukünftige Arbeitsaufträge einsehen sowie vergangene abgeschlossene Aufträge. Der Zugriff erfolgt über dedizierte PCs in den Planungsräumen. Im Rahmen des späteren Tablet-Projekts ist auch ein mobiler Zugriff mit Offline-Synchronisation vorgesehen. Die Rolle verfügt über keine Schreibrechte und kann keine neuen Aufträge anlegen oder bestehende bearbeiten.
-
-=== Bauleitung
-
-Die Bauleitung ist ein Basisakteur für Projektleiter und Bauleiter und fasst deren gemeinsame Funktionalitäten zusammen. Diese Rolle hat Vollzugriff auf alle projektbezogenen Daten, nicht nur auf die eigenen Projekte. Dies ermöglicht flexible Projektzusammenarbeit und Vertretungsregelungen. Die Bauleitung kann Projekte und Arbeitsaufträge anlegen, bearbeiten und löschen (LF30, LF40). Sie verwaltet Unteraufträge und ordnet externe Unterauftragnehmer zu. Mitarbeiter und Gruppen werden Projekten und Aufträgen zugeordnet. Die Bauleitung bucht Baumaschinen und Werkzeuge, wobei das System die Verfügbarkeit prüft (LF50). Der Terminplaner wird zur Koordination von Projekten, Aufträgen und Ressourcen genutzt (LF40). Bilder können zu Projekten, Aufträgen und Baumaschinen hochgeladen werden (LF80), und Baupläne werden als Dateipfade verlinkt. Kostenvoranschläge aus dem Finanzbuchhaltungssystem können lesend eingesehen werden. Die Rolle erbt alle Grundfunktionen des Benutzers, insbesondere Such- und Filterfunktionen für projektbezogene Daten.
-
-=== Projektleiter
-
-Der Projektleiter ist ein Bauingenieur in leitender Position und erbt alle Funktionalitäten der Bauleitung. Er trägt die Gesamtverantwortung für Projekte von der Planung bis zum Abschluss. Der Projektleiter arbeitet primär von Desktop-PCs im Büro aus und koordiniert die Projekte zentral. Zusätzlich zu den geerbten Funktionen kann der Projektleiter übergreifende Projektberichte erstellen und hat erweiterte Rechte bei der Ressourcenplanung. Die Rolle unterscheidet sich von einem Bauleiter primär durch den Arbeitsort (Büro vs. Baustelle), hat aber im System identische Rechte.
-
-=== Bauleiter
-
-Der Bauleiter erbt ebenfalls alle Funktionalitäten der Bauleitung und ist verantwortlich für die Koordination der Arbeiten direkt auf den Baustellen. Er arbeitet sowohl vom Büro als auch von den Baustellen aus. Im Rahmen des späteren Tablet-Projekts ist vorgesehen, dass Bauleiter über Tablets mit Offline-Modus auf ausgewählte Daten zugreifen können. Die Synchronisation erfolgt bei VPN-Verbindung oder über WLAN im Büro. Auf mobilen Geräten haben Bauleiter lesenden Zugriff auf Auftragsinformationen, Baumaschinenstandorte und Baupläne sowie Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
+//TODO erbt das Finanzbuchhaltungssystem von Mitarbeiter?
+//TODO zählt Systemanmeldung dazu? Fällt Lesen der Anwesenheitszeiten nicht unter Filtern/Suchen (nur grundlegende Daten?)?
+//  => sofern diese für seine tägliche Arbeit relevant sind? kein Zugriff auf Verwaltung  
 
 === Verwaltungsmitarbeiter
 
-Der Verwaltungsmitarbeiter ist primär im Büro tätig (ca. 30 von 200 Mitarbeitern) und für die Datenpflege zuständig. Diese Rolle hat Leserechte auf alle Daten im System sowie Vollzugriff auf reine Verwaltungsdaten. Der Verwaltungsmitarbeiter verwaltet Mitarbeiterstammdaten, inklusive Personalien, Kontaktdaten, Vertragsdaten und Gruppenzuordnungen (LF20). Er legt Gruppen an, bearbeitet diese und ordnet Mitarbeiter zu Gruppen zu (n:m-Beziehung). Die Anwesenheitsverwaltung umfasst die Erfassung von Anwesenheitszeiten durch Import von Stempelkarten-Daten (CSV-Format), die Festlegung des Anwesenheitstyps (Anwesend, Urlaub, Krankheit, sonstige Abwesenheit) und den Export für die Lohnabrechnung (LF90). Verwaltungsmitarbeiter haben auf projektbezogene Daten (Projekte, Aufträge, Baumaschinen, Buchungen) nur Leserechte. Sie können den Terminplaner einsehen, aber keine Termine bearbeiten. Schreibzugriff auf Projekte und Aufträge haben ausschließlich die Bauleitung und der Administrator.
+Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter" und sind hauptsächlich für die Pflege und Verwaltung der Unternehmensdaten zuständig.
+Verwaltungsmitarbeiter haben auf projektbezogene Daten (Buchungen, Projekte, Arbeitsaufträge, Geräte) nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben ausschließlich die Bauleitung und der Administrator.
+Des Weiteren verwaltet dieser die Personaldaten.
+
+Sie arbeiten überwiegend im Büro und nutzen die Software zur Organisation und Pflege der zentralen Datenbestände.
+//TODO: kann Verwaltungsmitarbeiter Projektdaten lesen?
+//TODO: legt der Verwaltungsmitarbeiter Gruppen an?
+//TODO: Zugriff lesend auf Finaanzdaten miteinbringen
+
+=== Bau- und Projektleiter
+
+Bau- und Projektleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie haben Vollzugriff auf alle projektbezogenen Daten. Dabei können Buchungen, Projekte, Arbeitsaufträge sowie Geräte verwaltet werden.
+
+Diese Rolle ist insbesondere für die operative Steuerung von Bauprojekten verantwortlich.
+
+//TODO: Terminplaner miteinbringen
+//TODO: Zugriff auf alle Projektdaten oder nur die eigenen?
+//TODO: Unteraufträge?
+
+=== Vorarbeiter
+
+Der Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf Arbeitsaufträge und Geräte. Der Vorarbeiter kann sowohl aktuelle als auch zukünftige Arbeitsaufträge einsehen sowie vergangene abgeschlossene Aufträge. 
+Die Rolle verfügt über keine Schreibrechte und kann keine neuen Aufträge anlegen oder bestehende bearbeiten.
 
 === Administrator
 
-Der Administrator ist ein Verwaltungsmitarbeiter mit erweiterten IT-Rechten und verfügt über sämtliche Rechte innerhalb der Anwendung. Der Übersicht halber wurden die Vererbungen zu den anderen Akteuren nicht explizit im Diagramm dargestellt, jedoch hat der Administrator implizit Zugriff auf alle Funktionen aller anderen Rollen. Neben der vollen Daten-Zugriffsberechtigung ist diese Rolle für Systemverwaltungs-Funktionen zuständig. Dies umfasst die Verwaltung von Benutzerkonten (anlegen, bearbeiten, löschen) und die Zuweisung von Rollen (Administrator, Verwaltungsmitarbeiter, Projekt-/Bauleiter, Vorarbeiter, Mitarbeiter). Die Rollen sind fest vordefiniert und können nicht neu konfiguriert werden. Der Administrator importiert Daten aus dem Altsystem (CSV-Format, Semikolon-separiert, UTF-8-kodiert) und exportiert Daten für Berichte oder Backups (CSV-Format). Er erstellt manuelle Backups zusätzlich zu den automatischen täglichen und wöchentlichen Sicherungen und kann Backups wiederherstellen. Die Systemkonfiguration umfasst die Bearbeitung von Konfigurationsdateien (Schriftarten, Schriftgrößen, Überschriften) und die Verwaltung systemweiter Einstellungen. Der Administrator kann neue Kategorien für Baumaschinen und Werkzeuge hinzufügen und die Duplikatsprüfung bei bewusster Mehrfachanlage überschreiben (LF100). Zudem synchronisiert er Finanzdaten aus dem Buchhaltungssystem manuell (CSV-Import). Der Administrator verwaltet auch Lager für Baumaschinen und Werkzeuge.
+Der Administrator besitzt die umfangreichsten Rechte innerhalb des Systems und ist für systemkritische Funktionen verantwortlich.
+Der Administrator importiert Daten aus dem Altsystem (CSV-Format, Semikolon-separiert, UTF-8-kodiert) und exportiert Daten für Berichte oder Backups (CSV-Format). Die Systemkonfiguration umfasst
 
 == Use-Case-Diagramm der gesamten Anwendung
 
