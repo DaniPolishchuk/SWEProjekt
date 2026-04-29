@@ -13,8 +13,8 @@ Der Mitarbeiter stellt die grundlegende Basisrolle innerhalb der Anwendung dar. 
 
 Diese Rolle hat minimale Systemrechte und dient primär der Selbstauskunft. Jeder Mitarbeiter kann seine eigenen Anwesenheitszeiten einsehen und zusätzlich grundlegende Daten abrufen. Die Rolle verfügt über keine Bearbeitungsrechte und keinen Zugriff auf Verwaltungsfunktionen.
 
-//TODO erbt das Finanzbuchhaltungssystem von Mitarbeiter?
-//TODO zählt Systemanmeldung dazu? Fällt Lesen der Anwesenheitszeiten nicht unter Filtern/Suchen (nur grundlegende Daten?)?
+//FRAGE: erbt das Finanzbuchhaltungssystem von Mitarbeiter?
+//FRAGE: zählt Systemanmeldung dazu? Fällt Lesen der Anwesenheitszeiten nicht unter Filtern/Suchen (nur grundlegende Daten?)?
 //  => sofern diese für seine tägliche Arbeit relevant sind? kein Zugriff auf Verwaltung  
 
 === Verwaltungsmitarbeiter
@@ -24,9 +24,9 @@ Verwaltungsmitarbeiter haben auf projektbezogene Daten (Buchungen, Projekte, Arb
 Des Weiteren verwaltet dieser die Personaldaten.
 
 Sie arbeiten überwiegend im Büro und nutzen die Software zur Organisation und Pflege der zentralen Datenbestände.
-//TODO: kann Verwaltungsmitarbeiter Projektdaten lesen?
-//TODO: legt der Verwaltungsmitarbeiter Gruppen an?
-//TODO: Zugriff lesend auf Finaanzdaten miteinbringen
+//FRAGE: kann Verwaltungsmitarbeiter Projektdaten lesen?
+//FRAGE: legt der Verwaltungsmitarbeiter Gruppen an?
+//TODO: Zugriff lesend auf Finaanzdaten miteinbringen 
 
 === Bau- und Projektleiter
 
@@ -35,8 +35,8 @@ Bau- und Projektleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeite
 Diese Rolle ist insbesondere für die operative Steuerung von Bauprojekten verantwortlich.
 
 //TODO: Terminplaner miteinbringen
-//TODO: Zugriff auf alle Projektdaten oder nur die eigenen?
-//TODO: Unteraufträge?
+//FRAGE: Zugriff auf alle Projektdaten oder nur die eigenen?
+//FRAGE: Unteraufträge?
 
 === Vorarbeiter
 
@@ -46,7 +46,9 @@ Die Rolle verfügt über keine Schreibrechte und kann keine neuen Aufträge anle
 === Administrator
 
 Der Administrator besitzt die umfangreichsten Rechte innerhalb des Systems und ist für systemkritische Funktionen verantwortlich.
-Der Administrator importiert Daten aus dem Altsystem (CSV-Format, Semikolon-separiert, UTF-8-kodiert) und exportiert Daten für Berichte oder Backups (CSV-Format). Die Systemkonfiguration umfasst
+Der Administrator importiert Daten aus dem Altsystem, exportiert Daten oder erstellt Backups.
+
+//TODO: erbt von allen Akteuren
 
 == Use-Case-Diagramm der gesamten Anwendung
 
@@ -55,43 +57,116 @@ Der Administrator importiert Daten aus dem Altsystem (CSV-Format, Semikolon-sepa
   caption: [Use-Case-Diagramm der gesamten Anwendung -- Kompaktansicht der Bauunternehmens-Verwaltungssoftware]
 ) <uc_gesamt>
 
-In der Darstellung des Use-Case-Diagramms (@uc_gesamt) werden, der Einfachheit halber, keine Pfeilspitzen von Akteuren zu Use-Cases dargestellt, solange die Richtung nicht relevant ist. Die Assoziation zwischen Akteur und Use-Case ist durch eine einfache Linie gekennzeichnet. Wenn in dem Use-Case-Diagramm die Rede von "verwalten" ist, dann ist hiermit sowohl das Lesen als auch die Bearbeitung der erwähnten Elemente gemeint (Anlegen, Bearbeiten, Löschen). Diese Wahl ist weniger präzise, ermöglicht allerdings eine Zusammenfassung der Use-Cases, wenn eine Unterscheidung nicht notwendig ist, weil sich das Verwalten von einzelnen Funktionen nicht wesentlich unterscheidet.
-
-Das Diagramm ist auf maximal zehn Use-Cases pro Darstellung begrenzt, um die Übersichtlichkeit zu gewährleisten. Daher werden die Hauptfunktionalitäten in diesem Diagramm dargestellt, während spezialisierte Funktionen in Verfeinerungsdiagrammen detailliert werden.
+Das in @uc_gesamt dargestellte Use-Case-Diagramm visualisiert die Gesamtübersicht der Verwaltungssoftware in einer sehr kompakten Form. Hierbei sind die wichtigsten Use-Cases im Allgemeinen dargestellt. Diese trennen sich in weitere Diagramme zu detaillierteren Anwendungsfällen auf.
 
 === Erläuterung der Darstellung und Farbcodierung
 
 Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichkeit und Gruppierung der Funktionalitäten nach Zuständigkeitsbereichen:
 
-*Hellblau (Administrator-Funktionen):* Die in hellblau dargestellten Use-Cases ("Daten übertragen", "Daten importieren", "Daten exportieren", "Backup erstellen", "Daten archivieren", "System verwalten") sind ausschließlich dem Administrator vorbehalten. Diese Funktionen umfassen systemkritische Operationen wie Datenmigration aus dem Altsystem, Import/Export von CSV-Dateien, manuelle und automatische Backups sowie die Verwaltung von Benutzerkonten und Systemkonfigurationen. Die 10-Jahres-Frist für die Datenarchivierung ergibt sich aus gesetzlichen Aufbewahrungspflichten.
+*Hellblau (Administrator-Funktionen):* Die in hellblau dargestellten Use-Cases sind ausschließlich dem Administrator vorbehalten. Diese Funktionen umfassen systemkritische Operationen wie Datenmigration aus dem Altsystem, Import/Export, manuelle und automatische Backups.
 
-*Hellgrün (Projektbezogene Funktionen):* Die grün eingefärbten Use-Cases ("Arbeitsaufträge und Projekte verwalten", "Geräte verwalten", "Buchungen verwalten", "Personal verwalten") repräsentieren die Kernfunktionalitäten der Bauleitung (Projekt- und Bauleiter). Diese Funktionen ermöglichen die vollständige Verwaltung projektbezogener Daten, von der Projektanlage über die Ressourcenzuordnung bis zur Buchung von Baumaschinen. Der zentrale Use-Case "Verwaltungsdaten bearbeiten" (großes grünes Oval mit Extension Points) zeigt, dass die Verwaltungsmitarbeiter über `<<extend>>`-Beziehungen auf spezialisierte Verwaltungsfunktionen zugreifen können. Die vier Extension Points (EP 1: Personal verwalten, EP 2: Baumaschinen und Werkzeuge verwalten, EP 3: Geräte verwalten, EP 4: Buchungen verwalten) verdeutlichen, dass Verwaltungsmitarbeiter selektiv auf bestimmte Verwaltungsfunktionen zugreifen können, jedoch mit eingeschränkten Rechten (nur Leserechte auf projektbezogene Daten).
+*Grün (Verwaltungsbezogene Funktionen):* Die grün eingefärbten Use-Cases repräsentieren die Kernfunktionalitäten der Verwaltung. Diese Verwaltungsfunktionen betreffen sowohl Verwaltungsmitarbeiter als auch Bau- und Projektleitung. Dabei hat die Verwaltung teilweise nur lesenden Zugriff und die Bau- und Projektleitung keinen Zugriff auf Personaldaten.
 
-*Hellorange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases ("Arbeitsaufträge lesen", "Terminplaner lesen", "Baumaschinen und Werkzeuge lesen") zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Baumaschinen abrufen, jedoch keine Daten bearbeiten.
+*Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
 
-*Hellgrün (Mitarbeiter-Grundfunktionen):* Die grün eingefärbten Use-Cases am unteren Rand des Diagramms ("Daten suchen und filtern", "Eigene Arbeitszeiten lesen") sind dem Mitarbeiter (Bauarbeiter) zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen. Die Suchfunktion ist rollenbasiert eingeschränkt.
+*Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases am oberen Rand des Diagramms sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
+//TODO+FRAGE: Die Suchfunktion ist rollenbasiert eingeschränkt.
 
-*Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case "Finanzdaten lesen" repräsentiert die Integration mit dem Finanzbuchhaltungssystem. Die unidirektionale Schnittstelle (Read-Only) ermöglicht das Einlesen von Rechnungen, Mahnungen und Kostenvoranschlägen. Der externe Akteur "Finanzbuchhaltungssystem" ist als Strichmännchen außerhalb der Systemgrenze dargestellt, was verdeutlicht, dass es sich um ein separates System handelt.
+*Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
 
-Die `<<include>>`-Beziehungen (gestrichelte Pfeile) zeigen, dass bestimmte Use-Cases immer gemeinsam ausgeführt werden. Beispielsweise inkludiert "Daten importieren" automatisch "Daten übertragen", und "Backup erstellen" inkludiert ebenfalls "Daten übertragen". Die `<<extend>>`-Beziehungen vom Use-Case "Verwaltungsdaten bearbeiten" zu den vier Extension Points verdeutlichen optionale Erweiterungen, die je nach Kontext aktiviert werden.
 
-Die Notiz im linken unteren Bereich des Diagramms erklärt die Vererbungsstruktur: "Alle vorhandenen Akteure erben vom Akteur Mitarbeiter und können seine Aktionen ausführen. Zur Verdeutlichung werden die erbenden Akteure mit einem farbigen Kopf dargestellt." Diese Konvention ermöglicht eine kompakte Darstellung ohne explizite Vererbungspfeile zu jedem einzelnen Use-Case.
+=== Verwaltungsdaten bearbeiten
 
-=== Mitarbeiter verwalten
+Dieser Anwendungsfall beschreibt die zentrale Verwaltung der im System vorhandenen Daten. Dazu zählen unter anderem:
+- Buchung
+- Arbeitsaufträge und Projekte  
+- Geräte
+- Personal  
 
-Ermöglicht dem Verwaltungsmitarbeiter und dem Administrator das Anlegen, Bearbeiten und Löschen von Mitarbeiterstammdaten. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefon, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende). Jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer, die automatisch vom System vergeben wird. Die Adresse wird als separate Entität modelliert und über eine Referenz zugeordnet. Die Rolle des Mitarbeiters (Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter, Mitarbeiter, Administrator) wird durch den Administrator zugewiesen. Bei der Anlage eines neuen Mitarbeiters prüft das System automatisch auf mögliche Duplikate anhand von Vorname, Nachname und Geburtsdatum (LF100). Der Administrator kann diese Warnung bei bewusster Mehrfachanlage überschreiben. Die Mitarbeiterverwaltung ist eng mit der Gruppenverwaltung verknüpft, da Mitarbeiter mehreren Gruppen zugeordnet werden können (n:m-Beziehung) (LF20).
+Je nach Rolle bestehen unterschiedliche Berechtigungen hinsichtlich Lesen und Bearbeiten dieser Daten.
+
+
+=== Projektdaten verwalten
+
+Dieser Use-Case umfasst die Verwaltung aller projektspezifischen Informationen.
+
+Dazu gehören:
+- Anlegen und Bearbeiten von Projekten  
+- Pflege von projektbezogenen Daten  
+- Zuordnung von Ressourcen  
+
+Der volle Zugriff auf diese Funktion ist insbesondere Bau- und Projektleitern vorbehalten.
+
+=== Arbeitsaufträge einsehen
+
+Dieser Anwendungsfall ermöglicht es Vorarbeitern, ihre zugewiesenen Arbeitsaufträge einzusehen.
+
+Dabei gilt:
+- Es besteht ausschließlich lesender Zugriff  
+- Änderungen sind nicht möglich  
+
+Dies dient der klaren Trennung zwischen operativer Ausführung und administrativer Datenpflege.
+
+=== Daten exportieren
+
+Dieser Use-Case beschreibt den selektiven Export von Daten aus dem System.
+
+Dabei ist zu beachten:
+- Der Zugriff erfolgt abhängig von der jeweiligen Rolle  
+- Verwaltungsmitarbeiter können ausgewählte Daten exportieren  
+- Administratoren besitzen uneingeschränkten Zugriff  
+
+=== Daten importieren
+
+Der Import von Daten in das System ist ein sicherheitskritischer Vorgang und daher ausschließlich dem Administrator vorbehalten.
+
+Dieser Anwendungsfall dient dazu:
+- externe Daten in das System zu integrieren  
+- bestehende Datenbestände zu erweitern  
+
+=== Backup durchführen
+
+Dieser Anwendungsfall stellt die Sicherung der Systemdaten sicher.
+
+Er umfasst:
+- regelmäßige Datensicherungen  
+- Schutz vor Datenverlust  
+
+Die Durchführung erfolgt ausschließlich durch den Administrator.
+
+=== Anmelden
+
+Der Anmeldeprozess besteht aus mehreren Teilprozessen:
+- Eingabe der Zugangsdaten  
+- Prüfung der Zugangsdaten  
+
+Im Fehlerfall wird:
+- eine fehlerhafte Eingabe signalisiert  
+
+Dieser Ablauf stellt sicher, dass nur berechtigte Benutzer Zugriff auf das System erhalten.
+
+
+=== Personal verwalten
+
+Ermöglicht dem Verwaltungsmitarbeiter das Anlegen, Bearbeiten und Löschen von Mitarbeiterstammdaten. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefonnummer, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende). Jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer. Die Adresse wird als separate Entität modelliert und über eine Referenz zugeordnet.  Bei der Anlage eines neuen Mitarbeiters prüft das System automatisch auf mögliche Duplikate anhand von Vorname, Nachname und Geburtsdatum.
+
+//FRAGE: Die Rolle des Mitarbeiters wird durch den Administrator zugewiesen. => kann das nicht die Verwaltung machen?
 
 === Gruppen verwalten
 
 Umfasst das Anlegen, Bearbeiten und Löschen von Gruppen sowie die Zuordnung von Mitarbeitern zu Gruppen. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben, konkrete Instanzen können jedoch dynamisch erstellt werden. Jede Gruppe erhält eine eindeutige Gruppennummer, einen Namen und optional einen Gruppenleiter. Ein Mitarbeiter kann mehreren Gruppen angehören, eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung). Baugruppen enthalten Arbeitsgruppen für die Baustellen und benötigen mindestens einen Baugruppenleiter. Die Verwaltung erfolgt über eine übersichtliche GUI mit Auswahllisten, die durchsuchbar und filterbar sind (LF70). Der Verwaltungsmitarbeiter und der Administrator haben Vollzugriff auf die Gruppenverwaltung, während die Bauleitung Gruppen nur lesend einsehen und Projekten/Aufträgen zuordnen kann (LF20).
+//FRAGE: gibt es gar nicht im Diagramm
 
 === Projekt anlegen
 
 Der Projektleiter oder Bauleiter legt ein neues Projekt an. Dabei wird zunächst ein Projektname und eine Beschreibung eingegeben. Die Projektnummer wird automatisch vom System vergeben. Ein Projektleiter wird dem Projekt zugeordnet (Referenz auf Mitarbeiter). Der Einsatzort wird als Adresse der Baustelle eingegeben. Start- und Endtermine werden festgelegt und der Projektstatus wird auf "Geplant" gesetzt. Optional kann eine detaillierte Projektbeschreibung hinzugefügt werden. Nach erfolgreicher Anlage ist das Projekt im Terminplaner sichtbar und kann für die Erstellung von Arbeitsaufträgen verwendet werden. Das System prüft vor dem Speichern auf mögliche Duplikate (LF100). Ein Projekt kann zunächst ohne Aufträge existieren; Aufträge werden später hinzugefügt. Die Projektverwaltung ist mit der Auftragsverwaltung über eine 1:n-Beziehung verknüpft (ein Projekt kann mehrere Aufträge enthalten).
+//FRAGE: wo ist die Verbindung zum Terminplaner
 
 === Arbeitsauftrag verwalten
 
-Ermöglicht der Bauleitung das Anlegen, Bearbeiten und Löschen von Arbeitsaufträgen. Bei der Erstellung wird eine Auftragsbezeichnung und Beschreibung eingegeben. Die Auftragsnummer wird automatisch vergeben. Der Auftrag wird einem oder mehreren Projekten zugeordnet (n:m-Beziehung), da ein Auftrag über mehrere Projekte verteilt sein kann. Es werden Start-, End- und optional Zwischentermine festgelegt. Beteiligte Personen und Gruppen werden dem Auftrag zugeordnet. Der Einsatzort wird als Adresse eingegeben. Optional können Unteraufträge angelegt und Baupläne (Dateipfade zu PDF-Dateien) verlinkt werden. Der Kostenvoranschlag wird aus dem Finanzbuchhaltungssystem lesend übernommen. Der Auftragsstatus (Offen, in Bearbeitung, abgeschlossen) wird festgelegt. Nach erfolgreicher Anlage ist der Auftrag im Terminplaner sichtbar und kann für Buchungen von Baumaschinen verwendet werden. Die Verwaltungsmitarbeiter haben auf Aufträge nur Leserechte (LF30, LF40).
+Ermöglicht der Bauleitung das Anlegen, Bearbeiten und Löschen von Arbeitsaufträgen. Bei der Erstellung wird eine Auftragsbezeichnung und Beschreibung eingegeben. Die Auftragsnummer wird automatisch vergeben. Der Auftrag wird einem oder mehreren Projekten zugeordnet (n:m-Beziehung), da ein Auftrag über mehrere Projekte verteilt sein kann. Es werden Start-, End- und optional Zwischentermine festgelegt. Beteiligte Personen und Gruppen werden dem Auftrag zugeordnet. Der Einsatzort wird als Adresse eingegeben. Optional können Unteraufträge angelegt und Baupläne referenziert werden. Der Auftragsstatus wird festgelegt. Nach erfolgreicher Anlage ist der Auftrag im Terminplaner sichtbar.
+//FRAGE: Der Kostenvoranschlag wird aus dem Finanzbuchhaltungssystem lesend übernommen.
+//FRAGE: wo ist die Verbindung zum Terminplaner
 
 === Baumaschine/Werkzeug verwalten
 
@@ -160,4 +235,3 @@ Der Administrator verwaltet die Lager für Baumaschinen und Werkzeuge. Dies umfa
 
 Erweitert optional das Anlegen oder Bearbeiten eines Geräts. Der Benutzer gibt den letzten Wartungstermin (Datum der letzten Wartung) und den nächsten Wartungstermin (Datum der nächsten geplanten Wartung) ein. Diese Informationen dienen der Planung und Sicherstellung der Betriebsbereitschaft. Wenn ein Gerät gewartet werden muss, kann der Status auf "in Wartung" gesetzt werden, sodass es nicht für Buchungen verfügbar ist. Nach Abschluss der Wartung wird der Status wieder auf "Verfügbar" gesetzt, und die Wartungstermine werden aktualisiert. Eine automatische Erinnerung an anstehende Wartungstermine ist nicht Teil des ersten Entwicklungsauftrags, könnte aber als Erweiterung implementiert werden.
 
-// Weitere Verfeinerungen können nach Absprache hinzugefügt werden
