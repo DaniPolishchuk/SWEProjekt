@@ -1,78 +1,63 @@
-= Use-Case-Diagramm
+//reference goal
+#let referenceG(labelName) = {
+ [(siehe #link(label(labelName), labelName))]
+}
 
+//reference question
+#let referenceQ(labelName) = {
+ [(siehe #ref(label(labelName)))]
+}
+
+= Use-Case-Diagramm
 Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktionalität der gesamten Verwaltungsanwendung für das Bauunternehmen untersucht und verdeutlicht. Zunächst wird ein allgemeines Use-Case-Diagramm erstellt, welches die Hauptfunktionalitäten der Anwendung abbildet. Hierbei wird ein funktionsorientierter Ansatz verfolgt, sodass differenziert auf die einzelnen Funktionalitäten eingegangen werden kann. Beispielhaft wird für ausgewählte Use-Cases eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens komplexerer Entitäten näher darzustellen. Beispielhaft wurde für einen Use-Case eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens der Geräte näher darzustellen.
 
 == Rollen-Erläuterung der Anwendung
-
-Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie in @chapter-Zielgruppen-Rollen definiert wurden. Lediglich das Finanzbuchhaltungssystem ist keine wie in @chapter-Zielgruppen-Rollen beschriebene klassische Benutzerrolle, sondern ein externes System, welches über eine unidirektionale Schnittstelle mit der Verwaltungssoftware verbunden ist.
+Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie in @chapter-Zielgruppen-Rollen und @Rolle-Berechtigungen definiert wurden. Lediglich das Finanzbuchhaltungssystem ist keine klassische Benutzerrolle, sondern ein externes System, welches über eine unidirektionale Schnittstelle mit der Verwaltungssoftware verbunden ist.
 Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
 === Mitarbeiter
+Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen, wie Arbeitsaufträge, Einsatzorte und die eigenen Anwesenheitszeiten.  
 
-Der Mitarbeiter stellt die grundlegende Basisrolle innerhalb der Anwendung dar. Diese Rolle fasst allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
-
-Diese Rolle hat minimale Systemrechte und dient primär der Selbstauskunft. Jeder Mitarbeiter kann seine eigenen Anwesenheitszeiten einsehen und zusätzlich grundlegende Daten abrufen. Die Rolle verfügt über keine Bearbeitungsrechte und keinen Zugriff auf Verwaltungsfunktionen.
-
+Der Mitarbeiter stellt dabei die grundlegende Basisrolle innerhalb der Anwendung dar. Diese Rolle fasst allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
 //FRAGE: erbt das Finanzbuchhaltungssystem von Mitarbeiter?
 //FRAGE: zählt Systemanmeldung dazu? Fällt Lesen der Anwesenheitszeiten nicht unter Filtern/Suchen (nur grundlegende Daten?)?
 //  => sofern diese für seine tägliche Arbeit relevant sind? kein Zugriff auf Verwaltung  
 
+=== Vorarbeiter
+Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf vergangene, aktuelle und zukünftige Arbeitsaufträge #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge") sowie Geräte. Sie sind das Bindeglied zwischen Bauleitung und Bauarbeitern. Sie koordinieren die Ausführung der Arbeitsaufträge auf der Baustelle, überwachen die Einhaltung von Terminen und sorgen für die Umsetzung der zugewiesenen Aufgaben.
+
 === Verwaltungsmitarbeiter
-
-Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter" und sind hauptsächlich für die Pflege und Verwaltung der Unternehmensdaten zuständig.
-Verwaltungsmitarbeiter haben auf projektbezogene Daten (Buchungen, Projekte, Arbeitsaufträge, Geräte) nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben ausschließlich die Bauleitung und der Administrator.
-Des Weiteren verwaltet dieser die Personaldaten.
-
-Sie arbeiten überwiegend im Büro und nutzen die Software zur Organisation und Pflege der zentralen Datenbestände.
-//FRAGE: kann Verwaltungsmitarbeiter Projektdaten lesen?
-//FRAGE: legt der Verwaltungsmitarbeiter Gruppen an?
+Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter". Sie arbeiten überwiegend im Büro und sind primär für die Pflege und Organisation der zentralen Datenbestände zuständig #referenceQ("q_Aufgabe-Verwaltung-Admin"). Sie verwalten Mitarbeiterstammdaten und Gruppenzuordnungen. Auf projektbezogene Daten (Buchungen, Projekte, Arbeitsaufträge, Geräte) haben sie nur Leserechte #referenceQ("q_Verwaltungsmitarbeiter-Leserecht-Projektdaten").
+//FRAGE: kann Verwaltungsmitarbeiter Projektdaten lesen? => ja, aber. nur lesen
+//FRAGE: legt der Verwaltungsmitarbeiter Gruppen an? => es steht nur dass der Benutzer sie verwalten kann???
 //TODO: Zugriff lesend auf Finaanzdaten miteinbringen 
 
 === Bau- und Projektleiter
-
-Bau- und Projektleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie haben Vollzugriff auf alle projektbezogenen Daten. Dabei können Buchungen, Projekte, Arbeitsaufträge sowie Geräte verwaltet werden.
-
-Diese Rolle ist insbesondere für die operative Steuerung von Bauprojekten verantwortlich.
-
-//TODO: Terminplaner miteinbringen
+Projektleiter und Bauleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie sind für die operative Steuerung und Umsetzung von Bauprojekten verantwortlich. Sie koordinieren die Planung, Zuweisung von Ressourcen (Mitarbeiter, Geräte), Terminplanung und die Überwachung des Projektfortschritts.  
+//FRAGE: Terminplaner miteinbringen
 //FRAGE: Zugriff auf alle Projektdaten oder nur die eigenen?
 //FRAGE: Unteraufträge?
 
-=== Vorarbeiter
-
-Der Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf Arbeitsaufträge und Geräte. Der Vorarbeiter kann sowohl aktuelle als auch zukünftige Arbeitsaufträge einsehen sowie vergangene abgeschlossene Aufträge. 
-Die Rolle verfügt über keine Schreibrechte und kann keine neuen Aufträge anlegen oder bestehende bearbeiten.
-
 === Administrator
-
-Der Administrator besitzt die umfangreichsten Rechte innerhalb des Systems und ist für systemkritische Funktionen verantwortlich.
-Der Administrator importiert Daten aus dem Altsystem, exportiert Daten oder erstellt Backups.
-
-//TODO: erbt von allen Akteuren
+Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Verwaltungsmitarbeiter mit erweiterten Rechten zu verstehen. Er übernimmt die Verwaltung der Benutzerkonten, indem er ihnen Rollen zu weist. Darüber hinaus ist er für systemkritische Aufgaben wie Import/Export, Backups und die Datenmigration verantwortlich. Es handelt sich hierbei um einen Teil des regulären Teams, da eine dedizierte IT-Person nicht vorgesehen ist #referenceQ("q_dedizierte-IT-Person").
 
 == Use-Case-Diagramm der gesamten Anwendung
-
 #figure(
   image("../assets/UseCase-Bauunternehmen-Kompaktansicht.svg", width: 100%),
   caption: [Use-Case-Diagramm der gesamten Anwendung -- Kompaktansicht der Bauunternehmens-Verwaltungssoftware]
-) <uc_gesamt>
+) <uc_kompakt>
 
-Das in @uc_gesamt dargestellte Use-Case-Diagramm visualisiert die Gesamtübersicht der Verwaltungssoftware in einer sehr kompakten Form. Hierbei sind die wichtigsten Use-Cases im Allgemeinen dargestellt. Diese trennen sich in weitere Diagramme zu detaillierteren Anwendungsfällen auf.
+Das in @uc_kompakt dargestellte Use-Case-Diagramm visualisiert die Gesamtübersicht der Verwaltungssoftware in einer sehr kompakten Form. Hierbei sind die wichtigsten Use-Cases im Allgemeinen dargestellt. Diese trennen sich in weitere Diagramme zu detaillierteren Anwendungsfällen auf.
 
 === Erläuterung der Darstellung und Farbcodierung
-
 Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichkeit und Gruppierung der Funktionalitäten nach Zuständigkeitsbereichen:
 
-*Hellblau (Administrator-Funktionen):* Die in hellblau dargestellten Use-Cases sind ausschließlich dem Administrator vorbehalten. Diese Funktionen umfassen systemkritische Operationen wie Datenmigration aus dem Altsystem, Import/Export, manuelle und automatische Backups.
-
-*Grün (Verwaltungsbezogene Funktionen):* Die grün eingefärbten Use-Cases repräsentieren die Kernfunktionalitäten der Verwaltung. Diese Verwaltungsfunktionen betreffen sowohl Verwaltungsmitarbeiter als auch Bau- und Projektleitung. Dabei hat die Verwaltung teilweise nur lesenden Zugriff und die Bau- und Projektleitung keinen Zugriff auf Personaldaten.
-
-*Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
-
-*Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases am oberen Rand des Diagramms sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
+- *Hellblau (Administrator-Funktionen):* Die in hellblau dargestellten Use-Cases sind ausschließlich dem Administrator vorbehalten. Diese Funktionen umfassen systemkritische Operationen wie Datenmigration aus dem Altsystem, Import/Export, manuelle und automatische Backups.
+- *Grün (Verwaltungsbezogene Funktionen):* Die grün eingefärbten Use-Cases repräsentieren die Kernfunktionalitäten der Verwaltung. Diese Verwaltungsfunktionen betreffen sowohl Verwaltungsmitarbeiter als auch Bau- und Projektleitung. Dabei hat die Verwaltung teilweise nur lesenden Zugriff und die Bau- und Projektleitung keinen Zugriff auf Personaldaten.
+- *Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
+- *Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases am oberen Rand des Diagramms sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
 //TODO+FRAGE: Die Suchfunktion ist rollenbasiert eingeschränkt.
-
-*Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
+- *Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
 
 
 === Verwaltungsdaten bearbeiten

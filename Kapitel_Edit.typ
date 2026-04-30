@@ -332,7 +332,7 @@
   Intern: Die Datentypen "Text" und "Ganzzahl" entsprechen in Java String und int bzw. Integer. "Referenz" bedeutet eine Objektreferenz bzw. Fremdschlüssel in der Datenbank.
 ]
 
-#QaA[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
+#QaA(labelName: "Aufgabe-Verwaltung-Admin")[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
   Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig. Es gibt keine dedizierten Datenbankadministratoren - diese Aufgabe übernimmt der Administrator. Hinweis zur Begriffstrennung: "Verwaltungsmitarbeiter" ist sowohl eine Position (Mitarbeitertyp) als auch eine Benutzerrolle (Zugriffskontrolle). Diese Mitarbeiter werden der Gruppe "Verwaltung" zugeordnet.
 ]
 #QaA[Wie sollen die Berechtigungen umgesetzt werden? Soll es ein bestimmtes Rollensystem geben?][
@@ -344,14 +344,14 @@
 #QaA[Was sollen "reine Verwaltungsdaten" konkret sein - welche Daten fallen darunter, welche sind ausgeschlossen? ][
   Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen, Anwesenheitszeiten und allgemeine Konfigurationsdaten. Ausgeschlossen sind projektbezogene Daten (Aufträge, Baumaschinen-Buchungen).
 ]
-#QaA[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
+#QaA(labelName: "Verwaltungsmitarbeiter-Leserecht-Projektdaten")[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
   Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator.
 ]
 #QaA[Soll ein Bau-/Projektleiter Vollzugriff auf alle oder nur auf seine eigenen Projekte haben? ][
   Ein Bau-/Projektleiter hat Vollzugriff auf alle projektbezogenen Daten (alle Projekte und Aufträge), nicht nur auf die ihm zugeordneten. Dies ermöglicht flexible Projektzusammenarbeit und Vertretungsregelungen.
 ]
-#QaA[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
-  Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenf alls lesbar.
+#QaA(labelName: "Vorarbeiter-zukünftige-Arbeitsaufträge")[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
+  Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
 ]
 #QaA(labelName: "Rollen-gleichzeitig")[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
   Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten, die wie folgt verteilt sind:
@@ -387,7 +387,7 @@
 #QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten - ausschließlich der Administrator? ][
   Ja, ausschließlich der Administrator verwaltet Benutzerkonten und weist Rollen zu.
 ]
-#QaA[Soll der Administrator eine dedizierte IT-Person oder ein normaler Mitarbeiter mit Zusatzrechten sein? ][
+#QaA(labelName: "dedizierte-IT-Person")[Soll der Administrator eine dedizierte IT-Person oder ein normaler Mitarbeiter mit Zusatzrechten sein? ][
   Der Administrator ist ein Verwaltungsmitarbeiter mit erweiterten Rechten. Eine dedizierte IT-Person ist nicht vorgesehen.
 ]
 #QaA[Sollen die Rollen fest vordefiniert sein oder soll der Administrator neue Rollen konfigurieren können? ][
@@ -548,7 +548,7 @@
   ]
   #QaA[Sollen die Gruppen einmalig festgelegt werden oder sollen sie manuell erstellt werden können? ][
     Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben. Konkrete Baugruppen können aber vom Benutzer dynamisch erstellt und verwaltet werden.
-
+    //TODO: wer ist der Benutzer?
     Eine Gruppe umfasst folgende Attribute:
 
     #entityFigure("Gruppe", arguments(
@@ -574,6 +574,7 @@
   ]
   #QaA[Sollen die beteiligten Personen aufgelistet werden oder sollen im Zuge der Übersichtlichkeit Gruppen aufgezeigt werden, die Auskunft über die Mitarbeiter geben? ][
     Beide Ansichten sollen möglich sein. In der Übersicht werden die zugeordneten Gruppen angezeigt. In der Detailansicht können die einzelnen Mitglieder der Gruppen aufgelistet werden.
+    //TODO: wichtig für UI
   ]
   ],
   textFigure(short)[LF 40], [Ein Auftrag kann von mehreren Unterauftragnehmern ausgeführt werden, d.h. Aufträge können Unteraufträge enthalten. Zur Abwicklung eines Auftrags ist ein Terminplaner erforderlich, der sämtliche Daten eines Auftrags bzw. Projekts beinhaltet.
