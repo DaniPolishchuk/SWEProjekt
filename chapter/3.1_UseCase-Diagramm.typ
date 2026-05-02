@@ -30,6 +30,7 @@ Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter". Si
 
 === Bau- und Projektleiter
 Projektleiter und Bauleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie sind für die operative Steuerung und Umsetzung von Projekten verantwortlich, wobei sie die Planung, Zuweisung von Ressourcen (Mitarbeiter, Geräte) und die Überwachung des Projektfortschritts koordinieren. Dazu haben sie zum Verwalten Vollzugriff auf projektspezifische Daten (Buchungen, Projekte, Arbeitsaufträge, Unteraufträge) und Geräte und können alle Informationen im Terminplaner einsehen.
+//TODO: Vollzugriff auf Terminplaner ok?
 
 === Administrator
 Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Verwaltungsmitarbeiter mit erweiterten Rechten zu verstehen. Er übernimmt die Verwaltung der Benutzerkonten, indem er ihnen Rollen zu weist. Darüber hinaus ist er für systemkritische Aufgaben wie Datenmigration durch Import/Export, Backups und die Archivierung von Daten verantwortlich. Er ist hierbei ein Teil des regulären Teams, da eine dedizierte IT-Person nicht vorgesehen ist #referenceQ("q_dedizierte-IT-Person").
@@ -53,6 +54,29 @@ Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichke
 - *Rot*: //TODO
 
 
+=== Daten suchen und filtern
+Dieser User-Case ermöglicht allen Akteuren, die von der Rolle "Mitarbeiter" erben, das Suchen und Filtern nach Daten im System. Die Suchergebnisse sind rollenbasiert eingeschränkt, sodass jeder Benutzer nur auf die für ihn zugänglichen Daten zugreifen kann. Die Suche erfolgt über eine Kombination aus Textsuche (Name, Bezeichnung) und Filterung nach Kategorien/Attributen #referenceQ("q_Beschreibung-der-Suche"). Separate Suchmasken existieren für Mitarbeiter, Gruppen, Arbeitsaufträge, Projekte, Geräte und Lager #referenceQ("q_Suchmasken"). Die Suchergebnisse werden als Tabelle mit den wichtigsten Attributen angezeigt, wobei ein Klick auf einen Eintrag die Detailansicht öffnet #referenceQ("q_Anzeige-Suchergebnisse"). Die Ergebnisse können nach verschiedenen Spalten sortiert werden #referenceQ("q_Sortierung-Suchergebnisse").
+//TODO: auf Auswahlisten (LF70) würde ich hier nicht eingehen
+//TODO: "Alternativ kann eine zentrale Suche mit Kategorie-Auswahl verwendet werden." => stammt aus F22 -> kann man wegen mir entfernen (unnötig)
+
+=== Arbeitszeiten lesen
+Der Zugriff auf die Anwesenheitszeiten hängt von der Rolle ab. In erster Linie kann jeder seine eigenen Anwesenheitszeiten einsehen. Darüber hinaus hat der Vorgesetzte zusätzlich Einsicht auf die Anwesenheitszeiten seiner untergeordneten Mitarbeiter. Schlussendlich hat der Administrator Vollzugriff auf die Anwesenheitszeiten, um beispielsweise fehlerhafte Daten zu korrigieren #referenceQ("q_Rechte-auf-Anwesenheitszeiten").
+
+=== Terminplaner lesen
+Auch dieser Use-Case ist rollenbasiert eingeschränkt. Jeder sieht nur so viele Daten wie nötig #referenceQ("q_Rechte-Terminplaner"). Die Vorarbeiter und Mitarbeiter sehen nur die für sie relevante Daten, wie Start und Ende von Projekten oder Verfügbarkeit von Geräten (nur Vorarbeiter). Die Verwaltungsmitarbeiten haben volle Leserechte und sehen daher alle Arbeitsaufträge mit ihren Unteraufträgen sowie Projekte mit den zugeordnete Mitarbeiter und Geräten. Die Bau-/Projektleiter haben ebenfalls volle Lesezugriffe und zusätzlich Schreibrechte, sodass sie Termine eintragen, verschieben und löschen können.
+Die Darstellung erfolgt als Kalenderansicht mit Monats- und Wochenansicht, wobei passend (je nach Start- und Enddatum) Arbeitsaufträge und Projekte angezeigt werden, deren Detailansicht per Klick sichtbar ist #referenceQ("q_Form-Terminplaner").
+
+=== Arbeitsaufträge lesen
+Dieser Anwendungsfall ermöglicht es Vorarbeitern, ihre Arbeitsaufträge einzusehen. Darüber hinaus können sie auch verschiedene Unteraufträge ansehen, falls vorhanden.  
+//TODO: kann man das ausführen?
+
+=== Geräte lesen
+Dieser Anwendungsfall ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei wird ersichtlich, welche Geräte gerade verfügbar sind und auf der Baustelle bei ihren Arbeitsaufträgen eingesetzt werden können.
+//TODO: soll man hinzufügen, dass sie als Bindeglied/Unterstützung den Bau-/Projekleitern dann einen Buchungsvorschlag für Geräte machen?
+
+=== Arbeitsaufträge und Projekte lesen
+Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig.
+
 === Verwaltungsdaten bearbeiten
 
 Dieser Anwendungsfall beschreibt die zentrale Verwaltung der im System vorhandenen Daten. Dazu zählen unter anderem:
@@ -75,15 +99,7 @@ Dazu gehören:
 
 Der volle Zugriff auf diese Funktion ist insbesondere Bau- und Projektleitern vorbehalten.
 
-=== Arbeitsaufträge einsehen
 
-Dieser Anwendungsfall ermöglicht es Vorarbeitern, ihre zugewiesenen Arbeitsaufträge einzusehen.
-
-Dabei gilt:
-- Es besteht ausschließlich lesender Zugriff  
-- Änderungen sind nicht möglich  
-
-Dies dient der klaren Trennung zwischen operativer Ausführung und administrativer Datenpflege.
 
 === Daten exportieren
 
@@ -111,18 +127,6 @@ Er umfasst:
 - Schutz vor Datenverlust  
 
 Die Durchführung erfolgt ausschließlich durch den Administrator.
-
-=== Anmelden
-
-Der Anmeldeprozess besteht aus mehreren Teilprozessen:
-- Eingabe der Zugangsdaten  
-- Prüfung der Zugangsdaten  
-
-Im Fehlerfall wird:
-- eine fehlerhafte Eingabe signalisiert  
-
-Dieser Ablauf stellt sicher, dass nur berechtigte Benutzer Zugriff auf das System erhalten.
-
 
 === Personal verwalten
 
@@ -154,13 +158,7 @@ Umfasst das Anlegen, Bearbeiten und Löschen von Baumaschinen und Bauwerkzeugen 
 
 Der Projektleiter oder Bauleiter bucht eine Baumaschine oder ein Werkzeug für einen Arbeitsauftrag. Dabei wird das gewünschte Gerät ausgewählt (über Suchfunktion oder Auswahlliste). Der Zeitraum wird durch Start- und Enddatum festgelegt. Der Auftrag wird zugeordnet (Referenz auf Arbeitsauftrag). Das System prüft automatisch die Verfügbarkeit des Geräts im angegebenen Zeitraum. Bei Verfügbarkeit wird die Buchung gespeichert und erhält eine eindeutige Buchungsnummer. Der buchende Mitarbeiter und das Buchungsdatum werden automatisch erfasst. Der Buchungsstatus wird auf "Aktiv" gesetzt. Bei Nichtverfügbarkeit wird eine Fehlermeldung angezeigt. Die Buchung kann direkt beim Anlegen eines Auftrags oder später bei Bedarf erfolgen. Bestehende Buchungen können bearbeitet oder storniert werden. Die Benutzungszeiträume werden automatisch über die Buchungen ermittelt. Die Buchungsverwaltung ermöglicht die Übersicht über alle aktuellen und zukünftigen Buchungen. Verwaltungsmitarbeiter können Buchungen nur lesend einsehen. Die Verfügbarkeitssuche ist Teil der Gerätesuche (LF50).
 
-=== Terminplaner nutzen
 
-Ermöglicht der Bauleitung, dem Verwaltungsmitarbeiter und dem Vorarbeiter (jeweils mit unterschiedlichen Rechten) die Nutzung des Terminplaners. Die Darstellung erfolgt als Kalenderansicht mit Monats- und Wochenansicht. Alle Aufträge und Projekte werden mit ihren Terminen angezeigt (Start-, End- und Zwischentermine). Die Ansicht kann nach Datum oder Zeitraum gefiltert werden. Die Bauleitung kann Termine eintragen, verschieben und löschen (Schreibrechte). Verwaltungsmitarbeiter können den Terminplaner nur einsehen (Leserechte). Vorarbeiter sehen nur ihre eigenen Arbeitsaufträge. Ein Klick auf einen Eintrag öffnet die Detailansicht des Auftrags oder Projekts. Der Terminplaner zeigt auch die Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter) an. Die zugeordneten Baugruppen und gebuchten Baumaschinen werden pro Eintrag angezeigt. Der Terminplaner ist eng mit der Projekt- und Auftragsverwaltung verknüpft und wird automatisch aktualisiert, wenn neue Aufträge angelegt oder Termine geändert werden. Die zugewiesenen Mitarbeiter und Unteraufträge sind ebenfalls sichtbar (LF40).
-
-=== Daten suchen
-
-Ermöglicht allen Benutzern das Suchen nach relevanten Daten im System. Die Suchergebnisse sind rollenbasiert eingeschränkt, sodass jeder Benutzer nur auf die für ihn zugänglichen Daten zugreifen kann. Die Suche erfolgt über eine Kombination aus Textsuche (Name, Bezeichnung, Seriennummer) und Filterung nach Kategorien/Attributen (z.B. Status, Datum, Standort). Separate Suchmasken existieren für Mitarbeiter, Gruppen, Aufträge/Projekte, Baumaschinen/Werkzeuge und Lager. Alternativ kann eine zentrale Suche mit Kategorie-Auswahl verwendet werden. Die Suchergebnisse werden als Tabelle mit den wichtigsten Attributen angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht. Die Ergebnisse können nach verschiedenen Spalten sortiert werden (aufsteigend/absteigend). Die Verfügbarkeitssuche für Baumaschinen ermöglicht die Eingabe eines Zeitraums, und das System zeigt nur verfügbare Geräte an. Die Suchfunktion ist eng mit den Auswahllisten verknüpft, die ebenfalls durchsuchbar und filterbar sind (LF60, LF70).
 
 === Anwesenheitszeiten verwalten
 

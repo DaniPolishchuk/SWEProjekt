@@ -622,7 +622,7 @@
     ]
 
     #QaA[Welche Funktionalitäten soll der Terminplaner konkret bieten? ][
-      Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Baumaschinen, Mitarbeiter).
+      Anzeige aller Aufträge und Projekte mit ihren Terminen, Filterung nach Datum/Zeitraum, Anzeige von Start-, End- und Zwischenterminen, Übersicht über Ressourcenverfügbarkeit (Geräte, Mitarbeiter).
 
       Der Terminplan verweist dabei auf einen oder mehrere Termine, wobei diese folgende Attribute umfassen:
       #entityFigure("Termin", arguments(
@@ -631,14 +631,14 @@
         [Buchung], [Referenzen], [Liste aller Buchungen],
       )) //INFO: Termin nötig => Termin verweist jeweils => Überschrfift => Termin
     ]
-    #QaA[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
-      Als Kalenderansicht mit Monats- und Wochenansicht. Aufträge werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht des Auftrags.
+    #QaA(labelName: "Form-Terminplaner")[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
+      Als Kalenderansicht mit Monats- und Wochenansicht. Arbeitsaufträge und Projekte werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht.
     ]
-    #QaA[Wie sollen die Zugriffsberechtigungen für den Terminplaner verteilt werden. Soll es Beschränkungen für bestimmte Daten geben? ][
-      Bau-/Projektleiter und Verwaltungsmitarbeiter haben vollen Lesezugriff. Vorarbeiter sehen nur ihre eigenen Arbeitsaufträge. Schreibrechte haben nur Bau-/Projektleiter und Administrator.
+    #QaA(labelName: "Rechte-Terminplaner")[Wie sollen die Zugriffsberechtigungen für den Terminplaner verteilt werden. Soll es Beschränkungen für bestimmte Daten geben? ][
+      Mitarbeiter und Vorarbeiter haben eingeschränkte Leserechte auf die nötigsten Daten wie die Start- und Endzeiten von ihren Projekten. Verwaltungsmitarbeiter haben vollen Lesezugriff. Schreibrechte haben nur Bau-/Projektleiter und Administrator.
     ]
     #QaA[Welche Daten sollen unter die "sämtliche” Daten fallen? ][
-      Alle Aufträge und Projekte mit ihren Terminen (Start, Ende, Zwischen), zugeordnete Baugruppen, gebuchte Baumaschinen, zugewiesene Mitarbeiter und Unteraufträge.
+      Alle Arbeitsaufträge mit Unteraufträgen sowie Projekte mit ihren Terminen (Start, Ende, Zwischen), gebuchte Geräten, zugewiesene Mitarbeiter.
     ]
   ],
   textFigure(short)[LF 50], [Es müssen die Baumaschinen (Bagger, LKWs, Kräne, Rüttler, Großbohrmaschinen, uvm.) sowie größere Bauwerkzeuge (Schalungsteile, Bausicherungen, Zäune, etc.) verwaltet werden. \
@@ -767,7 +767,7 @@
   ] 
   ],
   textFigure(short)[LF 60], [Nach allen wesentlichen Daten sollen mittels einer oder mehrerer Suchmaske im Datenbestand gesucht werden können.
-  #QaA[In welchem Format sollen die Suchergebnisse angezeigt werden (Tabelle, Suchergebnisliste)? ][
+  #QaA(labelName: "Anzeige-Suchergebnisse")[In welchem Format sollen die Suchergebnisse angezeigt werden (Tabelle, Suchergebnisliste)? ][
     Als Tabelle mit den wichtigsten Attributen (z.B. Bezeichnung, Kategorie, Status, Standort). Ein Klick auf einen Eintrag öffnet die Detailansicht #referenceQ("q_wesentlichen-Daten").
   ]
   #QaA(labelName: "wesentlichen-Daten")[Was sind die "wesentlichen" Daten, nach denen gesucht werden soll?][
@@ -775,7 +775,7 @@
 
     Entnehme die oben genannten Entitäten aus den in @verwalteten-Objekte aufgelisteten zentralen Daten.
   ] 
-  #QaA[Ist eine Sortierung nötig? ][
+  #QaA(labelName: "Sortierung-Suchergebnisse")[Ist eine Sortierung nötig? ][
     Ja, die Suchergebnisse sollen nach verschiedenen Spalten sortierbar sein (aufsteigend/absteigend).
   ]
   #QaA[Welche Suchmaske(n) sind sollen verwendet werden? ][
@@ -784,10 +784,10 @@
   #QaA[Wie sollen die Suchmasken aufgeteilt werden? ][
     Nach Datentyp: eine Maske für Personaldaten (Mitarbeiter, Gruppen), eine für Projektdaten (Aufträge, Projekte), eine für Ressourcen (Baumaschinen, Werkzeuge, Lager).
   ]
-  #QaA[Wie viele Suchmasken soll es maximal geben? ][
+  #QaA(labelName: "Suchmasken")[Wie viele Suchmasken soll es maximal geben? ][
     Maximal 5 Suchmasken: Mitarbeiter, Gruppen, Aufträge/Projekte, Baumaschinen/Werkzeuge, Lager. Eine zentrale Suche mit Filter ist ebenfalls denkbar.
   ]
-  #QaA[Wie soll die Suche erfolgen? Volltextsuche, Suche nach Schlüsselwörtern, Suche nach Kategorien, ... ][
+  #QaA(labelName: "Beschreibung-der-Suche")[Wie soll die Suche erfolgen? Volltextsuche, Suche nach Schlüsselwörtern, Suche nach Kategorien, ... ][
     Kombination aus Textsuche (Name, Bezeichnung) und Filterung nach Kategorien/Attributen (z.B. Status, Datum, Standort). Keine komplexe Volltextsuche erforderlich.
   ]
   ],
@@ -871,7 +871,7 @@
   #QaA[Wie sollen die Anwesenheitszeiten erfasst werden? (Manuell, automatisch, durch Stempelkarten, ...) ][
     In der Firma werden Stempelkarten verwendet, die automatisch die Start- und Endzeiten erfassen. Diese Daten werden täglich in das System importiert.
   ]
-  #QaA[Wer hat Lese- und Schreibrechte für die Anwesenheitszeiten? ][
+  #QaA(labelName: "Rechte-auf-Anwesenheitszeiten")[Wer hat Lese- und Schreibrechte für die Anwesenheitszeiten? ][
     Schreibrechte: Administrator \
     Leserechte: Jeder Mitarbeiter kann seine eigenen Zeiten einsehen und der Vorgesetzte kann die Zeiten seiner direkten Mitarbeiter einsehen.
   ]
