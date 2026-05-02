@@ -231,7 +231,7 @@
   Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte, Baupläne. \
   Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
 ]
-#QaA[Welche Formate der Daten sollen im Import bevorzugt werden?][
+#QaA(labelName: "Import-Format")[Welche Formate der Daten sollen im Import bevorzugt werden?][
   CSV-Dateien (Semikolon-separiert, UTF-8-kodiert) als primäres Importformat. Diese sind lesbar und einfach zu verarbeiten.
 ]
 
@@ -244,16 +244,16 @@
   ```
 ]
 
-#QaA[Welche Formate der Daten sollen im Export bevorzugt werden?][
+#QaA(labelName: "Export-Format")[Welche Formate der Daten sollen im Export bevorzugt werden?][
   Der Export soll ebenfalls im CSV-Format erfolgen, um Kompatibilität mit anderen Systemen zu gewährleisten.
 ]
-#QaA[Welche Daten sollen genau Importiert bzw. Exportiert werden?][
+#QaA(labelName: "Import-Export-Daten")[Welche Daten sollen genau Importiert bzw. Exportiert werden?][
   Import: Alle relevanten Daten aus dem Altsystem werden übertragen, soweit sie in einem importierbaren Format vorliegen. Dazu gehören: Auftragsdaten, Mitarbeiterdaten, Baumaschinen- und Werkzeugdaten, Gruppenzuordnungen. Export: Selektiver Export einzelner Datensätze (z.B. Aufträge, Mitarbeiterlisten) im CSV-Format für Berichte oder Backups.
 ]
 #QaA[Gibt es Daten, die nicht aus dem alten System übertragen werden sollen?][
   Finanztechnische Daten (Gehälter, Löhne, Projektkosten) werden nicht übertragen, da sie im separaten Finanzbuchhaltungssystem verwaltet werden.
 ]
-#QaA[[INTERN] Sollen die Exportdaten verschlüsselt werden?][
+#QaA(labelName: "Export-Verschlüsselung")[[INTERN] Sollen die Exportdaten verschlüsselt werden?][
   Nein, eine Verschlüsselung der Exportdaten ist nicht erforderlich. Die Dateien werden nur intern verwendet.
 ]
 
@@ -546,9 +546,8 @@
   #QaA[Sollen Arbeitsgruppen innerhalb einer Baugruppe denselben Mitarbeiter mehrfach einsetzten können? ][
     Nein, ein Mitarbeiter kann in einer Baugruppe nur einmal vorkommen. Er kann jedoch in mehreren verschiedenen Baugruppen gleichzeitig Mitglied sein.
   ]
-  #QaA[Sollen die Gruppen einmalig festgelegt werden oder sollen sie manuell erstellt werden können? ][
-    Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben. Konkrete Baugruppen können aber vom Benutzer dynamisch erstellt und verwaltet werden.
-    //TODO: wer ist der Benutzer?
+  #QaA(labelName: "Gruppenerstellung")[Sollen die Gruppen einmalig festgelegt werden oder sollen sie manuell erstellt werden können? ][
+    Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben. Konkrete Baugruppen können aber von Verwaltungsmitarbeiter dynamisch erstellt und verwaltet werden.
     Eine Gruppe umfasst folgende Attribute:
 
     #entityFigure("Gruppe", arguments(
@@ -587,7 +586,7 @@
     #QaA[Sollen die Unterauftragnehmer ebenfalls separat verwaltet werden? ][
       Ja, externe Unterauftragnehmer werden als Kontaktdaten (Name, Firma, Telefon, E-Mail) verwaltet und können Unteraufträgen zugeordnet werden.
     ]
-    #QaA[Sollen die Unteraufträge in der Auftrag-GUI verwaltet werden? ][
+    #QaA(labelName: "Ansicht-Unteraufträge")[Sollen die Unteraufträge in der Auftrag-GUI verwaltet werden? ][
       Ja, Unteraufträge werden in der Detailansicht des Auftrags angezeigt und können dort erstellt, bearbeitet und gelöscht werden.
     ]
     #QaA[Welche charakteristischen Daten enthält ein Unterauftrag? ][
@@ -868,7 +867,7 @@
   ]
   ],
   textFigure(short)[LF 90], [Viele unserer Angestellten sind teilzeitbeschäftigt. Für alle Angestellten sollen deshalb die Anwesenheitszeiten erfasst werden.
-  #QaA[Wie sollen die Anwesenheitszeiten erfasst werden? (Manuell, automatisch, durch Stempelkarten, ...) ][
+  #QaA(labelName: "Erfassung-Anwesenheitszeiten")[Wie sollen die Anwesenheitszeiten erfasst werden? (Manuell, automatisch, durch Stempelkarten, ...) ][
     In der Firma werden Stempelkarten verwendet, die automatisch die Start- und Endzeiten erfassen. Diese Daten werden täglich in das System importiert.
   ]
   #QaA(labelName: "Rechte-auf-Anwesenheitszeiten")[Wer hat Lese- und Schreibrechte für die Anwesenheitszeiten? ][
@@ -957,7 +956,7 @@
   #QaA[[INTERN] Wie sollen die Daten gespeichert werden? Welches Datenformat soll verwendet werden? ][
     Zunächst in lesbaren Dateien (CSV/JSON), später in einer relationalen Datenbank (z.B. PostgreSQL, SQLite). Dateien (Baupläne, Bilder) bleiben im Dateisystem.
   ]
-  #QaA[Was passiert nach der 10 Jahres Frist? Können die Daten dann gelöscht werden? ][
+  #QaA(labelName: "10-Jahres-Frist-Ablauf")[Was passiert nach der 10 Jahres Frist? Können die Daten dann gelöscht werden? ][
     Ja, Daten können nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht werden, sofern keine anderen rechtlichen oder geschäftlichen Gründe dagegen sprechen.
   ]
   #QaA[Wer muss über die 10 Jahre einen Zugriff auf die Daten haben? ][

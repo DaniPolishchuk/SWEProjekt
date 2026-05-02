@@ -51,7 +51,7 @@ Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichke
 - *Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
 - *Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases am oberen Rand des Diagramms sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
 - *Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
-- *Rot*: //TODO
+- *Rot (Vertiefung)*: Die rot markierten Use-Cases werden im Verlauf noch weiter vertieft.
 
 
 === Daten suchen und filtern
@@ -78,136 +78,98 @@ Dieser Anwendungsfall ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei w
 Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig.
 
 === Verwaltungsdaten bearbeiten
-
-Dieser Anwendungsfall beschreibt die zentrale Verwaltung der im System vorhandenen Daten. Dazu zählen unter anderem:
-- Buchung
-- Arbeitsaufträge und Projekte  
-- Geräte
-- Personal  
-
-Je nach Rolle bestehen unterschiedliche Berechtigungen hinsichtlich Lesen und Bearbeiten dieser Daten.
-
-
-=== Projektdaten verwalten
-
-Dieser Use-Case umfasst die Verwaltung aller projektspezifischen Informationen.
-
-Dazu gehören:
-- Anlegen und Bearbeiten von Projekten  
-- Pflege von projektbezogenen Daten  
-- Zuordnung von Ressourcen  
-
-Der volle Zugriff auf diese Funktion ist insbesondere Bau- und Projektleitern vorbehalten.
-
-
-
-=== Daten exportieren
-
-Dieser Use-Case beschreibt den selektiven Export von Daten aus dem System.
-
-Dabei ist zu beachten:
-- Der Zugriff erfolgt abhängig von der jeweiligen Rolle  
-- Verwaltungsmitarbeiter können ausgewählte Daten exportieren  
-- Administratoren besitzen uneingeschränkten Zugriff  
-
-=== Daten importieren
-
-Der Import von Daten in das System ist ein sicherheitskritischer Vorgang und daher ausschließlich dem Administrator vorbehalten.
-
-Dieser Anwendungsfall dient dazu:
-- externe Daten in das System zu integrieren  
-- bestehende Datenbestände zu erweitern  
-
-=== Backup durchführen
-
-Dieser Anwendungsfall stellt die Sicherung der Systemdaten sicher.
-
-Er umfasst:
-- regelmäßige Datensicherungen  
-- Schutz vor Datenverlust  
-
-Die Durchführung erfolgt ausschließlich durch den Administrator.
+Dieser Anwendungsfall beschreibt die zentrale Verwaltungsfunktion der im System vorhandenen Daten. Dazu hat der Anwendungsfall 5 verschiedene extension-points:
+- Buchung verwalten  
+- Geräte verwalten verwalten 
+- Arbeitsaufträge und Projekte verwalten
+- Personal verwalten
+//TODO: Arbeitsaufträge und Projekte lesen zählt doch nicht zu bearbeiten oder?
 
 === Personal verwalten
+Durch diesen Use-Case können Verwaltungsmitarbeiter Mitarbeiterstammdaten anlegen, bearbeiten und löschen. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefonnummer, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende) mit einer eindeutigen Mitarbeiternummer. Die Adresse wird dabei als separate Entität modelliert und über eine Referenz zugeordnet. Das System prüft dabei automatisch auf mögliche Duplikate anhand von den Attributen. 
+Des Weiteren umfasst dieser Use-Case auch das Anlegen und Zuordnen von Gruppen. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben. Jede Gruppe erhält eine eindeutige Gruppennummer, einen Namen, eine Beschreibung und optional einen Gruppenleiter. Ein Mitarbeiter kann mehreren Gruppen angehören, eine Gruppe kann mehrere Mitarbeiter enthalten #referenceQ("q_Gruppenerstellung").
 
-Ermöglicht dem Verwaltungsmitarbeiter das Anlegen, Bearbeiten und Löschen von Mitarbeiterstammdaten. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefonnummer, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende). Jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer. Die Adresse wird als separate Entität modelliert und über eine Referenz zugeordnet.  Bei der Anlage eines neuen Mitarbeiters prüft das System automatisch auf mögliche Duplikate anhand von Vorname, Nachname und Geburtsdatum.
+=== Geräte verwalten
+siehe Vertiefung
 
-//FRAGE: Die Rolle des Mitarbeiters wird durch den Administrator zugewiesen. => kann das nicht die Verwaltung machen?
+=== Arbeitsaufträge und Projekte verwalten
+Dieser Use-Case erweitert den Use-Case "Arbeitsaufträge und Projekte lesen" um Schreibrechte, wodurch Arbeitsaufträge und Projekte angelegt, bearbeitet und gelöscht werden können. Hierzu werden Attribute wie Auftragsbezeichnung, Start-/Endtermin, Einsatzort, beteiligte Personen und Status festgelegt sowie Projekte über eine Referenz zugeordnet. Der Kostenvoranschlag wird aus dem Finanzbuchhaltungssystem lesend übernommen. \
+Um ein Projekt zu referenzieren muss dieses zuerst mit Attributen wie Projektname, Projektleiter und Einsatzort angelegt werden. Der Einsatzort eines Projektes ist dabei detaillierter als der eines Arbeitsauftrag. Ein Projekt kann zunächst ohne Aufträge existieren. \
+Darüber hinaus umfasst dieser Use-Case auch das Anlegen, Bearbeiten, Löschen und Zuordnen von Unteraufträgen. Dies geschieht in der Detailansicht des jeweiligen Arbeitsauftrags #referenceQ("q_Ansicht-Unteraufträge"). Ein Unterauftrag ist dabei ein Auftrag der von einem Unterauftragnehmer ausgeführt wird. Der Unterauftragnehmer wird per Referenz zugeordnet und von der Verwaltung angelegt. 
 
-=== Gruppen verwalten
+Während des ganzen Prozesses prüft das System auf Duplikate #referenceG("LF 100"). Nach erfolgreicher Anlage ist der Arbeitsauftrag und die enthaltenen Unteraufträge und Projekte im Terminplaner sichtbar. 
 
-Umfasst das Anlegen, Bearbeiten und Löschen von Gruppen sowie die Zuordnung von Mitarbeitern zu Gruppen. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben, konkrete Instanzen können jedoch dynamisch erstellt werden. Jede Gruppe erhält eine eindeutige Gruppennummer, einen Namen und optional einen Gruppenleiter. Ein Mitarbeiter kann mehreren Gruppen angehören, eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung). Baugruppen enthalten Arbeitsgruppen für die Baustellen und benötigen mindestens einen Baugruppenleiter. Die Verwaltung erfolgt über eine übersichtliche GUI mit Auswahllisten, die durchsuchbar und filterbar sind (LF70). Der Verwaltungsmitarbeiter und der Administrator haben Vollzugriff auf die Gruppenverwaltung, während die Bauleitung Gruppen nur lesend einsehen und Projekten/Aufträgen zuordnen kann (LF20).
-//FRAGE: gibt es gar nicht im Diagramm
+=== Buchungen verwalten
+In diesem Use-Case können Bau-/Projektleiter Geräte buchen, worunter für einen Arbeitsauftrag benötigte Baumaschinen und Bauwerkzeuge fallen. Dabei wird das gewünschte Gerät über eine Auswahlliste ausgewählt. Durch Angabe des Zeitraum und des Arbeitsauftrag prüft das System automatisch die Verfügbarkeit des Geräts im angegebenen Zeitraum. Bei Verfügbarkeit wird die Buchung angelegt und erhält eine eindeutige Buchungsnummer. Bei Nichtverfügbarkeit wird wiederum eine Fehlermeldung angezeigt. 
+Ebenfalls können bestehende Buchungen bearbeitet oder storniert werden. Die Buchungsverwaltung ermöglicht die Übersicht über alle aktuellen und zukünftigen Buchungen anhand des Status (aktiv, abgeschlossen, storniert).
+//TODO Verfügbarkeit prüfen
 
-=== Projekt anlegen
+=== Finanzdaten lesen
+Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für dne Kostenvoranschlag beim einem Arbeitsauftrag benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet jedoch allein im Finanzbuchhaltungssystem hat, wodurch dieses System nur Leserechte auf die Finanzdaten hat.
 
-Der Projektleiter oder Bauleiter legt ein neues Projekt an. Dabei wird zunächst ein Projektname und eine Beschreibung eingegeben. Die Projektnummer wird automatisch vom System vergeben. Ein Projektleiter wird dem Projekt zugeordnet (Referenz auf Mitarbeiter). Der Einsatzort wird als Adresse der Baustelle eingegeben. Start- und Endtermine werden festgelegt und der Projektstatus wird auf "Geplant" gesetzt. Optional kann eine detaillierte Projektbeschreibung hinzugefügt werden. Nach erfolgreicher Anlage ist das Projekt im Terminplaner sichtbar und kann für die Erstellung von Arbeitsaufträgen verwendet werden. Das System prüft vor dem Speichern auf mögliche Duplikate (LF100). Ein Projekt kann zunächst ohne Aufträge existieren; Aufträge werden später hinzugefügt. Die Projektverwaltung ist mit der Auftragsverwaltung über eine 1:n-Beziehung verknüpft (ein Projekt kann mehrere Aufträge enthalten).
-//FRAGE: wo ist die Verbindung zum Terminplaner
+=== Daten Daten archivieren (10 Jahres Frist)
+Bei diesem Use-Case sollen alle Daten die noch nicht 10 Jahre alt sind archiviert werden. Darunter fallen alle Daten die aktuell nicht mehr verwendet werden, jedoch aus rechtlichen Gründen noch bis zu 10 Jahre zugänglich sein müssen. Sofern keine anderen rechtlichen oder geschäftlichen Gründe dagegen sprechen, werden die Daten nach 10 Jahren endgültig gelöscht #referenceQ("q_10-Jahres-Frist-Ablauf").
 
-=== Arbeitsauftrag verwalten
+=== Benutzerrollen verwalten
+Dieser Use-Case wird vom Administrator ausgeführt und passiert, nachdem die Verwaltung einen neuen Benutzter im System angelegt hat. Durch die Vergabe der Rolle hat der Benutzter bestimmte Rechte auf das System.
 
-Ermöglicht der Bauleitung das Anlegen, Bearbeiten und Löschen von Arbeitsaufträgen. Bei der Erstellung wird eine Auftragsbezeichnung und Beschreibung eingegeben. Die Auftragsnummer wird automatisch vergeben. Der Auftrag wird einem oder mehreren Projekten zugeordnet (n:m-Beziehung), da ein Auftrag über mehrere Projekte verteilt sein kann. Es werden Start-, End- und optional Zwischentermine festgelegt. Beteiligte Personen und Gruppen werden dem Auftrag zugeordnet. Der Einsatzort wird als Adresse eingegeben. Optional können Unteraufträge angelegt und Baupläne referenziert werden. Der Auftragsstatus wird festgelegt. Nach erfolgreicher Anlage ist der Auftrag im Terminplaner sichtbar.
-//FRAGE: Der Kostenvoranschlag wird aus dem Finanzbuchhaltungssystem lesend übernommen.
-//FRAGE: wo ist die Verbindung zum Terminplaner
 
-=== Baumaschine/Werkzeug verwalten
+=== Daten übertragen
+Das Übertragen von Daten ist ein sicherheitskritischer Vorgang und wird daher ausschließlich dem Administrator vorbehalten. Das beinhaltet den Import und Export von Daten, die als eigener Use-Case inkludiert werden. Dies hat den Grund, dass der Import und Export von Daten systemweit möglich ist und so auch von anderen Use-Cases genutzt werden kann.
 
-Umfasst das Anlegen, Bearbeiten und Löschen von Baumaschinen und Bauwerkzeugen durch die Bauleitung oder den Administrator. Beide werden über eine gemeinsame Geräteklasse verwaltet und über ein Kategorieattribut unterschieden. Bei der Anlage wird eine Bezeichnung (z.B. "Bagger CAT 320"), eine Kategorie (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung) und ein Typ (Baumaschine oder Bauwerkzeug) eingegeben. Die Gerätenummer wird automatisch vergeben. Eine Seriennummer (Herstellerseriennummer) wird erfasst. Das Gerät wird einem Lager zugeordnet (Referenz auf Lager). Optional wird ein aktueller Standort angegeben, falls das Gerät nicht im Lager ist. Der Status (Verfügbar, gebucht, in Wartung, defekt) wird festgelegt. Anschaffungsdatum, letzter Wartungstermin und nächster Wartungstermin werden erfasst. Ausrüstung (z.B. Baggerschaufel, Kranzubehör) kann dem Gerät zugeordnet werden. Bilder können hochgeladen werden (LF80). Der Standort kann manuell aktualisiert werden, wenn das Gerät transportiert wird. Verwaltungsmitarbeiter haben auf Baumaschinen und Werkzeuge nur Leserechte (LF50).
+=== Daten importieren
+Der Import kann beispielsweise aus dem Altsystem oder anderen Quellen im CSV-Format erfolgen #referenceQ("q_Import-Format"). Alle relevanten Daten können importiert werden: Mitarbeiterdaten, Auftragsdaten, Baumaschinen- und Werkzeugdaten, Gruppenzuordnungen #referenceQ("q_Import-Export-Daten"). Das System prüft beim Import automatisch auf Duplikate und zeigt Warnungen an. Duplikatswarnungen können überschrieben werden.
 
-=== Baumaschine/Werkzeug buchen
+=== Daten exportieren
+Der Export erfolgt ebenfalls im CSV-Format und dient der Erstellung von Berichten oder Backups #referenceQ("q_Export-Format"). Einzelne Datensätze (z.B. Aufträge, Mitarbeiterlisten) können selektiv exportiert werden. Eine Verschlüsselung der Exportdaten ist nicht erforderlich, da die Dateien nur intern verwendet werden #referenceQ("q_Export-Verschlüsselung").
 
-Der Projektleiter oder Bauleiter bucht eine Baumaschine oder ein Werkzeug für einen Arbeitsauftrag. Dabei wird das gewünschte Gerät ausgewählt (über Suchfunktion oder Auswahlliste). Der Zeitraum wird durch Start- und Enddatum festgelegt. Der Auftrag wird zugeordnet (Referenz auf Arbeitsauftrag). Das System prüft automatisch die Verfügbarkeit des Geräts im angegebenen Zeitraum. Bei Verfügbarkeit wird die Buchung gespeichert und erhält eine eindeutige Buchungsnummer. Der buchende Mitarbeiter und das Buchungsdatum werden automatisch erfasst. Der Buchungsstatus wird auf "Aktiv" gesetzt. Bei Nichtverfügbarkeit wird eine Fehlermeldung angezeigt. Die Buchung kann direkt beim Anlegen eines Auftrags oder später bei Bedarf erfolgen. Bestehende Buchungen können bearbeitet oder storniert werden. Die Benutzungszeiträume werden automatisch über die Buchungen ermittelt. Die Buchungsverwaltung ermöglicht die Übersicht über alle aktuellen und zukünftigen Buchungen. Verwaltungsmitarbeiter können Buchungen nur lesend einsehen. Die Verfügbarkeitssuche ist Teil der Gerätesuche (LF50).
+=== System verwalten
+//TODO: was beinhaltet dieser Use-Case
 
+=== Backup erstellen
+//TODO: je nach "System verwalten" beschreiben
 
 
 === Anwesenheitszeiten verwalten
+//TODO: evtl. im Use-Case ergänzen
+Der Administrator kann die Anwesenheitszeiten für alle Mitarbeiter bearbeiten. Die Erfassung erfolgt primär durch Nutzung einer Stempelkarte, die täglich in das System importiert werden #referenceQ("q_Erfassung-Anwesenheitszeiten"). Für den Fall, dass es Fehler beim Import gab oder beispielsweise Mitarbeiter das Stempeln vergessen haben, kann der Administrator in diesem Use-Case den Eintrag korrigieren.
+Die Anwesenheitszeiten werden als Tabelle dargestellt, filterbar nach Tag, Woche oder Monat. Die Gesamtstunden werden automatisch berechnet.
+//TODO includet Import von Daten
 
-Der Administrator und der Verwaltungsmitarbeiter erfassen und verwalten Anwesenheitszeiten für alle Mitarbeiter. Die Erfassung erfolgt primär durch Import von Stempelkarten-Daten (CSV-Format, automatisch täglich). Manuelle Eingabe ist ebenfalls möglich. Jeder Eintrag umfasst den Mitarbeiter (Referenz), das Datum, Startzeit, Endzeit und den Typ (Anwesend, Urlaub, Krankheit, sonstige Abwesenheit). Optional kann eine Bemerkung hinzugefügt werden. Die Anwesenheitszeiten werden als Tabelle dargestellt, filterbar nach Tag, Woche oder Monat. Die Gesamtstunden werden automatisch berechnet. Der Export für die Lohnabrechnung erfolgt im CSV-Format. Alle Mitarbeiter können ihre eigenen Anwesenheitszeiten einsehen (Leserecht), aber nicht bearbeiten. Vorgesetzte können die Zeiten ihrer direkten Mitarbeiter einsehen. Anwesenheitsdaten unterliegen der DSGVO und dürfen nur von berechtigten Personen eingesehen werden (LF90).
 
-=== Daten importieren/exportieren
 
-Ermöglicht dem Administrator den Import und Export von Daten. Der Import erfolgt aus dem Altsystem oder anderen Quellen im CSV-Format (Semikolon-separiert, UTF-8-kodiert). Alle relevanten Daten können importiert werden: Mitarbeiterdaten, Auftragsdaten, Baumaschinen- und Werkzeugdaten, Gruppenzuordnungen. Das System prüft beim Import automatisch auf Duplikate (LF100) und zeigt Warnungen an. Der Administrator kann Duplikatswarnungen überschreiben. Der Export erfolgt ebenfalls im CSV-Format und dient der Erstellung von Berichten oder Backups. Einzelne Datensätze (z.B. Aufträge, Mitarbeiterlisten) können selektiv exportiert werden. Finanztechnische Daten (Gehälter, Löhne, Projektkosten) werden nicht exportiert, da sie im separaten Finanzbuchhaltungssystem verwaltet werden. Rechnungen, Mahnungen und Kostenvoranschläge werden aus dem Finanzsystem importiert (CSV-Export, unidirektional, nur lesen). Die Synchronisation erfolgt manuell durch den Administrator bei Bedarf (z.B. wöchentlich oder nach Rechnungsstellung). Eine Verschlüsselung der Exportdaten ist nicht erforderlich, da die Dateien nur intern verwendet werden.
+== Verfeinerung "Geräte verwalten"
+Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
 
-== Verfeinerung "Baumaschine/Werkzeug verwalten"
+#figure(image("../assets/UseCase-Digramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.svg"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
 
-Als Verfeinerung wurde "Baumaschine/Werkzeug verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern, die Verwaltung von Ausrüstung, die Aktualisierung von Standorten und die Berücksichtigung von Wartungsterminen. Diese Funktionalität ist eng mit dem Buchungssystem und der Verfügbarkeitssuche verknüpft.
+=== Gerät suchen
 
-// Hier wird das Verfeinerungsdiagramm eingefügt
-// #figure(image("../assets/usecase_baumaschine_verfeinerung.png"), caption: [Use-Case-Verfeinerung: Baumaschine/Werkzeug verwalten]) <uc_baumaschine_verfeinerung>
-
-=== Baumaschine/Werkzeug anlegen
-
-Der Projektleiter, Bauleiter oder Administrator legt ein neues Gerät an. Die Gerätenummer wird automatisch vergeben. Eine Bezeichnung (z.B. "Bagger CAT 320") und eine Kategorie (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung) werden eingegeben. Der Typ (Baumaschine oder Bauwerkzeug) wird festgelegt. Die Seriennummer wird erfasst. Das Gerät wird einem Lager zugeordnet (Referenz auf Lager). Der Status wird auf "Verfügbar" gesetzt. Das Anschaffungsdatum wird eingegeben. Optional können der letzte Wartungstermin und der nächste Wartungstermin erfasst werden. Dieser Use-Case inkludiert die Zuordnung zu einem Lager, die Eingabe von Attributen und optional die Zuordnung von Ausrüstung sowie das Hochladen von Bildern.
-
-=== Lager zuordnen
-
-Wird beim Anlegen oder Bearbeiten eines Geräts automatisch inkludiert. Der Benutzer wählt ein Lager aus einer Auswahlliste aus. Die Liste zeigt alle verfügbaren Lager mit Name, Typ (Platz oder Gebäude) und Adresse an. Die Auswahlliste ist durchsuchbar und filterbar. Wenn kein passendes Lager existiert, kann direkt ein neues Lager angelegt werden. Die Lagerzuordnung ist zwingend erforderlich, da jedes Gerät einem Lager zugeordnet sein muss. Der aktuelle Standort kann zusätzlich angegeben werden, falls das Gerät vorübergehend nicht im Lager ist (z.B. auf einer Baustelle).
+=== Gerät anlegen
+Geräte können sowohl von Bau-/Projekleitern als auch zur Unterstützung von Verwaltungsmitarbeiter verwaltet werden. Dies umfasst das Anlegen, Bearbeiten und Löschen von Geräte, welche je nach Typisierung unter Baumaschinen oder Bauwerkzeuge fallen. Bei der Anlage wird eine Bezeichnung, Kategorie, Status und der Typ eingegeben. Die Gerätenummer wird automatisch vergeben und die Seriennummer (Herstellerseriennummer) mit erfasst. Das Gerät wird einem Lager zugeordnet und der aktuelle Standort wird zusätzlich angegeben. Anschaffungsdatum, letzter Wartungstermin und nächster Wartungstermin werden erfasst. 
+Ausrüstung kann dem Gerät zugeordnet werden. Bilder können hochgeladen werden (LF80). Der Standort kann manuell aktualisiert werden, wenn das Gerät transportiert wird. Verwaltungsmitarbeiter haben auf Baumaschinen und Werkzeuge nur Leserechte (LF50).
+//TODO: KI generiert => Überprüfung notwendig
 
 === Ausrüstung zuordnen
-
 Erweitert optional das Anlegen oder Bearbeiten eines Geräts. Ausrüstung (z.B. Baggerschaufel, Kranzubehör wie Behälter, Gewichte, Haken, Anbaugeräte) kann einem Gerät zugeordnet werden. Die Ausrüstung wird als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Jede Ausrüstung hat eine eindeutige Ausrüstungsnummer, eine Bezeichnung, einen Typ, eine Angabe zur Kompatibilität (mit welchen Gerätetypen sie verwendet werden kann), ein Gewicht und einen Status (Verfügbar, zugeordnet, in Wartung, defekt). Ein Gerät kann mehrere Ausrüstungsteile haben. Die Ausrüstung kann auch unabhängig von einem Gerät existieren und bei Bedarf zugeordnet werden. Die Suche nach Baumaschinen kann nach vorhandener Ausrüstung gefiltert werden (z.B. "Bagger mit 1,5m-Schaufel").
-
-=== Bilder hochladen
-
-Erweitert optional das Anlegen oder Bearbeiten eines Geräts. Der Benutzer kann ein oder mehrere Bilder (JPG, PNG, GIF, optional PDF) hochladen. Jedes Bild erhält einen vom Benutzer vergebenen Titel. Die Bilder werden zentral in einem Verzeichnis gespeichert, und der Dateipfad wird in der Datenbank referenziert. Metadaten wie Hochladedatum, Hochlader (Referenz auf Mitarbeiter), Dateigröße und Format werden automatisch erfasst. Die Bilder werden in der Detailansicht als Galerie mit Thumbnails angezeigt. Ein Klick auf ein Thumbnail öffnet das Bild in voller Größe. Mehrere Objekte können auf dasselbe Bild referenzieren. Bilder können ersetzt oder gelöscht werden; eine Versionierung ist nicht erforderlich (LF80).
-
-=== Baumaschine/Werkzeug bearbeiten
-
-Der Projektleiter, Bauleiter oder Administrator bearbeitet ein bestehendes Gerät. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager- und Standortzuordnung, Wartungstermine und die Ausrüstung. Auch Bilder können hinzugefügt oder entfernt werden. Das System prüft vor dem Speichern auf mögliche Duplikate (z.B. anhand der Seriennummer). Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeitssuche aus. Dieser Use-Case inkludiert das Lesen der bestehenden Daten, die Aktualisierung von Attributen und optional die Standortaktualisierung.
-
-=== Standort aktualisieren
-
-Erweitert optional das Bearbeiten eines Geräts. Der aktuelle Standort wird manuell aktualisiert, wenn das Gerät transportiert wird (z.B. von einem Lager zu einer Baustelle oder zurück). Dies kann entweder durch Eingabe einer Adresse oder durch Auswahl eines Lagers erfolgen. Die Standortaktualisierung ist wichtig für die Optimierung der Projektabläufe, da so das nächstgelegene verfügbare Gerät gefunden werden kann. Die Aktualisierung erfolgt manuell durch den Benutzer; eine GPS-Ortung ist nicht erforderlich. Beim Zurücktransport zum Lager wird der Standort entsprechend aktualisiert.
-
-=== Baumaschine/Werkzeug löschen
-
-Der Projektleiter, Bauleiter oder Administrator löscht ein Gerät aus dem System. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Wenn ja, wird eine Warnung angezeigt, und das Löschen wird verhindert oder der Benutzer muss die Buchungen zuerst stornieren. Wenn keine aktiven Buchungen vorliegen, wird das Gerät gelöscht. Referenzen zu Lagern, Ausrüstung und Bildern werden aufgelöst. Bilder werden nicht automatisch aus dem Dateisystem gelöscht, falls sie von anderen Objekten referenziert werden. Abgeschlossene Buchungen (mit Status "abgeschlossen") bleiben aus Dokumentationsgründen erhalten, auch wenn das Gerät gelöscht wurde.
+//TODO: KI generiert => Überprüfung notwendig
 
 === Lager verwalten
-
 Der Administrator verwaltet die Lager für Baumaschinen und Werkzeuge. Dies umfasst das Anlegen, Bearbeiten und Löschen von Lagern. Jedes Lager erhält eine eindeutige Lagernummer, eine Bezeichnung (z.B. "Lager Nord", "Hauptlager"), einen Typ (Platz für Außengelände oder Gebäude für Lagerhalle) und eine Adresse (Referenz auf Adresse-Entität). Optional kann eine Grundstücksbezeichnung und eine Kapazität (maximale Anzahl Geräte) angegeben werden. Lager können über die Suchfunktion gefunden und nach Typ oder Adresse gefiltert werden. Bei der Geräteverwaltung werden die verfügbaren Lager in Auswahllisten angezeigt. Ein Lager kann nur gelöscht werden, wenn keine Geräte mehr zugeordnet sind.
 
-=== Wartungstermin festlegen
+Wird beim Anlegen oder Bearbeiten eines Geräts automatisch inkludiert. Der Benutzer wählt ein Lager aus einer Auswahlliste aus. Die Liste zeigt alle verfügbaren Lager mit Name, Typ (Platz oder Gebäude) und Adresse an. Die Auswahlliste ist durchsuchbar und filterbar. Wenn kein passendes Lager existiert, kann direkt ein neues Lager angelegt werden. Die Lagerzuordnung ist zwingend erforderlich, da jedes Gerät einem Lager zugeordnet sein muss. Der aktuelle Standort kann zusätzlich angegeben werden, falls das Gerät vorübergehend nicht im Lager ist (z.B. auf einer Baustelle).
+//TODO: KI generiert => Überprüfung notwendig
 
-Erweitert optional das Anlegen oder Bearbeiten eines Geräts. Der Benutzer gibt den letzten Wartungstermin (Datum der letzten Wartung) und den nächsten Wartungstermin (Datum der nächsten geplanten Wartung) ein. Diese Informationen dienen der Planung und Sicherstellung der Betriebsbereitschaft. Wenn ein Gerät gewartet werden muss, kann der Status auf "in Wartung" gesetzt werden, sodass es nicht für Buchungen verfügbar ist. Nach Abschluss der Wartung wird der Status wieder auf "Verfügbar" gesetzt, und die Wartungstermine werden aktualisiert. Eine automatische Erinnerung an anstehende Wartungstermine ist nicht Teil des ersten Entwicklungsauftrags, könnte aber als Erweiterung implementiert werden.
+=== Gerät bearbeiten
+Der Projektleiter, Bauleiter oder Administrator bearbeitet ein bestehendes Gerät. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager- und Standortzuordnung, Wartungstermine und die Ausrüstung. Auch Bilder können hinzugefügt oder entfernt werden. Das System prüft vor dem Speichern auf mögliche Duplikate (z.B. anhand der Seriennummer). Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeitssuche aus. Dieser Use-Case inkludiert das Lesen der bestehenden Daten, die Aktualisierung von Attributen und optional die Standortaktualisierung.
+//TODO: KI generiert => Überprüfung notwendig
 
+=== Gerät löschen
+Der Projektleiter, Bauleiter oder Administrator löscht ein Gerät aus dem System. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Wenn ja, wird eine Warnung angezeigt, und das Löschen wird verhindert oder der Benutzer muss die Buchungen zuerst stornieren. Wenn keine aktiven Buchungen vorliegen, wird das Gerät gelöscht. Referenzen zu Lagern, Ausrüstung und Bildern werden aufgelöst. Bilder werden nicht automatisch aus dem Dateisystem gelöscht, falls sie von anderen Objekten referenziert werden. Abgeschlossene Buchungen (mit Status "abgeschlossen") bleiben aus Dokumentationsgründen erhalten, auch wenn das Gerät gelöscht wurde.
+//TODO: KI generiert => Überprüfung notwendig
+
+
+== Verfeinerung "Gerät anlegen"
+Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, 
+
+#figure(image("../assets/UseCase-Digramm/UseCase-Bauunternehmen-Vertiefung_Geraete anlegen.svg"), caption: [Use-Case-Verfeinerung: Geräte anlegen]) <uc_geraete-verwalten>
