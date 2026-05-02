@@ -16,30 +16,23 @@ Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den 
 Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
 === Mitarbeiter
-Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen, wie Arbeitsaufträge, Einsatzorte und die eigenen Anwesenheitszeiten.  
+Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Arbeitszeiten und den Terminplaner mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität für Daten im System zu suchen und zu filtern. 
 
 Der Mitarbeiter stellt dabei die grundlegende Basisrolle innerhalb der Anwendung dar. Diese Rolle fasst allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
-//FRAGE: erbt das Finanzbuchhaltungssystem von Mitarbeiter?
-//FRAGE: zählt Systemanmeldung dazu? Fällt Lesen der Anwesenheitszeiten nicht unter Filtern/Suchen (nur grundlegende Daten?)?
-//  => sofern diese für seine tägliche Arbeit relevant sind? kein Zugriff auf Verwaltung  
 
 === Vorarbeiter
-Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf vergangene, aktuelle und zukünftige Arbeitsaufträge #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge") sowie Geräte. Sie sind das Bindeglied zwischen Bauleitung und Bauarbeitern. Sie koordinieren die Ausführung der Arbeitsaufträge auf der Baustelle, überwachen die Einhaltung von Terminen und sorgen für die Umsetzung der zugewiesenen Aufgaben.
+Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf vergangene, aktuelle und zukünftige Arbeitsaufträge #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge") sowie auf Geräte. Des Weiteren erhalten sie detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf Geräte. Sie sind das Bindeglied zwischen Bauleitung und Bauarbeitern. Sie koordinieren die Ausführung der Arbeitsaufträge auf der Baustelle, überwachen die Einhaltung von Terminen und sorgen für die Umsetzung der zugewiesenen Aufgaben.
 
 === Verwaltungsmitarbeiter
-Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter". Sie arbeiten überwiegend im Büro und sind primär für die Pflege und Organisation der zentralen Datenbestände zuständig #referenceQ("q_Aufgabe-Verwaltung-Admin"). Sie verwalten Mitarbeiterstammdaten und Gruppenzuordnungen. Auf projektbezogene Daten (Buchungen, Projekte, Arbeitsaufträge, Geräte) haben sie nur Leserechte #referenceQ("q_Verwaltungsmitarbeiter-Leserecht-Projektdaten").
-//FRAGE: kann Verwaltungsmitarbeiter Projektdaten lesen? => ja, aber. nur lesen
-//FRAGE: legt der Verwaltungsmitarbeiter Gruppen an? => es steht nur dass der Benutzer sie verwalten kann???
-//TODO: Zugriff lesend auf Finaanzdaten miteinbringen 
+Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter". Sie arbeiten überwiegend im Büro und sind primär für die Pflege und Organisation der zentralen Datenbestände zuständig #referenceQ("q_Aufgabe-Verwaltung-Admin"). Dabei verwalten sie Mitarbeiterstammdaten und Gruppenzuordnungen und haben auf projektbezogene Daten (Buchungen, Projekte, Arbeitsaufträge) Leserechte #referenceQ("q_Verwaltungsmitarbeiter-Leserecht-Projektdaten"). Zusätzlich unterstützen sie die Bau-/Projektleiter beim Verwalten der Geräte. Auch sie erhalten eine detaillierte Einsicht in den Terminplaner mit für ihre Arbeit relevanten Informationen. 
+//TODO: der Verwaltungsmitarbeiter legt Gruppen an => in Lastenheft korrigieren: es steht nur dass der Benutzer sie verwalten kann???
+//TODO: Zugriff lesend auf Finanzdaten miteinbringen?
 
 === Bau- und Projektleiter
-Projektleiter und Bauleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie sind für die operative Steuerung und Umsetzung von Bauprojekten verantwortlich. Sie koordinieren die Planung, Zuweisung von Ressourcen (Mitarbeiter, Geräte), Terminplanung und die Überwachung des Projektfortschritts.  
-//FRAGE: Terminplaner miteinbringen
-//FRAGE: Zugriff auf alle Projektdaten oder nur die eigenen?
-//FRAGE: Unteraufträge?
+Projektleiter und Bauleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie sind für die operative Steuerung und Umsetzung von Projekten verantwortlich, wobei sie die Planung, Zuweisung von Ressourcen (Mitarbeiter, Geräte) und die Überwachung des Projektfortschritts koordinieren. Dazu haben sie zum Verwalten Vollzugriff auf projektspezifische Daten (Buchungen, Projekte, Arbeitsaufträge, Unteraufträge) und Geräte und können alle Informationen im Terminplaner einsehen.
 
 === Administrator
-Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Verwaltungsmitarbeiter mit erweiterten Rechten zu verstehen. Er übernimmt die Verwaltung der Benutzerkonten, indem er ihnen Rollen zu weist. Darüber hinaus ist er für systemkritische Aufgaben wie Import/Export, Backups und die Datenmigration verantwortlich. Es handelt sich hierbei um einen Teil des regulären Teams, da eine dedizierte IT-Person nicht vorgesehen ist #referenceQ("q_dedizierte-IT-Person").
+Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Verwaltungsmitarbeiter mit erweiterten Rechten zu verstehen. Er übernimmt die Verwaltung der Benutzerkonten, indem er ihnen Rollen zu weist. Darüber hinaus ist er für systemkritische Aufgaben wie Datenmigration durch Import/Export, Backups und die Archivierung von Daten verantwortlich. Er ist hierbei ein Teil des regulären Teams, da eine dedizierte IT-Person nicht vorgesehen ist #referenceQ("q_dedizierte-IT-Person").
 
 == Use-Case-Diagramm der gesamten Anwendung
 #figure(
@@ -56,8 +49,8 @@ Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichke
 - *Grün (Verwaltungsbezogene Funktionen):* Die grün eingefärbten Use-Cases repräsentieren die Kernfunktionalitäten der Verwaltung. Diese Verwaltungsfunktionen betreffen sowohl Verwaltungsmitarbeiter als auch Bau- und Projektleitung. Dabei hat die Verwaltung teilweise nur lesenden Zugriff und die Bau- und Projektleitung keinen Zugriff auf Personaldaten.
 - *Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
 - *Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases am oberen Rand des Diagramms sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
-//TODO+FRAGE: Die Suchfunktion ist rollenbasiert eingeschränkt.
 - *Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
+- *Rot*: //TODO
 
 
 === Verwaltungsdaten bearbeiten
