@@ -1,0 +1,246 @@
+---
+config:
+  layout: elk
+  elk:
+    mergeEdges: true
+    nodePlacementStrategy: LINEAR_SEGMENTS
+  look: classic
+---
+classDiagram
+    direction TB
+
+    %% ============================================================
+    %% MITARBEITER & GRUPPEN
+    %% ============================================================
+
+    namespace Mitarbeiter_und_Gruppen {
+        class Mitarbeiter {
+            -mitarbeiternummer: Ganzzahl
+            -vorname: Text
+            -nachname: Text
+            -geburtsdatum: Datum
+            -email: Text
+            -telefonnummer: Text
+            -position: Text
+            -beschaeftigungsart: Text
+            -vertragsbeginn: Datum
+            -vertragsende: Datum
+        }
+
+        class Adresse {
+            -strasse: Text
+            -hausnummer: Text
+            -plz: Text
+            -ort: Text
+            -land: Text
+        }
+
+        class Rolle {
+            -rollennummer: Ganzzahl
+            -name: Text
+        }
+
+        class Gruppe {
+            -gruppennummer: Ganzzahl
+            -gruppenname: Text
+            -gruppentyp: Text
+            -beschreibung: Text
+        }
+
+        class Anwesenheitszeit {
+            -anwesenheitsID: Ganzzahl
+            -datum: Datum
+            -startzeit: Zeit
+            -endzeit: Zeit
+            -typ: Text
+            -bemerkung: Text
+        }
+    }
+
+    Mitarbeiter "0..*" --> "1" Adresse : wohnt an
+    Mitarbeiter "0..*" --> "1" Rolle : hat Rolle
+    Mitarbeiter "0..*" -- "0..*" Gruppe : gehoert zu
+    Gruppe "0..*" --> "0..1" Mitarbeiter : Gruppenleiter
+    Mitarbeiter "1" *-- "0..*" Anwesenheitszeit : erfasst
+
+    %% ============================================================
+    %% PROJEKTE & AUFTRAEGE
+    %% ============================================================
+
+    namespace Projekte_und_Auftraege {
+        class Projekt {
+            -projektnummer: Ganzzahl
+            -projektname: Text
+            -starttermin: Datum
+            -endtermin: Datum
+            -beschreibung: Text
+            -status: Text
+        }
+
+        class Arbeitsauftrag {
+            -auftragsnummer: Ganzzahl
+            -auftragsbezeichnung: Text
+            -bauplan: Text
+            -starttermin: Datum
+            -endtermin: Datum
+            -kostenvoranschlag: Dezimalzahl
+            -status: Text
+            -bemerkung: Text
+        }
+
+        class Unterauftrag {
+            -unterauftragsnummer: Ganzzahl
+            -bezeichnung: Text
+            -starttermin: Datum
+            -endtermin: Datum
+            -status: Text
+            -kosten: Dezimalzahl
+            -bemerkung: Text
+        }
+
+        class Unterauftragnehmer {
+            -unterauftragnehmerID: Ganzzahl
+            -firmenname: Text
+            -ansprechperson: Text
+            -telefon: Text
+            -email: Text
+            -fachbereich: Text
+        }
+
+        class Termin {
+            -arbeitsauftrag: Referenzen
+            -projekt: Referenzen
+            -buchung: Referenzen
+        }
+    }
+
+    Projekt "0..*" --> "1" Mitarbeiter : Projektleiter
+    Projekt "0..*" --> "1" Adresse : Einsatzort
+    Projekt "1..*" -- "1..*" Arbeitsauftrag : enthaelt
+    Arbeitsauftrag "0..*" --> "1..*" Mitarbeiter : beteiligte Personen
+    Arbeitsauftrag "0..*" --> "1" Adresse : Einsatzort
+    Arbeitsauftrag "1" *-- "0..*" Unterauftrag : hat
+    Arbeitsauftrag "0..*" --> "0..*" Termin : Zwischentermine
+    Unterauftrag "0..*" --> "0..1" Unterauftragnehmer : ausgefuehrt von
+    Unterauftragnehmer "0..*" --> "1" Adresse : Adresse
+
+    %% ============================================================
+    %% FINANZDOKUMENTE (extern, nur lesend)
+    %% ============================================================
+
+    namespace Finanzdokumente {
+        class Rechnung {
+            -rechnungsnummer: Ganzzahl
+            -betrag: Dezimalzahl
+            -faelligkeitsdatum: Datum
+            -status: Text
+        }
+    }
+
+    Rechnung "0..*" --> "1" Arbeitsauftrag : gehoert zu
+
+    %% ============================================================
+    %% GERAETE & AUSRUESTUNG
+    %% ============================================================
+
+    namespace Geraete_und_Ausruestung {
+        class Geraet {
+            -geraetenummer: Ganzzahl
+            -bezeichnung: Text
+            -typ: Text
+            -kategorie: Text
+            -seriennummer: Text
+            -standort: Text
+            -status: Text
+            -anschaffungsdatum: Datum
+            -letzterWartungstermin: Datum
+            -naechsterWartungstermin: Datum
+        }
+
+        class Ausruestung {
+            -ausruestungsnummer: Ganzzahl
+            -bezeichnung: Text
+            -typ: Text
+            -kompatibelMit: Text
+            -gewicht: Dezimalzahl
+            -status: Text
+        }
+
+        class Lager {
+            -lagernummer: Ganzzahl
+            -lagerbezeichnung: Text
+            -typ: Text
+            -grundstueck: Text
+            -kapazitaet: Ganzzahl
+        }
+    }
+
+    Geraet "1" o-- "0..*" Ausruestung : hat Ausruestung
+    Geraet "0..*" --> "1" Lager : zugeordnet
+    Lager "0..*" --> "1" Adresse : Adresse
+
+    %% ============================================================
+    %% BUCHUNGEN
+    %% ============================================================
+
+    namespace Buchungen {
+        class Buchung {
+            -buchungsnummer: Ganzzahl
+            -startdatum: Datum
+            -enddatum: Datum
+            -buchungsdatum: Datum
+            -status: Text
+        }
+    }
+
+    Buchung "0..*" --> "1..*" Geraet : betrifft
+    Buchung "0..*" --> "1" Arbeitsauftrag : fuer Auftrag
+    Buchung "0..*" --> "1" Mitarbeiter : gebucht von
+
+    %% ============================================================
+    %% BILDER
+    %% ============================================================
+
+    namespace Bilder {
+        class Bild {
+            -bildID: Ganzzahl
+            -titel: Text
+            -dateipfad: Text
+            -dateiname: Text
+            -elementtyp: Text
+            -hochladedatum: Datum
+            -dateigroesse: Ganzzahl
+            -format: Text
+        }
+    }
+
+    Bild "0..*" --> "1" Mitarbeiter : Hochlader
+    Mitarbeiter "1" *-- "0..*" Bild : hat Bilder
+    Arbeitsauftrag "1" *-- "0..*" Bild : hat Bilder
+    Projekt "1" *-- "0..*" Bild : hat Bilder
+    Geraet "1" *-- "0..*" Bild : hat Bilder
+
+    %% ============================================================
+    %% EXTERNE SYSTEME
+    %% ============================================================
+
+    namespace Externe_Systeme {
+        class Finanzbuchhaltung {
+            <<extern>>
+            +leseRechnungen()
+            +leseMahnungen()
+            +leseKostenvoranschlaege()
+        }
+
+        class Altsystem {
+            <<extern>>
+            +importiereDaten()
+        }
+
+        class Drucker {
+            <<extern>>
+            +drucke(dokument)
+        }
+    }
+
+    Finanzbuchhaltung ..> Rechnung : liest
