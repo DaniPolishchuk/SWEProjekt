@@ -16,9 +16,11 @@ Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den 
 Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
 === Mitarbeiter
-Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Arbeitszeiten und den Terminplaner mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität für Daten im System zu suchen und zu filtern. 
+Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Arbeitszeiten und den Terminplaner mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität, für ihn relevante Daten - wie Geräte - im System zu suchen und zu filtern. 
 
 Der Mitarbeiter stellt dabei die grundlegende Basisrolle innerhalb der Anwendung dar. Diese Rolle fasst allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
+//TODO: Mitarbeiter kann Geräte lesen, weil er im Use-Case "Geräte verwalten" nach Geräte suchen kann
+//  => ist dann der Use-Case "Geräte lesen" beim Vorarbeiter überhaupt nötig?
 
 === Vorarbeiter
 Vorarbeiter erweitert die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf vergangene, aktuelle und zukünftige Arbeitsaufträge #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge") sowie auf Geräte. Des Weiteren erhalten sie detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf Geräte. Sie sind das Bindeglied zwischen Bauleitung und Bauarbeitern. Sie koordinieren die Ausführung der Arbeitsaufträge auf der Baustelle, überwachen die Einhaltung von Terminen und sorgen für die Umsetzung der zugewiesenen Aufgaben.
@@ -54,7 +56,7 @@ Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichke
 - *Rot (Vertiefung)*: Die rot markierten Use-Cases werden im Verlauf noch weiter vertieft.
 
 
-=== Daten suchen und filtern
+=== Daten suchen und filtern <use-case_Daten-suchen-und-filtern>
 Dieser User-Case ermöglicht allen Akteuren, die von der Rolle "Mitarbeiter" erben, das Suchen und Filtern nach Daten im System. Die Suchergebnisse sind rollenbasiert eingeschränkt, sodass jeder Benutzer nur auf die für ihn zugänglichen Daten zugreifen kann. Die Suche erfolgt über eine Kombination aus Textsuche (Name, Bezeichnung) und Filterung nach Kategorien/Attributen #referenceQ("q_Beschreibung-der-Suche"). Separate Suchmasken existieren für Mitarbeiter, Gruppen, Arbeitsaufträge, Projekte, Geräte und Lager #referenceQ("q_Suchmasken"). Die Suchergebnisse werden als Tabelle mit den wichtigsten Attributen angezeigt, wobei ein Klick auf einen Eintrag die Detailansicht öffnet #referenceQ("q_Anzeige-Suchergebnisse"). Die Ergebnisse können nach verschiedenen Spalten sortiert werden #referenceQ("q_Sortierung-Suchergebnisse").
 //TODO: auf Auswahlisten (LF70) würde ich hier nicht eingehen
 //TODO: "Alternativ kann eine zentrale Suche mit Kategorie-Auswahl verwendet werden." => stammt aus F22 -> kann man wegen mir entfernen (unnötig)
@@ -75,7 +77,7 @@ Dieser Anwendungsfall ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei w
 //TODO: soll man hinzufügen, dass sie als Bindeglied/Unterstützung den Bau-/Projekleitern dann einen Buchungsvorschlag für Geräte machen?
 
 === Arbeitsaufträge und Projekte lesen
-Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig.
+Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig. Projekte sind dabei die übergeordnete Einheit der Arbeitsaufträge.
 
 === Verwaltungsdaten bearbeiten
 Dieser Anwendungsfall beschreibt die zentrale Verwaltungsfunktion der im System vorhandenen Daten. Dazu hat der Anwendungsfall 5 verschiedene extension-points:
@@ -90,7 +92,7 @@ Durch diesen Use-Case können Verwaltungsmitarbeiter Mitarbeiterstammdaten anleg
 Des Weiteren umfasst dieser Use-Case auch das Anlegen und Zuordnen von Gruppen. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben. Jede Gruppe erhält eine eindeutige Gruppennummer, einen Namen, eine Beschreibung und optional einen Gruppenleiter. Ein Mitarbeiter kann mehreren Gruppen angehören, eine Gruppe kann mehrere Mitarbeiter enthalten #referenceQ("q_Gruppenerstellung").
 
 === Geräte verwalten
-siehe Vertiefung
+Siehe @chapter-Verfeinerung_Geräte-verwalten.
 
 === Arbeitsaufträge und Projekte verwalten
 Dieser Use-Case erweitert den Use-Case "Arbeitsaufträge und Projekte lesen" um Schreibrechte, wodurch Arbeitsaufträge und Projekte angelegt, bearbeitet und gelöscht werden können. Hierzu werden Attribute wie Auftragsbezeichnung, Start-/Endtermin, Einsatzort, beteiligte Personen und Status festgelegt sowie Projekte über eine Referenz zugeordnet. Der Kostenvoranschlag wird aus dem Finanzbuchhaltungssystem lesend übernommen. \
@@ -113,7 +115,6 @@ Bei diesem Use-Case sollen alle Daten die noch nicht 10 Jahre alt sind archivier
 === Benutzerrollen verwalten
 Dieser Use-Case wird vom Administrator ausgeführt und passiert, nachdem die Verwaltung einen neuen Benutzter im System angelegt hat. Durch die Vergabe der Rolle hat der Benutzter bestimmte Rechte auf das System.
 
-
 === Daten übertragen
 Das Übertragen von Daten ist ein sicherheitskritischer Vorgang und wird daher ausschließlich dem Administrator vorbehalten. Das beinhaltet den Import und Export von Daten, die als eigener Use-Case inkludiert werden. Dies hat den Grund, dass der Import und Export von Daten systemweit möglich ist und so auch von anderen Use-Cases genutzt werden kann.
 
@@ -124,31 +125,28 @@ Der Import kann beispielsweise aus dem Altsystem oder anderen Quellen im CSV-For
 Der Export erfolgt ebenfalls im CSV-Format und dient der Erstellung von Berichten oder Backups #referenceQ("q_Export-Format"). Einzelne Datensätze (z.B. Aufträge, Mitarbeiterlisten) können selektiv exportiert werden. Eine Verschlüsselung der Exportdaten ist nicht erforderlich, da die Dateien nur intern verwendet werden #referenceQ("q_Export-Verschlüsselung").
 
 === System verwalten
-//TODO: was beinhaltet dieser Use-Case
+Dieser Use-Case wird vom Administrator ausgeführt und umfasst die zentrale Verwaltung des Systems. Dazu zählen systemweite Einstellungen, wie beispielsweise Konfigurationen von Standardwerten, Systemeigenschaften oder Benutzerpräferenzen zur Darstellung.
+
+Ein weiterer Bestandteil dieses Use-Cases ist die Pflege und Korrektur von Anwesenheitszeiten. Die Erfassung der Anwesenheitszeiten erfolgt primär durch Nutzung einer Stempelkarte, die täglich in das System importiert werden #referenceQ("q_Erfassung-Anwesenheitszeiten"). Für den Fall, dass es Fehler beim Import gab oder beispielsweise Mitarbeiter das Stempeln vergessen haben, kann der Administrator in diesem Use-Case den Eintrag korrigieren. Die Anwesenheitszeiten werden als Tabelle dargestellt, filterbar nach Tag, Woche oder Monat. Die Gesamtstunden werden automatisch berechnet.
+
+Darüber hinaus umfasst der Use-Case unterstützende Tätigkeiten im laufenden Betrieb, wie Support, die Überwachung des Systems, das Erkennen und Beheben von Problemen sowie die Durchführung einfacher Wartungsmaßnahmen.
 
 === Backup erstellen
-//TODO: je nach "System verwalten" beschreiben
+Dieser Use-Case dient der Sicherung aller systemrelevanten Daten, um Datenverlust vorzubeugen und eine Wiederherstellung im Fehlerfall zu ermöglichen.
+Backups werden automatisch tägliche (nachts) und wöchentlich (vollständig) vom System erstellt. Zusätzlich hat der Administrator die Möglichkeit, manuelle Backups bei Bedarf anzustoßen, beispielsweise vor größeren Änderungen oder Updates #referenceQ("q_automatische-Datensicherung").
+Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchführen. Die Backups erfolgen im CSV-Format #referenceQ("q_Import-Export-Daten").
 
 
-=== Anwesenheitszeiten verwalten
-//TODO: evtl. im Use-Case ergänzen
-Der Administrator kann die Anwesenheitszeiten für alle Mitarbeiter bearbeiten. Die Erfassung erfolgt primär durch Nutzung einer Stempelkarte, die täglich in das System importiert werden #referenceQ("q_Erfassung-Anwesenheitszeiten"). Für den Fall, dass es Fehler beim Import gab oder beispielsweise Mitarbeiter das Stempeln vergessen haben, kann der Administrator in diesem Use-Case den Eintrag korrigieren.
-Die Anwesenheitszeiten werden als Tabelle dargestellt, filterbar nach Tag, Woche oder Monat. Die Gesamtstunden werden automatisch berechnet.
-//TODO includet Import von Daten
-
-
-
-== Verfeinerung "Geräte verwalten"
+== Verfeinerung "Geräte verwalten" <chapter-Verfeinerung_Geräte-verwalten>
 Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
 
 #figure(image("../assets/UseCase-Digramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.svg"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
 
 === Gerät suchen
+Dieser Use-Case ermöglicht es nach bestimmten Geräten zu suchen, wodurch die Einsicht von wichtigen Geräteinformationen möglich ist. Diese Funktionalität steht allen Akteuren, die von Mitarbeiter erben zu Verfügung. Die Grundfunktionalität Daten zu suchen besitzt ebenfalls jeder von Mitarbeiter erbender Akteur und ist in der Kompaktansicht (@use-case_Daten-suchen-und-filtern) eingebaut.
 
 === Gerät anlegen
-Geräte können sowohl von Bau-/Projekleitern als auch zur Unterstützung von Verwaltungsmitarbeiter verwaltet werden. Dies umfasst das Anlegen, Bearbeiten und Löschen von Geräte, welche je nach Typisierung unter Baumaschinen oder Bauwerkzeuge fallen. Bei der Anlage wird eine Bezeichnung, Kategorie, Status und der Typ eingegeben. Die Gerätenummer wird automatisch vergeben und die Seriennummer (Herstellerseriennummer) mit erfasst. Das Gerät wird einem Lager zugeordnet und der aktuelle Standort wird zusätzlich angegeben. Anschaffungsdatum, letzter Wartungstermin und nächster Wartungstermin werden erfasst. 
-Ausrüstung kann dem Gerät zugeordnet werden. Bilder können hochgeladen werden (LF80). Der Standort kann manuell aktualisiert werden, wenn das Gerät transportiert wird. Verwaltungsmitarbeiter haben auf Baumaschinen und Werkzeuge nur Leserechte (LF50).
-//TODO: KI generiert => Überprüfung notwendig
+Siehe @chapter-Verfeinerung_Geräte-anlegen.
 
 === Ausrüstung zuordnen
 Erweitert optional das Anlegen oder Bearbeiten eines Geräts. Ausrüstung (z.B. Baggerschaufel, Kranzubehör wie Behälter, Gewichte, Haken, Anbaugeräte) kann einem Gerät zugeordnet werden. Die Ausrüstung wird als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Jede Ausrüstung hat eine eindeutige Ausrüstungsnummer, eine Bezeichnung, einen Typ, eine Angabe zur Kompatibilität (mit welchen Gerätetypen sie verwendet werden kann), ein Gewicht und einen Status (Verfügbar, zugeordnet, in Wartung, defekt). Ein Gerät kann mehrere Ausrüstungsteile haben. Die Ausrüstung kann auch unabhängig von einem Gerät existieren und bei Bedarf zugeordnet werden. Die Suche nach Baumaschinen kann nach vorhandener Ausrüstung gefiltert werden (z.B. "Bagger mit 1,5m-Schaufel").
@@ -169,7 +167,7 @@ Der Projektleiter, Bauleiter oder Administrator löscht ein Gerät aus dem Syste
 //TODO: KI generiert => Überprüfung notwendig
 
 
-== Verfeinerung "Gerät anlegen"
+== Verfeinerung "Gerät anlegen" <chapter-Verfeinerung_Geräte-anlegen>
 Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, 
 
 #figure(image("../assets/UseCase-Digramm/UseCase-Bauunternehmen-Vertiefung_Geraete anlegen.svg"), caption: [Use-Case-Verfeinerung: Geräte anlegen]) <uc_geraete-verwalten>

@@ -1003,7 +1003,7 @@
     #QaA[Wie soll die als "gut" bewertete Zuverlässigkeit gewährleistet werden - wie soll das System bei unerwarteten Fehlern (z.B. Datenbankausfall, Netzwerkunterbrechung) reagieren?][
       Fehlermeldungen in verständlicher Sprache anzeigen, Daten wo möglich zwischenspeichern, automatische Wiederverbindungsversuche bei Netzwerkproblemen. Bei kritischen Fehlern wird der Administrator benachrichtigt.
     ]
-    #QaA[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
+    #QaA(labelName: "automatische-Datensicherung")[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
       Ja, automatische Backups täglich (nachts) und wöchentlich (vollständig). Der Administrator kann Backups auch manuell auslösen.
     ]
   ],
