@@ -39,7 +39,7 @@ Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Ver
 
 == Use-Case-Diagramm der gesamten Anwendung
 #figure(
-  image("../assets/UseCase-Bauunternehmen-Kompaktansicht.svg", width: 100%),
+  image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Kompaktansicht.svg", width: 100%),
   caption: [Use-Case-Diagramm der gesamten Anwendung -- Kompaktansicht der Bauunternehmens-Verwaltungssoftware]
 ) <uc_kompakt>
 
@@ -140,7 +140,7 @@ Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchf
 == Verfeinerung "Geräte verwalten" <chapter-Verfeinerung_Geräte-verwalten>
 Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
 
-#figure(image("../assets/UseCase-Digramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.svg"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
+#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.svg"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
 
 === Gerät suchen
 Dieser Use-Case ermöglicht es nach bestimmten Geräten zu suchen, wodurch die Einsicht von wichtigen Geräteinformationen möglich ist. Diese Funktionalität steht allen Akteuren, die von Mitarbeiter erben zu Verfügung. Die Grundfunktionalität Daten zu suchen besitzt ebenfalls jeder von Mitarbeiter erbender Akteur und ist in der Kompaktansicht (@use-case_Daten-suchen-und-filtern) eingebaut.
@@ -148,26 +148,26 @@ Dieser Use-Case ermöglicht es nach bestimmten Geräten zu suchen, wodurch die E
 === Gerät anlegen
 Siehe @chapter-Verfeinerung_Geräte-anlegen.
 
+=== Gerät bearbeiten
+Die Bearbeitung nach dem Anlegen eines Geräts wird in diesem Use-Case behandelt und kann sowohl von Verwaltungsmitarbeitern als auch von Bau-/Projektleiter durchgeführt werden. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager-, Ausrüstung-, Standortzuordnung und Wartungstermine. Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeit aus.
+//TODO: Einbringe, dass "Ausrüstung zuordnen" INKLUDIERT wird => Problem, warum wird Lager zuordnen nicht inkludiert?
+//TODO: Bilder hinzufügen als Use-Case hinzufügen
+//  Auch Bilder können hinzugefügt oder entfernt werden.
+
 === Ausrüstung zuordnen
-Erweitert optional das Anlegen oder Bearbeiten eines Geräts. Ausrüstung (z.B. Baggerschaufel, Kranzubehör wie Behälter, Gewichte, Haken, Anbaugeräte) kann einem Gerät zugeordnet werden. Die Ausrüstung wird als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Jede Ausrüstung hat eine eindeutige Ausrüstungsnummer, eine Bezeichnung, einen Typ, eine Angabe zur Kompatibilität (mit welchen Gerätetypen sie verwendet werden kann), ein Gewicht und einen Status (Verfügbar, zugeordnet, in Wartung, defekt). Ein Gerät kann mehrere Ausrüstungsteile haben. Die Ausrüstung kann auch unabhängig von einem Gerät existieren und bei Bedarf zugeordnet werden. Die Suche nach Baumaschinen kann nach vorhandener Ausrüstung gefiltert werden (z.B. "Bagger mit 1,5m-Schaufel").
-//TODO: KI generiert => Überprüfung notwendig
+Dieser Use-Case erweitert optional das Anlegen oder Bearbeiten eines Geräts durch Zuordnen von Ausrüstung (z.B. Baggerschaufel, Kranzubehör wie Behälter, Gewichte, Haken, Anbaugeräte). Dabei wird die Ausrüstung wird als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Beim Hinzufügen einer Ausrüstung werden nur die Ausrüstungen, die mit dem Gerätetyp kompatibel sind angezeigt. Die Kompatibilität wird über das Attribut "Kompatibel mit" festgelegt.
 
 === Lager verwalten
-Der Administrator verwaltet die Lager für Baumaschinen und Werkzeuge. Dies umfasst das Anlegen, Bearbeiten und Löschen von Lagern. Jedes Lager erhält eine eindeutige Lagernummer, eine Bezeichnung (z.B. "Lager Nord", "Hauptlager"), einen Typ (Platz für Außengelände oder Gebäude für Lagerhalle) und eine Adresse (Referenz auf Adresse-Entität). Optional kann eine Grundstücksbezeichnung und eine Kapazität (maximale Anzahl Geräte) angegeben werden. Lager können über die Suchfunktion gefunden und nach Typ oder Adresse gefiltert werden. Bei der Geräteverwaltung werden die verfügbaren Lager in Auswahllisten angezeigt. Ein Lager kann nur gelöscht werden, wenn keine Geräte mehr zugeordnet sind.
-
-Wird beim Anlegen oder Bearbeiten eines Geräts automatisch inkludiert. Der Benutzer wählt ein Lager aus einer Auswahlliste aus. Die Liste zeigt alle verfügbaren Lager mit Name, Typ (Platz oder Gebäude) und Adresse an. Die Auswahlliste ist durchsuchbar und filterbar. Wenn kein passendes Lager existiert, kann direkt ein neues Lager angelegt werden. Die Lagerzuordnung ist zwingend erforderlich, da jedes Gerät einem Lager zugeordnet sein muss. Der aktuelle Standort kann zusätzlich angegeben werden, falls das Gerät vorübergehend nicht im Lager ist (z.B. auf einer Baustelle).
-//TODO: KI generiert => Überprüfung notwendig
-
-=== Gerät bearbeiten
-Der Projektleiter, Bauleiter oder Administrator bearbeitet ein bestehendes Gerät. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager- und Standortzuordnung, Wartungstermine und die Ausrüstung. Auch Bilder können hinzugefügt oder entfernt werden. Das System prüft vor dem Speichern auf mögliche Duplikate (z.B. anhand der Seriennummer). Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeitssuche aus. Dieser Use-Case inkludiert das Lesen der bestehenden Daten, die Aktualisierung von Attributen und optional die Standortaktualisierung.
-//TODO: KI generiert => Überprüfung notwendig
+Die Verwaltung der Lager für Geräte übernehmen die Verwaltungsmitarbeiter und Bau-/Projektleiter. Dies umfasst das Anlegen, Bearbeiten und Löschen von Lagern. Jedes Lager erhält eine eindeutige Lagernummer, eine Bezeichnung, einen Typ (Platz für Außengelände oder Gebäude für Lagerhalle) und eine Adresse. Optional kann eine Grundstücksbezeichnung und eine Kapazität (maximale Anzahl Geräte) angegeben werden.
 
 === Gerät löschen
-Der Projektleiter, Bauleiter oder Administrator löscht ein Gerät aus dem System. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Wenn ja, wird eine Warnung angezeigt, und das Löschen wird verhindert oder der Benutzer muss die Buchungen zuerst stornieren. Wenn keine aktiven Buchungen vorliegen, wird das Gerät gelöscht. Referenzen zu Lagern, Ausrüstung und Bildern werden aufgelöst. Bilder werden nicht automatisch aus dem Dateisystem gelöscht, falls sie von anderen Objekten referenziert werden. Abgeschlossene Buchungen (mit Status "abgeschlossen") bleiben aus Dokumentationsgründen erhalten, auch wenn das Gerät gelöscht wurde.
-//TODO: KI generiert => Überprüfung notwendig
+Um Fehler und Missverständnisse auf der Baustelle zu vermeiden, erfolgt das Löschen von Geräten im Büro von Verwaltungsmitarbeiter. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Wenn ja, wird eine Warnung angezeigt, und das Löschen wird durch eine Warnung sowie Konfliktauflösung verhindert. Wenn keine aktiven Buchungen vorliegen, wird das Gerät gelöscht. Referenzen zu Lagern, Ausrüstung und Bildern werden aufgelöst.
+
+=== Buchung stornieren
+Bei diesem Use-Case handelt es sich um eine Erweiterung des Use-Case "Gerät löschen". Eine Stornierung einer Buchung kommt beispielsweise dann zum Tragen, wenn das Gerät, das in der Buchung enthalten ist, gelöscht werden soll. Durch das Löschen werden die Referenzen zu Geräten und Arbeitsaufträgen aufgelöst. Des Weiteren wird das entsprechende Kalender im Terminplaner am entsprechenden Datum wieder als verfügbar angezeigt.
 
 
 == Verfeinerung "Gerät anlegen" <chapter-Verfeinerung_Geräte-anlegen>
 Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, 
 
-#figure(image("../assets/UseCase-Digramm/UseCase-Bauunternehmen-Vertiefung_Geraete anlegen.svg"), caption: [Use-Case-Verfeinerung: Geräte anlegen]) <uc_geraete-verwalten>
+#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.svg"), caption: [Use-Case-Verfeinerung: Geräte anlegen]) <uc_geraete-verwalten>
