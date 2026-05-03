@@ -165,6 +165,9 @@ Dieser Use-Case erweitert optional das Anlegen oder Bearbeiten eines Geräts dur
 === Lager verwalten
 Die Verwaltung der Lager für Geräte übernehmen die Verwaltungsmitarbeiter und Bau-/Projektleiter. Dies umfasst das Anlegen, Bearbeiten und Löschen von Lagern. Jedes Lager erhält eine eindeutige Lagernummer, eine Bezeichnung, einen Typ (Platz für Außengelände oder Gebäude für Lagerhalle) und eine Adresse. Optional kann eine Grundstücksbezeichnung und eine Kapazität (maximale Anzahl Geräte) angegeben werden.
 
+=== Ausrüstung verwalten
+Die Verwaltung des Ausrüstungskatalogs obliegt sowohl den Verwaltungsmitarbeitern als auch den Bau-/Projektleitern. Dieser Use-Case umfasst das Anlegen, Bearbeiten und Löschen von Ausrüstungsgegenständen wie Baggerschaufeln, Kranzubehör (Behälter, Gewichte, Haken) und weiteren Anbaugeräten #referenceG("LF 50"). Jede Ausrüstung erhält dabei eine eindeutige Ausrüstungsnummer, eine Bezeichnung sowie das Attribut "Kompatibel mit", das die Gerätetypen auflistet, denen diese Ausrüstung zugeordnet werden darf. Dieses Attribut bildet die Grundlage für die Filterung in "Ausrüstung zuordnen": Nur Ausrüstungsgegenstände, die mit dem jeweiligen Gerätetyp kompatibel sind, werden dort zur Auswahl angeboten. Vor dem Löschen einer Ausrüstung prüft das System, ob diese noch einem Gerät zugeordnet ist, und gibt gegebenenfalls eine Warnung aus #referenceG("LF 100").
+
 === Gerät löschen
 Um Fehler und Missverständnisse auf der Baustelle zu vermeiden, erfolgt das Löschen von Geräten im Büro von Verwaltungsmitarbeiter. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Wenn ja, wird eine Warnung angezeigt, und das Löschen wird durch eine Warnung sowie Konfliktauflösung verhindert. Wenn keine aktiven Buchungen vorliegen, wird das Gerät gelöscht. Referenzen zu Lagern, Ausrüstung und Bildern werden aufgelöst.
 
