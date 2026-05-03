@@ -38,10 +38,12 @@ Projektleiter und Bauleiter erben ebenfalls die Funktionen der Basisrolle "Mitar
 Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Verwaltungsmitarbeiter mit erweiterten Rechten zu verstehen. Er übernimmt die Verwaltung der Benutzerkonten, indem er ihnen Rollen zu weist. Darüber hinaus ist er für systemkritische Aufgaben wie Datenmigration durch Import/Export, Backups und die Archivierung von Daten verantwortlich. Er ist hierbei ein Teil des regulären Teams, da eine dedizierte IT-Person nicht vorgesehen ist #referenceQ("q_dedizierte-IT-Person").
 
 == Use-Case-Diagramm der gesamten Anwendung
+#v(1em)
 #figure(
   image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Kompaktansicht.svg", width: 100%),
   caption: [Use-Case-Diagramm der gesamten Anwendung -- Kompaktansicht der Bauunternehmens-Verwaltungssoftware]
 ) <uc_kompakt>
+#v(1em)
 
 Das in @uc_kompakt dargestellte Use-Case-Diagramm visualisiert die Gesamtübersicht der Verwaltungssoftware in einer sehr kompakten Form. Hierbei sind die wichtigsten Use-Cases im Allgemeinen dargestellt. Diese trennen sich in weitere Diagramme zu detaillierteren Anwendungsfällen auf.
 
@@ -136,11 +138,14 @@ Dieser Use-Case dient der Sicherung aller systemrelevanten Daten, um Datenverlus
 Backups werden automatisch tägliche (nachts) und wöchentlich (vollständig) vom System erstellt. Zusätzlich hat der Administrator die Möglichkeit, manuelle Backups bei Bedarf anzustoßen, beispielsweise vor größeren Änderungen oder Updates #referenceQ("q_automatische-Datensicherung").
 Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchführen. Die Backups erfolgen im CSV-Format #referenceQ("q_Import-Export-Daten").
 
+#pagebreak()
 
 == Verfeinerung "Geräte verwalten" <chapter-Verfeinerung_Geräte-verwalten>
 Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
 
+#v(1em)
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.svg"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
+#v(1em)
 
 === Gerät suchen
 Dieser Use-Case ermöglicht es nach bestimmten Geräten zu suchen, wodurch die Einsicht von wichtigen Geräteinformationen möglich ist. Diese Funktionalität steht allen Akteuren, die von Mitarbeiter erben zu Verfügung. Die Grundfunktionalität Daten zu suchen besitzt ebenfalls jeder von Mitarbeiter erbender Akteur und ist in der Kompaktansicht (@use-case_Daten-suchen-und-filtern) eingebaut.
@@ -166,8 +171,39 @@ Um Fehler und Missverständnisse auf der Baustelle zu vermeiden, erfolgt das Lö
 === Buchung stornieren
 Bei diesem Use-Case handelt es sich um eine Erweiterung des Use-Case "Gerät löschen". Eine Stornierung einer Buchung kommt beispielsweise dann zum Tragen, wenn das Gerät, das in der Buchung enthalten ist, gelöscht werden soll. Durch das Löschen werden die Referenzen zu Geräten und Arbeitsaufträgen aufgelöst. Des Weiteren wird das entsprechende Kalender im Terminplaner am entsprechenden Datum wieder als verfügbar angezeigt.
 
+#pagebreak()
 
 == Verfeinerung "Gerät anlegen" <chapter-Verfeinerung_Geräte-anlegen>
-Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, 
+Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, da dieser Prozess mehrere klar voneinander abgegrenzte Teilschritte umfasst, die es näher zu beleuchten gilt. Die Verfeinerung zeigt, in welchen Schritten ein neues Gerät im System angelegt wird und welche Pflichtattribute dabei zu erfassen sind.
 
-#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.svg"), caption: [Use-Case-Verfeinerung: Geräte anlegen]) <uc_geraete-verwalten>
+#v(1em)
+#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.svg"), caption: [Use-Case-Verfeinerung: Gerät anlegen]) <uc_geraet-anlegen>
+#v(1em)
+
+Das Diagramm @uc_geraet-anlegen verwendet eine zweistufige Farbcodierung: Die hellblau hinterlegten Use-Cases beschreiben die übergeordneten Prozessschritte, die der Verwaltungsmitarbeiter im Rahmen des Anlegevorgangs direkt ausführt. Die lila dargestellten Use-Cases werden durch den Use-Case "Geräteeigenschaften definieren" mittels _<\<include>>_ eingebunden und repräsentieren die einzelnen Pflichtattribute, die beim Anlegen eines neuen Geräts zu erfassen sind.
+
+=== Gerätetyp auswählen
+Zu Beginn des Anlegevorgangs wählt der Verwaltungsmitarbeiter den Gerätetyp aus einer vordefinierten, erweiterbaren Auswahlliste aus #referenceG("LF 70") #referenceQ("q_Oberbegriff-Gerät"). Die möglichen Gerätetypen umfassen gemäß Lastenheft unter anderem Bagger, LKW, Kräne, Rüttler sowie Bohrmaschinen als Baumaschinen, und Schalungsteile, Bausicherungen sowie Zäune als Bauwerkzeuge #referenceG("LF 50"). Die Auswahl des Gerätetyps hat eine steuernde Funktion für den weiteren Verlauf des Anlegevorgangs: Sie bestimmt, welche Ausrüstungsteile im Folgeschritt als kompatibel gelten und damit zur Zuordnung angeboten werden.
+
+=== Geräteeigenschaften definieren
+Dieser Use-Case bildet den zentralen Schritt des gesamten Anlegevorgangs und umfasst die Erfassung aller gerätebeschreibenden Pflichtattribute. Er bindet mittels _<\<include>>_ die folgenden sieben Use-Cases ein, von denen jeder ein konkretes Attribut des Geräts definiert:
+
+- *Gerätenummer definieren:* Jedem Gerät wird eine eindeutige Gerätenummer zugewiesen, die automatisch vom System vergeben wird.
+- *Bezeichnung definieren:* Es wird eine sprechende Bezeichnung des Geräts eingetragen (z.B. "Kettenbagger CAT 320" oder "20-t-Turmdrehkran").
+- *Kategorie definieren:* Das Gerät wird einer Gerätekategorie aus einer vordefinierten, erweiterbaren Auswahlliste zugeordnet (z.B. Bagger, Kran, Schalungsteil) #referenceG("LF 70").
+- *Seriennummer definieren:* Die vom Hersteller vergebene Seriennummer des konkreten Geräteexemplars wird erfasst.
+- *Status definieren:* Beim Anlegen erhält das Gerät einen initialen Verfügbarkeitsstatus, z.B. "verfügbar", "in Wartung" oder "defekt".
+- *Anschaffungsdatum definieren:* Das Datum der Anschaffung des Geräts wird hinterlegt.
+- *Wartungstermine definieren:* Geplante Wartungstermine (letzter und nächster Wartungstermin) werden erfasst, um die Verfügbarkeit des Geräts langfristig planbar zu halten.
+
+=== Lager und Standort zuordnen
+Nach der Erfassung der grundlegenden Geräteeigenschaften wird dem Gerät ein Lager zugeordnet. Die Lagerauswahl erfolgt über eine Auswahlliste der vorhandenen Lager #referenceG("LF 50"). Ein Lager kann dabei einem Außengelände (Typ: Platz) oder einer Lagerhalle (Typ: Gebäude) entsprechen. Zusätzlich zur Lagerzuordnung wird der aktuelle Standort des Geräts festgehalten. Diese Information ist für die standortbasierte Verfügbarkeitssuche relevant, mit der nach dem nächstgelegenen verfügbaren Gerät für einen Einsatzort gesucht werden kann #referenceG("LF 50").
+
+=== Ausrüstung zuordnen
+Beim Anlegen eines Geräts kann diesem optional Ausrüstung zugeordnet werden. Diese Funktionalität entspricht dem gleichnamigen Use-Case aus der übergeordneten Vertiefung (siehe @chapter-Verfeinerung_Geräte-verwalten): Es werden ausschließlich Ausrüstungsteile angezeigt, die mit dem zuvor ausgewählten Gerätetyp kompatibel sind. Die Kompatibilität ist am Ausrüstungsobjekt über das Attribut "Kompatibel mit" hinterlegt. Die Zuordnung von Ausrüstung ist optional und kann zu einem späteren Zeitpunkt über "Gerät bearbeiten" vorgenommen werden.
+
+=== Bild hinzufügen
+Gemäß LF 80 können allen Elementen des Systems beliebig viele Bilder mit Titel zugeordnet werden #referenceG("LF 80"). Beim Anlegen eines Geräts besteht die Möglichkeit, dem Gerät Bilder (z.B. Fotos des Geräts) hinzuzufügen. Die Bilder liegen zentral in einem gemeinsamen Verzeichnis und werden über ihren Dateipfad referenziert. Das Hinzufügen von Bildern ist optional; Bilder können auch über "Gerät bearbeiten" zu einem späteren Zeitpunkt ergänzt oder entfernt werden.
+
+=== Auf Duplikate prüfen
+Bevor das neue Gerät endgültig im System gespeichert wird, prüft das System automatisch auf mögliche Duplikate #referenceG("LF 100"). Die Prüfung erfolgt anhand charakteristischer Attribute wie Bezeichnung und Seriennummer. Wird ein potenzielles Duplikat erkannt, wird dem Verwaltungsmitarbeiter eine Warnmeldung mit den gefundenen Einträgen angezeigt, sodass er den Vorgang abbrechen oder Änderungen vornehmen kann.
