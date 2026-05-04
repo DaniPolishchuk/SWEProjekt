@@ -69,15 +69,15 @@ Die Klasse `Rechnung` enthält die aus dem Finanzbuchhaltungssystem lesend über
 
 === GeräteTyp (Exemplartyp-Muster)
 
-Die Klasse `GeraetTyp` beschreibt die gemeinsamen Eigenschaften gleichartiger Baumaschinen und Bauwerkzeuge (LF 50). Sie enthält die Attribute Bezeichnung (z.B. "Bagger CAT 320"), Typ (Baumaschine oder Bauwerkzeug) und Kategorie (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung). Diese Attribute sind für alle Exemplare desselben Typs identisch und werden durch die Trennung in eine eigene Klasse nicht redundant gespeichert.
+Die Klasse `GerätTyp` beschreibt die gemeinsamen Eigenschaften gleichartiger Baumaschinen und Bauwerkzeuge (LF 50). Sie enthält die Attribute Bezeichnung (z.B. "Bagger CAT 320"), Typ (Baumaschine oder Bauwerkzeug) und Kategorie (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung). Diese Attribute sind für alle Exemplare desselben Typs identisch und werden durch die Trennung in eine eigene Klasse nicht redundant gespeichert.
 
 === GeräteExemplar (Exemplartyp-Muster)
 
-Die Klasse `GeraetExemplar` repräsentiert ein konkretes, physisch vorhandenes Gerät mit individueller Seriennummer (LF 50). Jedes Exemplar verweist über eine unidirektionale Assoziation auf genau einen `GeraetTyp` und trägt eigene Attribute: aktuelle Standortbezeichnung (als Text), Status (Verfügbar, Gebucht, In Wartung, Defekt), Anschaffungsdatum sowie letzter und nächster Wartungstermin. Die Zuordnung zu einem `Lager` erfolgt per unidirektionaler Assoziation. Durch das Exemplartyp-Muster wird vermieden, dass bei mehreren Geräten desselben Typs (z.B. drei Bagger CAT 320) die Typ-Attribute redundant gespeichert werden.
+Die Klasse `GerätExemplar` repräsentiert ein konkretes, physisch vorhandenes Gerät mit individueller Seriennummer (LF 50). Jedes Exemplar verweist über eine unidirektionale Assoziation auf genau einen `GerätTyp` und trägt eigene Attribute: aktuelle Standortbezeichnung (als Text), Status (Verfügbar, Gebucht, In Wartung, Defekt), Anschaffungsdatum sowie letzter und nächster Wartungstermin. Die Zuordnung zu einem `Lager` erfolgt per unidirektionaler Assoziation. Durch das Exemplartyp-Muster wird vermieden, dass bei mehreren Geräten desselben Typs (z.B. drei Bagger CAT 320) die Typ-Attribute redundant gespeichert werden.
 
 === Ausrüstung (Baugruppe-Muster)
 
-Die Klasse `Ausruestung` modelliert Zubehörteile, die Geräteexemplaren zugeordnet werden können (LF 50): Baggerschaufeln, Kranzubehör (Behälter, Gewichte, Haken) und Anbaugeräte. Die Zuordnung wird als Komposition modelliert, da Ausrüstungsteile ohne ein zugehöriges Geräteexemplar nicht existenzberechtigt sind -- sie werden stets im Kontext eines konkreten Geräts verwaltet und bei dessen Löschung mitentfernt. Die Multiplizität `0..*` berücksichtigt, dass nicht jedes Gerät zwingend Zubehör besitzt (z.B. ein Rüttler). Über das Attribut `kompatibelMit` wird die Kompatibilität mit bestimmten Gerätetypen dokumentiert.
+Die Klasse `Ausrüstung` modelliert Zubehörteile, die Geräteexemplaren zugeordnet werden können (LF 50): Baggerschaufeln, Kranzubehör (Behälter, Gewichte, Haken) und Anbaugeräte. Die Zuordnung wird als Komposition modelliert, da Ausrüstungsteile ohne ein zugehöriges Geräteexemplar nicht existenzberechtigt sind -- sie werden stets im Kontext eines konkreten Geräts verwaltet und bei dessen Löschung mitentfernt. Die Multiplizität `0..*` berücksichtigt, dass nicht jedes Gerät zwingend Zubehör besitzt (z.B. ein Rüttler). Über das Attribut `kompatibelMit` wird die Kompatibilität mit bestimmten Gerätetypen dokumentiert.
 
 === Lager
 
@@ -100,7 +100,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 === Muster: Exemplartyp
 
 #figure(caption: [Analysemuster Exemplartyp -- GeräteTyp und GeräteExemplar])[
-  Die Klassen `GeraetTyp` und `GeraetExemplar` realisieren das Exemplartyp-Muster. Gemeinsame Typ-Eigenschaften (Bezeichnung, Typ, Kategorie) werden in `GeraetTyp` zusammengefasst, während individuelle Instanz-Eigenschaften (Seriennummer, Standort, Status, Wartungstermine) in `GeraetExemplar` modelliert werden. Die Assoziation `GeraetExemplar "0..*" --> "1" GeraetTyp` stellt sicher, dass jedes Exemplar genau einem Typ zugeordnet ist.
+  Die Klassen `GerätTyp` und `GerätExemplar` realisieren das Exemplartyp-Muster. Gemeinsame Typ-Eigenschaften (Bezeichnung, Typ, Kategorie) werden in `GerätTyp` zusammengefasst, während individuelle Instanz-Eigenschaften (Seriennummer, Standort, Status, Wartungstermine) in `GerätExemplar` modelliert werden. Die Assoziation `GerätExemplar "0..*" --> "1" GerätTyp` stellt sicher, dass jedes Exemplar genau einem Typ zugeordnet ist.
 ]
 
 *Begründung:* Das Lastenheft (LF 50) beschreibt einen Fuhrpark mit mehreren Geräten gleichen Typs (z.B. mehrere Bagger CAT 320). Ohne das Exemplartyp-Muster würden Typ-Attribute wie Bezeichnung und Kategorie bei jedem Exemplar redundant gespeichert. Die Aufteilung in Typ- und Exemplarklasse eliminiert diese Redundanz und ermöglicht eine konsistente Verwaltung der Typ-Stammdaten.
@@ -108,7 +108,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 === Muster: Baugruppe
 
 #figure(caption: [Analysemuster Baugruppe -- GeräteExemplar mit Ausrüstung])[
-  Die Komposition zwischen `GeraetExemplar` und `Ausruestung` (`GeraetExemplar "1" *-- "0..*" Ausruestung`) modelliert physische Baugruppen mit zugehörigen Teilen. Die gefüllte Raute (Komposition) drückt die Existenzabhängigkeit der Ausrüstungsteile aus.
+  Die Komposition zwischen `GerätExemplar` und `Ausrüstung` (`GerätExemplar "1" *-- "0..*" Ausrüstung`) modelliert physische Baugruppen mit zugehörigen Teilen. Die gefüllte Raute (Komposition) drückt die Existenzabhängigkeit der Ausrüstungsteile aus.
 ]
 
 *Begründung:* Das Lastenheft (LF 50) nennt explizit Zubehörteile wie Baggerschaufeln und Kranzubehör (Behälter, Gewichte, Haken), die einem konkreten Gerät zugeordnet werden. Die Komposition stellt sicher, dass Ausrüstungsteile nicht ohne zugehöriges Geräteexemplar im System existieren können. Die Multiplizität `0..*` (statt des im Muster üblichen `1..*`) berücksichtigt, dass nicht jedes Gerät zwingend Zubehör besitzt -- ein Rüttler oder eine Bohrmaschine hat kein Anbauteil.
@@ -119,7 +119,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
   Mehrere Kompositionen modellieren das Listen-Muster:
   - `Arbeitsauftrag "1" *-- "0..*" Unterauftrag`
   - `Mitarbeiter "1" *-- "0..*" Anwesenheitszeit`
-  - `Mitarbeiter/Arbeitsauftrag/Projekt/GeraetExemplar "1" *-- "0..*" Bild`
+  - `Mitarbeiter/Arbeitsauftrag/Projekt/GerätExemplar "1" *-- "0..*" Bild`
 ]
 
 *Begründung:* Die genannten Listenelemente existieren ausschließlich im Kontext ihres übergeordneten Objekts und werden bei dessen Löschung mit entfernt (kaskadierendes Löschen). Anwesenheitszeiten beispielsweise sind ohne den zugehörigen Mitarbeiter sinnlos, ebenso Bilder ohne ihr zugeordnetes Element und Unteraufträge ohne ihren Arbeitsauftrag.
@@ -127,7 +127,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 === Muster: Koordinator (Assoziationsklasse)
 
 #figure(caption: [Analysemuster Koordinator -- Buchung])[
-  Die Klasse `Buchung` verknüpft `GeraetExemplar` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungszeitraum, Buchungsdatum, Status, buchender Mitarbeiter). Sie realisiert das Koordinator-Muster als eigenständige Klasse mit Assoziationen zu beiden beteiligten Klassen.
+  Die Klasse `Buchung` verknüpft `GerätExemplar` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungszeitraum, Buchungsdatum, Status, buchender Mitarbeiter). Sie realisiert das Koordinator-Muster als eigenständige Klasse mit Assoziationen zu beiden beteiligten Klassen.
 ]
 
 *Begründung:* Die Buchung eines Geräts für einen Arbeitsauftrag benötigt eigene Attribute (Buchungszeitraum, Buchungsstatus, buchender Mitarbeiter), die weder dem Gerät noch dem Auftrag sinnvoll zugeordnet werden können. Die Buchung ermöglicht die im Lastenheft geforderte Verfügbarkeitssuche und Planbarkeit (LF 50).

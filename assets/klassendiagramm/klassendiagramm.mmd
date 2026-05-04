@@ -22,13 +22,13 @@ classDiagram
             -email: Text
             -telefonnummer: Text
             -position: Text
-            -beschaeftigungsart: Text
+            -beschäftigungsart: Text
             -vertragsbeginn: Datum
             -vertragsende: Datum
         }
 
         class Adresse {
-            -strasse: Text
+            -straße: Text
             -hausnummer: Text
             -plz: Text
             -ort: Text
@@ -59,15 +59,15 @@ classDiagram
 
     Mitarbeiter "0..*" --> "1" Adresse : wohnt an
     Mitarbeiter "0..*" --> "1" Rolle : hat Rolle
-    Mitarbeiter "0..*" -- "0..*" Gruppe : gehoert zu
+    Mitarbeiter "0..*" -- "0..*" Gruppe : gehört zu
     Gruppe "0..*" --> "0..1" Mitarbeiter : Gruppenleiter
     Mitarbeiter "1" *-- "0..*" Anwesenheitszeit : erfasst
 
     %% ============================================================
-    %% PROJEKTE & AUFTRAEGE
+    %% PROJEKTE & AUFTRÄGE
     %% ============================================================
 
-    namespace Projekte_und_Auftraege {
+    namespace Projekte_und_Aufträge {
         class Projekt {
             -projektnummer: Ganzzahl
             -projektname: Text
@@ -118,14 +118,14 @@ classDiagram
 
     Projekt "0..*" --> "1" Mitarbeiter : Projektleiter
     Projekt "0..*" --> "1" Adresse : Einsatzort
-    Projekt "1..*" -- "0..*" Arbeitsauftrag : enthaelt
+    Projekt "1..*" -- "0..*" Arbeitsauftrag : enthält
     Arbeitsauftrag "0..*" --> "1..*" Mitarbeiter : beteiligte Personen
     Arbeitsauftrag "0..*" --> "1" Adresse : Einsatzort
     Arbeitsauftrag "1" *-- "0..*" Unterauftrag : hat
-    Termin "0..*" --> "0..1" Arbeitsauftrag : gehoert zu
-    Termin "0..*" --> "0..1" Projekt : gehoert zu
-    Termin "0..*" --> "0..1" Buchung : gehoert zu
-    Unterauftrag "0..*" --> "0..1" Unterauftragnehmer : ausgefuehrt von
+    Termin "0..*" --> "0..1" Arbeitsauftrag : gehört zu
+    Termin "0..*" --> "0..1" Projekt : gehört zu
+    Termin "0..*" --> "0..1" Buchung : gehört zu
+    Unterauftrag "0..*" --> "0..1" Unterauftragnehmer : ausgeführt von
     Unterauftragnehmer "0..*" --> "1" Adresse : Adresse
 
     %% ============================================================
@@ -136,37 +136,37 @@ classDiagram
         class Rechnung {
             -rechnungsnummer: Ganzzahl
             -betrag: Dezimalzahl
-            -faelligkeitsdatum: Datum
+            -fälligkeitsdatum: Datum
             -status: Text
         }
     }
 
-    Rechnung "0..*" --> "1" Arbeitsauftrag : gehoert zu
+    Rechnung "0..*" --> "1" Arbeitsauftrag : gehört zu
 
     %% ============================================================
-    %% GERAETE & AUSRUESTUNG (Exemplartyp-Muster)
+    %% GERÄTE & AUSRÜSTUNG (Exemplartyp-Muster)
     %% ============================================================
 
-    namespace Geraete_und_Ausruestung {
-        class GeraetTyp {
-            -geraetTypID: Ganzzahl
+    namespace Geräte_und_Ausrüstung {
+        class GerätTyp {
+            -geräteTypID: Ganzzahl
             -bezeichnung: Text
             -typ: Text
             -kategorie: Text
         }
 
-        class GeraetExemplar {
-            -geraetenummer: Ganzzahl
+        class GerätExemplar {
+            -gerätenummer: Ganzzahl
             -seriennummer: Text
             -standort: Text
             -status: Text
             -anschaffungsdatum: Datum
             -letzterWartungstermin: Datum
-            -naechsterWartungstermin: Datum
+            -nächsterWartungstermin: Datum
         }
 
-        class Ausruestung {
-            -ausruestungsnummer: Ganzzahl
+        class Ausrüstung {
+            -ausrüstungsnummer: Ganzzahl
             -bezeichnung: Text
             -typ: Text
             -kompatibelMit: Text
@@ -178,14 +178,14 @@ classDiagram
             -lagernummer: Ganzzahl
             -lagerbezeichnung: Text
             -typ: Text
-            -grundstueck: Text
-            -kapazitaet: Ganzzahl
+            -grundstück: Text
+            -kapazität: Ganzzahl
         }
     }
 
-    GeraetExemplar "0..*" --> "1" GeraetTyp : ist vom Typ
-    GeraetExemplar "1" *-- "0..*" Ausruestung : hat Ausruestung
-    GeraetExemplar "0..*" --> "1" Lager : zugeordnet
+    GerätExemplar "0..*" --> "1" GerätTyp : ist vom Typ
+    GerätExemplar "1" *-- "0..*" Ausrüstung : hat Ausrüstung
+    GerätExemplar "0..*" --> "1" Lager : zugeordnet
     Lager "0..*" --> "1" Adresse : Adresse
 
     %% ============================================================
@@ -202,8 +202,8 @@ classDiagram
         }
     }
 
-    Buchung "0..*" --> "1..*" GeraetExemplar : betrifft
-    Buchung "0..*" --> "1" Arbeitsauftrag : fuer Auftrag
+    Buchung "0..*" --> "1..*" GerätExemplar : betrifft
+    Buchung "0..*" --> "1" Arbeitsauftrag : für Auftrag
     Buchung "0..*" --> "1" Mitarbeiter : gebucht von
 
     %% ============================================================
@@ -218,7 +218,7 @@ classDiagram
             -dateiname: Text
             -elementtyp: Text
             -hochladedatum: Datum
-            -dateigroesse: Ganzzahl
+            -dateigröße: Ganzzahl
             -format: Text
         }
     }
@@ -227,7 +227,7 @@ classDiagram
     Mitarbeiter "1" *-- "0..*" Bild : hat Bilder
     Arbeitsauftrag "1" *-- "0..*" Bild : hat Bilder
     Projekt "1" *-- "0..*" Bild : hat Bilder
-    GeraetExemplar "1" *-- "0..*" Bild : hat Bilder
+    GerätExemplar "1" *-- "0..*" Bild : hat Bilder
 
     %% ============================================================
     %% EXTERNE SYSTEME
@@ -238,7 +238,7 @@ classDiagram
             <<extern>>
             +leseRechnungen()
             +leseMahnungen()
-            +leseKostenvoranschlaege()
+            +leseKostenvoranschläge()
         }
 
         class Altsystem {
