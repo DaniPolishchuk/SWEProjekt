@@ -11,6 +11,8 @@
 #let page_numbering = "1 / 1"
 #let heading_numbering = "1.1.1"
 #let entityTable = "entityTable"
+#let basicStroke = (0.5pt + gray)
+#let basicForeGround = arguments(weight: "bold", fill: white)
 
 #let __tpl_messages_array = (
   "submission_date": (
@@ -408,6 +410,36 @@
   counter(page).update(1)
 
   set par(leading: 0.9em)
+
+  show ref: it => {
+    let el = it.element
+    if el != none and el.func() == heading {
+      let num = numbering(el.numbering, ..counter(heading).at(el.location()))
+      [(siehe #link(el.location(), [#num #el.body]))]
+    } else if(el != none and el.func() == figure and el.kind == entityTable) {
+      context {
+        let loc = el.location()
+        let page_num = loc.page()
+        link(loc, [#el.caption.body (S. #page_num)])
+      }
+    } else {
+      it
+    }
+  }
+
+  show figure.where(kind: "qa"): it => align(
+    left, it.body
+  )
+
+  show table.cell.where(y: 0): set text(..basicForeGround)
+
+
+  set table(
+    fill: (x, y) => if y == 0 { rgb("#959595") } else if calc.even(y) { gray.lighten(90%) },
+    stroke: basicStroke,
+    align: left,
+    inset: 8pt,
+  )
 
   body
   [#[] <__thesis_end>]

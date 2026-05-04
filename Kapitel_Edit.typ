@@ -80,36 +80,6 @@
   }
 }
 
-#show ref: it => {
-  let el = it.element
-  if el != none and el.func() == heading {
-    let num = numbering(el.numbering, ..counter(heading).at(el.location()))
-    [(siehe #link(el.location(), [#num #el.body]))]
-  } else if(el != none and el.func() == figure and el.kind == entityTable) {
-    context {
-      let loc = el.location()
-      let page_num = loc.page()
-      link(loc, [#el.caption.body (S. #page_num)])
-    }
-  } else {
-    it
-  }
-}
-
-#show figure.where(kind: "qa"): it => align(
-  left, it.body
-)
-
-#show table.cell.where(y: 0): set text(..basicForeGround)
-
-
-#set table(
-  fill: (x, y) => if y == 0 { rgb("#959595") } else if calc.even(y) { gray.lighten(90%) },
-  stroke: basicStroke,
-  align: left,
-  inset: 8pt,
-)
-
 = Analyse des Lastenhefts
 == Einleitung <chapter-Einleitung>
 #include "chapter/original/1.0_Einleitung.typ"
