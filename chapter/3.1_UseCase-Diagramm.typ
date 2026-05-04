@@ -40,7 +40,7 @@ Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Ver
 == Use-Case-Diagramm der gesamten Anwendung
 #v(1em)
 #figure(
-  image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Kompaktansicht.svg", width: 100%),
+  image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Kompaktansicht.pdf", width: 100%),
   caption: [Use-Case-Diagramm der gesamten Anwendung]
 ) <uc_kompakt>
 #v(1em)
@@ -148,7 +148,7 @@ Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchf
 Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
 
 #v(1em)
-#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.svg"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
+#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.pdf"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
 #v(1em)
 
 === Gerät suchen
@@ -184,7 +184,7 @@ Bei diesem Use-Case handelt es sich um eine Erweiterung des Use-Case "Gerät lö
 Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, da dieser Prozess mehrere klar voneinander abgegrenzte Teilschritte umfasst, die es näher zu beleuchten gilt. Die Verfeinerung zeigt, in welchen Schritten ein neues Gerät im System angelegt wird und welche Pflichtattribute dabei zu erfassen sind.
 
 #v(1em)
-#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.svg"), caption: [Use-Case-Verfeinerung: Gerät anlegen]) <uc_geraet-anlegen>
+#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.pdf"), caption: [Use-Case-Verfeinerung: Gerät anlegen]) <uc_geraet-anlegen>
 #v(1em)
 
 Das Diagramm @uc_geraet-anlegen verwendet eine zweistufige Farbcodierung: Die hellblau hinterlegten Use-Cases beschreiben die übergeordneten Prozessschritte, die der Verwaltungsmitarbeiter im Rahmen des Anlegevorgangs direkt ausführt. Die lila dargestellten Use-Cases werden durch den Use-Case "Geräteeigenschaften definieren" mittels _<\<include>>_ eingebunden und repräsentieren die einzelnen Pflichtattribute, die beim Anlegen eines neuen Geräts zu erfassen sind.
