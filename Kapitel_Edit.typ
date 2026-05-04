@@ -185,10 +185,10 @@
 ]
 #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
   Der Zugriff richtet sich nach den Benutzerrollen:
-  - Verwaltung hat Leserechte auf alles und Vollzugriff auf Verwaltungsdaten
+  - Verwaltung Vollzugriff auf Verwaltungsdaten
   - Bau-/Projektleiter haben Vollzugriff auf projektbezogene Daten
   - Vorarbeiter haben Lesezugriff auf ihre Arbeitsaufträge
-  - Administrator hat Vollzugriff auf alles.
+  - Administrator hat Vollzugriff auf alles
   @chapter-Zielgruppe-Rollen
 ]
 #QaA[Sollen alle Daten vom Tablet aus auf der Baustelle verfügbar sein?][
@@ -312,10 +312,10 @@
   Zur Verwaltung zählen ausschließlich die Verwaltungsmitarbeiter im Büro. Bau- und Projektleiter haben eine eigene Rolle mit anderen Rechten.
 ]
 #QaA[Was sollen "reine Verwaltungsdaten" konkret sein - welche Daten fallen darunter, welche sind ausgeschlossen? ][
-  Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen, Anwesenheitszeiten und allgemeine Konfigurationsdaten. Ausgeschlossen sind projektbezogene Daten (Aufträge, Baumaschinen-Buchungen).
+  Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen und Gerätedaten. Ausgeschlossen sind projektbezogene Daten wie Projekte und Arbeitsaufträge.
 ]
 #QaA(labelName: "Verwaltungsmitarbeiter-Leserecht-Projektdaten")[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
-  Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator.
+  Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator. Ausnahme ist die Geräteverwaltung, wo Verwaltungsmitarbeiter VVollzugriff haben.
 ]
 #QaA[Soll ein Bau-/Projektleiter Vollzugriff auf alle oder nur auf seine eigenen Projekte haben? ][
   Ein Bau-/Projektleiter hat Vollzugriff auf alle projektbezogenen Daten (alle Projekte und Aufträge), nicht nur auf die ihm zugeordneten. Dies ermöglicht flexible Projektzusammenarbeit und Vertretungsregelungen.
@@ -329,28 +329,28 @@
     [*Rolle*], [*Berechtigung*],
     [Administrator], 
       [
-        - Vollzugriff auf alle Daten (Import und Export sowie deren Backup)
+        - Vollzugriff auf alle Daten, Systemverwaltung, Benutzer- und Rollenzuweisung, Backup, Import/Export
       ],
     [Verwaltungsmitarbeiter], 
       [
-        - Leserechte auf alle Daten außer Backups
-        - Vollzugriff auf reine Verwaltungsdaten
+        - Vollzugriff auf Mitarbeiterstammdaten und Gruppenzuordnungen
+        - Vollzugriff auf Geräteverwaltung
+        - Leserechte auf projektbezogene Daten
       ],
-    [Bauarbeiter], 
+    [Bau-/Projektleiter], 
       [
-        - Vollzugriff auf projektbezogene Daten
-      ],
-    [Bauleiter], 
-      [
-        - Vollzugriff auf projektbezogene Daten
+        - Vollzugriff auf Projekte, Arbeitsaufträge, Buchungen
+        - Bearbeitungsrechte auf Geräte
+        - volle Einsicht in den Terminplaner
       ],
     [Vorarbeiter], 
       [
-        - Lesezugriff auf Arbeitsaufträge 
+        - Lesezugriff auf Arbeitsaufträge, Geräte und Terminplaner mit den für ihre Arbeit relevanten Informationen
+
       ],
     [Mitarbeiter], 
       [
-        - Leserechte auf Daten, die für seine Arbeit benötigt wird
+        - Lesezugriff auf eigene Arbeitszeiten und Terminplaner mit den für ihre Arbeit relevanten Informationen
       ],
   ), caption: "Berechtigungen")<Rolle-Berechtigungen>
 ]
