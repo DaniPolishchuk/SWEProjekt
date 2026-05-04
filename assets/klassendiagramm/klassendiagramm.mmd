@@ -108,19 +108,23 @@ classDiagram
         }
 
         class Termin {
-            -arbeitsauftrag: Referenzen
-            -projekt: Referenzen
-            -buchung: Referenzen
+            -terminID: Ganzzahl
+            -datum: Datum
+            -uhrzeit: Zeit
+            -bezeichnung: Text
+            -beschreibung: Text
         }
     }
 
     Projekt "0..*" --> "1" Mitarbeiter : Projektleiter
     Projekt "0..*" --> "1" Adresse : Einsatzort
-    Projekt "1..*" -- "1..*" Arbeitsauftrag : enthaelt
+    Projekt "1..*" -- "0..*" Arbeitsauftrag : enthaelt
     Arbeitsauftrag "0..*" --> "1..*" Mitarbeiter : beteiligte Personen
     Arbeitsauftrag "0..*" --> "1" Adresse : Einsatzort
     Arbeitsauftrag "1" *-- "0..*" Unterauftrag : hat
-    Arbeitsauftrag "0..*" --> "0..*" Termin : Zwischentermine
+    Termin "0..*" --> "0..1" Arbeitsauftrag : gehoert zu
+    Termin "0..*" --> "0..1" Projekt : gehoert zu
+    Termin "0..*" --> "0..1" Buchung : gehoert zu
     Unterauftrag "0..*" --> "0..1" Unterauftragnehmer : ausgefuehrt von
     Unterauftragnehmer "0..*" --> "1" Adresse : Adresse
 
@@ -140,15 +144,19 @@ classDiagram
     Rechnung "0..*" --> "1" Arbeitsauftrag : gehoert zu
 
     %% ============================================================
-    %% GERAETE & AUSRUESTUNG
+    %% GERAETE & AUSRUESTUNG (Exemplartyp-Muster)
     %% ============================================================
 
     namespace Geraete_und_Ausruestung {
-        class Geraet {
-            -geraetenummer: Ganzzahl
+        class GeraetTyp {
+            -geraetTypID: Ganzzahl
             -bezeichnung: Text
             -typ: Text
             -kategorie: Text
+        }
+
+        class GeraetExemplar {
+            -geraetenummer: Ganzzahl
             -seriennummer: Text
             -standort: Text
             -status: Text
@@ -175,8 +183,9 @@ classDiagram
         }
     }
 
-    Geraet "1" o-- "0..*" Ausruestung : hat Ausruestung
-    Geraet "0..*" --> "1" Lager : zugeordnet
+    GeraetExemplar "0..*" --> "1" GeraetTyp : ist vom Typ
+    GeraetExemplar "1" *-- "0..*" Ausruestung : hat Ausruestung
+    GeraetExemplar "0..*" --> "1" Lager : zugeordnet
     Lager "0..*" --> "1" Adresse : Adresse
 
     %% ============================================================
@@ -193,7 +202,7 @@ classDiagram
         }
     }
 
-    Buchung "0..*" --> "1..*" Geraet : betrifft
+    Buchung "0..*" --> "1..*" GeraetExemplar : betrifft
     Buchung "0..*" --> "1" Arbeitsauftrag : fuer Auftrag
     Buchung "0..*" --> "1" Mitarbeiter : gebucht von
 
@@ -218,7 +227,7 @@ classDiagram
     Mitarbeiter "1" *-- "0..*" Bild : hat Bilder
     Arbeitsauftrag "1" *-- "0..*" Bild : hat Bilder
     Projekt "1" *-- "0..*" Bild : hat Bilder
-    Geraet "1" *-- "0..*" Bild : hat Bilder
+    GeraetExemplar "1" *-- "0..*" Bild : hat Bilder
 
     %% ============================================================
     %% EXTERNE SYSTEME
