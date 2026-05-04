@@ -974,7 +974,7 @@
       Fehlermeldungen in verständlicher Sprache anzeigen, Daten wo möglich zwischenspeichern, automatische Wiederverbindungsversuche bei Netzwerkproblemen. Bei kritischen Fehlern wird der Administrator benachrichtigt.
     ]
     #QaA(labelName: "automatische-Datensicherung")[Soll das zuverlässige System eine automatische Datensicherung (Backup) in regelmäßigen Intervallen durchführen und wenn ja, in welchem zeitlichen Abstand?][
-      Ja, automatische Backups täglich (nachts) und wöchentlich (vollständig). Der Administrator kann Backups auch manuell auslösen.
+      Ja, automatische Backups täglich (inkrementell) und wöchentlich (vollständig). Der Administrator kann Backups auch manuell auslösen.
     ]
   ],
   [Effizienz], 

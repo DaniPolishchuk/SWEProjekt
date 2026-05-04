@@ -16,11 +16,9 @@ Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den 
 Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
 === Mitarbeiter
-Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Arbeitszeiten und das Einsehen des Terminplaners mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität, für ihn relevante Daten - wie Geräte - im System zu suchen und zu filtern. 
+Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Arbeitszeiten und das Einsehen des Terminplaners mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität, für ihn relevante Daten im System zu suchen und zu filtern. 
 
 Der Mitarbeiter stellt dabei die grundlegende Basisrolle innerhalb der Anwendung dar. Damit fasst diese Rolle allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
-//TODO: Mitarbeiter kann Geräte lesen, weil er im Use-Case "Geräte verwalten" nach Geräte suchen kann
-//  => ist dann der Use-Case "Geräte lesen" beim Vorarbeiter überhaupt nötig?
 
 === Vorarbeiter
 Vorarbeiter erweitern die Funktionalitäten eines Mitarbeiters um lesenden Zugriff auf vergangene, aktuelle und zukünftige Arbeitsaufträge #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge"). Des Weiteren erhalten sie detaillierte Informationen durch Einsehen des Terminplaners und lesenden Zugriff auf Geräte. Sie sind das Bindeglied zwischen Bau-/Projektleitung und Bauarbeitern. Sie koordinieren die Ausführung der Arbeitsaufträge auf der Baustelle, überwachen die Einhaltung von Terminen und sorgen für die Umsetzung der zugewiesenen Aufgaben.
@@ -32,7 +30,7 @@ Verwaltungsmitarbeiter besitzen alle Funktionen der Basisrolle "Mitarbeiter". Si
 
 === Bau- und Projektleiter
 Bau-/Projektleiter erben ebenfalls die Funktionen der Basisrolle "Mitarbeiter". Sie sind für die operative Steuerung und Umsetzung von Projekten verantwortlich, wobei sie die Planung, Zuweisung von Ressourcen (Mitarbeiter, Geräte) und die Überwachung des Projektfortschritts koordinieren. Dazu haben sie zum Verwalten Vollzugriff auf projektspezifische Daten (Buchungen, Projekte, Arbeitsaufträge, Unteraufträge) und eingeschränkten Zugriff auf Geräte. Im Terminplaner können sie alle Informationen einsehen.
-//TODO: Vollzugriff auf Terminplaner ok?
+//TODO: Vollzugriff auf Terminplaner => in Lastenheft notieren
 
 === Administrator
 Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Verwaltungsmitarbeiter mit erweiterten Rechten zu verstehen. Er übernimmt die Verwaltung der Benutzerkonten, indem er ihnen Rollen zuweist. Darüber hinaus ist er für systemkritische Aufgaben wie Datenmigration durch Import/Export, Backups und die Archivierung von Daten verantwortlich. Er ist hierbei ein Teil des regulären Teams, da eine dedizierte IT-Person nicht vorgesehen ist #referenceQ("q_dedizierte-IT-Person").
@@ -53,7 +51,6 @@ Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichke
 - *Hellblau (Administrator-Funktionen):* Die in hellblau dargestellten Use-Cases sind ausschließlich dem Administrator vorbehalten. Diese Funktionen umfassen systemkritische Operationen wie Datenmigrationen, Import/Export und Backups.
 - *Grün (Verwaltungsbezogene Funktionen):* Die grün eingefärbten Use-Cases repräsentieren die Kernfunktionalitäten der Verwaltung. Diese Verwaltungsfunktionen betreffen sowohl Verwaltungsmitarbeiter als auch Bau- und Projektleitung. Dabei hat die Verwaltung teilweise nur lesenden Zugriff und die Bau- und Projektleitung keinen Zugriff auf Personaldaten.
 - *Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
-//TODO: evtl. abändern wenn jeder Geräte lesen kann
 - *Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
 - *Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
 - *Rot (Vertiefung)*: Die rot markierten Use-Cases werden im Verlauf noch weiter vertieft.
@@ -61,8 +58,6 @@ Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichke
 
 === Daten suchen und filtern <use-case_Daten-suchen-und-filtern>
 Dieser User-Case ermöglicht allen Akteuren, die von der Rolle "Mitarbeiter" erben, das Suchen und Filtern nach Daten im System. Die Suchergebnisse sind rollenbasiert eingeschränkt, sodass jeder Benutzer nur auf die für ihn zugänglichen Daten zugreifen kann. Die Suche erfolgt über eine Kombination aus Textsuche (Name, Bezeichnung) und Filterung nach Kategorien/Attributen #referenceQ("q_Beschreibung-der-Suche"). Separate Suchmasken existieren für Mitarbeiter, Gruppen, Arbeitsaufträge, Projekte, Geräte und Lager #referenceQ("q_Suchmasken"). Die Suchergebnisse werden als Tabelle mit den wichtigsten Attributen angezeigt, wobei ein Klick auf einen Eintrag die Detailansicht öffnet #referenceQ("q_Anzeige-Suchergebnisse"). Die Ergebnisse können nach verschiedenen Spalten sortiert werden #referenceQ("q_Sortierung-Suchergebnisse").
-//TODO: auf Auswahlisten (LF70) würde ich hier nicht eingehen
-//TODO: "Alternativ kann eine zentrale Suche mit Kategorie-Auswahl verwendet werden." => stammt aus F22 -> kann man wegen mir entfernen (unnötig)
 
 === Arbeitszeiten lesen
 Der Zugriff auf die Anwesenheitszeiten hängt von der Rolle ab. In erster Linie kann jeder seine eigenen Anwesenheitszeiten einsehen. Darüber hinaus hat der Vorgesetzte zusätzlich Einsicht auf die Anwesenheitszeiten seiner untergeordneten Mitarbeiter. Schlussendlich hat der Administrator Vollzugriff auf die Anwesenheitszeiten, um beispielsweise fehlerhafte Daten zu korrigieren #referenceQ("q_Rechte-auf-Anwesenheitszeiten").
@@ -73,28 +68,26 @@ Die Darstellung erfolgt als Kalenderansicht mit Monats- und Wochenansicht, wobei
 
 === Arbeitsaufträge lesen
 Dieser Anwendungsfall ermöglicht es Vorarbeitern, ihre Arbeitsaufträge einzusehen. Darüber hinaus können sie auch verschiedene Unteraufträge ansehen, falls vorhanden.  
-//TODO: kann man das ausführen?
 
 === Geräte lesen
 Dieser Anwendungsfall ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei wird ersichtlich, welche Geräte gerade verfügbar sind und auf der Baustelle bei ihren Arbeitsaufträgen eingesetzt werden können.
-//TODO: soll man hinzufügen, dass sie als Bindeglied/Unterstützung den Bau-/Projekleitern dann einen Buchungsvorschlag für Geräte machen?
 
 === Arbeitsaufträge und Projekte lesen
 Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig. Projekte sind dabei die übergeordnete Einheit der Arbeitsaufträge.
 
-=== Verwaltungsdaten bearbeiten
-Dieser Anwendungsfall beschreibt die zentrale Verwaltungsfunktion der im System vorhandenen Daten. Dazu hat der Anwendungsfall 4 verschiedene extension-points:
-- Buchung verwalten  
-- Geräte verwalten 
-- Arbeitsaufträge und Projekte verwalten
-- Personal verwalten
-//TODO: Arbeitsaufträge und Projekte lesen zählt doch nicht zu bearbeiten oder?
-//TODO: Beschreibung so korrekt?
+=== Verwaltungsdaten integrieren
+Dieser Anwendungsfall stellt die grundlegende Basisfunktionalität für den lesenden und schreibenden Zugriff auf die zentrale Datenbasis der Anwendung dar. Er kapselt die gemeinsame Logik aller Datenzugriffe - d.h. sowohl das Einsehen von Datensätzen als auch das Anlegen, Bearbeiten und Löschen - und bildet damit den zentralen Einstiegspunkt in die Datenhaltungsschicht. Die konkreten Datenbereiche werden als Erweiterungen modelliert und über die folgenden vier Extension-Points eingebunden:
+ 
+- *Personal verwalten:* Verwaltung von Mitarbeiterstammdaten und Gruppenzuordnungen.
+- *Geräte verwalten:* Verwaltung von Baumaschinen, Werkzeugen, Lagern und Ausrüstung.
+- *Arbeitsaufträge und Projekte verwalten:* Anlegen und Pflege von Projekten, Arbeitsaufträgen und Unteraufträgen.
+- *Buchungen verwalten:* Buchung und Stornierung von Geräten für Arbeitsaufträge.
+ 
+Rein lesende Zugriffe auf einzelne Datenbereiche (z.B. "*Arbeitsaufträge und Projekte lesen*") sind gesondert modelliert, da sie eine eingeschränkte Teilmenge der hier definierten Funktionalität darstellen und spezifischen Rollen mit reinen Leserechten vorbehalten sind.
 
 === Personal verwalten
 Durch diesen Use-Case können Verwaltungsmitarbeiter Mitarbeiterstammdaten anlegen, bearbeiten und löschen. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefonnummer, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende) mit einer eindeutigen Mitarbeiternummer. Die Adresse wird über eine Referenz zugeordnet. Das System prüft dabei automatisch auf mögliche Duplikate anhand von den Attributen. 
 Des Weiteren umfasst dieser Use-Case auch das Anlegen und Zuordnen von Gruppen. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppen) sind fest vorgegeben. Jede Gruppe erhält eine eindeutige Gruppennummer, einen Namen, eine Beschreibung und optional einen Gruppenleiter. Ein Mitarbeiter kann mehreren Gruppen angehören und eine Gruppe kann mehrere Mitarbeiter enthalten #referenceQ("q_Gruppenerstellung").
-//TODO: in "Arbeitsaufträge und Projekte verwalten" wurde erwähnt, dass die Verwaltung Unterauftragnehmer anlegt => sollte man das hier erwähnen
 
 === Geräte verwalten
 Wird im folgenden vertieft @chapter-Verfeinerung_Geräte-verwalten.
@@ -109,7 +102,6 @@ Während des ganzen Prozesses prüft das System auf Duplikate #referenceG("LF 10
 === Buchungen verwalten
 In diesem Use-Case können Bau-/Projektleiter Geräte buchen, worunter die für einen Arbeitsauftrag benötigten Geräte fallen. Dabei wird das gewünschte Gerät über eine Auswahlliste ausgewählt. Durch Angabe des Zeitraums und des Arbeitsauftrags prüft das System automatisch die Verfügbarkeit des Geräts im angegebenen Zeitraum. Bei Verfügbarkeit wird die Buchung angelegt und erhält eine eindeutige Buchungsnummer. Bei Nichtverfügbarkeit wird wiederum eine Fehlermeldung angezeigt. 
 Ebenfalls können bestehende Buchungen bearbeitet oder storniert werden. Die Buchungsverwaltung ermöglicht die Übersicht über alle aktuellen und zukünftigen Buchungen anhand des Status (aktiv, abgeschlossen, storniert).
-//TODO: die Verwaltung kann auch stornieren (siehe Vertiefung) => sollte man das erwähnen? Können Bau-/Projektleiter überhaupt storinieren?
 
 === Finanzdaten lesen
 Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für den Kostenvoranschlag eines Arbeitsauftrags benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet jedoch allein im Finanzbuchhaltungssystem hat, wodurch dieses System nur Leserechte auf die Finanzdaten hat.
@@ -138,9 +130,8 @@ Darüber hinaus umfasst der Use-Case unterstützende Tätigkeiten im laufenden B
 
 === Backup erstellen
 Dieser Use-Case dient der Sicherung aller systemrelevanten Daten, um Datenverlust vorzubeugen und eine Wiederherstellung im Fehlerfall zu ermöglichen.
-Backups werden automatisch täglich (nachts) und wöchentlich (vollständig) vom System erstellt. Zusätzlich hat der Administrator die Möglichkeit, manuelle Backups bei Bedarf anzustoßen, beispielsweise vor größeren Änderungen oder Updates #referenceQ("q_automatische-Datensicherung").
+Backups werden automatisch täglich (inkrementell) und wöchentlich (vollständig) vom System erstellt. Zusätzlich hat der Administrator die Möglichkeit, manuelle Backups bei Bedarf anzustoßen, beispielsweise vor größeren Änderungen oder Updates #referenceQ("q_automatische-Datensicherung").
 Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchführen. Die Backups erfolgen im CSV-Format #referenceQ("q_Import-Export-Daten").
-//TODO: täglich (nachts) und wöchentlich (vollständig) => statt täglich inkremnetell?
 
 #pagebreak()
 
@@ -159,9 +150,7 @@ Wird im folgenden vertieft @chapter-Verfeinerung_Geräte-anlegen.
 
 === Gerät bearbeiten
 Die Bearbeitung nach dem Anlegen eines Geräts wird in diesem Use-Case behandelt und kann sowohl von Verwaltungsmitarbeitern als auch von Bau-/Projektleiter durchgeführt werden. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager-, Ausrüstung-, Standortzuordnung und Wartungstermine. Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeit aus.
-//TODO: Einbringe, dass "Ausrüstung zuordnen" INKLUDIERT wird => Problem, warum wird Lager zuordnen nicht inkludiert?
-//TODO: Bilder hinzufügen als Use-Case hinzufügen
-//  Auch Bilder können hinzugefügt oder entfernt werden.
+//TODO: Einbringe, dass "Ausrüstung zuordnen" INKLUDIERT wird => Problem, warum wird Lager zuordnen nicht inkludiert? (evtl. bie Lutz nachfragen, wie das mit dem Include korrekt geht "Ausrüstung zuordnen" doppelt in Vertiefung)
 
 === Ausrüstung zuordnen
 Dieser Use-Case erweitert optional das Anlegen oder Bearbeiten eines Geräts durch Zuordnen von Ausrüstung. Dabei wird die Ausrüstung als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Beim Hinzufügen einer Ausrüstung werden nur die Ausrüstungen, die mit dem Gerätetyp kompatibel sind angezeigt. Die Kompatibilität wird über das Attribut "Kompatibel mit" festgelegt.
