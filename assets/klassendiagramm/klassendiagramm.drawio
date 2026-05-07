@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-05-07T12:00:00.000Z" agent="Claude" version="21.0.0">
+  <diagram id="klassendiagramm" name="Analyse-Klassendiagramm">
+    <mxGraphModel dx="2200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="person" value="Person" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="30" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="person_attrs" value="- vorname: Text&#xa;- nachname: Text&#xa;- telefon: Text&#xa;- email: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="person">
+          <mxGeometry y="26" width="180" height="94" as="geometry" />
+        </mxCell>
+
+        <mxCell id="adresse" value="Adresse" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="310" y="30" width="170" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="adresse_attrs" value="- stra&#xdf;e: Text&#xa;- hausnummer: Text&#xa;- plz: Text&#xa;- ort: Text&#xa;- land: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="adresse">
+          <mxGeometry y="26" width="170" height="114" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rolle" value="Rolle" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="550" y="30" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rolle_attrs" value="- rollennummer: Ganzzahl&#xa;- name: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="rolle">
+          <mxGeometry y="26" width="160" height="54" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mitarbeiter" value="Mitarbeiter" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="mitarbeiter_attrs" value="- mitarbeiternummer: Ganzzahl&#xa;- geburtsdatum: Datum&#xa;- position: Text&#xa;- besch&#xe4;ftigungsart: Text&#xa;- vertragsbeginn: Datum&#xa;- vertragsende: Datum" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="mitarbeiter">
+          <mxGeometry y="26" width="200" height="134" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gruppe" value="Gruppe" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="310" y="210" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="gruppe_attrs" value="- gruppennummer: Ganzzahl&#xa;- gruppenname: Text&#xa;- gruppentyp: Text&#xa;- beschreibung: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="gruppe">
+          <mxGeometry y="26" width="180" height="104" as="geometry" />
+        </mxCell>
+
+        <mxCell id="anwesenheitszeit" value="Anwesenheitszeit" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="550" y="210" width="190" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="anwesenheitszeit_attrs" value="- anwesenheitsID: Ganzzahl&#xa;- datum: Datum&#xa;- startzeit: Zeit&#xa;- endzeit: Zeit&#xa;- typ: Text&#xa;- bemerkung: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="anwesenheitszeit">
+          <mxGeometry y="26" width="190" height="134" as="geometry" />
+        </mxCell>
+
+        <mxCell id="projekt" value="Projekt" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="60" y="440" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="projekt_attrs" value="- projektnummer: Ganzzahl&#xa;- projektname: Text&#xa;- starttermin: Datum&#xa;- endtermin: Datum&#xa;- beschreibung: Text&#xa;- status: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="projekt">
+          <mxGeometry y="26" width="200" height="134" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arbeitsauftrag" value="Arbeitsauftrag" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="310" y="440" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="arbeitsauftrag_attrs" value="- auftragsnummer: Ganzzahl&#xa;- auftragsbezeichnung: Text&#xa;- bauplan: Text&#xa;- starttermin: Datum&#xa;- endtermin: Datum&#xa;- kostenvoranschlag: Dezimalzahl&#xa;- status: Text&#xa;- bemerkung: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="arbeitsauftrag">
+          <mxGeometry y="26" width="220" height="174" as="geometry" />
+        </mxCell>
+
+        <mxCell id="termin" value="Termin" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="580" y="440" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="termin_attrs" value="- terminID: Ganzzahl&#xa;- datum: Datum&#xa;- uhrzeit: Zeit&#xa;- bezeichnung: Text&#xa;- beschreibung: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="termin">
+          <mxGeometry y="26" width="180" height="114" as="geometry" />
+        </mxCell>
+
+        <mxCell id="unterauftrag" value="Unterauftrag" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="310" y="700" width="210" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="unterauftrag_attrs" value="- unterauftragsnummer: Ganzzahl&#xa;- bezeichnung: Text&#xa;- starttermin: Datum&#xa;- endtermin: Datum&#xa;- status: Text&#xa;- kosten: Dezimalzahl&#xa;- bemerkung: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="unterauftrag">
+          <mxGeometry y="26" width="210" height="154" as="geometry" />
+        </mxCell>
+
+        <mxCell id="unterauftragnehmer" value="Unterauftragnehmer" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="60" y="700" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="unterauftragnehmer_attrs" value="- unterauftragnehmerID: Ganzzahl&#xa;- firmenname: Text&#xa;- fachbereich: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="unterauftragnehmer">
+          <mxGeometry y="26" width="200" height="74" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rechnung" value="Rechnung" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="580" y="640" width="190" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rechnung_attrs" value="- rechnungsnummer: Ganzzahl&#xa;- betrag: Dezimalzahl&#xa;- f&#xe4;lligkeitsdatum: Datum&#xa;- status: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="rechnung">
+          <mxGeometry y="26" width="190" height="94" as="geometry" />
+        </mxCell>
+
+        <mxCell id="geraettyp" value="Ger&#xe4;tTyp" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="840" y="30" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="geraettyp_attrs" value="- ger&#xe4;teTypID: Ganzzahl&#xa;- bezeichnung: Text&#xa;- typ: Text&#xa;- kategorie: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="geraettyp">
+          <mxGeometry y="26" width="180" height="94" as="geometry" />
+        </mxCell>
+
+        <mxCell id="geraetexemplar" value="Ger&#xe4;tExemplar" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="840" y="210" width="220" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="geraetexemplar_attrs" value="- ger&#xe4;tenummer: Ganzzahl&#xa;- seriennummer: Text&#xa;- standort: Text&#xa;- status: Text&#xa;- anschaffungsdatum: Datum&#xa;- letzterWartungstermin: Datum&#xa;- n&#xe4;chsterWartungstermin: Datum" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="geraetexemplar">
+          <mxGeometry y="26" width="220" height="164" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lager" value="Lager" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="210" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="lager_attrs" value="- lagernummer: Ganzzahl&#xa;- lagerbezeichnung: Text&#xa;- typ: Text&#xa;- grundst&#xfc;ck: Text&#xa;- kapazit&#xe4;t: Ganzzahl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="lager">
+          <mxGeometry y="26" width="180" height="114" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ausruestung" value="Ausr&#xfc;stung" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="840" y="460" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ausruestung_attrs" value="- ausr&#xfc;stungsnummer: Ganzzahl&#xa;- bezeichnung: Text&#xa;- typ: Text&#xa;- kompatibelMit: Text&#xa;- gewicht: Dezimalzahl&#xa;- status: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="ausruestung">
+          <mxGeometry y="26" width="200" height="134" as="geometry" />
+        </mxCell>
+
+        <mxCell id="buchung" value="Buchung" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="840" y="680" width="190" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="buchung_attrs" value="- buchungsnummer: Ganzzahl&#xa;- startdatum: Datum&#xa;- enddatum: Datum&#xa;- buchungsdatum: Datum&#xa;- status: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="buchung">
+          <mxGeometry y="26" width="190" height="114" as="geometry" />
+        </mxCell>
+
+        <mxCell id="bild" value="Bild" style="swimlane;fontStyle=1;align=center;startSize=26;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="460" width="180" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="bild_attrs" value="- bildID: Ganzzahl&#xa;- titel: Text&#xa;- dateipfad: Text&#xa;- dateiname: Text&#xa;- elementtyp: Text&#xa;- hochladedatum: Datum&#xa;- dateigr&#xf6;&#xdf;e: Ganzzahl&#xa;- format: Text" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="bild">
+          <mxGeometry y="26" width="180" height="174" as="geometry" />
+        </mxCell>
+
+        <mxCell id="finanzbuchhaltung" value="&lt;&lt;extern&gt;&gt;&#xa;Finanzbuchhaltung" style="swimlane;fontStyle=1;align=center;startSize=42;html=1;fillColor=#f0f0f0;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="720" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="finanzbuchhaltung_attrs" value="+ leseRechnungen()&#xa;+ leseMahnungen()&#xa;+ leseKostenvoranschl&#xe4;ge()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="finanzbuchhaltung">
+          <mxGeometry y="42" width="200" height="68" as="geometry" />
+        </mxCell>
+
+        <mxCell id="altsystem" value="&lt;&lt;extern&gt;&gt;&#xa;Altsystem" style="swimlane;fontStyle=1;align=center;startSize=42;html=1;fillColor=#f0f0f0;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="860" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="altsystem_attrs" value="+ importiereDaten()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="altsystem">
+          <mxGeometry y="42" width="180" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="drucker" value="&lt;&lt;extern&gt;&gt;&#xa;Drucker" style="swimlane;fontStyle=1;align=center;startSize=42;html=1;fillColor=#f0f0f0;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="960" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="drucker_attrs" value="+ drucke(dokument)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0;html=1;" vertex="1" parent="drucker">
+          <mxGeometry y="42" width="180" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel01" value="" style="endArrow=block;endSize=16;endFill=0;html=1;" edge="1" source="mitarbeiter" target="person" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel02" value="" style="endArrow=block;endSize=16;endFill=0;html=1;curved=1;" edge="1" source="unterauftragnehmer" target="person" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="400" />
+              <mxPoint x="20" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel03" value="adresse&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;" edge="1" source="person" target="adresse" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel04" value="rolle&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;" edge="1" source="mitarbeiter" target="rolle" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel05" value="gruppen&#xa;0..*          0..*" style="endArrow=none;html=1;" edge="1" source="mitarbeiter" target="gruppe" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel06" value="gruppenleiter&#xa;0..*          0..1" style="endArrow=open;endSize=12;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;curved=1;" edge="1" source="gruppe_attrs" target="mitarbeiter" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="320" />
+              <mxPoint x="160" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel07" value="anwesenheitszeiten&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;" edge="1" source="mitarbeiter" target="anwesenheitszeit" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel08" value="projektleiter&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="projekt" target="mitarbeiter" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel09" value="einsatzort&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;curved=1;" edge="1" source="projekt" target="adresse" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="30" y="400" />
+              <mxPoint x="30" y="170" />
+              <mxPoint x="310" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel10" value="arbeitsauftr&#xe4;ge&#xa;1..*          0..*" style="endArrow=none;html=1;" edge="1" source="projekt" target="arbeitsauftrag" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel11" value="beteiligtePersonen&#xa;0..*          1..*" style="endArrow=none;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;curved=1;" edge="1" source="arbeitsauftrag" target="mitarbeiter" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel12" value="einsatzort&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;" edge="1" source="arbeitsauftrag" target="adresse" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="420" />
+              <mxPoint x="395" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel13" value="unterauftr&#xe4;ge&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;" edge="1" source="arbeitsauftrag" target="unterauftrag" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel14" value="auftragnehmer&#xa;0..*          0..1" style="endArrow=open;endSize=12;html=1;" edge="1" source="unterauftrag" target="unterauftragnehmer" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel15" value="arbeitsauftrag&#xa;0..*          0..1" style="endArrow=open;endSize=12;html=1;" edge="1" source="termin" target="arbeitsauftrag" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel16" value="projekt&#xa;0..*          0..1" style="endArrow=open;endSize=12;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="termin_attrs" target="projekt_attrs" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel17" value="buchung&#xa;0..*          0..1" style="endArrow=open;endSize=12;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" source="termin" target="buchung" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel18" value="arbeitsauftrag&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;" edge="1" source="rechnung" target="arbeitsauftrag" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel19" value="ger&#xe4;tTyp&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;" edge="1" source="geraetexemplar" target="geraettyp" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel20" value="ausr&#xfc;stung&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;" edge="1" source="geraetexemplar" target="ausruestung" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel21" value="lager&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;" edge="1" source="geraetexemplar" target="lager" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel22" value="adresse&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" source="lager" target="adresse" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="10" />
+              <mxPoint x="480" y="10" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel23" value="ger&#xe4;tExemplare&#xa;0..*          1..*" style="endArrow=none;html=1;" edge="1" source="buchung" target="geraetexemplar" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel24" value="arbeitsauftrag&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" source="buchung_attrs" target="arbeitsauftrag" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel25" value="gebuchtVon&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;curved=1;" edge="1" source="buchung" target="mitarbeiter" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="880" />
+              <mxPoint x="260" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel26" value="hochlader&#xa;0..*          1" style="endArrow=open;endSize=12;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" source="bild" target="mitarbeiter" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="420" />
+              <mxPoint x="780" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel27" value="bilder&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;curved=1;" edge="1" source="mitarbeiter" target="bild_attrs" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="180" />
+              <mxPoint x="1100" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel28" value="bilder&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.6;entryDx=0;entryDy=0;" edge="1" source="arbeitsauftrag_attrs" target="bild_attrs" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="560" />
+              <mxPoint x="790" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel29" value="bilder&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.9;entryDx=0;entryDy=0;curved=1;" edge="1" source="projekt" target="bild_attrs" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="620" />
+              <mxPoint x="790" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel30" value="bilder&#xa;1          0..*" style="endArrow=open;endSize=12;startArrow=diamond;startSize=14;startFill=1;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="geraetexemplar" target="bild_attrs" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1350" y="400" />
+              <mxPoint x="1350" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="rel31" value="liest" style="endArrow=open;endSize=12;dashed=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;" edge="1" source="finanzbuchhaltung_attrs" target="rechnung_attrs" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="780" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

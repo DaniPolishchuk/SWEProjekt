@@ -13,7 +13,7 @@ Das Diagramm ist in folgende thematische Bereiche gegliedert:
 - *Bilder* (LF 80): Zuordnung von Bilddateien zu allen relevanten Entitäten
 - *Externe Systeme*: Schnittstellen zu Finanzbuchhaltung, Altsystem und Drucker
 
-#figure(image("../assets/klassendiagramm/klassendiagramm.svg", height: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
+#figure(image("../assets/klassendiagramm/klassendiagramm.png", height: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
 
 == Beschreibung der Klassen
 

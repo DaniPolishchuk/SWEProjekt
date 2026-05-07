@@ -1,255 +1,228 @@
 ---
 config:
-  layout: elk
+  layout: dagre
   elk:
     mergeEdges: true
     nodePlacementStrategy: LINEAR_SEGMENTS
   look: classic
 ---
 classDiagram
-    direction TB
+direction TB
 
-    %% ============================================================
-    %% MITARBEITER & GRUPPEN
-    %% ============================================================
+	namespace Finanzdokumente {
+        class Rechnung {
+	        -rechnungsnummer: Ganzzahl
+	        -betrag: Dezimalzahl
+	        -fälligkeitsdatum: Datum
+	        -status: Text
+        }
 
+	}
     namespace Mitarbeiter_und_Gruppen {
+        class Person {
+	        -vorname: Text
+	        -nachname: Text
+	        -telefon: Text
+	        -email: Text
+        }
+
         class Mitarbeiter {
-            -mitarbeiternummer: Ganzzahl
-            -vorname: Text
-            -nachname: Text
-            -geburtsdatum: Datum
-            -email: Text
-            -telefonnummer: Text
-            -position: Text
-            -beschäftigungsart: Text
-            -vertragsbeginn: Datum
-            -vertragsende: Datum
+	        -mitarbeiternummer: Ganzzahl
+	        -geburtsdatum: Datum
+	        -position: Text
+	        -beschäftigungsart: Text
+	        -vertragsbeginn: Datum
+	        -vertragsende: Datum
         }
 
         class Adresse {
-            -straße: Text
-            -hausnummer: Text
-            -plz: Text
-            -ort: Text
-            -land: Text
+	        -straße: Text
+	        -hausnummer: Text
+	        -plz: Text
+	        -ort: Text
+	        -land: Text
         }
 
         class Rolle {
-            -rollennummer: Ganzzahl
-            -name: Text
+	        -rollennummer: Ganzzahl
+	        -name: Text
         }
 
         class Gruppe {
-            -gruppennummer: Ganzzahl
-            -gruppenname: Text
-            -gruppentyp: Text
-            -beschreibung: Text
+	        -gruppennummer: Ganzzahl
+	        -gruppenname: Text
+	        -gruppentyp: Text
+	        -beschreibung: Text
         }
 
         class Anwesenheitszeit {
-            -anwesenheitsID: Ganzzahl
-            -datum: Datum
-            -startzeit: Zeit
-            -endzeit: Zeit
-            -typ: Text
-            -bemerkung: Text
+	        -anwesenheitsID: Ganzzahl
+	        -datum: Datum
+	        -startzeit: Zeit
+	        -endzeit: Zeit
+	        -typ: Text
+	        -bemerkung: Text
         }
-    }
 
-    Mitarbeiter "0..*" --> "1" Adresse : wohnt an
-    Mitarbeiter "0..*" --> "1" Rolle : hat Rolle
-    Mitarbeiter "0..*" -- "0..*" Gruppe : gehört zu
-    Gruppe "0..*" --> "0..1" Mitarbeiter : Gruppenleiter
-    Mitarbeiter "1" *-- "0..*" Anwesenheitszeit : erfasst
-
-    %% ============================================================
-    %% PROJEKTE & AUFTRÄGE
-    %% ============================================================
-
-    namespace Projekte_und_Aufträge {
+	}
+	
+    namespace `Projekte_und_Aufträge` {
         class Projekt {
-            -projektnummer: Ganzzahl
-            -projektname: Text
-            -starttermin: Datum
-            -endtermin: Datum
-            -beschreibung: Text
-            -status: Text
+	        -projektnummer: Ganzzahl
+	        -projektname: Text
+	        -starttermin: Datum
+	        -endtermin: Datum
+	        -beschreibung: Text
+	        -status: Text
         }
 
         class Arbeitsauftrag {
-            -auftragsnummer: Ganzzahl
-            -auftragsbezeichnung: Text
-            -bauplan: Text
-            -starttermin: Datum
-            -endtermin: Datum
-            -kostenvoranschlag: Dezimalzahl
-            -status: Text
-            -bemerkung: Text
+	        -auftragsnummer: Ganzzahl
+	        -auftragsbezeichnung: Text
+	        -bauplan: Text
+	        -starttermin: Datum
+	        -endtermin: Datum
+	        -kostenvoranschlag: Dezimalzahl
+	        -status: Text
+	        -bemerkung: Text
         }
 
         class Unterauftrag {
-            -unterauftragsnummer: Ganzzahl
-            -bezeichnung: Text
-            -starttermin: Datum
-            -endtermin: Datum
-            -status: Text
-            -kosten: Dezimalzahl
-            -bemerkung: Text
+	        -unterauftragsnummer: Ganzzahl
+	        -bezeichnung: Text
+	        -starttermin: Datum
+	        -endtermin: Datum
+	        -status: Text
+	        -kosten: Dezimalzahl
+	        -bemerkung: Text
         }
 
         class Unterauftragnehmer {
-            -unterauftragnehmerID: Ganzzahl
-            -firmenname: Text
-            -ansprechperson: Text
-            -telefon: Text
-            -email: Text
-            -fachbereich: Text
+	        -unterauftragnehmerID: Ganzzahl
+	        -firmenname: Text
+	        -fachbereich: Text
         }
 
         class Termin {
-            -terminID: Ganzzahl
-            -datum: Datum
-            -uhrzeit: Zeit
-            -bezeichnung: Text
-            -beschreibung: Text
-        }
-    }
-
-    Projekt "0..*" --> "1" Mitarbeiter : Projektleiter
-    Projekt "0..*" --> "1" Adresse : Einsatzort
-    Projekt "1..*" -- "0..*" Arbeitsauftrag : enthält
-    Arbeitsauftrag "0..*" --> "1..*" Mitarbeiter : beteiligte Personen
-    Arbeitsauftrag "0..*" --> "1" Adresse : Einsatzort
-    Arbeitsauftrag "1" *-- "0..*" Unterauftrag : hat
-    Termin "0..*" --> "0..1" Arbeitsauftrag : gehört zu
-    Termin "0..*" --> "0..1" Projekt : gehört zu
-    Termin "0..*" --> "0..1" Buchung : gehört zu
-    Unterauftrag "0..*" --> "0..1" Unterauftragnehmer : ausgeführt von
-    Unterauftragnehmer "0..*" --> "1" Adresse : Adresse
-
-    %% ============================================================
-    %% FINANZDOKUMENTE (extern, nur lesend)
-    %% ============================================================
-
-    namespace Finanzdokumente {
-        class Rechnung {
-            -rechnungsnummer: Ganzzahl
-            -betrag: Dezimalzahl
-            -fälligkeitsdatum: Datum
-            -status: Text
-        }
-    }
-
-    Rechnung "0..*" --> "1" Arbeitsauftrag : gehört zu
-
-    %% ============================================================
-    %% GERÄTE & AUSRÜSTUNG (Exemplartyp-Muster)
-    %% ============================================================
-
-    namespace Geräte_und_Ausrüstung {
-        class GerätTyp {
-            -geräteTypID: Ganzzahl
-            -bezeichnung: Text
-            -typ: Text
-            -kategorie: Text
+	        -terminID: Ganzzahl
+	        -datum: Datum
+	        -uhrzeit: Zeit
+	        -bezeichnung: Text
+	        -beschreibung: Text
         }
 
-        class GerätExemplar {
-            -gerätenummer: Ganzzahl
-            -seriennummer: Text
-            -standort: Text
-            -status: Text
-            -anschaffungsdatum: Datum
-            -letzterWartungstermin: Datum
-            -nächsterWartungstermin: Datum
+	}
+	
+
+	namespace `Geräte_und_Ausrüstung` {
+        class `GerätTyp` {
+	        -geräteTypID: Ganzzahl
+	        -bezeichnung: Text
+	        -typ: Text
+	        -kategorie: Text
         }
 
-        class Ausrüstung {
-            -ausrüstungsnummer: Ganzzahl
-            -bezeichnung: Text
-            -typ: Text
-            -kompatibelMit: Text
-            -gewicht: Dezimalzahl
-            -status: Text
+        class `GerätExemplar` {
+	        -gerätenummer: Ganzzahl
+	        -seriennummer: Text
+	        -standort: Text
+	        -status: Text
+	        -anschaffungsdatum: Datum
+	        -letzterWartungstermin: Datum
+	        -nächsterWartungstermin: Datum
+        }
+
+        class `Ausrüstung` {
+	        -ausrüstungsnummer: Ganzzahl
+	        -bezeichnung: Text
+	        -typ: Text
+	        -kompatibelMit: Text
+	        -gewicht: Dezimalzahl
+	        -status: Text
         }
 
         class Lager {
-            -lagernummer: Ganzzahl
-            -lagerbezeichnung: Text
-            -typ: Text
-            -grundstück: Text
-            -kapazität: Ganzzahl
+	        -lagernummer: Ganzzahl
+	        -lagerbezeichnung: Text
+	        -typ: Text
+	        -grundstück: Text
+	        -kapazität: Ganzzahl
         }
-    }
 
-    GerätExemplar "0..*" --> "1" GerätTyp : ist vom Typ
-    GerätExemplar "1" *-- "0..*" Ausrüstung : hat Ausrüstung
-    GerätExemplar "0..*" --> "1" Lager : zugeordnet
-    Lager "0..*" --> "1" Adresse : Adresse
-
-    %% ============================================================
-    %% BUCHUNGEN
-    %% ============================================================
-
-    namespace Buchungen {
+	}
+	namespace Buchungen {
         class Buchung {
-            -buchungsnummer: Ganzzahl
-            -startdatum: Datum
-            -enddatum: Datum
-            -buchungsdatum: Datum
-            -status: Text
+	        -buchungsnummer: Ganzzahl
+	        -startdatum: Datum
+	        -enddatum: Datum
+	        -buchungsdatum: Datum
+	        -status: Text
         }
-    }
 
-    Buchung "0..*" --> "1..*" GerätExemplar : betrifft
-    Buchung "0..*" --> "1" Arbeitsauftrag : für Auftrag
-    Buchung "0..*" --> "1" Mitarbeiter : gebucht von
-
-    %% ============================================================
-    %% BILDER
-    %% ============================================================
-
-    namespace Bilder {
+	}
+	namespace Bilder {
         class Bild {
-            -bildID: Ganzzahl
-            -titel: Text
-            -dateipfad: Text
-            -dateiname: Text
-            -elementtyp: Text
-            -hochladedatum: Datum
-            -dateigröße: Ganzzahl
-            -format: Text
+	        -bildID: Ganzzahl
+	        -titel: Text
+	        -dateipfad: Text
+	        -dateiname: Text
+	        -elementtyp: Text
+	        -hochladedatum: Datum
+	        -dateigröße: Ganzzahl
+	        -format: Text
         }
-    }
 
-    Bild "0..*" --> "1" Mitarbeiter : Hochlader
-    Mitarbeiter "1" *-- "0..*" Bild : hat Bilder
-    Arbeitsauftrag "1" *-- "0..*" Bild : hat Bilder
-    Projekt "1" *-- "0..*" Bild : hat Bilder
-    GerätExemplar "1" *-- "0..*" Bild : hat Bilder
-
-    %% ============================================================
-    %% EXTERNE SYSTEME
-    %% ============================================================
-
-    namespace Externe_Systeme {
+	}
+	namespace Externe_Systeme {
         class Finanzbuchhaltung {
-            <<extern>>
-            +leseRechnungen()
-            +leseMahnungen()
-            +leseKostenvoranschläge()
+	        +leseRechnungen()
+	        +leseMahnungen()
+	        +leseKostenvoranschläge()
         }
 
         class Altsystem {
-            <<extern>>
-            +importiereDaten()
+	        +importiereDaten()
         }
 
         class Drucker {
-            <<extern>>
-            +drucke(dokument)
+	        +drucke(dokument)
         }
-    }
 
+	}
+    
+
+	<<extern>> Finanzbuchhaltung
+	<<extern>> Altsystem
+	<<extern>> Drucker
+
+    Mitarbeiter --|> Person
+    Person "0..*" --> "1" Adresse : adresse
+    Mitarbeiter "0..*" --> "1" Rolle : rolle
+    Mitarbeiter "0..*" -- "0..*" Gruppe : gruppen
+    Gruppe "0..*" --> "0..1" Mitarbeiter : gruppenleiter
+    Mitarbeiter "1" *-- "0..*" Anwesenheitszeit : anwesenheitszeiten
+    Unterauftragnehmer --|> Person
+    Projekt "0..*" --> "1" Mitarbeiter : projektleiter
+    Projekt "0..*" --> "1" Adresse : einsatzort
+    Projekt "1..*" -- "0..*" Arbeitsauftrag : arbeitsaufträge
+    Arbeitsauftrag "0..*" -- "1..*" Mitarbeiter : beteiligtePersonen
+    Arbeitsauftrag "0..*" --> "1" Adresse : einsatzort
+    Arbeitsauftrag "1" *-- "0..*" Unterauftrag : unteraufträge
+    Termin "0..*" --> "0..1" Arbeitsauftrag : arbeitsauftrag
+    Termin "0..*" --> "0..1" Projekt : projekt
+    Termin "0..*" --> "0..1" Buchung : buchung
+    Unterauftrag "0..*" --> "0..1" Unterauftragnehmer : auftragnehmer
+    Rechnung "0..*" --> "1" Arbeitsauftrag : arbeitsauftrag
+    `GerätExemplar` "0..*" --> "1" `GerätTyp` : gerätTyp
+    `GerätExemplar` "1" *-- "0..*" `Ausrüstung` : ausrüstung
+    `GerätExemplar` "0..*" --> "1" Lager : lager
+    Lager "0..*" --> "1" Adresse : adresse
+    Buchung "0..*" -- "1..*" `GerätExemplar` : gerätExemplare
+    Buchung "0..*" --> "1" Arbeitsauftrag : arbeitsauftrag
+    Buchung "0..*" --> "1" Mitarbeiter : gebuchtVon
+    Bild "0..*" --> "1" Mitarbeiter : hochlader
+    Mitarbeiter "1" *-- "0..*" Bild : bilder
+    Arbeitsauftrag "1" *-- "0..*" Bild : bilder
+    Projekt "1" *-- "0..*" Bild : bilder
+    `GerätExemplar` "1" *-- "0..*" Bild : bilder
     Finanzbuchhaltung ..> Rechnung : liest
