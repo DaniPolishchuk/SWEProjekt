@@ -261,8 +261,37 @@
 #include "chapter/original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
 
 #QaA[Welche Rollen soll es geben?][
-  Administrator, Verwaltungsmitarbeiter, Projektleiter, Bauleiter, Vorarbeiter und Mitarbeiter.
-  Eine Rolle umfasst folgende Attribute:
+    Es gibt folgende Rollen:
+    #figure(table(columns: 2, align: left,
+    [*Rolle*], [*Berechtigung*],
+    [Administrator], 
+      [
+        - Vollzugriff auf alle Daten, Systemverwaltung, Benutzer- und Rollenzuweisung, Backup, Import/Export
+      ],
+    [Verwaltungsmitarbeiter], 
+      [
+        - Vollzugriff auf Mitarbeiterstammdaten und Gruppenzuordnungen
+        - Vollzugriff auf Geräteverwaltung
+        - Leserechte auf projektbezogene Daten
+      ],
+    [Bau-/Projektleiter], 
+      [
+        - Vollzugriff auf Projekte, Arbeitsaufträge, Buchungen
+        - Bearbeitungsrechte auf Geräte
+        - volle Einsicht in den Terminplaner
+      ],
+    [Vorarbeiter], 
+      [
+        - Lesezugriff auf Arbeitsaufträge, Geräte und Terminplaner mit den für ihre Arbeit relevanten Informationen
+
+      ],
+    [Mitarbeiter], 
+      [
+        - Lesezugriff auf eigene Anwesenheitszeiten und Terminplaner mit den für ihre Arbeit relevanten Informationen
+      ],
+  ), caption: "Berechtigungen")<Rolle-Berechtigungen>
+
+  Eine Rolle umfasst dabei folgende Attribute:
   #entityFigure("Rolle", arguments(
     [Rollennummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Name], [Text], [Name der Rolle],
@@ -312,7 +341,7 @@
   Zur Verwaltung zählen ausschließlich die Verwaltungsmitarbeiter im Büro. Bau- und Projektleiter haben eine eigene Rolle mit anderen Rechten.
 ]
 #QaA[Was sollen "reine Verwaltungsdaten" konkret sein - welche Daten fallen darunter, welche sind ausgeschlossen? ][
-  Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen und Gerätedaten. Ausgeschlossen sind projektbezogene Daten wie Projekte und Arbeitsaufträge.
+  Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen, Gerätedaten und Bilder. Ausgeschlossen sind projektbezogene Daten wie Projekte und Arbeitsaufträge.
 ]
 #QaA(labelName: "Verwaltungsmitarbeiter-Leserecht-Projektdaten")[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
   Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator. Ausnahme ist die Geräteverwaltung, wo Verwaltungsmitarbeiter VVollzugriff haben.
@@ -324,35 +353,7 @@
   Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
 ]
 #QaA(labelName: "Rollen-gleichzeitig")[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
-  Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten, die wie folgt verteilt sind:
-    #figure(table(columns: 2, align: left,
-    [*Rolle*], [*Berechtigung*],
-    [Administrator], 
-      [
-        - Vollzugriff auf alle Daten, Systemverwaltung, Benutzer- und Rollenzuweisung, Backup, Import/Export
-      ],
-    [Verwaltungsmitarbeiter], 
-      [
-        - Vollzugriff auf Mitarbeiterstammdaten und Gruppenzuordnungen
-        - Vollzugriff auf Geräteverwaltung
-        - Leserechte auf projektbezogene Daten
-      ],
-    [Bau-/Projektleiter], 
-      [
-        - Vollzugriff auf Projekte, Arbeitsaufträge, Buchungen
-        - Bearbeitungsrechte auf Geräte
-        - volle Einsicht in den Terminplaner
-      ],
-    [Vorarbeiter], 
-      [
-        - Lesezugriff auf Arbeitsaufträge, Geräte und Terminplaner mit den für ihre Arbeit relevanten Informationen
-
-      ],
-    [Mitarbeiter], 
-      [
-        - Lesezugriff auf eigene Arbeitszeiten und Terminplaner mit den für ihre Arbeit relevanten Informationen
-      ],
-  ), caption: "Berechtigungen")<Rolle-Berechtigungen>
+  Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten.
 ]
 #QaA[Wer soll die Benutzerkonten und Rollenzuweisungen verwalten - ausschließlich der Administrator? ][
   Ja, ausschließlich der Administrator verwaltet Benutzerkonten und weist Rollen zu.
@@ -405,7 +406,7 @@
   //TODO: mit Frage 53 abgleichen -> aus was besteht was
 ]
 #QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
-  Ja, ein Arbeitsauftrag kann aus mehreren Projekten bestehen, wenn er z.B. in mehrere kleinere Projekte aufgeteilt wird. Die Zuordnung erfolgt n:m.
+  Nein, stattdessen kann ein Arbeitsauftrag allerdings mehrere Unteraufträge enthalten #referenceG("LF 40").
 ]
 #QaA[Soll es Projekte ohne Aufträge geben können? ][
   Ja, ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren. Aufträge werden dann später hinzugefügt.
@@ -748,13 +749,13 @@
     Ja, die Suchergebnisse sollen nach verschiedenen Spalten sortierbar sein (aufsteigend/absteigend).
   ]
   #QaA[Welche Suchmaske(n) sind sollen verwendet werden? ][
-    Je eine Suchmaske für: Mitarbeiter, Aufträge/Projekte, Baumaschinen/Werkzeuge. Alternativ eine zentrale Suchmaske mit Kategorie-Auswahl.
+    Je eine Suchmaske für: Mitarbeiter, Gruppen, Aufträge, Projekte, Geräte, Lager. Falls nötig werden kleinere Suchmasken für spezifische Daten erstellt, die über verschachtelte Ansichten erreichbar sind.
   ]
   #QaA[Wie sollen die Suchmasken aufgeteilt werden? ][
     Nach Datentyp: eine Maske für Personaldaten (Mitarbeiter, Gruppen), eine für Projektdaten (Aufträge, Projekte), eine für Ressourcen (Baumaschinen, Werkzeuge, Lager).
   ]
   #QaA(labelName: "Suchmasken")[Wie viele Suchmasken soll es maximal geben? ][
-    Maximal 5 Suchmasken: Mitarbeiter, Gruppen, Aufträge/Projekte, Baumaschinen/Werkzeuge, Lager. Eine zentrale Suche mit Filter ist ebenfalls denkbar.
+    Maximal große 5 Suchmasken - der Rest wird über spezifische kleinere Suchmasken abgedeckt.
   ]
   #QaA(labelName: "Beschreibung-der-Suche")[Wie soll die Suche erfolgen? Volltextsuche, Suche nach Schlüsselwörtern, Suche nach Kategorien, ... ][
     Kombination aus Textsuche (Name, Bezeichnung) und Filterung nach Kategorien/Attributen (z.B. Status, Datum, Standort). Keine komplexe Volltextsuche erforderlich.
