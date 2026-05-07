@@ -9,7 +9,7 @@
 }
 
 = Use-Case-Diagramm
-Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktionalität der gesamten Verwaltungsanwendung für das Bauunternehmen untersucht und verdeutlicht. Zunächst wird ein allgemeines Use-Case-Diagramm erstellt, welches die Hauptfunktionalitäten der Anwendung abbildet. Hierbei wird ein funktionsorientierter Ansatz verfolgt, sodass differenziert auf die einzelnen Funktionalitäten eingegangen werden kann. Beispielhaft wird für ausgewählte Use-Cases eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens komplexerer Entitäten näher darzustellen. Beispielhaft wurde für einen Use-Case eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens der Geräte näher darzustellen.
+Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktionalität der gesamten Verwaltungsanwendung für das Bauunternehmen untersucht und verdeutlicht. Zunächst wird ein allgemeines Use-Case-Diagramm erstellt, welches die Hauptfunktionalitäten der Anwendung abbildet. Hierbei wird ein funktionsorientierter Ansatz verfolgt, sodass differenziert auf die einzelnen Funktionalitäten eingegangen werden kann. Beispielhaft wird für ausgewählte Use-Cases eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens komplexerer Entitäten und des Verwaltens der Geräte näher darzustellen.
 
 == Rollen-Erläuterung der Anwendung
 Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie im Lastenheft @chapter-Zielgruppen-Rollen und @Rolle-Berechtigungen definiert wurden. Lediglich das Finanzbuchhaltungssystem ist keine klassische Benutzerrolle, sondern ein externes System, welches über eine Schnittstelle mit der Verwaltungssoftware verbunden ist.
@@ -73,14 +73,13 @@ Dieser Anwendungsfall ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei w
 Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig. Projekte sind dabei die übergeordnete Einheit der Arbeitsaufträge.
 
 === Verwaltungsdaten integrieren
-Dieser Anwendungsfall stellt die grundlegende Basisfunktionalität für den lesenden und schreibenden Zugriff auf die zentrale Datenbasis der Anwendung dar. Er kapselt die gemeinsame Logik aller Datenzugriffe - d.h. sowohl das Einsehen von Datensätzen als auch das Anlegen, Bearbeiten und Löschen - und bildet damit den zentralen Einstiegspunkt in die Datenhaltungsschicht. Die konkreten Datenbereiche werden als Erweiterungen modelliert und über die folgenden vier Extension-Points eingebunden:
- 
-- *Personal verwalten:* Verwaltung von Mitarbeiterstammdaten und Gruppenzuordnungen.
+Dieser Anwendungsfall stellt die grundlegende Basisfunktionalität für den lesenden und schreibenden Zugriff auf die zentrale Datenbasis der Anwendung dar. Er kapselt die gemeinsame Logik aller Datenzugriffe - d.h. sowohl das Einsehen von Datensätzen als auch das Anlegen, Bearbeiten und Löschen - und bildet damit den zentralen Einstiegspunkt in die Datenhaltungsschicht. Die konkreten Datenbereiche werden als Erweiterungen modelliert und über die folgenden fünf Extension-Points eingebunden:
+
+- *Buchung verwalten:* Buchung und Stornierung von Geräten für Arbeitsaufträge.
 - *Geräte verwalten:* Verwaltung von Baumaschinen, Werkzeugen, Lagern und Ausrüstung.
 - *Arbeitsaufträge und Projekte verwalten:* Anlegen und Pflege von Projekten, Arbeitsaufträgen und Unteraufträgen.
-- *Buchungen verwalten:* Buchung und Stornierung von Geräten für Arbeitsaufträge.
- 
-Rein lesende Zugriffe auf einzelne Datenbereiche (z.B. "*Arbeitsaufträge und Projekte lesen*") sind gesondert modelliert, da sie eine eingeschränkte Teilmenge der hier definierten Funktionalität darstellen und spezifischen Rollen mit reinen Leserechten vorbehalten sind.
+- *Arbeitsaufträge und Projekte lesen:* Lesender Zugriff auf Projekte und Arbeitsaufträge für Rollen ohne Schreibberechtigung.
+- *Personal verwalten:* Verwaltung von Mitarbeiterstammdaten und Gruppenzuordnungen.
 
 === Personal verwalten
 Durch diesen Use-Case können Verwaltungsmitarbeiter Mitarbeiterstammdaten anlegen, bearbeiten und löschen. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefonnummer, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende) mit einer eindeutigen Mitarbeiternummer. Die Adresse wird über eine Referenz zugeordnet. Das System prüft dabei automatisch auf mögliche Duplikate anhand von den Attributen. 
@@ -101,13 +100,13 @@ In diesem Use-Case können Bau-/Projektleiter Geräte buchen, worunter die für 
 Ebenfalls können bestehende Buchungen bearbeitet oder storniert werden. Die Buchungsverwaltung ermöglicht die Übersicht über alle aktuellen und zukünftigen Buchungen anhand des Status (aktiv, abgeschlossen, storniert).
 
 === Finanzdaten lesen
-Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für den Kostenvoranschlag eines Arbeitsauftrags benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet jedoch allein im Finanzbuchhaltungssystem hat, wodurch dieses System nur Leserechte auf die Finanzdaten hat.
+Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für den Kostenvoranschlag eines Arbeitsauftrags benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet jedoch allein im Finanzbuchhaltungssystem statt, wodurch dieses System nur Leserechte auf die Finanzdaten hat.
 
-=== Daten Daten archivieren (10 Jahres Frist)
+=== Daten archivieren (10 Jahres Frist)
 Bei diesem Use-Case können alle Daten, die noch nicht 10 Jahre alt sind, archiviert werden. Darunter fallen alle Daten die aktuell nicht mehr verwendet werden, jedoch aus rechtlichen Gründen noch bis zu 10 Jahren zugänglich sein müssen. Sofern keine anderen rechtlichen oder geschäftlichen Gründe dagegen sprechen, werden die Daten nach 10 Jahren endgültig gelöscht #referenceQ("q_10-Jahres-Frist-Ablauf").
 
 === Benutzerrollen verwalten
-Dieser Use-Case wird vom Administrator ausgeführt und passiert, nachdem die Verwaltung einen neuen Benutzter im System angelegt hat. Durch die Vergabe der Rolle hat der Benutzter bestimmte Rechte auf das System.
+Dieser Use-Case wird vom Administrator ausgeführt und passiert, nachdem die Verwaltung einen neuen Benutzer im System angelegt hat. Durch die Vergabe der Rolle hat der Benutzer bestimmte Rechte auf das System.
 
 === Daten übertragen
 Das Übertragen von Daten ist ein sicherheitskritischer Vorgang und wird daher ausschließlich dem Administrator vorbehalten. Das beinhaltet den Import und Export von Daten, die als eigener Use-Case inkludiert werden. Dies hat den Grund, dass der Import und Export von Daten systemweit möglich ist und so auch von anderen Use-Cases genutzt werden kann.
@@ -138,9 +137,6 @@ Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da e
 #v(1em)
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.pdf"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
 #v(1em)
-
-=== Gerät suchen
-Dieser Use-Case ermöglicht es nach bestimmten Geräten zu suchen, wodurch die Einsicht von wichtigen Geräteinformationen möglich ist. Diese Funktionalität steht allen Akteuren, die von der Rolle "Mitarbeiter" erben zur Verfügung. Die Grundfunktionalität Daten zu suchen besitzt ebenfalls jeder von Mitarbeiter erbender Akteur und ist in der Kompaktansicht @use-case_Daten-suchen-und-filtern eingebaut.
 
 === Gerät anlegen
 Wird im folgenden vertieft @chapter-Verfeinerung_Geräte-anlegen.
