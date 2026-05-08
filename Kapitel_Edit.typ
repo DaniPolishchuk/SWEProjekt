@@ -299,24 +299,28 @@
 ]
 
 #QaA(labelName: "Attribute-Mitarbeiter")[Welche Attribute soll ein Mitarbeiter haben?][
-  Ein Mitarbeiter umfasst folgende Attribute:
+  Mitarbeiter und Unterauftragnehmer teilen gemeinsame Personenstammdaten. Diese werden in der abstrakten Basisklasse `Person` zusammengefasst, von der beide erben:
+
+  #entityFigure("Person", arguments(
+    [Vorname], [Text], [Vorname der Person],
+    [Nachname], [Text], [Nachname der Person],
+    [Telefonnummer], [Text], [Telefonnummer],
+    [E-Mail], [Text], [E-Mail-Adresse],
+  ))
+
+  Ein Mitarbeiter erbt von `Person` und ergänzt folgende Attribute:
 
   #entityFigure("Mitarbeiter", arguments(
     [Mitarbeiternummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-    [Vorname], [Text], [Vorname des Mitarbeiters],
-    [Nachname], [Text], [Nachname des Mitarbeiters],
     [Geburtsdatum], [Datum], [Geburtsdatum des Mitarbeiters],
-    [E-Mail], [Text], [E-Mail-Adresse],
-    [Telefonnummer], [Text], [Telefonnummer],
-    [Adresse], [Referenz], [Referenz auf Adresse (PLZ, Ort, Straße, Hausnummer)],
     [Position], [Text], [Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernter/ungelernter Bauarbeiter, Verwaltungsmitarbeiter],
-    [Beschäftigungsart], [Text], [Vollzeit oder Teilzeit],
+    [Beschäftigungsort], [Text], [Büro oder Baustelle],
     [Vertragsbeginn], [Datum], [Beginn des Arbeitsverhältnisses],
     [Vertragsende], [Datum], [Ende des Arbeitsverhältnisses (optional)],
-    [Rolle], [Referenz], [Referenz auf Rolle],
+    [Adresse], [Referenz], [Referenz auf Wohnadresse (PLZ, Ort, Straße, Hausnummer)],
+    [Rolle], [Referenz], [Referenz auf Benutzerrolle],
   ))
 ]
-//TODO gehört zur oberen Frage
 #[#set text(fill: answerColor)
   Eine Adresse umfasst folgende Attribute (wird von Mitarbeitern, Lagern, Unterauftragnehmern referenziert):
 
@@ -467,6 +471,7 @@
     Folgende charakteristischen Daten sollen verwaltet werden:
     #figure(table(columns: 2, align: left,
       text(..basicForeGround)[*Daten*], text(..basicForeGround)[*Verweis zur Definition*],
+      [Person (abstrakt)], [@e_Person],
       [Mitarbeiter], [@e_Mitarbeiter],
       [Rolle], [@e_Rolle],
       [Gruppe], [@e_Gruppe],
@@ -477,6 +482,7 @@
       [Projekt], [@e_Projekt],
       [Bauplan], [wird als Text (Pfad auf Dateien im Dateisystem) modelliert @chapter-Vereinfachungen],
       [Ausrüstung], [@e_Ausrüstung],
+      [Geräte-Typ], [@e_Geräte-Typ],
       [Gerät], [@e_Gerät],
       [Lager], [@e_Lager],
       [Termin], [@e_Termin],
@@ -578,15 +584,12 @@
     ]
 
     #[#set text(fill: answerColor)
-      Ein Unterauftragnehmer umfasst folgende Attribute:
+      Ein Unterauftragnehmer erbt von `Person` (Vorname, Nachname, Telefonnummer, E-Mail werden von dort übernommen) und ergänzt folgende Attribute:
 
       #entityFigure("Unterauftragnehmer", arguments(
         [Unterauftragnehmer-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
         [Firmenname], [Text], [Name der Firma],
-        [Ansprechperson], [Text], [Vor- und Nachname],
-        [Telefon], [Text], [Telefonnummer],
-        [E-Mail], [Text], [E-Mail-Adresse],
-        [Adresse], [Referenz], [Referenz auf Adresse],
+        [Adresse], [Referenz], [Referenz auf Firmenadresse],
         [Fachbereich], [Text], [z.B. Elektroinstallation, Sanitär, Heizung],
       ))
     ]
@@ -620,16 +623,26 @@
     Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut..
   ]
 
-  #QaA(labelName: "Oberbegriff-Gerät")[Gibt es einen Unterschied zwischen "Baumaschine”, "Bauwerkzeug" und "Gerät” bzw. ist "Gerät” ein allgemeiner Begriff für Baumaschinen und Bauwerkzeuge?][
-    Ja, Gerät wird als Oberbegriff für Baumaschinen und Bauwerkzeuge verwendet, wobei es sich bei Baumaschinen um Fahrzeuge handelt #referenceQ("q_Eigenschaften-Fahrzeuge"). Die Unterscheidung findet im Attribut "Typ" statt. Ein Gerät umfasst folgende Attribute:
+  #QaA(labelName: “Oberbegriff-Gerät”)[Gibt es einen Unterschied zwischen “Baumaschine”, “Bauwerkzeug” und “Gerät” bzw. ist “Gerät” ein allgemeiner Begriff für Baumaschinen und Bauwerkzeuge?][
+    Ja, Gerät wird als Oberbegriff für Baumaschinen und Bauwerkzeuge verwendet, wobei es sich bei Baumaschinen um Fahrzeuge handelt #referenceQ(“q_Eigenschaften-Fahrzeuge”). Die Unterscheidung findet im Attribut “Typ” statt.
+
+    Da im Fuhrpark mehrere Geräte desselben Typs existieren (z.B. drei Bagger CAT 320), werden gemeinsame Typ-Eigenschaften in einer separaten Klasse `Geräte-Typ` zusammengefasst. Jedes konkrete Gerät (Exemplar) verweist auf genau einen `Geräte-Typ`. Damit wird vermieden, dass Typ-Attribute wie Bezeichnung und Kategorie bei jedem Exemplar redundant gespeichert werden (Exemplartyp-Muster, siehe @fig-analyse-klassendiagramm).
+
+    Ein Geräte-Typ umfasst folgende Attribute:
   ]
 
   #[#set text(fill: answerColor)
-       #entityFigure("Gerät", arguments(
-      [Gerätenummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-      [Bezeichnung], [Text], [Name des Geräts (z.B. "Bagger CAT 320")],
+    #entityFigure(“Geräte-Typ”, arguments(
+      [Geräte-Typ-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+      [Bezeichnung], [Text], [Name des Gerätetyps (z.B. “Bagger CAT 320”)],
       [Typ], [Text], [Baumaschine oder Bauwerkzeug],
       [Kategorie], [Text], [Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung],
+    ))
+
+    Ein konkretes Gerät (Exemplar) ergänzt folgende Attribute:
+
+    #entityFigure(“Gerät”, arguments(
+      [Gerätenummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
       [Seriennummer], [Text], [Herstellerseriennummer],
       [Lager], [Referenz], [Referenz auf das Lager],
       [Standort], [Text], [Aktueller Standort (falls nicht im Lager)],
