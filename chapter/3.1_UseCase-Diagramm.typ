@@ -64,22 +64,27 @@ Auch dieser Use-Case ist rollenbasiert eingeschränkt. Jeder sieht nur so viele 
 Die Darstellung erfolgt als Kalenderansicht mit Monats- und Wochenansicht, wobei passend (je nach Start- und Enddatum) Arbeitsaufträge und Projekte angezeigt werden, deren Detailansicht per Klick sichtbar ist #referenceQ("q_Form-Terminplaner").
 
 === Arbeitsaufträge lesen
-Dieser Anwendungsfall ermöglicht es Vorarbeitern, ihre Arbeitsaufträge einzusehen. Darüber hinaus können sie auch verschiedene Unteraufträge ansehen, falls vorhanden.  
+Dieser Use-Case ermöglicht es Vorarbeitern, ihre Arbeitsaufträge einzusehen. Darüber hinaus können sie auch verschiedene Unteraufträge ansehen, falls vorhanden.
 
 === Geräte lesen
-Dieser Anwendungsfall ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei wird ersichtlich, welche Geräte gerade verfügbar sind und auf der Baustelle bei ihren Arbeitsaufträgen eingesetzt werden können.
+Dieser Use-Case ermöglicht es Vorarbeitern, Geräte einzusehen. Hierbei wird ersichtlich, welche Geräte gerade verfügbar sind und auf der Baustelle bei ihren Arbeitsaufträgen eingesetzt werden können.
 
 === Arbeitsaufträge und Projekte lesen
 Während der Use-Case "Arbeitsaufträge lesen" sich auf die reine Einsicht der Arbeitsaufträge bezieht, ist bei diesem Use-Case eine zusätzliche Einsicht auf die verschiedenen Projekte der Arbeitsaufträge möglich. Diese vollständige Einsicht ist für die Pflege und Organisation der zentralen Datenbestände - was eine zentrale Aufgabe der Verwaltung ist - nötig. Projekte sind dabei die übergeordnete Einheit der Arbeitsaufträge.
 
 === Verwaltungsdaten integrieren
-Dieser Anwendungsfall stellt die grundlegende Basisfunktionalität für den lesenden und schreibenden Zugriff auf die zentrale Datenbasis der Anwendung dar. Er kapselt die gemeinsame Logik aller Datenzugriffe - d.h. sowohl das Einsehen von Datensätzen als auch das Anlegen, Bearbeiten und Löschen - und bildet damit den zentralen Einstiegspunkt in die Datenhaltungsschicht. Die konkreten Datenbereiche werden als Erweiterungen modelliert und über die folgenden fünf Extension-Points eingebunden:
+Dieser Anwendungsfall stellt die grundlegende Basisfunktionalität für den lesenden und schreibenden Zugriff auf die zentrale Datenbasis der Anwendung dar. Er kapselt die gemeinsame Logik aller Datenzugriffe - d.h. sowohl das Einsehen von Datensätzen als auch das Anlegen, Bearbeiten und Löschen - und bildet damit den zentralen Einstiegspunkt in die Datenhaltungsschicht. Die konkreten Datenbereiche werden als Erweiterungen modelliert und über die folgenden sechs Extension-Points eingebunden:
 
+- *Bilder verwalten:* Verwaltung des zentralen Bildkatalogs, aus dem Elemente aller Entitäten mit Bildern versehen werden können.
 - *Buchung verwalten:* Buchung und Stornierung von Geräten für Arbeitsaufträge.
 - *Geräte verwalten:* Verwaltung von Baumaschinen, Werkzeugen, Lagern und Ausrüstung.
 - *Arbeitsaufträge und Projekte verwalten:* Anlegen und Pflege von Projekten, Arbeitsaufträgen und Unteraufträgen.
 - *Arbeitsaufträge und Projekte lesen:* Lesender Zugriff auf Projekte und Arbeitsaufträge für Rollen ohne Schreibberechtigung.
 - *Personal verwalten:* Verwaltung von Mitarbeiterstammdaten und Gruppenzuordnungen.
+
+=== Bilder verwalten
+Dieser Use-Case ermöglicht die Verwaltung des systemweiten Bildkatalogs #referenceG("LF 80"). Der Verwaltungsmitarbeiter verwaltet den zentralen Bildbestand, indem er Bilder dem Katalog hinzufügen, vorhandene Bildinformationen (Titel, Dateipfad) bearbeiten sowie Bilder aus dem Katalog entfernen kann. Bilder werden dabei zentral in einem gemeinsamen Verzeichnis abgelegt und über ihren Dateipfad referenziert. \
+Die übrigen Akteure -- Bau-/Projektleiter, Vorarbeiter und Mitarbeiter -- haben über den Use-Case "Bild hinzufügen" @uc_bild-hinzufuegen lesenden Zugriff auf den Bildkatalog, um Bilder zu Elementen wie Geräten, Aufträgen oder Mitarbeitern zuzuordnen. Sie besitzen jedoch keine Berechtigung, Bilddaten im Katalog selbst zu ändern oder zu löschen. Dieser Use-Case erweitert "Verwaltungsdaten integrieren" als erster Extension-Point.
 
 === Personal verwalten
 Durch diesen Use-Case können Verwaltungsmitarbeiter Mitarbeiterstammdaten anlegen, bearbeiten und löschen. Dies umfasst die Eingabe von Personalien (Vorname, Nachname, Geburtsdatum), Kontaktdaten (E-Mail, Telefonnummer, Adresse) und Vertragsdaten (Position, Beschäftigungsart, Vertragsbeginn/-ende) mit einer eindeutigen Mitarbeiternummer. Die Adresse wird über eine Referenz zugeordnet. Das System prüft dabei automatisch auf mögliche Duplikate anhand von den Attributen. 
@@ -96,14 +101,14 @@ Darüber hinaus umfasst dieser Use-Case auch das Anlegen, Bearbeiten, Löschen u
 Während des ganzen Prozesses prüft das System auf Duplikate #referenceG("LF 100"). Nach erfolgreicher Anlage ist das Projekt, die Arbeitsaufträge und die enthaltenen Unteraufträge im Terminplaner sichtbar. 
 
 === Buchungen verwalten
-In diesem Use-Case können Bau-/Projektleiter Geräte buchen, worunter die für einen Arbeitsauftrag benötigten Geräte fallen. Dabei wird das gewünschte Gerät über eine Auswahlliste ausgewählt. Durch Angabe des Zeitraums und des Arbeitsauftrags prüft das System automatisch die Verfügbarkeit des Geräts im angegebenen Zeitraum. Bei Verfügbarkeit wird die Buchung angelegt und erhält eine eindeutige Buchungsnummer. Bei Nichtverfügbarkeit wird wiederum eine Fehlermeldung angezeigt. 
+In diesem Use-Case können Bau-/Projektleiter Geräte buchen, worunter die für einen Arbeitsauftrag benötigten Geräte fallen. Dabei wird das gewünschte Gerät über eine Auswahlliste ausgewählt. Durch Angabe des Zeitraums und des Arbeitsauftrags bindet dieser Use-Case mittels _\<\<include\>\>_ stets den Use-Case "Verfügbarkeit prüfen" ein: Jede Buchungsanfrage erfordert zwingend eine Prüfung, ob das gewünschte Gerät im angegebenen Zeitraum verfügbar ist. Bei Verfügbarkeit wird die Buchung angelegt und erhält eine eindeutige Buchungsnummer. Bei Nichtverfügbarkeit wird eine Fehlermeldung angezeigt.
 Ebenfalls können bestehende Buchungen bearbeitet oder storniert werden. Die Buchungsverwaltung ermöglicht die Übersicht über alle aktuellen und zukünftigen Buchungen anhand des Status (aktiv, abgeschlossen, storniert).
 
 === Finanzdaten lesen
 Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für den Kostenvoranschlag eines Arbeitsauftrags benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet jedoch allein im Finanzbuchhaltungssystem statt, wodurch dieses System nur Leserechte auf die Finanzdaten hat.
 
-=== Daten archivieren (10 Jahres Frist)
-Bei diesem Use-Case können alle Daten, die noch nicht 10 Jahre alt sind, archiviert werden. Darunter fallen alle Daten die aktuell nicht mehr verwendet werden, jedoch aus rechtlichen Gründen noch bis zu 10 Jahren zugänglich sein müssen. Sofern keine anderen rechtlichen oder geschäftlichen Gründe dagegen sprechen, werden die Daten nach 10 Jahren endgültig gelöscht #referenceQ("q_10-Jahres-Frist-Ablauf").
+=== Daten archivieren
+Gemäß der gesetzlichen Aufbewahrungspflicht müssen relevante Geschäftsdaten für einen Zeitraum von mindestens 10 Jahren archiviert werden. Bei diesem Use-Case können alle Daten, die aktuell nicht mehr aktiv verwendet werden, jedoch aus rechtlichen Gründen noch zugänglich bleiben müssen, archiviert werden. Archivierte Daten sind weiterhin lesbar, belasten jedoch nicht den aktiven Datenbestand der Anwendung. Sofern keine anderen rechtlichen oder geschäftlichen Gründe dagegen sprechen, werden die Daten nach Ablauf der 10-Jahres-Frist endgültig gelöscht #referenceQ("q_10-Jahres-Frist-Ablauf").
 
 === Benutzerrollen verwalten
 Dieser Use-Case wird vom Administrator ausgeführt und passiert, nachdem die Verwaltung einen neuen Benutzer im System angelegt hat. Durch die Vergabe der Rolle hat der Benutzer bestimmte Rechte auf das System.
@@ -142,11 +147,10 @@ Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da e
 Wird im folgenden vertieft @chapter-Verfeinerung_Geräte-anlegen.
 
 === Gerät bearbeiten
-Die Bearbeitung nach dem Anlegen eines Geräts wird in diesem Use-Case behandelt und kann sowohl von Verwaltungsmitarbeitern als auch von Bau-/Projektleiter durchgeführt werden. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager-, Ausrüstung-, Standortzuordnung und Wartungstermine. Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeit aus.
-//TODO: Einbringe, dass "Ausrüstung zuordnen" INKLUDIERT wird => Problem, warum wird Lager zuordnen nicht inkludiert? (evtl. bie Lutz nachfragen, wie das mit dem Include korrekt geht "Ausrüstung zuordnen" doppelt in Vertiefung)
+Die Bearbeitung nach dem Anlegen eines Geräts wird in diesem Use-Case behandelt und kann sowohl von Verwaltungsmitarbeitern als auch von Bau-/Projektleiter durchgeführt werden. Zunächst wird das Gerät über die Suchfunktion oder Auswahlliste ausgewählt. Die bestehenden Attribute werden angezeigt und können geändert werden. Dies umfasst die Bezeichnung, Kategorie, den Status, die Lager-, Standortzuordnung und Wartungstermine. Änderungen an der Lagerzuordnung oder am Status werden gespeichert und wirken sich auf die Verfügbarkeit aus. Für die Anpassung der Ausrüstungszuordnung bindet dieser Use-Case mittels _\<\<include\>\>_ den Use-Case "Ausrüstung zuordnen" @uc_ausruestung-zuordnen ein.
 
-=== Ausrüstung zuordnen
-Dieser Use-Case erweitert optional das Anlegen oder Bearbeiten eines Geräts durch Zuordnen von Ausrüstung. Dabei wird die Ausrüstung als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Beim Hinzufügen einer Ausrüstung werden nur die Ausrüstungen, die mit dem Gerätetyp kompatibel sind angezeigt. Die Kompatibilität wird über das Attribut "Kompatibel mit" festgelegt.
+=== Ausrüstung zuordnen <uc_ausruestung-zuordnen>
+Dieser Use-Case ermöglicht das optionale Zuordnen von Ausrüstung beim Anlegen oder Bearbeiten eines Geräts. Dabei wird die Ausrüstung als separate Entität verwaltet und über eine Referenz mit dem Gerät verknüpft. Beim Hinzufügen einer Ausrüstung werden nur die Ausrüstungen, die mit dem Gerätetyp kompatibel sind angezeigt. Die Kompatibilität wird über das Attribut "Kompatibel mit" festgelegt.
 
 === Lager verwalten
 Die Verwaltung der Lager für Geräte übernehmen die Verwaltungsmitarbeiter und Bau-/Projektleiter. Dies umfasst das Anlegen, Bearbeiten und Löschen von Lagern. Jedes Lager erhält eine eindeutige Lagernummer, eine Bezeichnung, einen Typ (Platz für Außengelände oder Gebäude für Lagerhalle) und eine Adresse. Optional kann eine Grundstücksbezeichnung und eine Kapazität (maximale Anzahl Geräte) angegeben werden.
@@ -189,10 +193,13 @@ Dieser Use-Case bildet den zentralen Schritt des gesamten Anlegevorgangs und umf
 Nach der Erfassung der grundlegenden Geräteeigenschaften wird dem Gerät ein Lager zugeordnet. Die Lagerauswahl erfolgt über eine Auswahlliste der vorhandenen Lager #referenceG("LF 50"). Ein Lager kann dabei einem Außengelände (Typ: Platz) oder einer Lagerhalle (Typ: Gebäude) entsprechen. Zusätzlich zur Lagerzuordnung wird der aktuelle Standort des Geräts festgehalten. Diese Information ist für die standortbasierte Verfügbarkeitssuche relevant, mit der nach dem nächstgelegenen verfügbaren Gerät für einen Einsatzort gesucht werden kann #referenceG("LF 50").
 
 === Ausrüstung zuordnen
-Beim Anlegen eines Geräts kann diesem optional Ausrüstung zugeordnet werden. Diese Funktionalität entspricht dem gleichnamigen Use-Case aus der übergeordneten Vertiefung (siehe @chapter-Verfeinerung_Geräte-verwalten): Es werden ausschließlich Ausrüstungsteile angezeigt, die mit dem zuvor ausgewählten Gerätetyp kompatibel sind. Die Kompatibilität ist am Ausrüstungsobjekt über das Attribut "Kompatibel mit" hinterlegt. Die Zuordnung von Ausrüstung ist optional und kann zu einem späteren Zeitpunkt über "Gerät bearbeiten" vorgenommen werden.
+Dieser Use-Case ist mit dem gleichnamigen Use-Case aus der Vertiefung "Geräte verwalten" identisch und tritt hier als dessen Referenz auf @uc_ausruestung-zuordnen. Er wird sowohl von "Gerät anlegen" als auch von "Gerät bearbeiten" mittels _\<\<include\>\>_ eingebunden. Die vollständige Beschreibung der Funktionalität ist dort dokumentiert.
 
-=== Bild hinzufügen
-Gemäß LF 80 können allen Elementen des Systems beliebig viele Bilder mit Titel zugeordnet werden #referenceG("LF 80"). Beim Anlegen eines Geräts besteht die Möglichkeit, dem Gerät Bilder (z.B. Fotos des Geräts) hinzuzufügen. Die Bilder liegen zentral in einem gemeinsamen Verzeichnis und werden über ihren Dateipfad referenziert. Das Hinzufügen von Bildern ist optional; Bilder können auch über "Gerät bearbeiten" zu einem späteren Zeitpunkt ergänzt oder entfernt werden.
+=== Bild hinzufügen <uc_bild-hinzufuegen>
+Gemäß LF 80 können allen Elementen des Systems beliebig viele Bilder mit Titel zugeordnet werden #referenceG("LF 80"). Beim Anlegen eines Geräts besteht die Möglichkeit, dem Gerät Bilder (z.B. Fotos des Geräts) hinzuzufügen. Dazu bindet dieser Use-Case mittels _\<\<include\>\>_ den Use-Case "Bild suchen" ein, über den der Benutzer im zentralen Bildkatalog nach geeigneten Bildern sucht und diese dem Gerät zuordnet. Das Hinzufügen von Bildern ist optional; Bilder können auch über "Gerät bearbeiten" zu einem späteren Zeitpunkt ergänzt oder entfernt werden.
+
+=== Bild suchen
+Dieser Use-Case wird mittels _\<\<include\>\>_ durch "Bild hinzufügen" eingebunden und stellt den Zugriff auf den zentralen Bildkatalog bereit. Er referenziert den Use-Case "Bilder verwalten" aus der Kompaktansicht (vgl. @uc_kompakt): Der gesamte Bildbestand, der von Verwaltungsmitarbeitern über "Bilder verwalten" gepflegt wird, steht an dieser Stelle zur Auswahl bereit. Der Benutzer kann im Katalog nach Bildern suchen -- beispielsweise nach Titel oder Dateipfad -- und ein oder mehrere Bilder dem Gerät zuordnen. Auf diese Weise wird die Bildsuche und -zuordnung an konkreten Elementen von der zentralen Verwaltung des Bildbestands konzeptuell getrennt.
 
 === Auf Duplikate prüfen
 Bevor das neue Gerät endgültig im System gespeichert wird, prüft das System automatisch auf mögliche Duplikate #referenceG("LF 100"). Die Prüfung erfolgt anhand charakteristischer Attribute wie Bezeichnung und Seriennummer. Wird ein potenzielles Duplikat erkannt, wird dem Verwaltungsmitarbeiter eine Warnmeldung mit den gefundenen Einträgen angezeigt, sodass er den Vorgang abbrechen oder Änderungen vornehmen kann.
