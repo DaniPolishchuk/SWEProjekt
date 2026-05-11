@@ -140,7 +140,7 @@ Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchf
 Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
 
 #v(1em)
-#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraete verwalten.pdf"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
+#figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet verwalten.pdf"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
 #v(1em)
 
 === Gerät anlegen

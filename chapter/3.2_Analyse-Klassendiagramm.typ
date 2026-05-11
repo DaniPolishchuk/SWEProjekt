@@ -19,13 +19,17 @@ Das Diagramm ist in folgende thematische Bereiche gegliedert:
 
 === Person
 
-Die abstrakte Basisklasse `Person` fasst die gemeinsamen Personenstammdaten zusammen, die sowohl für Mitarbeiter als auch für Unterauftragnehmer relevant sind: Vorname, Nachname, Telefonnummer sowie E-Mail-Adresse. Durch diese Abstraktion wird Redundanz in den abgeleiteten Klassen vermieden. `Person` stellt damit das strukturelle Fundament für alle am System beteiligten natürlichen Personen bereit.
+Die abstrakte Basisklasse `Person` fasst die gemeinsamen Personenstammdaten zusammen, die sowohl für Mitarbeiter als auch für Unterauftragnehmer relevant sind: Vorname, Nachname, Telefonnummer sowie E-Mail-Adresse.
+
+Die Adresse wird über eine unidirektionale Assoziation zur Klasse `Adresse` modelliert.
+
+Durch diese Abstraktion wird Redundanz in den abgeleiteten Klassen vermieden. `Person` stellt damit das strukturelle Fundament für alle am System beteiligten natürlichen Personen bereit.
 
 === Mitarbeiter
 
 Die Klasse `Mitarbeiter` erbt von `Person` und erweitert die Personenstammdaten um mitarbeiterspezifische Attribute: Mitarbeiternummer, Geburtsdatum, Position (Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernter/ungelernter Bauarbeiter, Verwaltungsmitarbeiter), Beschäftigungsort, Vertragsbeginn sowie Vertragsende (LF 20, LF 90).
 
-Die Wohnadresse wird über eine unidirektionale Assoziation zur Klasse `Adresse` modelliert. Ebenso verweist jeder Mitarbeiter auf genau eine `Rolle`, die seine Zugriffsrechte im System bestimmt.
+Jeder Mitarbeiter verweist auf genau eine `Rolle`, die seine Zugriffsrechte im System bestimmt.
 
 Ein Mitarbeiter kann gleichzeitig mehrere benannte Rollen gegenüber anderen Klassen einnehmen: Er kann Projektleiter eines Projekts, Gruppenleiter einer Gruppe, beteiligte Person eines Arbeitsauftrags und buchender Mitarbeiter einer Buchung sein. Diese Mehrfachbeziehungen realisieren das Rollen-Muster (siehe Abschnitt Analysemuster).
 
@@ -61,7 +65,7 @@ Die Klasse `Unterauftrag` modelliert die hierarchische Gliederung von Arbeitsauf
 
 === Unterauftragnehmer
 
-Die Klasse `Unterauftragnehmer` erbt von `Person` und verwaltet die Kontaktdaten externer Firmen, die Unteraufträge ausführen (LF 40). Sie erweitert die Personenstammdaten um Firmenname und Fachbereich und verweist über eine Assoziation auf eine `Adresse`. Durch die Vererbung von `Person` sind Vorname, Nachname, Telefonnummer und E-Mail bereits vorhanden.
+Die Klasse `Unterauftragnehmer` erbt von `Person` und verwaltet die Kontaktdaten externer Firmen, die Unteraufträge ausführen (LF 40). Sie erweitert die Personenstammdaten um Firmenname und Fachbereich. Durch die Vererbung von `Person` sind Adresse, Vorname, Nachname, Telefonnummer und E-Mail bereits vorhanden.
 
 === Termin
 
