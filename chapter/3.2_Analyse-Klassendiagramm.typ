@@ -4,14 +4,17 @@
 
 Das folgende Analyse-Klassendiagramm modelliert die zentralen Entitäten der Verwaltungssoftware für das Bauunternehmen. Die Modellierung erfolgt auf Analyseebene und orientiert sich an den im Lastenheft definierten Produktfunktionen (LF 10 -- LF 100) sowie den identifizierten Entitäten aus der Lastenheftanalyse. Sämtliche Referenzen auf andere Objekte werden als Assoziationslinien dargestellt, nicht als Attribute in den Klassen.
 
-Das Diagramm ist in folgende thematische Bereiche gegliedert:
-- *Personen und Mitarbeiter* (LF 20, LF 90): Personalstammdaten, Rollen, Organisationsstruktur und Anwesenheitszeiten
-- *Projekte und Aufträge* (LF 30, LF 40): Projektstruktur, Arbeitsaufträge, Unteraufträge und Terminplanung
-- *Finanzdokumente*: Rechnungen (extern, nur lesend aus dem Finanzbuchhaltungssystem)
-- *Geräte und Ausrüstung* (LF 50): Gerätetypen, konkrete Geräteexemplare (Exemplartyp-Muster) und deren Zubehör (Baugruppe-Muster)
-- *Buchungen* (LF 50): Reservierung und Verfügbarkeitsverwaltung der Geräte
-- *Bilder* (LF 80): Zuordnung von Bilddateien zu allen relevanten Entitäten
-- *Externe Systeme*: Schnittstellen zu Finanzbuchhaltung, Altsystem und Drucker
+Das Diagramm ist in folgende thematische Bereiche gegliedert, die zur besseren Übersicht farblich hervorgehoben wurden:
+- *Personen und Mitarbeiter* (LF 20, LF 90): Personalstammdaten, Rollen, Organisationsstruktur und Anwesenheitszeiten -- dargestellt in *Blau*
+- *Projekte und Aufträge* (LF 30, LF 40): Projektstruktur, Arbeitsaufträge, Unteraufträge und Terminplanung -- dargestellt in *Orange*
+- *Finanzdokumente*: Rechnungen (extern, nur lesend aus dem Finanzbuchhaltungssystem) -- dargestellt in *Orange*
+- *Geräte und Ausrüstung* (LF 50): Gerätetypen, konkrete Geräteexemplare (Exemplartyp-Muster) und deren Zubehör (Baugruppe-Muster) -- dargestellt in *Grün*
+- *Buchungen* (LF 50): Reservierung und Verfügbarkeitsverwaltung der Geräte -- dargestellt in *Grün*
+
+- *Bilder* (LF 80): Zuordnung von Bilddateien zu allen relevanten Entitäten -- dargestellt in *Rot*
+- *Externe Systeme*: Schnittstellen zu Finanzbuchhaltung, Altsystem und Drucker -- dargestellt in *Lila*
+
+Klassen, die von mehreren Bereichen genutzt werden (`Adresse`, `Termin`), wurden bewusst ohne Farbmarkierung dargestellt, da sie als Querschnittsklassen keinem einzelnen Bereich eindeutig zugeordnet werden können.
 
 #figure(image("../assets/klassendiagramm/Klassendiagramm.pdf", width: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
 
