@@ -642,6 +642,7 @@
 
     #entityFigure("Gerät", arguments(
       [Gerätenummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+      [Geräte-Typ], [Referenz], [Referenz auf Geräte-Typ],
       [Seriennummer], [Text], [Herstellerseriennummer],
       [Lager], [Referenz], [Referenz auf das Lager],
       [Standort], [Text], [Aktueller Standort (falls nicht im Lager)],
