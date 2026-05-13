@@ -96,7 +96,7 @@
   Zusätzlich: Sanierung und Modernisierung bestehender Bauwerke.
 ]
 #QaA[Wie soll die neue Verwaltungssoftware die bisherigen Verwaltungsarbeiten konkret vereinfachen - welche manuellen Arbeitsschritte sollen automatisiert werden?][
-  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
+  Bisher werden Aufträge, Geräte und Personalzuordnungen teilweise in Excel-Listen. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Geräten und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
 ]
 #QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt?][
   Aktuell wird eine Kombination aus einer älteren Desktop-Anwendung und diversen Excel-Tabellen verwendet. Die Daten liegen in einer lokalen Datenbank.
@@ -111,7 +111,7 @@
   Vorarbeiter und Bauleiter hatten Schwierigkeiten mit der unübersichtlichen Menüstruktur. Häufig wurden falsche Eingabefelder befüllt. Die neue Software soll deshalb klare, einfache Eingabemasken bieten.
 ]
 #QaA[Was genau wird unter einer "intuitiven, leicht bedienbaren Benutzeroberfläche" verstanden - soll die neue Oberfläche nach einem bestimmten Gestaltungsprinzip aufgebaut sein (z.B. möglichst wenige Klicks, alle wesentlichen Informationen auf einen Blick)?][
-  Die wichtigsten Informationen (Aufträge, Baumaschinen, Mitarbeiter) sollen von einer zentralen Übersichtsseite aus erreichbar sein. Maximal drei Klicks bis zur gewünschten Information. Keine Kommandozeile oder technische Fehlermeldungen.
+  Die wichtigsten Informationen (Aufträge, Geräte, Mitarbeiter) sollen von einer zentralen Übersichtsseite aus erreichbar sein. Maximal drei Klicks bis zur gewünschten Information. Keine Kommandozeile oder technische Fehlermeldungen.
 ]
 #QaA(labelName: "plattformunabhängige Lösung")[Wie stellt man sich die plattformunabhängige Lösung konkret vor - soll es eine native Desktop-Anwendung mit Java, eine Web-Applikation oder eine hybride Lösung sein?][
   Es soll eine Java-Desktop-Anwendung sein, die plattformunabhängig auf Windows, Linux und macOS läuft #referenceQ("q_Leistung-PC"). Für das spätere Tablet-Projekt wird eine separate Web- oder App-Lösung in Betracht gezogen.
@@ -120,7 +120,7 @@
   Bis zu 15 Desktop-Rechner sollen gleichzeitig auf die zentrale Datenbasis zugreifen können.
 ]
 #QaA[Welche ausgewählten Teile der Daten und Arbeitsabläufe sollen auf den mobilen Endgeräten (Laptops, Tablets) vor Ort verfügbar sein?][
-  Auf mobilen Endgeräten sollen Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Baumaschinenstandorte und Arbeitsaufträge lesend verfügbar sein.
+  Auf mobilen Endgeräten sollen Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Gerätestandorte und Arbeitsaufträge lesend verfügbar sein.
 ]
 #QaA[Sollen die mobilen Endgeräte auch ohne bestehende Netzverbindung (offline) auf zwischengespeicherte Daten zugreifen können und wie sollen Datenänderungen bei der anschließenden Synchronisation behandelt werden?][
   Ja, eine Offline-Fähigkeit ist wünschenswert. Änderungen sollen beim nächsten Verbindungsaufbau synchronisiert werden.
@@ -196,9 +196,9 @@
   - Auftragsinformationen
   - Einsatzort
   - beteiligte Personen 
-  - Baumaschinenstandorte
+  - Gerätestandorte
 
-  Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte, Baupläne. \
+  Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Gerätestandorte, Baupläne. \
   Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
 ]
 #QaA(labelName: "Import-Format")[Welche Formate der Daten sollen im Import bevorzugt werden?][
@@ -248,7 +248,7 @@
   Siehe genaue Definition der oben genannten Entitäten: @verwalteten-Objekte
 ]
 #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
-  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem) 
+  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Geräte, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem)
   
   Siehe die genaue Definition: @e_Arbeitsauftrag.
 ]
@@ -543,7 +543,7 @@
     Siehe @q_charakteristischen-Daten.
   ]
   #QaA[Sollen alle Daten auf einer einzelnen GUI sichtbar sein oder sollen sie weiter unterteilt werden? ][
-    Die Hauptinformationen (Bezeichnung, Projekt, Termine, Status) werden in einer Übersicht angezeigt. Detaildaten (Baupläne, beteiligte Personen, Baumaschinen) werden über Tabs oder Detailansichten zugänglich gemacht.
+    Die Hauptinformationen (Bezeichnung, Projekt, Termine, Status) werden in einer Übersicht angezeigt. Detaildaten (Baupläne, beteiligte Personen, Geräte) werden über Tabs oder Detailansichten zugänglich gemacht.
   ]
   #QaA[[INTERN] In welcher Form sollen die Daten vorliegen (einzelne Dateien, Daten in der Datenbank)? ][
     Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV), später in einer Datenbank. Baupläne und Bilder bleiben als separate Dateien im Dateisystem, referenziert über Dateipfade #referenceG("LD 10").
@@ -558,7 +558,7 @@
       Als eigene Klasse mit Referenz zum Auftrag. Die Beziehung ist 1:n (ein Auftrag kann mehrere Unteraufträge haben).
     ]
     #QaA[[INTERN] Welche Abhängigkeiten soll der Unterauftrag von seinem Auftrag haben (z.B. geteilte Ressourcen)? ][
-      Der Unterauftrag erbt das Projekt und den Einsatzort vom Auftrag. Er kann eigene Termine, beteiligte Personen und Baumaschinen haben.
+      Der Unterauftrag erbt das Projekt und den Einsatzort vom Auftrag. Er kann eigene Termine, beteiligte Personen und Geräte haben.
     ]
     #QaA[Sollen die Unterauftragnehmer ebenfalls separat verwaltet werden? ][
       Ja, externe Unterauftragnehmer werden als Kontaktdaten (Name, Firma, Telefon, E-Mail) verwaltet und können Unteraufträgen zugeordnet werden.
