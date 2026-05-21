@@ -66,9 +66,9 @@ TINF24B1
   theme: "Thema: Verwaltungssoftware für Bauunternehmen",
 )
 
-#include "Kapitel_Original.typ"
+#include "chapter/1_Aufgabenstellung.typ"
 
-#include "Kapitel_Edit.typ"
+#include "chapter/2_Analyse_des_Lastenhefts.typ"
 
 #include "chapter/3.1_UseCase-Diagramm.typ"
 

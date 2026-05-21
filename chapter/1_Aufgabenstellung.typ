@@ -1,4 +1,4 @@
-#import "utils.typ": *
+#import "../utils.typ": *
 #import "@preview/codly:1.3.0": *
 #import "@preview/codly-languages:0.1.1": *
 #show: codly-init.with()
@@ -82,7 +82,7 @@
 
 = Analyse des Lastenhefts
 == Einleitung <chapter-Einleitung>
-#include "chapter/original/1.0_Einleitung.typ"
+#include "original/1.0_Einleitung.typ"
 
 #QaA[Wie viele Mitarbeiter sind konkret in der Verwaltung tätig und wie viele arbeiten auf den Baustellen?][
   Von den ca. 200 Mitarbeitern arbeiten etwa 30 in der Verwaltung (Büro) und etwa 170 auf den Baustellen.
@@ -151,7 +151,7 @@
 
 == Lastenheft
 === Zielsetzung
-#include "chapter/original/2.1_Zielsetzung.typ"
+#include "original/2.1_Zielsetzung.typ"
 
 #QaA[Auf welchen Geräten soll die Software laufen können?][
   Primär auf Desktop-PCs im Büro #referenceQ("q_Leistung-PC"). Später auch auf Laptops und Tablets (Tablet-Projekt, nicht Teil des ersten Auftrags) #referenceQ("q_plattformunabhängige Lösung").
@@ -228,7 +228,7 @@
 ]
 
 === Anwendungsbereiche
-#include "chapter/original/2.2_Anwendungsbereiche.typ" 
+#include "original/2.2_Anwendungsbereiche.typ" 
 
 #QaA(labelName: "Leistung-PC")[[INTERN] Welche Leistung haben die PCs (Welche technische Anforderungen)?][
   Folgende Mindestanforderungen gelten für die Büro-PCs:
@@ -258,7 +258,7 @@
 
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten <chapter-Zielgruppe-Rollen>
-#include "chapter/original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
+#include "original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
 
 #QaA[Welche Rollen soll es geben?][
     Es gibt folgende Rollen:
@@ -429,7 +429,7 @@
 ]
 
 === Zusammenspiel mit anderen Systemen
-#include "chapter/original/2.4_Zusammenspiel-mit-anderen-Systemen.typ"
+#include "original/2.4_Zusammenspiel-mit-anderen-Systemen.typ"
 
 #QaA[Wie lange soll die alte Software parallel betrieben werden - bis zur vollständigen Datenmigration oder darüber hinaus?][
   Die alte Software soll parallel betrieben werden, bis die Datenmigration abgeschlossen ist und die neue Software im produktiven Betrieb stabil läuft. Eine Überlappungsphase von ca. 2-4 Wochen ist vorgesehen.
@@ -969,7 +969,7 @@
 #pagebreak()
  
 == Qualitätsanforderung
-#include "chapter/original/2.8_Qualitätsanforderung.typ"
+#include "original/2.8_Qualitätsanforderung.typ"
 
 #table(columns: 2,
   [*Produktqualität*], [*Fragen und Antworten*],

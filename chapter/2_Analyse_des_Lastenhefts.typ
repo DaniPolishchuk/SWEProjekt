@@ -7,20 +7,20 @@
 = Aufgabenstellung
 
 == Einleitung
-#include "chapter/original/1.0_Einleitung.typ"
+#include "original/1.0_Einleitung.typ"
 
 == Lastenheft
 === Zielsetzung
-#include "chapter/original/2.1_Zielsetzung.typ"
+#include "original/2.1_Zielsetzung.typ"
 
 === Anwendungsbereiche
-#include "chapter/original/2.2_Anwendungsbereiche.typ"
+#include "original/2.2_Anwendungsbereiche.typ"
 
 === Zielgruppen, Benutzerrollen und Verantwortlichkeiten <chapter-Zielgruppen-Rollen>
-#include "chapter/original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
+#include "original/2.3_Zielgruppen-Benutzerrollen-Verantwortlichkeiten.typ"
 
 === Zusammenspiel mit anderen Systemen
-#include "chapter/original/2.4_Zusammenspiel-mit-anderen-Systemen.typ"
+#include "original/2.4_Zusammenspiel-mit-anderen-Systemen.typ"
 
 === Produktfunktionen
 == Produktfunktionen
@@ -57,7 +57,7 @@
 ))
 
 === Qualitätsanforderung
-#include "chapter/original/2.8_Qualitätsanforderung.typ"
+#include "original/2.8_Qualitätsanforderung.typ"
 
 == Aufgabe
 Es handelt sich hier um eine stark vereinfachte Verwaltungs-Software. Einzelne Lastenheft-punkte sind bewusst offengehalten. Denken Sie darüber nach, welche Informationen zusätz-lich sinnvoll oder auch notwendig sind. Recherchieren Sie auch nach einzelnen Zusammen-hängen im Internet.
