@@ -1,0 +1,237 @@
+@startuml Sequenzdiagramm_Auftrag
+title Sequenzdiagramm: Auftrag anlegen und löschen
+
+' ====================================================
+'  Skinparams -- Optik analog zu den 1.0-Beispielarbeiten
+' ====================================================
+skinparam dpi 150
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 12
+skinparam sequenceMessageAlign center
+skinparam sequenceArrowThickness 1
+skinparam roundCorner 8
+skinparam BoxPadding 14
+
+<style>
+participant {
+  padding 12
+}
+</style>
+skinparam SequenceGroupBorderThickness 1
+
+' Lebenslinien-Farben (konsistent zum Analyse-Klassendiagramm)
+skinparam ActorBackgroundColor #FFE9CC
+skinparam ActorBorderColor #C97A1B
+skinparam ParticipantBackgroundColor #DCE9F9
+skinparam ParticipantBorderColor #2E5C9A
+skinparam DatabaseBackgroundColor #E6E6E6
+skinparam DatabaseBorderColor #555555
+
+' Fragment-Farben:
+'   - rosa/lachs  -> ref "Objekt anlegen"      (Anlegen-Operationen)
+'   - hellblau    -> ref "Duplikatsprüfung"     (prüfende Operationen)
+'   - lila        -> ref "Status setzen"        (Statuswechsel)
+skinparam sequence {
+    GroupBackgroundColor       #F7F7F7
+    GroupBorderColor           #888888
+}
+
+' ====================================================
+'  Lebenslinien -- in Reihenfolge des Auftretens
+' ====================================================
+actor ":Bau-/Projektleiter" as Leiter
+participant ":UI Bauverwaltung" as UI #DCE9F9
+database ":Datenbasis" as DB #E6E6E6
+
+' Domänenobjekte werden erst durch new() instanziert; in PlantUML müssen
+' alle Lebenslinien vorab deklariert sein, damit die Anordnung stimmt.
+participant ":Projekt" as Projekt #FFE3B0
+participant ":Adresse" as Adresse #FFFFFF
+participant ":Mitarbeiter" as Mitarbeiter #DCE9F9
+participant ":Arbeitsauftrag" as Auftrag #FFE3B0
+participant ":Termin" as Termin #FFFFFF
+participant ":Unterauftrag" as Unterauftrag #FFE3B0
+participant ":Unterauftragnehmer" as UAN #DCE9F9
+
+' ====================================================
+'  Phase 1: Anlegen eines neuen Arbeitsauftrags
+' ====================================================
+
+Leiter -> UI: 1: Auftragsverwaltung öffnen
+activate UI
+UI -> DB: 1.1: Auftragsliste laden
+activate DB
+DB --> UI: 1.2: (leere) Auftragsliste
+deactivate DB
+UI --> Leiter: 1.3: Auftragsliste anzeigen
+deactivate UI
+
+Leiter -> UI: 2: Neuen Auftrag anlegen wählen
+activate UI
+UI --> Leiter: 2.1: Eingabemaske öffnen
+
+' ----- Projekt anlegen (Voraussetzung) -----
+Leiter -> UI: 3: Projektdaten eingeben
+group #FFD7D7 ref Objekt anlegen :Projekt
+    UI -> Projekt: 3.1: new()
+    activate Projekt
+    Projekt --> UI: 3.2: Projektreferenz
+end
+
+' Einsatzort des Projekts
+group #FFD7D7 ref Objekt anlegen :Adresse (Projekt-Einsatzort)
+    UI -> Adresse: 3.3: new()
+    activate Adresse
+    Adresse --> UI: 3.4: Adressreferenz
+end
+UI -> Projekt: 3.5: Einsatzort zuordnen(Adresse)
+
+' ----- Pflichtfelder des Arbeitsauftrags -----
+loop Solange Pflichtfelder unvollständig
+    Leiter -> UI: 4: Pflichtfelder eingeben \n(Auftragsnummer, Bezeichnung, Bauplan-Pfad, \n Start-/Endtermin, Kostenvoranschlag)
+    UI --> Leiter: 4.1: Eingaben validieren
+end
+
+' ----- Arbeitsauftrag selbst anlegen -----
+group #FFD7D7 ref Objekt anlegen :Arbeitsauftrag
+    UI -> Auftrag: 5: new()
+    activate Auftrag
+    Auftrag --> UI: 5.1: Auftragsreferenz
+end
+UI -> Auftrag: 5.2: Projekt zuordnen(Projekt)
+UI -> Auftrag: 5.3: Attribute eintragen
+
+' Einsatzort des Auftrags (kann vom Projekt-Einsatzort abweichen)
+group #FFD7D7 ref Objekt anlegen :Adresse (Auftrags-Einsatzort)
+    UI -> Adresse: 5.4: new()
+    Adresse --> UI: 5.5: Adressreferenz
+end
+UI -> Auftrag: 5.6: Einsatzort zuordnen(Adresse)
+
+' ----- Termine -----
+group #FFD7D7 ref Objekt anlegen :Termin (Haupttermin)
+    UI -> Termin: 6: new()
+    activate Termin
+    Termin --> UI: 6.1: Terminreferenz
+end
+UI -> Termin: 6.2: Attribute eintragen \n(Start-/Endtermin)
+UI -> Auftrag: 6.3: Haupttermin zuordnen(Termin)
+
+opt Zwischentermin gewünscht
+    group #FFD7D7 ref Objekt anlegen :Termin (Zwischentermin)
+        UI -> Termin: 6.4: new()
+        Termin --> UI: 6.5: Terminreferenz
+    end
+    UI -> Auftrag: 6.6: Zwischentermin zuordnen(Termin)
+end
+
+' ----- Beteiligte Personen -----
+loop Solange weitere beteiligte Personen ergänzt werden
+    alt Mitarbeiter existiert bereits
+        Leiter -> UI: 7: Mitarbeiter aus Auswahlliste wählen
+        UI -> DB: 7.1: Mitarbeiterliste laden
+        DB --> UI: 7.2: Mitarbeiterliste
+        UI -> Auftrag: 7.3: Beteiligte Person hinzufügen(Mitarbeiter)
+    else Mitarbeiter noch nicht vorhanden
+        Leiter -> UI: 7.4: Neuen Mitarbeiter anlegen
+        group #FFD7D7 ref Objekt anlegen :Mitarbeiter
+            UI -> Mitarbeiter: 7.5: new()
+            activate Mitarbeiter
+            Mitarbeiter --> UI: 7.6: Mitarbeiterreferenz
+        end
+        UI -> Auftrag: 7.7: Beteiligte Person hinzufügen(Mitarbeiter)
+    end
+end
+
+' ----- Optional: Unteraufträge -----
+opt Unteraufträge werden ergänzt
+    loop Solange weitere Unteraufträge angelegt werden
+        group #FFD7D7 ref Objekt anlegen :Unterauftrag
+            UI -> Unterauftrag: 8: new()
+            activate Unterauftrag
+            Unterauftrag --> UI: 8.1: Unterauftragsreferenz
+        end
+        UI -> Unterauftrag: 8.2: Attribute eintragen
+        UI -> Auftrag: 8.3: Unterauftrag hinzufügen(Unterauftrag)
+
+        opt Unterauftragnehmer wird zugeordnet
+            alt Unterauftragnehmer existiert bereits
+                Leiter -> UI: 8.4: Unterauftragnehmer wählen
+                UI -> Unterauftrag: 8.5: Unterauftragnehmer zuordnen(UAN)
+            else Unterauftragnehmer noch nicht vorhanden
+                group #FFD7D7 ref Objekt anlegen :Unterauftragnehmer
+                    UI -> UAN: 8.6: new()
+                    activate UAN
+                    UAN --> UI: 8.7: UAN-Referenz
+                end
+                UI -> Unterauftrag: 8.8: Unterauftragnehmer zuordnen(UAN)
+            end
+        end
+    end
+end
+
+' ----- Speichern: Duplikatsprüfung + Status setzen -----
+Leiter -> UI: 9: Speichern bestätigen
+
+group #CFE3F3 ref Duplikatsprüfung (LF 100)
+    UI -> DB: 9.1: Bestehende Aufträge abfragen
+    DB --> UI: 9.2: Treffermenge
+end
+
+alt Duplikat gefunden
+    UI --> Leiter: 9.3: Warnung -- Auftrag existiert bereits
+    note right of UI: Bau-/Projektleiter kann Eingaben\nkorrigieren oder Vorgang abbrechen.
+else kein Duplikat
+    group #E5D4F7 ref Status setzen :Arbeitsauftrag = "Offen"
+        UI -> Auftrag: 9.4: Status setzen("Offen")
+    end
+    UI -> DB: 9.5: Arbeitsauftrag persistieren
+    DB --> UI: 9.6: Bestätigung
+    UI --> Leiter: 9.7: Bestätigung -- Auftrag angelegt
+end
+
+' ====================================================
+'  Phase 2: Löschen des Arbeitsauftrags
+' ====================================================
+
+== Löschvorgang ==
+
+Leiter -> UI: 10: Auftrag zum Löschen auswählen
+UI -> DB: 10.1: Buchungen zum Auftrag abfragen
+DB --> UI: 10.2: Buchungsliste
+
+alt Aktive Buchungen vorhanden
+    UI --> Leiter: 10.3: Hinweis -- aktive Buchungen vorhanden
+    Leiter -> UI: 10.4: Buchungen stornieren bestätigen
+    loop für jede aktive Buchung
+        group #E5D4F7 ref Status setzen :Buchung = "Storniert"
+            UI -> DB: 10.5: Status setzen("Storniert")
+        end
+    end
+else Keine aktiven Buchungen
+    UI --> Leiter: 10.6: Löschen-Bestätigung anfordern
+    Leiter -> UI: 10.7: Löschen bestätigen
+end
+
+' Kompositionskaskade: Unteraufträge löschen
+loop für jeden Unterauftrag des Arbeitsauftrags
+    UI -> Unterauftrag: 11: löschen()
+    destroy Unterauftrag
+end
+
+' Kompositionskaskade: Termine entfernen
+UI -> Termin: 12: löschen()
+destroy Termin
+
+' Status setzen + Löschen des Arbeitsauftrags
+group #E5D4F7 ref Status setzen :Arbeitsauftrag = "Gelöscht"
+    UI -> Auftrag: 13: Status setzen("Gelöscht")
+end
+UI -> DB: 13.1: Löschvorgang persistieren
+DB --> UI: 13.2: Bestätigung
+UI -> Auftrag: 13.3: löschen()
+destroy Auftrag
+
+UI --> Leiter: 13.4: Bestätigung -- Auftrag gelöscht
+
+@enduml

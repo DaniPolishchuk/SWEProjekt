@@ -1,0 +1,68 @@
+@startuml SD_Unterprogramm_StatusSetzen
+title Unterprogramm: Status setzen
+
+skinparam dpi 150
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 12
+skinparam sequenceMessageAlign center
+skinparam sequenceArrowThickness 1
+skinparam roundCorner 8
+skinparam BoxPadding 14
+
+<style>
+participant {
+  padding 12
+}
+</style>
+skinparam SequenceGroupBorderThickness 1
+
+skinparam ParticipantBackgroundColor #DCE9F9
+skinparam ParticipantBorderColor #2E5C9A
+skinparam DatabaseBackgroundColor #E6E6E6
+skinparam DatabaseBorderColor #555555
+skinparam sequence {
+    GroupBackgroundColor #F7F7F7
+    GroupBorderColor     #888888
+}
+
+' ====================================================
+'  Dieses Unterprogramm kapselt den Statuswechsel
+'  eines Domänenobjekts. Es wird aufgerufen für:
+'    - Arbeitsauftrag: "Offen", "Gelöscht"
+'    - Buchung:        "Storniert"
+'    - Gerät:          "Verfügbar", "Gebucht"
+' ====================================================
+
+participant ":UI Bauverwaltung" as UI   #DCE9F9
+participant ":Domänenobjekt"    as Obj  #FFE3B0
+database    ":Datenbasis"        as DB  #E6E6E6
+
+note over UI, DB
+  Eingabe: Objektreferenz und neuer Statuswert.
+  Der gültige Wertebereich ist je Klasse
+  im Analyse-Klassendiagramm festgelegt.
+end note
+
+UI -> Obj: 1: Status setzen(neuer Statuswert)
+activate Obj
+
+alt neuer Statuswert ist gültig
+    Obj -> Obj: 1.1: Statusattribut aktualisieren
+    Obj --> UI: 1.2: Bestätigung
+    UI -> DB: 2: Statusänderung persistieren
+    activate DB
+    DB --> UI: 2.1: Bestätigung
+    deactivate DB
+else neuer Statuswert ist ungültig
+    Obj --> UI: 1.3: Fehler -- ungültiger Statuswert
+    note right of UI
+      Wird in der Analyse nicht
+      weiter behandelt; der Aufrufer
+      stellt sicher, dass nur gültige
+      Statuswerte übergeben werden.
+    end note
+end
+
+deactivate Obj
+
+@enduml

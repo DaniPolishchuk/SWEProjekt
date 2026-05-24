@@ -73,3 +73,7 @@ TINF24B1
 #include "chapter/3.1_UseCase-Diagramm.typ"
 
 #include "chapter/3.2_Analyse-Klassendiagramm.typ"
+
+#include "chapter/4.1_Sequenzdiagramm_Auftrag.typ"
+
+#include "chapter/4.2_Aktivitaetsdiagramm_Buchung.typ"

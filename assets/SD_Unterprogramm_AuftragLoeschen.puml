@@ -1,0 +1,102 @@
+@startuml SD_Unterprogramm_AuftragLoeschen
+title Unterprogramm: Auftrag löschen
+
+skinparam dpi 150
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 12
+skinparam sequenceMessageAlign center
+skinparam sequenceArrowThickness 1
+skinparam roundCorner 8
+skinparam BoxPadding 14
+
+<style>
+participant {
+  padding 12
+}
+</style>
+skinparam SequenceGroupBorderThickness 1
+
+skinparam ActorBackgroundColor #FFE9CC
+skinparam ActorBorderColor #C97A1B
+skinparam ParticipantBackgroundColor #DCE9F9
+skinparam ParticipantBorderColor #2E5C9A
+skinparam DatabaseBackgroundColor #E6E6E6
+skinparam DatabaseBorderColor #555555
+skinparam sequence {
+    GroupBackgroundColor #F7F7F7
+    GroupBorderColor     #888888
+}
+
+' ====================================================
+'  Unterprogramm für den Löschvorgang eines
+'  Arbeitsauftrags. Beinhaltet:
+'    1. Buchungen stornieren (falls aktiv)
+'    2. Kompositionskaskade: Unteraufträge + Termine
+'    3. Status "Gelöscht" setzen und persistieren
+' ====================================================
+
+actor       ":Bau-/Projektleiter" as Leiter
+participant ":UI Bauverwaltung"   as UI         #DCE9F9
+database    ":Datenbasis"          as DB         #E6E6E6
+participant ":Arbeitsauftrag"      as Auftrag    #FFE3B0
+participant ":Unterauftrag"        as Unterauftrag #FFE3B0
+participant ":Termin"              as Termin     #FFFFFF
+
+note over Leiter, Termin
+  Eingabe: Referenz auf den zu löschenden Arbeitsauftrag.
+  Voraussetzung: Der Auftrag wurde im Hauptdiagramm
+  durch den Bau-/Projektleiter ausgewählt.
+end note
+
+' --- Schritt 1: Aktive Buchungen prüfen ---
+UI -> DB: 1: Aktive Buchungen zum Auftrag abfragen
+activate DB
+DB --> UI: 1.1: Buchungsliste
+deactivate DB
+
+alt Aktive Buchungen vorhanden
+    UI --> Leiter: 2: Hinweis -- aktive Buchungen vorhanden
+    Leiter -> UI: 2.1: Buchungen stornieren bestätigen
+
+    loop für jede aktive Buchung
+        group #E5D4F7 ref Status setzen :Buchung = "Storniert"
+        end
+    end
+else Keine aktiven Buchungen
+    UI --> Leiter: 2.2: Löschbestätigung anfordern
+    Leiter -> UI: 2.3: Löschen bestätigen
+end
+
+' --- Schritt 2: Kompositionskaskade ---
+note over UI, Unterauftrag
+  Gemäß Klassendiagramm sind Unteraufträge und
+  Termine per Komposition dem Arbeitsauftrag
+  zugeordnet: Existenzabhängige Teile werden
+  vor dem übergeordneten Objekt gelöscht.
+end note
+
+loop für jeden Unterauftrag des Arbeitsauftrags
+    UI -> Unterauftrag: 3: löschen()
+    destroy Unterauftrag
+end
+
+loop für jeden Termin des Arbeitsauftrags
+    UI -> Termin: 4: löschen()
+    destroy Termin
+end
+
+' --- Schritt 3: Auftrag selbst löschen ---
+group #E5D4F7 ref Status setzen :Arbeitsauftrag = "Gelöscht"
+end
+
+UI -> DB: 5: Löschvorgang persistieren
+activate DB
+DB --> UI: 5.1: Bestätigung
+deactivate DB
+
+UI -> Auftrag: 6: löschen()
+destroy Auftrag
+
+UI --> Leiter: 7: Bestätigung -- Auftrag gelöscht
+
+@enduml

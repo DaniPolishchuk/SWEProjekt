@@ -1,0 +1,60 @@
+@startuml SD_Unterprogramm_Duplikatspruefung
+title Unterprogramm: Duplikatsprüfung (LF 100)
+
+skinparam dpi 150
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 12
+skinparam sequenceMessageAlign center
+skinparam sequenceArrowThickness 1
+skinparam roundCorner 8
+skinparam BoxPadding 14
+
+<style>
+participant {
+  padding 12
+}
+</style>
+skinparam SequenceGroupBorderThickness 1
+
+skinparam ParticipantBackgroundColor #DCE9F9
+skinparam ParticipantBorderColor #2E5C9A
+skinparam DatabaseBackgroundColor #E6E6E6
+skinparam DatabaseBorderColor #555555
+skinparam sequence {
+    GroupBackgroundColor #F7F7F7
+    GroupBorderColor     #888888
+}
+
+' ====================================================
+'  Dieses Unterprogramm kapselt die in LF 100
+'  geforderte Duplikatsprüfung vor jeder Neuanlage
+'  (Arbeitsauftrag, Mitarbeiter, Gerät u.a.).
+' ====================================================
+
+participant ":UI Bauverwaltung" as UI #DCE9F9
+database    ":Datenbasis"        as DB #E6E6E6
+
+note over UI, DB
+  Eingabe: Datenobjekt mit den zu prüfenden
+  Schlüsselattributen (z.B. Auftragsnummer,
+  Seriennummer, Mitarbeiternummer).
+  Ausgabe: Treffer (Duplikat) oder kein Treffer.
+end note
+
+UI -> DB: 1: Bestehende Datensätze derselben Klasse abfragen
+activate DB
+DB --> UI: 1.1: Treffermenge
+deactivate DB
+
+alt Datensatz mit identischen Schlüsselattributen gefunden
+    UI --> UI: 2: Rückgabe -- Duplikat gefunden \n(Verweis auf bestehenden Datensatz)
+    note right of UI
+      Der Aufrufer zeigt dem Benutzer
+      eine Warnung an; Korrektur oder
+      Abbruch des Vorgangs möglich.
+    end note
+else kein Duplikat gefunden
+    UI --> UI: 2.1: Rückgabe -- kein Duplikat
+end
+
+@enduml

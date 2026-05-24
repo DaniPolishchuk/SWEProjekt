@@ -1,0 +1,79 @@
+@startuml SD_Unterprogramm_ObjektAnlegen
+title Unterprogramm: Objekt anlegen
+
+skinparam dpi 150
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 12
+skinparam sequenceMessageAlign center
+skinparam sequenceArrowThickness 1
+skinparam roundCorner 8
+skinparam BoxPadding 14
+
+<style>
+participant {
+  padding 12
+}
+</style>
+skinparam SequenceGroupBorderThickness 1
+
+skinparam ActorBackgroundColor #FFE9CC
+skinparam ActorBorderColor #C97A1B
+skinparam ParticipantBackgroundColor #DCE9F9
+skinparam ParticipantBorderColor #2E5C9A
+skinparam DatabaseBackgroundColor #E6E6E6
+skinparam DatabaseBorderColor #555555
+skinparam sequence {
+    GroupBackgroundColor #F7F7F7
+    GroupBorderColor     #888888
+}
+
+' ====================================================
+'  Dieses Unterprogramm wird im Hauptdiagramm
+'  mehrfach per ref aufgerufen (Klassen: Projekt,
+'  Adresse, Arbeitsauftrag, Termin, Mitarbeiter,
+'  Unterauftrag, Unterauftragnehmer).
+' ====================================================
+
+participant ":UI Bauverwaltung" as UI #DCE9F9
+database    ":Datenbasis"        as DB #E6E6E6
+participant ":Domänenobjekt"     as Obj #FFE3B0
+
+note over UI, Obj
+  Generisches Unterprogramm für die Instanziierung
+  beliebiger Domänenobjekte. Die konkrete Klasse
+  (Projekt, Adresse, Arbeitsauftrag, …) wird vom
+  Aufrufer als Parameter übergeben.
+end note
+
+UI -> Obj: 1: new()
+activate Obj
+Obj --> UI: 1.1: Objektreferenz
+
+loop Solange weitere Attribute zu setzen sind
+    alt Attribut ist einfacher Datentyp
+        UI -> Obj: 2: Attributwert setzen(Name, Wert)
+    else Attribut ist Referenz auf anderes Objekt
+        UI -> DB: 3: Referenzobjekt suchen(Klasse, Schlüssel)
+        activate DB
+        DB --> UI: 3.1: Treffermenge
+        deactivate DB
+
+        alt Referenzobjekt bereits vorhanden
+            UI -> Obj: 3.2: Referenz zuordnen(vorhandenes Objekt)
+        else Referenzobjekt noch nicht vorhanden
+            group #FFD7D7 ref Objekt anlegen :referenziertes Objekt
+                note right of UI
+                  Rekursiver Aufruf dieses
+                  Unterprogramms für die
+                  referenzierte Klasse.
+                end note
+            end
+            UI -> Obj: 3.3: Referenz zuordnen(neues Objekt)
+        end
+    end
+end
+
+UI --> UI: 4: Objektreferenz zurückgeben
+deactivate Obj
+
+@enduml
