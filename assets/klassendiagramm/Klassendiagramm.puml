@@ -1,0 +1,252 @@
+@startuml Klassendiagramm
+
+' ============================================================
+' Analyse-Klassendiagramm: Verwaltungssoftware Bauunternehmen
+' DHBW Karlsruhe, TINF24B1, 2025/2026
+' ============================================================
+
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam classFontSize 11
+skinparam classHeaderBackgroundColor transparent
+skinparam ArrowColor #555555
+skinparam ArrowThickness 1.3
+skinparam shadowing false
+skinparam roundCorner 6
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam nodesep 80
+skinparam ranksep 100
+skinparam minClassWidth 130
+
+' ============================================================
+' EXTERNE SYSTEME
+' ============================================================
+
+package "Externe Systeme" #EEDDFF {
+    class Finanzbuchhaltung #EEDDFF {}
+    class Altsystem #EEDDFF {}
+    class Drucker #EEDDFF {}
+}
+
+' ============================================================
+' PERSONEN-GRUPPE (Blau)
+' ============================================================
+
+class Person <<abstract>> #DDEEFF {
+    vorname
+    nachname
+    telefonnummer
+    email
+}
+
+class Adresse #DDEEFF {
+    strasse
+    hausnummer
+    plz
+    ort
+    land
+}
+
+class Mitarbeiter #DDEEFF {
+    mitarbeiternummer
+    geburtsdatum
+    position
+    beschaeftigungsort
+    vertragsbeginn
+    vertragsende
+}
+
+class Unterauftragnehmer #DDEEFF {
+    unterauftragnehmerID
+    firmenname
+    fachbereich
+}
+
+class Rolle #DDEEFF {
+    rollennummer
+    name
+}
+
+class Gruppe #DDEEFF {
+    gruppennummer
+    gruppenname
+    gruppentyp
+    beschreibung
+}
+
+class Anwesenheitszeit #DDEEFF {
+    anwesenheitsID
+    datum
+    startzeit
+    endzeit
+    typ
+    bemerkung
+}
+
+' ============================================================
+' AUFTRAGS-GRUPPE (Orange)
+' ============================================================
+
+class Projekt #FFE8CC {
+    projektnummer
+    projektname
+    starttermin
+    endtermin
+    beschreibung
+    status
+}
+
+class Arbeitsauftrag #FFE8CC {
+    auftragsnummer
+    auftragsbezeichnung
+    bauplan
+    starttermin
+    endtermin
+    kostenvoranschlag
+    status
+    bemerkung
+}
+
+class Unterauftrag #FFE8CC {
+    unterauftragsnummer
+    bezeichnung
+    starttermin
+    endtermin
+    status
+    kosten
+    bemerkung
+}
+
+class Termin #FFE8CC {
+    terminID
+    datum
+    startzeit
+    endzeit
+    typ
+}
+
+class Rechnung #FFE8CC {
+    rechnungsnummer
+    betrag
+    faelligkeitsdatum
+    status
+}
+
+' ============================================================
+' GERAETE-GRUPPE (Gruen)
+' ============================================================
+
+class "Geraete-Typ" as GeraeteTyp #CCEECC {
+    geraeteTypID
+    bezeichnung
+    typ
+    kategorie
+}
+
+class Geraet #CCEECC {
+    geraeteNummer
+    seriennummer
+    standort
+    status
+    anschaffungsdatum
+    letzterWartungstermin
+    naechsterWartungstermin
+}
+
+class Ausruestung #CCEECC {
+    ausruestungsnummer
+    bezeichnung
+    typ
+    kompatibel
+    gewicht
+    status
+}
+
+class Lager #CCEECC {
+    lagernummer
+    lagerbezeichnung
+    typ
+    grundstueck
+    kapazitaet
+}
+
+class Buchung #CCEECC {
+    buchungsnummer
+    startdatum
+    enddatum
+    buchungsdatum
+    status
+}
+
+' ============================================================
+' BILDER (Rot)
+' ============================================================
+
+interface IBildContainer {
+}
+
+class Bild #FFDDDD {
+    bildID
+    titel
+    dateipfad
+    dateiname
+    elementtyp
+    hochladedatum
+    dateigroesse
+    format
+}
+
+' ============================================================
+' BEZIEHUNGEN
+' ============================================================
+
+' Vererbung
+Mitarbeiter        --|> Person
+Unterauftragnehmer --|> Person
+
+' Adresse
+Person         --> "1" Adresse
+Lager          --> "1" Adresse : Lagerstandort
+Projekt        --> "1" Adresse : Einsatzort
+Arbeitsauftrag --> "1" Adresse : Einsatzort
+
+' Mitarbeiter
+Mitarbeiter --> "1"    Rolle
+Mitarbeiter *-- "0..*" Anwesenheitszeit
+Mitarbeiter "0..*" -- "0..*" Gruppe : ist Mitglied von >
+Gruppe      --> "0..1" Mitarbeiter  : Gruppenleiter
+
+' Projekt & Auftrag
+Projekt        --> "1"    Mitarbeiter  : Projektleiter
+Arbeitsauftrag --> "1"    Projekt
+Arbeitsauftrag --> "1..*" Mitarbeiter  : beteiligte Person
+Arbeitsauftrag *-- "0..*" Unterauftrag
+Unterauftrag   --> "0..1" Unterauftragnehmer
+Termin         --> "0..*" Arbeitsauftrag
+Termin         --> "0..*" Projekt
+
+' Rechnung
+Rechnung          --> "1" Arbeitsauftrag
+Finanzbuchhaltung ..>     Rechnung : <<read>>
+
+' Geraete
+Geraet --> "1"    GeraeteTyp
+Geraet --> "1"    Lager
+Geraet *-- "0..*" Ausruestung
+
+' Koordinator: Buchung
+Buchung --> "1..*" Geraet         : gebucht
+Buchung --> "1"    Arbeitsauftrag : Auftrag
+Buchung --> "1"    Mitarbeiter    : gebucht von
+
+' Bilder (LF80) — ueber Interface gebündelt
+Mitarbeiter    ..|> IBildContainer
+Arbeitsauftrag ..|> IBildContainer
+Projekt        ..|> IBildContainer
+Geraet         ..|> IBildContainer
+IBildContainer *-- "0..*" Bild : Bilder
+Bild           --> "1"    Mitarbeiter : Hochlader
+
+@enduml
