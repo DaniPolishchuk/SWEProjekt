@@ -74,6 +74,8 @@ TINF24B1
 
 #include "chapter/3.2_Analyse-Klassendiagramm.typ"
 
+#include "chapter/3.3_GUI-Mockups.typ"
+
 #include "chapter/4.1_Sequenzdiagramm_Auftrag.typ"
 
 #include "chapter/4.2_Aktivitaetsdiagramm_Buchung.typ"
