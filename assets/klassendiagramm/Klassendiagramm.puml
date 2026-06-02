@@ -7,6 +7,8 @@
 
 skinparam linetype ortho
 skinparam classAttributeIconSize 0
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
 skinparam classFontStyle bold
 skinparam classFontSize 11
 skinparam classHeaderBackgroundColor transparent
@@ -34,7 +36,7 @@ package "Externe Systeme" #EEDDFF {
 ' PERSONEN-GRUPPE (Blau)
 ' ============================================================
 
-class Person <<abstract>> #DDEEFF {
+class Person #DDEEFF {
     vorname
     nachname
     telefonnummer
@@ -101,10 +103,8 @@ class Projekt #FFE8CC {
 class Arbeitsauftrag #FFE8CC {
     auftragsnummer
     auftragsbezeichnung
-    bauplan
     starttermin
     endtermin
-    kostenvoranschlag
     status
     bemerkung
 }
@@ -134,6 +134,16 @@ class Rechnung #FFE8CC {
     status
 }
 
+class Dokument #FFE8CC {
+    dokumentID
+    titel
+    dateipfad
+    dateiname
+    dateigroesse
+    format
+    hochladedatum
+}
+
 ' ============================================================
 ' GERAETE-GRUPPE (Gruen)
 ' ============================================================
@@ -148,11 +158,8 @@ class "Geraete-Typ" as GeraeteTyp #CCEECC {
 class Geraet #CCEECC {
     geraeteNummer
     seriennummer
-    standort
     status
     anschaffungsdatum
-    letzterWartungstermin
-    naechsterWartungstermin
 }
 
 class Ausruestung #CCEECC {
@@ -184,9 +191,6 @@ class Buchung #CCEECC {
 ' BILDER (Rot)
 ' ============================================================
 
-interface IBildContainer {
-}
-
 class Bild #FFDDDD {
     bildID
     titel
@@ -203,50 +207,50 @@ class Bild #FFDDDD {
 ' ============================================================
 
 ' Vererbung
-Mitarbeiter        --|> Person
-Unterauftragnehmer --|> Person
+Mitarbeiter        -down-|> Person
+Unterauftragnehmer -down-|> Person
 
 ' Adresse
-Person         --> "1" Adresse
-Lager          --> "1" Adresse : Lagerstandort
-Projekt        --> "1" Adresse : Einsatzort
-Arbeitsauftrag --> "1" Adresse : Einsatzort
+Person         -down-> "1"    Adresse
+Lager          -down-> "1"    Adresse
+Projekt        -right-> "1"   Adresse
+Arbeitsauftrag -right-> "1"   Adresse
 
 ' Mitarbeiter
-Mitarbeiter --> "1"    Rolle
-Mitarbeiter *-- "0..*" Anwesenheitszeit
-Mitarbeiter "0..*" -- "0..*" Gruppe : ist Mitglied von >
-Gruppe      --> "0..1" Mitarbeiter  : Gruppenleiter
+Mitarbeiter -right-> "1"    Rolle
+Mitarbeiter *-right- "0..*" Anwesenheitszeit
+Mitarbeiter "0..*" -left- "0..*" Gruppe
+Gruppe      -right-> "0..1" Mitarbeiter
 
 ' Projekt & Auftrag
-Projekt        --> "1"    Mitarbeiter  : Projektleiter
-Arbeitsauftrag --> "1"    Projekt
-Arbeitsauftrag --> "1..*" Mitarbeiter  : beteiligte Person
-Arbeitsauftrag *-- "0..*" Unterauftrag
-Unterauftrag   --> "0..1" Unterauftragnehmer
-Termin         --> "0..*" Arbeitsauftrag
-Termin         --> "0..*" Projekt
+Projekt        -right-> "1"    Mitarbeiter
+Arbeitsauftrag -down->  "1"    Projekt
+Arbeitsauftrag -right-> "1..*" Mitarbeiter
+Arbeitsauftrag *-left-  "0..*" Unterauftrag
+Arbeitsauftrag -left->  "0..*" Dokument
+Unterauftrag   -down->  "0..1" Unterauftragnehmer
+Termin         -left->  "0..*" Arbeitsauftrag
+Termin         -down->  "0..*" Projekt
 
 ' Rechnung
-Rechnung          --> "1" Arbeitsauftrag
+Rechnung          -down-> "1" Arbeitsauftrag
 Finanzbuchhaltung ..>     Rechnung : <<read>>
 
 ' Geraete
-Geraet --> "1"    GeraeteTyp
-Geraet --> "1"    Lager
-Geraet *-- "0..*" Ausruestung
+Geraet -down->  "1"    GeraeteTyp
+Geraet -left->  "1"    Lager
+Geraet -left->  "0..*" Termin
+Lager  *-down-  "0..*" Ausruestung
 
 ' Koordinator: Buchung
-Buchung --> "1..*" Geraet         : gebucht
-Buchung --> "1"    Arbeitsauftrag : Auftrag
-Buchung --> "1"    Mitarbeiter    : gebucht von
+Buchung -down->  "1..*" Geraet
+Buchung -left->  "1"    Arbeitsauftrag
+Buchung -right-> "1"    Mitarbeiter
 
-' Bilder (LF80) — ueber Interface gebündelt
-Mitarbeiter    ..|> IBildContainer
-Arbeitsauftrag ..|> IBildContainer
-Projekt        ..|> IBildContainer
-Geraet         ..|> IBildContainer
-IBildContainer *-- "0..*" Bild : Bilder
-Bild           --> "1"    Mitarbeiter : Hochlader
+' Bilder (LF80)
+Mitarbeiter *-down-> "0..*" Bild
+Projekt     "0..*" -down-> "0..*" Bild
+Geraet      "0..*" -down-> "0..*" Bild
+Bild        -up->   "1"    Mitarbeiter
 
 @enduml

@@ -4,19 +4,13 @@ title Sequenzdiagramm: Auftrag anlegen und löschen
 ' ====================================================
 '  Skinparams -- Optik analog zu den 1.0-Beispielarbeiten
 ' ====================================================
-skinparam dpi 150
-skinparam defaultFontName "Helvetica"
-skinparam defaultFontSize 12
-skinparam sequenceMessageAlign center
+skinparam dpi 120
+skinparam defaultFontSize 11
+skinparam sequenceMessageAlign left
 skinparam sequenceArrowThickness 1
 skinparam roundCorner 8
-skinparam BoxPadding 14
-
-<style>
-participant {
-  padding 12
-}
-</style>
+skinparam BoxPadding 20
+skinparam maxMessageSize 180
 skinparam SequenceGroupBorderThickness 1
 
 ' Lebenslinien-Farben (konsistent zum Analyse-Klassendiagramm)
@@ -88,7 +82,7 @@ UI -> Projekt: 3.5: Einsatzort zuordnen(Adresse)
 
 ' ----- Pflichtfelder des Arbeitsauftrags -----
 loop Solange Pflichtfelder unvollständig
-    Leiter -> UI: 4: Pflichtfelder eingeben \n(Auftragsnummer, Bezeichnung, Bauplan-Pfad, \n Start-/Endtermin, Kostenvoranschlag)
+    Leiter -> UI: 4: Pflichtfelder eingeben\n(Auftragsnummer, Bezeichnung,\nBauplan-Pfad, Start-/Endtermin,\nKostenvoranschlag)
     UI --> Leiter: 4.1: Eingaben validieren
 end
 
@@ -189,49 +183,5 @@ else kein Duplikat
     DB --> UI: 9.6: Bestätigung
     UI --> Leiter: 9.7: Bestätigung -- Auftrag angelegt
 end
-
-' ====================================================
-'  Phase 2: Löschen des Arbeitsauftrags
-' ====================================================
-
-== Löschvorgang ==
-
-Leiter -> UI: 10: Auftrag zum Löschen auswählen
-UI -> DB: 10.1: Buchungen zum Auftrag abfragen
-DB --> UI: 10.2: Buchungsliste
-
-alt Aktive Buchungen vorhanden
-    UI --> Leiter: 10.3: Hinweis -- aktive Buchungen vorhanden
-    Leiter -> UI: 10.4: Buchungen stornieren bestätigen
-    loop für jede aktive Buchung
-        group #E5D4F7 ref Status setzen :Buchung = "Storniert"
-            UI -> DB: 10.5: Status setzen("Storniert")
-        end
-    end
-else Keine aktiven Buchungen
-    UI --> Leiter: 10.6: Löschen-Bestätigung anfordern
-    Leiter -> UI: 10.7: Löschen bestätigen
-end
-
-' Kompositionskaskade: Unteraufträge löschen
-loop für jeden Unterauftrag des Arbeitsauftrags
-    UI -> Unterauftrag: 11: löschen()
-    destroy Unterauftrag
-end
-
-' Kompositionskaskade: Termine entfernen
-UI -> Termin: 12: löschen()
-destroy Termin
-
-' Status setzen + Löschen des Arbeitsauftrags
-group #E5D4F7 ref Status setzen :Arbeitsauftrag = "Gelöscht"
-    UI -> Auftrag: 13: Status setzen("Gelöscht")
-end
-UI -> DB: 13.1: Löschvorgang persistieren
-DB --> UI: 13.2: Bestätigung
-UI -> Auftrag: 13.3: löschen()
-destroy Auftrag
-
-UI --> Leiter: 13.4: Bestätigung -- Auftrag gelöscht
 
 @enduml

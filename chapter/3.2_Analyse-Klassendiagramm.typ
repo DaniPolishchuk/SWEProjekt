@@ -16,11 +16,11 @@ Das Diagramm ist in folgende thematische Bereiche gegliedert, die zur besseren �
 
 Klassen, die von mehreren Bereichen genutzt werden (`Adresse`, `Termin`), wurden bewusst ohne Farbmarkierung dargestellt, da sie als Querschnittsklassen keinem einzelnen Bereich eindeutig zugeordnet werden können.
 
-#figure(image("../assets/klassendiagramm/Klassendiagramm.pdf", width: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
+#figure(image("../assets/klassendiagramm/Klassendiagramm.png", width: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
 
 == Beschreibung der Klassen
 
-=== Person
+*Person*
 
 Die abstrakte Basisklasse `Person` fasst die gemeinsamen Personenstammdaten zusammen, die sowohl für Mitarbeiter als auch für Unterauftragnehmer relevant sind: Vorname, Nachname, Telefonnummer sowie E-Mail-Adresse.
 
@@ -28,7 +28,7 @@ Die Adresse wird über eine unidirektionale Assoziation zur Klasse `Adresse` mod
 
 Durch diese Abstraktion wird Redundanz in den abgeleiteten Klassen vermieden. `Person` stellt damit das strukturelle Fundament für alle am System beteiligten natürlichen Personen bereit.
 
-=== Mitarbeiter
+*Mitarbeiter*
 
 Die Klasse `Mitarbeiter` erbt von `Person` und erweitert die Personenstammdaten um mitarbeiterspezifische Attribute: Mitarbeiternummer, Geburtsdatum, Position (Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, gelernter/ungelernter Bauarbeiter, Verwaltungsmitarbeiter), Beschäftigungsort, Vertragsbeginn sowie Vertragsende (LF 20, LF 90).
 
@@ -36,75 +36,79 @@ Jeder Mitarbeiter verweist auf genau eine `Rolle`, die seine Zugriffsrechte im S
 
 Ein Mitarbeiter kann gleichzeitig mehrere benannte Rollen gegenüber anderen Klassen einnehmen: Er kann Projektleiter eines Projekts, Gruppenleiter einer Gruppe, beteiligte Person eines Arbeitsauftrags und buchender Mitarbeiter einer Buchung sein. Diese Mehrfachbeziehungen realisieren das Rollen-Muster (siehe Abschnitt Analysemuster).
 
-=== Adresse
+*Adresse*
 
 Die Klasse `Adresse` kapselt die Adressinformationen (Straße, Hausnummer, PLZ, Ort, Land) und wird von mehreren Klassen referenziert: `Mitarbeiter` (Wohnadresse), `Projekt` und `Arbeitsauftrag` (Einsatzort), `Lager` (Lagerstandort) sowie `Unterauftragnehmer` (Firmenadresse). Durch diese zentrale Modellierung wird Redundanz vermieden.
 
-=== Rolle (Berechtigungsklasse)
+*Rolle (Berechtigungsklasse)*
 
 Die Klasse `Rolle` definiert die Benutzerrolle eines Mitarbeiters im System über die Attribute Rollennummer und Name. Die vordefinierten Rollen (Administrator, Verwaltungsmitarbeiter, Bauleiter, Bauarbeiter, Vorarbeiter, Mitarbeiter) bestimmen die Zugriffsrechte gemäß der Berechtigungstabelle aus der Lastenheftanalyse. Jeder Mitarbeiter hat genau eine Rolle. Es handelt sich hierbei um eine Berechtigungsklasse zur Zugriffssteuerung, nicht um das Analysemuster "Rolle" im Sinne der Vorlesung -- dieses wird stattdessen durch die mehreren benannten Assoziationen zwischen `Mitarbeiter` und anderen Klassen realisiert (siehe Abschnitt Analysemuster).
 
-=== Gruppe
+*Gruppe*
 
 Die Klasse `Gruppe` repräsentiert die Organisationsstruktur des Unternehmens. Gemäß dem Lastenheft (LF 20) existieren mehrere Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe), die über das Attribut `Gruppentyp` unterschieden werden. Das Attribut `Beschreibung` ermöglicht eine erläuternde Dokumentation der jeweiligen Gruppe. Ein Mitarbeiter kann mehreren Gruppen angehören, und eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung). Jede Gruppe kann optional einen Gruppenleiter haben, der über eine unidirektionale Assoziation zur Klasse `Mitarbeiter` referenziert wird.
 
 Hinweis: Das formale Gruppen-Muster der Vorlesung (Muster 9) ist hier nicht anwendbar, da es als Kerneigenschaft verlangt, dass jedes Einzelobjekt höchstens einer Gruppe angehören darf. LF 20 fordert jedoch explizit eine n:m-Zuordnung. Die Beziehung wird daher als einfache bidirektionale n:m-Assoziation modelliert.
 
-=== Anwesenheitszeit
+*Anwesenheitszeit*
 
 Die Klasse `Anwesenheitszeit` erfasst die täglichen Arbeitszeiten eines Mitarbeiters (LF 90). Sie wird als Komposition der Klasse `Mitarbeiter` modelliert, da Anwesenheitszeiten ohne den zugehörigen Mitarbeiter keine Daseinsberechtigung haben. Neben der Anwesenheits-ID, dem Arbeitstag und den Start-/Endzeiten erfasst das Attribut `Typ` den Grund (Anwesend, Urlaub, Krankheit, sonstige Abwesenheit). Das optionale Attribut `Bemerkung` ermöglicht die Erfassung ergänzender Informationen, beispielsweise bei Krankheit oder sonstiger Abwesenheit.
 
-=== Projekt
+*Projekt*
 
 Die Klasse `Projekt` bildet die übergeordnete organisatorische Einheit für Bauvorhaben ab. Attribute sind Projektnummer, Projektname, Beschreibung, Start- und Endtermin sowie Status. Ein Projekt hat einen verantwortlichen Projektleiter (Assoziation zu `Mitarbeiter`) und einen Einsatzort (Assoziation zu `Adresse`). Die Beziehung zu `Arbeitsauftrag` ist als n:m-Beziehung modelliert: Ein Projekt kann null oder mehrere Arbeitsaufträge enthalten (ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren), und ein Arbeitsauftrag kann mehreren Projekten zugeordnet sein.
 
-=== Arbeitsauftrag
+*Arbeitsauftrag*
 
-Die Klasse `Arbeitsauftrag` enthält alle wesentlichen Auftragsdaten (LF 30). Zentrale Attribute sind die Auftragsnummer, die Auftragsbezeichnung, der Bauplan (als Dateipfad gemäß Vereinfachung), Start- und Endtermin, der Zwischentermin, der Kostenvoranschlag (aus dem Finanzsystem lesend), Status sowie eine Bemerkung. Dem Arbeitsauftrag werden beteiligte Personen (Assoziation zu `Mitarbeiter`, 1..\*) und ein Einsatzort (Assoziation zu `Adresse`) zugeordnet. Über eine Assoziation zu `Termin` werden die dem Auftrag zugeordneten Termine verwaltet.
+Die Klasse `Arbeitsauftrag` enthält alle wesentlichen Auftragsdaten (LF 30). Zentrale Attribute sind die Auftragsnummer, die Auftragsbezeichnung, Start- und Endtermin, der Zwischentermin, Status sowie eine Bemerkung. Bauplan und Kostenvoranschlag werden über eine Assoziation zur Klasse `Dokument` modelliert. Dem Arbeitsauftrag werden beteiligte Personen (Assoziation zu `Mitarbeiter`, 1..\*) und ein Einsatzort (Assoziation zu `Adresse`) zugeordnet. Über eine Assoziation zu `Termin` werden die dem Auftrag zugeordneten Termine verwaltet.
 
-=== Unterauftrag
+*Unterauftrag*
 
 Die Klasse `Unterauftrag` modelliert die hierarchische Gliederung von Arbeitsaufträgen (LF 40). Unteraufträge werden per Komposition dem übergeordneten `Arbeitsauftrag` zugeordnet und können einem externen `Unterauftragnehmer` zugewiesen sein. Attribute sind Unterauftragsnummer, Bezeichnung, Start- und Endtermin, Status, Kosten sowie eine optionale Bemerkung. Unteraufträge können eigene Termine und Kosten haben.
 
-=== Unterauftragnehmer
+*Unterauftragnehmer*
 
 Die Klasse `Unterauftragnehmer` erbt von `Person` und verwaltet die Kontaktdaten externer Firmen, die Unteraufträge ausführen (LF 40). Sie erweitert die Personenstammdaten um Firmenname und Fachbereich. Durch die Vererbung von `Person` sind Adresse, Vorname, Nachname, Telefonnummer und E-Mail bereits vorhanden.
 
-=== Termin
+*Termin*
 
 Die Klasse `Termin` modelliert einzelne Termine innerhalb der Projektplanung (LF 40, gemäß Vereinfachung als einfache Klasse modelliert). Über unidirektionale Assoziationen kann ein Termin einem `Arbeitsauftrag`, einem `Projekt` oder einer `Buchung` zugeordnet werden. Dadurch wird die im Lastenheft geforderte Übersicht über alle terminrelevanten Daten ermöglicht, ohne Referenzen als Attribute in der Klasse zu speichern.
 
-=== Rechnung
+*Rechnung*
 
 Die Klasse `Rechnung` enthält die aus dem Finanzbuchhaltungssystem lesend übernommenen Rechnungsdaten: Rechnungsnummer, Betrag, Fälligkeitsdatum sowie Status. Rechnungen sind per Assoziation einem `Arbeitsauftrag` zugeordnet. Der Zugriff erfolgt unidirektional und ausschließlich lesend über das externe Finanzbuchhaltungssystem.
 
-=== Geräte-Typ (Exemplartyp-Muster)
+*Dokument*
+
+Die Klasse `Dokument` kapselt Datei-Objekte, die einem `Arbeitsauftrag` zugeordnet werden (LF 30). Hierunter fallen insbesondere Baupläne und Kostenvoranschläge. Attribute sind Dokument-ID, Titel, Dateipfad, Dateiname, Dateigröße, Format sowie Hochladedatum. Durch die Auslagerung in eine eigene Klasse können beliebig viele Dokumente pro Auftrag verwaltet werden.
+
+*Geräte-Typ (Exemplartyp-Muster)*
 
 Die Klasse `Geräte-Typ` beschreibt die gemeinsamen Eigenschaften gleichartiger Baumaschinen und Bauwerkzeuge (LF 50). Attribute sind Geräte-Typ-ID, Bezeichnung, Typ (Baumaschine oder Bauwerkzeug) sowie Kategorie (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung). Diese Attribute sind für alle Exemplare desselben Typs identisch und werden durch die Trennung in eine eigene Klasse nicht redundant gespeichert.
 
-=== Gerät (Exemplartyp-Muster)
+*Gerät (Exemplartyp-Muster)*
 
-Die Klasse `Gerät` repräsentiert ein konkretes, physisch vorhandenes Geräteexemplar mit individueller Seriennummer (LF 50). Jedes Exemplar verweist über eine unidirektionale Assoziation auf genau einen `Geräte-Typ` und trägt eigene Attribute: Gerätenummer, Seriennummer, Standort (als Text), Status (Verfügbar, Gebucht, In Wartung, Defekt), Anschaffungsdatum, letzter Wartungstermin sowie nächster Wartungstermin. Die Zuordnung zu einem `Lager` erfolgt per unidirektionaler Assoziation. Durch das Exemplartyp-Muster wird vermieden, dass bei mehreren Geräten desselben Typs (z.B. drei Bagger CAT 320) die Typ-Attribute redundant gespeichert werden.
+Die Klasse `Gerät` repräsentiert ein konkretes, physisch vorhandenes Geräteexemplar mit individueller Seriennummer (LF 50). Jedes Exemplar verweist über eine unidirektionale Assoziation auf genau einen `Geräte-Typ` und trägt eigene Attribute: Gerätenummer, Seriennummer, Status (Verfügbar, Gebucht, In Wartung, Defekt) sowie Anschaffungsdatum. Wartungstermine werden über eine Assoziation zur Klasse `Termin` modelliert. Die Zuordnung zu einem `Lager` erfolgt per unidirektionaler Assoziation. Durch das Exemplartyp-Muster wird vermieden, dass bei mehreren Geräten desselben Typs (z.B. drei Bagger CAT 320) die Typ-Attribute redundant gespeichert werden.
 
-=== Ausrüstung (Baugruppe-Muster)
+*Ausrüstung (Baugruppe-Muster)*
 
-Die Klasse `Ausrüstung` modelliert Zubehörteile, die Geräten zugeordnet werden können (LF 50): Baggerschaufeln, Kranzubehör (Behälter, Gewichte, Haken) und Anbaugeräte. Attribute sind Ausrüstungsnummer, Bezeichnung, kompatibel-mit (Kompatibilität mit bestimmten Gerätetypen), Gewicht sowie Status. Die Zuordnung wird als Komposition modelliert, da Ausrüstungsteile ohne ein zugehöriges Gerät nicht existenzberechtigt sind -- sie werden stets im Kontext eines konkreten Geräts verwaltet und bei dessen Löschung mitentfernt. Die Multiplizität `0..*` berücksichtigt, dass nicht jedes Gerät zwingend Zubehör besitzt (z.B. ein Rüttler).
+Die Klasse `Ausrüstung` modelliert Zubehörteile, die Geräten zugeordnet werden können (LF 50): Baggerschaufeln, Kranzubehör (Behälter, Gewichte, Haken) und Anbaugeräte. Attribute sind Ausrüstungsnummer, Bezeichnung, kompatibel-mit (Kompatibilität mit bestimmten Gerätetypen), Gewicht sowie Status. Die Zuordnung wird als Komposition zum `Lager` modelliert, da Ausrüstungsteile stets im Kontext eines Lagers verwaltet werden. Die Multiplizität `0..*` berücksichtigt, dass nicht jedes Lager zwingend Ausrüstung vorhält.
 
-=== Lager
+*Lager*
 
 Die Klasse `Lager` repräsentiert die Lagerorte der Geräte (LF 50). Attribute sind Lagernummer, Lagerbezeichnung, Typ (Platz oder Gebäude), Grundstück sowie Kapazität. Lager verfügen über eine Adresse (Assoziation zu `Adresse`). Jedes Gerät ist genau einem Lager zugeordnet.
 
-=== Buchung (Koordinator-Muster)
+*Buchung (Koordinator-Muster)*
 
 Die Klasse `Buchung` realisiert das Koordinator-Muster (LF 50). Sie verknüpft ein oder mehrere Geräte mit einem `Arbeitsauftrag` und trägt eigene Attribute: Buchungsnummer, Startdatum, Enddatum sowie Status (Aktiv, Abgeschlossen, Storniert). Zusätzlich wird der buchende Mitarbeiter referenziert. Durch die Buchung wird die Verfügbarkeit der Geräte gesteuert und die im Lastenheft geforderte Verfügbarkeitssuche ermöglicht.
 
-=== Bild
+*Bild*
 
-Die Klasse `Bild` ermöglicht die Zuordnung beliebig vieler Bilder mit Titel zu Mitarbeitern, Arbeitsaufträgen, Projekten und Geräten (LF 80). Jedes Bild besitzt die Attribute Bild-ID, Titel, Dateipfad, Dateiname, Elementtyp (zur Filterung nach zugeordnetem Objekttyp), Hochladedatum, Dateigröße und Format. Bilder werden per Komposition den jeweiligen Elementen zugeordnet -- dies drückt die Zugehörigkeit aus: Ein Bild existiert nur im Kontext seines zugeordneten Elements und wird bei dessen Löschung mitentfernt. Unabhängig davon verweist die separate Hochlader-Assoziation auf den Mitarbeiter, der das Bild hochgeladen hat. Diese zweite Assoziation ist semantisch verschieden von der Komposition: Während die Komposition die Besitzbeziehung abbildet, dokumentiert die Hochlader-Assoziation lediglich den Urheber des Uploads.
+Die Klasse `Bild` ermöglicht die Zuordnung beliebig vieler Bilder mit Titel zu Mitarbeitern, Projekten und Geräten (LF 80). Jedes Bild besitzt die Attribute Bild-ID, Titel, Dateipfad, Dateiname, Elementtyp (zur Filterung nach zugeordnetem Objekttyp), Hochladedatum, Dateigröße und Format. Unabhängig davon verweist die Hochlader-Assoziation auf den Mitarbeiter, der das Bild hochgeladen hat.
 
-=== Externe Systeme
+*Externe Systeme*
 
-Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen mit dem Stereotyp `<<extern>>` dargestellt. Die Finanzbuchhaltung greift über eine Dependency (gestrichelte Linie) lesend auf Rechnungen zu. Der Abhängigkeitspfeil zeigt von `Finanzbuchhaltung` zu `Rechnung` und drückt aus, dass die Rechnungsdaten vom externen Finanzbuchhaltungssystem bereitgestellt und durch dieses in das System eingelesen werden -- die Abhängigkeit besteht also in der Leserichtung des externen Systems. Das Altsystem stellt eine Importschnittstelle für die Datenmigration bereit. Der Drucker ermöglicht das Drucken von Dokumenten.
+Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen dargestellt. Die Finanzbuchhaltung greift über eine Dependency (gestrichelte Linie) lesend auf Rechnungen zu. Das Altsystem stellt eine Importschnittstelle für die Datenmigration bereit. Der Drucker ermöglicht das Drucken von Dokumenten.
 
 == Eingesetzte Analysemuster
 
