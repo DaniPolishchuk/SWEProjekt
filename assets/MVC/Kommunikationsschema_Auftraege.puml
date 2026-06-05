@@ -1,0 +1,262 @@
+@startuml Kommunikationsschema_Auftraege
+' Kommunikationsschema MVC am Beispiel der Aufträge-Übersicht
+' Vier Pakete vertikal gestapelt: View (oben), Event, Controller, Model (unten)
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam classFontStyle bold
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam ArrowColor #444444
+skinparam ArrowFontSize 12
+skinparam classBackgroundColor #FAFAFA
+skinparam classBorderColor #555555
+skinparam stereotypeCBackgroundColor #FFFFFF
+skinparam stereotypeIBackgroundColor #FFFFFF
+skinparam noteBackgroundColor #FFF8E1
+skinparam noteBorderColor #C9A227
+skinparam dpi 150
+skinparam nodesep 25
+skinparam ranksep 45
+
+' =====================================================================
+' VIEW (oben)
+' =====================================================================
+package "View" as ViewPkg #LightBlue {
+
+  ' Java-Swing als kompaktes Sub-Paket oben im View-Paket
+  package "Java-Swing (extern)" as SwingPkg #DDDDDD {
+
+    ' "Weitere Swing-Komponenten" - werden nicht beerbt, nur verwendet
+    package "weitere Komponenten" as SwingMisc #EFEFEF {
+      class JTextField <<external>>
+      class JComboBox <<external>>
+      class JTabbedPane <<external>>
+      class JButton <<external>>
+      class JToggleButton <<external>>
+      class JLabel <<external>>
+      class JProgressBar <<external>>
+      class JScrollPane <<external>>
+
+      ' Versteckte Hilfskanten: 2 Reihen à 4
+      JTextField -[hidden]right- JComboBox
+      JComboBox -[hidden]right- JTabbedPane
+      JTabbedPane -[hidden]right- JButton
+      JTextField -[hidden]down- JToggleButton
+      JToggleButton -[hidden]right- JLabel
+      JLabel -[hidden]right- JProgressBar
+      JProgressBar -[hidden]right- JScrollPane
+    }
+
+    ' Eigene Reihe für die Vererbungs-Eltern - direkt über den eigenen View-Klassen
+    class JFrame <<external>>
+    class JPanel <<external>>
+    class JTable <<external>>
+    abstract class AbstractTableModel <<external>>
+
+    JFrame -[hidden]right- JPanel
+    JPanel -[hidden]right- JTable
+    JTable -[hidden]right- AbstractTableModel
+
+    ' "weitere Komponenten" sitzt OBEN, Vererbungs-Eltern UNTEN
+    SwingMisc -[hidden]down- JFrame
+  }
+
+  class MainFrame {
+    + initSidebar()
+    + showPanel(p : JPanel)
+  }
+
+  class Sidebar {
+    + setActiveItem(name : String)
+  }
+
+  class AufträgeÜbersichtPanel {
+    + buildLayout()
+    + updateView(list : List<Arbeitsauftrag>)
+    + getFilterCriteria() : FilterCriteria
+    + onDataUpdated(e : UpdateEvent)
+  }
+
+  class SuchleisteView {
+    + addFilterListener(l : IFilterListener)
+    - fireFilterChanged()
+  }
+
+  class AuftragsTabelleView {
+    + setTableModel(m : AuftragsTableModel)
+    + addSelectionListener(l : IAuftragSelectionListener)
+  }
+
+  ' Vererbung Swing -> eigene View-Klassen (blau, dick, mit Stereotyp <<erbt>>)
+  MainFrame             -up[#0033A0,thickness=2]-|> JFrame    : <<erbt>>
+  Sidebar               -up[#0033A0,thickness=2]-|> JPanel
+  AufträgeÜbersichtPanel -up[#0033A0,thickness=2]-|> JPanel    : <<erbt>>
+  SuchleisteView        -up[#0033A0,thickness=2]-|> JPanel
+  AuftragsTabelleView   -up[#0033A0,thickness=2]-|> JTable    : <<erbt>>
+
+  ' Komposition innerhalb der View
+  MainFrame *-right- Sidebar
+  MainFrame *-down- AufträgeÜbersichtPanel
+  AufträgeÜbersichtPanel *-down- SuchleisteView
+  AufträgeÜbersichtPanel *-right- AuftragsTabelleView
+}
+
+' =====================================================================
+' EVENT
+' =====================================================================
+package "Event" as EventPkg #LightYellow {
+
+  interface IFilterListener {
+    + onFilterChanged(e : FilterChangedEvent)
+    + onSearchTextChanged(text : String)
+    + onTabChanged(tab : String)
+  }
+
+  interface IAuftragSelectionListener {
+    + onAuftragSelected(id : String)
+  }
+
+  interface IUpdateEventListener {
+    + onDataUpdated(e : UpdateEvent)
+  }
+
+  interface IUpdateEventSender {
+    + register(l : IUpdateEventListener)
+    + unregister(l : IUpdateEventListener)
+    + fireUpdate(e : UpdateEvent)
+  }
+
+  class FilterChangedEvent <<datatype>> {
+    - kriterien : FilterCriteria
+    + getKriterien() : FilterCriteria
+  }
+
+  class UpdateEvent <<datatype>> {
+    - quelle : String
+    - zeitstempel : Date
+  }
+
+  IFilterListener -[hidden]right- IAuftragSelectionListener
+  IAuftragSelectionListener -[hidden]right- IUpdateEventListener
+  IFilterListener -[hidden]down- FilterChangedEvent
+  FilterChangedEvent -[hidden]right- UpdateEvent
+  UpdateEvent -[hidden]right- IUpdateEventSender
+}
+
+' =====================================================================
+' CONTROLLER
+' =====================================================================
+package "Controller" as ControllerPkg #LightSalmon {
+
+  class GUIController <<singleton>> {
+    - {static} instanz : GUIController
+    + {static} getInstance() : GUIController
+    + onFilterChanged(e : FilterChangedEvent)
+    + onAuftragSelected(id : String)
+    + onNeuerAuftrag()
+    + register(l : IUpdateEventListener)
+  }
+
+  class AufträgeController {
+    + ladeAufträge(c : FilterCriteria) : List<Arbeitsauftrag>
+    + notifyViews()
+  }
+
+  class AuftragsTableModel {
+    - daten : List<Arbeitsauftrag>
+    + setData(list : List<Arbeitsauftrag>)
+    + getValueAt(row : int, col : int) : Object
+    + getRowCount() : int
+    + getColumnCount() : int
+  }
+
+  ' Realisationen (gestrichelt, lila, mit <<realisiert>>)
+  GUIController .up[#7B1FA2,thickness=2].|> IFilterListener         : <<realisiert>>
+  GUIController .up[#7B1FA2,thickness=2].|> IAuftragSelectionListener
+
+  GUIController *-down- AufträgeController
+  AufträgeController -right-> AuftragsTableModel : aktualisiert
+}
+
+' =====================================================================
+' MODEL (unten)
+' =====================================================================
+package "Model" as ModelPkg #LightGreen {
+
+  class Datenbasis <<singleton>> {
+    - {static} instanz : Datenbasis
+    - aufträge : List<Arbeitsauftrag>
+    - listener : List<IUpdateEventListener>
+    + {static} getInstance() : Datenbasis
+    + findAufträge(c : FilterCriteria) : List<Arbeitsauftrag>
+    + register(l : IUpdateEventListener)
+    + unregister(l : IUpdateEventListener)
+    + fireUpdate(e : UpdateEvent)
+  }
+
+  class Arbeitsauftrag {
+    - auftragsnummer : String
+    - bezeichnung : String
+    - status : String
+    - startdatum : Date
+    - endtermin : Date
+  }
+
+  class FilterCriteria <<datatype>> {
+    - volltext : String
+    - status : String
+    - datumVon : Date
+    - datumBis : Date
+    - reiter : String
+    - sortierung : String
+  }
+
+  Datenbasis o-right- "0..*" Arbeitsauftrag
+  Arbeitsauftrag -[hidden]right- FilterCriteria
+}
+
+' =====================================================================
+' Inter-Paket-Beziehungen (Nachrichtenfluss)
+' =====================================================================
+
+' View -> Event (View meldet an Listener-Interface, gestrichelt grau)
+SuchleisteView      -down[#5C6BC0]->         IFilterListener           : meldet
+AuftragsTabelleView -down[#5C6BC0]->         IAuftragSelectionListener : meldet
+
+' View realisiert UpdateEventListener (lila, gestrichelt)
+AufträgeÜbersichtPanel .down[#7B1FA2,thickness=2].|> IUpdateEventListener : <<realisiert>>
+
+' AbstractTableModel-Vererbung (blau, dick)
+AuftragsTableModel -up[#0033A0,thickness=2]-|> AbstractTableModel : <<erbt>>
+
+' Controller -> Model (geht nach unten)
+AufträgeController -down-> Datenbasis : abfragen
+
+' Model -> View (Beobachter, geht nach oben über Event-Paket, grün)
+Datenbasis -up[#2E7D32,thickness=2]-> "0..*" IUpdateEventListener : benachrichtigt
+
+' FilterChangedEvent enthält FilterCriteria
+FilterChangedEvent -down-> FilterCriteria
+
+' =====================================================================
+' Versteckte Hilfskanten zur Erzwingung der vertikalen Stapelung
+' Reihenfolge: View -> Event -> Controller -> Model
+' =====================================================================
+ViewPkg -[hidden]down- EventPkg
+EventPkg -[hidden]down- ControllerPkg
+ControllerPkg -[hidden]down- ModelPkg
+
+' =====================================================================
+' Legende
+' =====================================================================
+legend right
+  | Pfeilart | Bedeutung |
+  | <#0033A0>**——▷**</#0033A0> | erbt von (Generalisierung) |
+  | <#7B1FA2>**┄┄▷**</#7B1FA2> | realisiert (Schnittstelle) |
+  | <#5C6BC0>**———>**</#5C6BC0> | meldet Ereignis an |
+  | <#2E7D32>**———>**</#2E7D32> | benachrichtigt (Beobachter) |
+  | <#444444>**———>**</#444444> | Assoziation / Aggregation |
+endlegend
+
+@enduml
