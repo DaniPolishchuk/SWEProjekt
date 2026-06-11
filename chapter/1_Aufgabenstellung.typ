@@ -96,7 +96,7 @@
   Zusätzlich: Sanierung und Modernisierung bestehender Bauwerke.
 ]
 #QaA[Wie soll die neue Verwaltungssoftware die bisherigen Verwaltungsarbeiten konkret vereinfachen - welche manuellen Arbeitsschritte sollen automatisiert werden?][
-  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
+  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen gespeichert. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
 ]
 #QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt?][
   Aktuell wird eine Kombination aus einer älteren Desktop-Anwendung und diversen Excel-Tabellen verwendet. Die Daten liegen in einer lokalen Datenbank.
