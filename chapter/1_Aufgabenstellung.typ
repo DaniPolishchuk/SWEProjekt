@@ -480,7 +480,8 @@
       [Unterauftrag], [@e_Unterauftrag],
       [Unterauftragnehmer], [@e_Unterauftragnehmer],
       [Projekt], [@e_Projekt],
-      [Bauplan], [wird als Text (Pfad auf Dateien im Dateisystem) modelliert @chapter-Vereinfachungen],
+      [Bauplan], [wird über die Entität #link(label("e_Dokument"))[Dokument] modelliert @chapter-Vereinfachungen],
+      [Dokument], [@e_Dokument],
       [Ausrüstung], [@e_Ausrüstung],
       [Geräte-Typ], [@e_Geräte-Typ],
       [Gerät], [@e_Gerät],
@@ -547,6 +548,25 @@
   ]
   #QaA[[INTERN] In welcher Form sollen die Daten vorliegen (einzelne Dateien, Daten in der Datenbank)? ][
     Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV), später in einer Datenbank. Baupläne und Bilder bleiben als separate Dateien im Dateisystem, referenziert über Dateipfade #referenceG("LD 10").
+  ]
+  #QaA(labelName: "Dokument-Entitaet")[Wie sollen Baupläne, Kostenvoranschläge, Angebote, Mahnungen und ähnliche Auftragsdokumente einheitlich verwaltet werden?][
+    Sämtliche dokumentartigen Dateien (Baupläne, Kostenvoranschläge, Angebote, Mahnungen, Rechnungs-PDFs und sonstige Vertragsunterlagen) werden über eine zentrale Entität `Dokument` verwaltet. Hierdurch wird vermieden, dass an mehreren Entitäten redundante Datei-Attribute (Dateipfad, Dateiname, Format etc.) gepflegt werden müssen. Die Dokumente werden -- analog zu Bildern #referenceG("LF 80") -- als separate Dateien im Dateisystem abgelegt und über die `Dokument`-Entität referenziert. Auf Dokumente verweisen insbesondere `Arbeitsauftrag` (Baupläne, Kostenvoranschläge, Angebote, Mahnungen), `Projekt` (übergeordnete Projektpläne) sowie `Rechnung` (Rechnungs-PDF aus dem Finanzbuchhaltungssystem).
+
+    Ein Dokument umfasst folgende Attribute:
+
+    #entityFigure("Dokument", arguments(
+      [Dokument-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+      [Titel], [Text], [Vom Benutzer vergebener Titel des Dokuments],
+      [Dokumenttyp], [Text], [Bauplan, Kostenvoranschlag, Angebot, Mahnung, Rechnung, Sonstiges],
+      [Dateipfad], [Text], [Pfad zur Datei im zentralen Dokumentenverzeichnis],
+      [Dateiname], [Text], [Ursprünglicher Dateiname],
+      [Format], [Text], [PDF, DOCX, XLSX, TXT],
+      [Dateigröße], [Ganzzahl], [Größe in Bytes],
+      [Hochladedatum], [Datum], [Datum des Uploads in das System],
+      [Hochlader], [Referenz], [Referenz auf Mitarbeiter, der das Dokument hochgeladen hat],
+    ))
+
+    Hinweis: Die Klasse `Bild` #referenceG("e_Bild") bleibt davon unberührt, da Bilder eine eigene Anzeigelogik (Galerie, Thumbnails) und gesonderte Anforderungen besitzen #referenceG("LF 80").
   ]
   #QaA[Sollen die beteiligten Personen aufgelistet werden oder sollen im Zuge der Übersichtlichkeit Gruppen aufgezeigt werden, die Auskunft über die Mitarbeiter geben? ][
     Beide Ansichten sollen möglich sein. In der Übersicht werden die zugeordneten Gruppen angezeigt. In der Detailansicht können die einzelnen Mitglieder der Gruppen aufgelistet werden.
