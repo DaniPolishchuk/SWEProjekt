@@ -5,9 +5,13 @@
 **Ziel:** Konsistenz, Bild/Text-Übereinstimmung, fragwürdige Aussagen, konservative Kürzungen
 **Quellberichte:** `loop1/A-F`, `loop2/G-I`, `loop3/J` (im selben Verzeichnis)
 
+**Pass-Historie:**
+- *Initial 2026-06-11*: 10 Subagent-Berichte, ca. 50 kritische / 45 wichtige / 25 stilistische Befunde.
+- *Mockup-Pass 2026-06-11*: GUI-Mockup-Konsistenz vollständig abgearbeitet (Text-Edits + Bild-Anpassungen durch den Autor). Top-Tabelle und Sektion 1.3 entsprechend bereinigt.
+
 ---
 
-## 0. Top-Befunde auf einen Blick
+## 0. Top-Befunde auf einen Blick (Stand nach Mockup-Pass)
 
 | # | Befund | Schwere | Ort |
 |---|---|---|---|
@@ -17,10 +21,17 @@
 | 4 | Profhinweise aus `Klassendiagramm_Fix_This.pdf` nicht abgearbeitet (3 Punkte) | **🔴 kritisch** | Klassendiagramm |
 | 5 | SD-Hauptdiagramm zeigt **keinen Löschvorgang**, Caption + Text behaupten ihn | **🔴 kritisch** | 4.1_Sequenzdiagramm_Auftrag.typ:32+64-68 |
 | 6 | `:Buchung`-Lebenslinie fehlt in SD/Lösch-SD trotz Referenzen | **🔴 kritisch** | SD-PUMLs |
-| 7 | Statusfarben Mockup ↔ Text widersprüchlich an drei Stellen (Z.24/66/170) | **🔴 kritisch** | 3.3_GUI-Mockups.typ |
-| 8 | Anzahl Rollen 4 vs. 5 widersprüchlich; Tabelle Z.265-292 vs. Z.342 | **🔴 kritisch** | 1_Aufgabenstellung.typ |
-| 9 | n:m vs. 1:n bei Arbeitsauftrag↔Projekt (drei verschiedene Aussagen) | **🔴 kritisch** | KlD-Text vs. PUML vs. UC |
-| 10 | Mockup zeigt Daten ohne Modellunterstützung: Kunde, Kostenvoranschlag/Prognose, Termin↔Buchung | **🔴 kritisch** | mehrere |
+| 7 | Anzahl Rollen 4 vs. 5 widersprüchlich; Tabelle Z.265-292 vs. Z.342 | **🔴 kritisch** | 1_Aufgabenstellung.typ |
+| 8 | n:m vs. 1:n bei Arbeitsauftrag↔Projekt (drei verschiedene Aussagen) | **🔴 kritisch** | KlD-Text vs. PUML vs. UC |
+| 9 | Mockup zeigt Daten ohne Modellunterstützung: Kunde, Kostenvoranschlag/Prognose, Termin↔Buchung | **🔴 kritisch** | KlD-Lücken |
+| 10 | **UML-Notation komplett fehlend**: keine Sichtbarkeit (`+/-/#/~`), keine Datentypen, keine `<<abstract>>`/`<<interface>>`-Stereotypen | **🔴 kritisch** | Klassendiagramm.puml gesamt |
+| 11 | „Vorlage speichern" / „Neue Rechnung" / Termin-CRUD / „Katalog erweitern" sind Mockup-Aktionen ohne UC-Pendant | **🔴 kritisch** | UC-Diagramm-Lücken |
+| 12 | F92 Unterauftrag und F93 Termin: Datums-Modellierung uneinheitlich (Datum vs. Referenz) | **🔴 kritisch** | 1_Aufgabenstellung.typ:569-595 |
+| 13 | F98 Geräte-Attribut „Letzter/Nächster Wartungstermin" als `Datum` statt als Referenz auf `Termin` | **🔴 kritisch** | 1_Aufgabenstellung.typ:651-652 |
+| 14 | F101 Verweis auf F97 fehlt; F43 ohne `labelName` als Anker; Dokument-QaA fehlt | 🟡 wichtig | 1_Aufgabenstellung.typ |
+| 15 | Reiter „Wartung"/„Historie" im Geräte-Mockup haben keine UC-/KlD-Entsprechung | 🟡 wichtig | 3.3_GUI-Mockups.typ |
+
+---
 
 ---
 
@@ -51,12 +62,12 @@
 
 #### 1.3 GUI-Mockups (Kap 3.3)
 
-- **Filterchips Dashboard**: Bild „Alle/In Arbeit/Verzug" vs. Text Z.48 „Alle/Hochbau/Tiefbau/Verzug".
-- **Statusfarben AuftragsÜbersicht**: Bild zeigt „In Arbeit"=blau, „Pausiert"=gelb, „Planung"=grün, Text Z.66 behauptet „Geplant"=blau, „In Arbeit"=gelb, „Pausiert"=orange, „Abgeschlossen"=grün.
-- **Statusfarben-Konvention an drei Stellen widersprüchlich** (Z.24 Designphilosophie, Z.66 Auftragsübersicht, Z.170 Terminplaner).
-- **Mitarbeiter-Mockup Z.190**: „Auswahlkästchen am Zeilenanfang" — Bild zeigt sie am Zeilenende.
-- **Terminplaner Z.168**: „Heute"-Schaltfläche und zweiter Umschalter für Urlaube im Bild nicht sichtbar.
-- **Mockup-Rollensicht-Widerspruch**: Z.27 behauptet „Sicht eines Bauleiters", aber Mitarbeiter-Mockup wäre laut UC nur Verwaltungsmitarbeiter.
+*Alle 🔴-Bild/Text-Widersprüche aus Loop 1+2 wurden im Pass 2026-06-11 durch kombinierte Text- und Bild-Edits behoben (Statusfarben-Tabelle in Designphilosophie eingeführt; Filterchips Dashboard, Statusfarben AufträgeÜbersicht, Geräte-Suche-Filter LF50/LF60, Standort/Lager-Doppel-Verortung, Buchung-Pille, Terminplaner-Topbar, Termintypen-Legende, Mitarbeiter-Auswahlkästchen, AuftragDetail-Demodaten 2026, AuftragErstellen-Geräte-Buchung, AuftragDetail-Unteraufträge-Sektion, Volvo-Demodaten, Sarah-Bauer-Position, Bauleitung-Mitgliederzahl, Tippfehler Z.168/Z.172, LF60+LF90-Verweise.)*
+
+Verbleibende offene Punkte:
+
+- **Reiter „Wartung" / „Historie"** im Geräte-Mockup haben keine UC- oder KlD-Entsprechung. Entweder UC „Wartung verwalten" / „Historie einsehen" als eigenständige Use-Cases ergänzen oder im Mockup-Text als „aus Buchungs-/Termin-Daten abgeleitete Sichten" ausweisen.
+- **Demodaten-Inkonsistenzen** allgemein: AuftragDetail wurde auf 2026 angepasst — sicherheitshalber alle Mockup-Demodaten auf einem Zeitpunkt synchronisieren (etwa „Stand: KW 21 / 21.05.2026"), damit nichts zwischen 2023/2024/2026 wechselt.
 
 #### 1.4 Sequenzdiagramm (Kap 4.1)
 
@@ -98,6 +109,28 @@
 - **MVC `Arbeitsauftrag`** Attributnamen weichen vom Analyse-KlD ab (`bezeichnung` vs. `auftragsbezeichnung`, `startdatum` vs. `starttermin`).
 - **Akteur-Vererbung im UC-Diagramm** nicht als UML-Pfeil modelliert (Bild-Notiz reicht nicht).
 
+#### 1.9a Vom Autor ergänzt — UML-Notation Klassendiagramm (übersehene systematische Lücke)
+
+Drei Punkte, die durch das gesamte Klassendiagramm gehen und in den Subagent-Berichten **nicht** aufgeführt wurden — sie verletzen direkte Vorlesungs-/CLAUDE.md-Regeln:
+
+- **Sichtbarkeitszeichen fehlen vollständig.** PUML Z.39-203: Alle Attribute werden ohne `+`, `-`, `#` oder `~` notiert (`vorname` statt `- vorname`). CLAUDE.md UML-Sektion fordert: *"Sichtbarkeit: `-` private, `+` public, `#` protected, `~` package"*. Konvention der Vorlesung. **Note-relevant.**
+- **Datentypen fehlen vollständig.** Alle Attribute haben keinen Typ (`vorname` statt `vorname: String`, `geburtsdatum` statt `geburtsdatum: Datum`). CLAUDE.md fordert: *"Attributformat: `sichtbarkeit name: Typ [= Standardwert]`"*. **Note-relevant.**
+- **`<<abstract>>` und `<<interface>>`-Stereotypen fehlen.** Klasse `Person` (PUML Z.39) wird faktisch nur über `Mitarbeiter` (Z.62) und `Unterauftragnehmer` (Z.66) instanziiert — sie ist abstrakt, hat aber weder das `<<abstract>>`-Stereotyp noch einen *kursiven* Klassennamen. CLAUDE.md UML-Sektion fordert: *"Abstrakte Klassen: `<<abstract>>` Stereotyp und/oder *kursiver* Klassenname"*. **Note-relevant.** Externe Klassen wie `Finanzbuchhaltung`, `Altsystem`, `Drucker` sollten auch als Stereotyp `<<system>>` oder `<<external>>` gekennzeichnet sein.
+
+#### 1.9b Vom Autor ergänzt — Lastenheft-/QaA-Detailbefunde
+
+- **F43 (Z.341, „Wie sollen die Berechtigungen umgesetzt werden? Soll es ein bestimmtes Rollensystem geben?")** hat keinen `labelName`, ist aber das natürliche Verweisziel für andere Rollenfragen. **Empfehlung**: `labelName: "Rollensystem"` setzen und alle Verweise auf das Rollensystem auf F43 statt auf `q_Rollen-gleichzeitig` (F49) ziehen. Loop-1-A hat den falschen Verweis Z.369 schon erfasst — Wurzel ist der fehlende Anker bei F43.
+- **Dokument-Frage fehlt** (passt zu Loop-1-A „Angebote/Mahnungen fehlen als Entitäten"). Klasse `Dokument` (KlD Z.137) hat im Q&A-Teil keine eigene Frage. **Empfehlung**: QaA „Welche Dokumenttypen werden im System verwaltet?" mit Attributtabelle ergänzen (Bauplan, Kostenvoranschlag, Angebot, Mahnung, sonstige Pläne) — schließt Liste-Lücke aus Loop-1-C/Loop-2-G.
+- **F89 Wording „erbt"** (Z.560 ff. Unterauftrag-Block): Aktueller Text in der zugehörigen Antwort beschreibt den Unterauftragnehmer als „erbt von Person". **Wording prüfen** — fachlich problematisch, da eine Firma keine `Person`-Eigenschaften wie Vorname/Nachname trägt; Loop-1-C Punkt 9 hat das schon angesprochen. **Empfehlung**: entweder eigene Klassenhierarchie (Unterauftragnehmer ohne Person-Vererbung) oder Wording auf „nutzt Kontaktdaten-Struktur analog zu Person" reduzieren.
+- **F92 Unterauftrag-Tabelle (Z.569-585)**: Felder `Starttermin` und `Endtermin` sind als Datentyp `[Datum]` deklariert. **Vorgabe der Modellierung**: laut Beispielarbeiten und CLAUDE.md sollten Termine in einer eigenen `Termin`-Klasse modelliert werden — also wären `Starttermin` und `Endtermin` Referenzen, kein primitives Datum. **Auswirkung**: Konsistent zu Arbeitsauftrag (Z.391-404 hat sie auch als Referenz) und zur Termin-Klasse. **Empfehlung**: Datentyp auf `Referenz auf Termin` ändern. (Hängt zusammen mit Loop-1-A Punkt 7 — der Termin-Tabelle.)
+- **F93 Termin-Tabelle (Z.600-604)**: Aktuell nur drei Referenz-Attribute (Arbeitsauftrag, Projekt, Buchung). **Es fehlen die eigenen Attribute**: `Datum`, `Uhrzeit/Zeitraum`, `Typ` (Haupttermin/Zwischentermin/Wartungstermin/...), `Bezeichnung`, `Bemerkung`. Loop-1-A Punkt 7 hat das als „funktional sinnlos" moniert; jetzt mit konkreter Auflistung. **Empfehlung**: Termin-Tabelle um diese Attribute erweitern.
+- **F98 Geräte-Attribut „Letzter/Nächster Wartungstermin" (Z.651-652)**: Aktuell als `[Datum]` deklariert. **Sollten Referenzen auf `Termin` sein**, da Wartungen im Terminplaner verwaltet werden (UC „Wartungstermine definieren", KlD-Assoziation `Geraet → 0..* Termin` Z.242). Sonst doppelte Datenhaltung: ein Datum am Gerät + ein Termin-Objekt. **Empfehlung**: `Letzter Wartungstermin: Referenz auf Termin`, `Nächster Wartungstermin: Referenz auf Termin` — als Rollen-Muster auf der bestehenden `Geraet→Termin`-Assoziation modellieren (Rollennamen `letzterWartungstermin` und `naechsterWartungstermin`).
+- **F101 Verweis auf F97**: F101 (Z.664, „Welche Arten sollen jeweils konkret existieren?") behandelt fest vorgegebene Kategorien. F97 (Z.621, „Sollen die Arten dynamisch vom Benutzer änderbar sein?") ist die übergeordnete Frage. **Empfehlung**: In F101-Antwort `#referenceQ("...")` auf F97 setzen, damit der Leser den dynamischen Erweiterungsmechanismus mitliest. Voraussetzung: F97 braucht ein `labelName` (aktuell fehlt es).
+
+#### 1.9d Vom Autor ergänzt — strukturell
+
+- **Mobile/Tablet-Anwendung als Mockup.** Loop-3 erwähnt nur „Tablet-Vorschlag fehlt als Besonderheits-Block". Stärkere Variante: **ein zusätzliches Mockup einer mobilen/Tablet-Ansicht** als Besonderheit. Lastenheft fordert „Vorschläge zur Realisierung" für das Tablet-Projekt; ein konkreter Mockup-Entwurf (vereinfachte Auftragsansicht oder Anwesenheitsstempel-Maske) liefert den Vorschlag visuell. Optionaler Note-Hebel im Besonderheiten-Kapitel.
+
 #### 1.9 Strukturell (Loop 3)
 
 - **Besonderheiten-Kapitel fehlt komplett** — beide 1.0-Beispiele schließen damit.
@@ -126,16 +159,11 @@
 - **MVC-Inkonsistenzen**: `notifyViews()` toter Member, `IFilterListener` 3 Methoden im PUML vs. 1 im Text, AuftragsTableModel→AbstractTableModel als MVC-Schichtenverletzung unkommentiert.
 
 #### 2.3 Strukturell / Stil
-- **Mockup-Rollensicht** Z.27 zu „Bauleiter" verträgt sich nicht mit Mitarbeiter-Mockup (Verwaltungssicht).
 - **Reiter „Wartung" / „Historie"** im Geräte-Mockup haben keine UC-/KlD-Entsprechung.
-- **Demodaten-Inkonsistenz**: AuftragDetail zeigt 2023-Daten, alle anderen Mockups 2026.
-- **Buchungen.png Demodaten** logisch widersprüchlich („Volvo 23.–25.05. ganztags frei / 24.–25.05. belegt").
+- **Buchungen.png Demodaten** logisch widersprüchlich (Volvo-Pille) — Bild wurde im Pass 2026-06-11 angepasst, sollte vor Abgabe nochmal gegengelesen werden.
 - **Reflexion-Block MVC** redundant zur Hauptbeschreibung.
 
-#### 2.4 Lastenheft-Bezüge
-- LF 60 (Suchmasken) und LF 90 (Anwesenheitszeiten) im Mockup-Kapitel nicht explizit referenziert.
-
-#### 2.5 Konsistenz-Konventionen
+#### 2.4 Konsistenz-Konventionen
 - Operationen im Analyse-KlD fehlen komplett — als bewusste Konvention im Text begründen.
 - Datenbasis als implizite Repository-Klasse — sollte einmal explizit gesagt werden.
 
@@ -184,8 +212,6 @@
 | 3.1 (Bild-Notiz) | — | „im folgenden" | „im Folgenden" |
 | 3.2_Analyse-Klassendiagramm.typ | 91 | „z.B." | „z. B." |
 | 3.2_Analyse-Klassendiagramm.typ | 118 | „Standort" als Instanz-Attribut | als Assoziation formulieren |
-| 3.3_GUI-Mockups.typ | 168 | „eine dreistufige Umschalter" | „ein dreistufiger Umschalter" |
-| 3.3_GUI-Mockups.typ | 172 | „(Hr. Richter)" | „Herr Richter" |
 | 4.1_Sequenzdiagramm_Auftrag.typ | 17 | „Auftragsbezeichnung" | mit PUML „Bezeichnung" abstimmen |
 | 4.2 Listing 4.2.1 | 21 | „Geraenummer" | „Geraetenummer" |
 | 4.2 Listing 4.2.3 | 4 | „noch nicht geprueft gebuchte Zeitraeume" | „noch nicht geprüfte Buchungs-Zeiträume" |
@@ -220,10 +246,9 @@
 - ✏️: 3 Tippfehler
 
 ### Kap 3.3 (Mockups)
-- 🔴: Filterchips Dashboard; Statusfarben 3 Stellen; Mitarbeiter-Auswahlkästchen-Position; Terminplaner-Heute/Urlaube; Rollensicht-Widerspruch
-- 🟡: Termintypen Dashboard vs. Terminplaner; Vorschaubild-Aussage; Standort&Lager Doppelung; 2023 vs. 2026 Demodaten; logisch falsche Volvo-Daten; LF 60/90 nicht referenziert
-- ⚪: 5× „Administrator-sichtbar"-Wiederholung; Aktivitätshistorie nicht im Bild
-- ✏️: 4 Tippfehler
+- ✅ **Großteil im Pass 2026-06-11 abgearbeitet** (Statusfarben-Tabelle, Filterchips, Geräte-Filter LF50/60, AuftragErstellen-Buchung, Unteraufträge-Sektion, 2026-Demodaten, Auswahlkästchen-Position, Termintypen-Legende raus, Tippfehler).
+- 🟡: Reiter „Wartung"/„Historie" ohne UC-Entsprechung
+- 🟢 optional: Mobile/Tablet-Mockup als Besonderheit
 
 ### Kap 4.1 (Sequenzdiagramm)
 - 🔴: **Hauptdiagramm ohne Löschvorgang**; **`:Buchung`-Lebenslinie fehlt**; **Listing 4.1.2 vs. ObjektAnlegen-SD**
@@ -257,7 +282,10 @@
 3. **Status-Werte** als Notiz/Enum im KlD ergänzen oder als Tabelle im Text 3.2; Schreibweise vereinheitlichen (Umlaut bevorzugt).
 4. **SD-Hauptdiagramm**: entweder PUML um Phase 2 erweitern ODER Caption + Z.36 + Z.64-68 umformulieren (Auslagerung in Lösch-Unter-SD).
 5. **`:Buchung`-Lebenslinie** in beide SDs einfügen.
-6. **Mockup-Statusfarben** vereinheitlichen — zentrale Tabelle in Designphilosophie + 3 Stellen anpassen.
+6. ~~**Mockup-Statusfarben** vereinheitlichen — zentrale Tabelle in Designphilosophie + 3 Stellen anpassen.~~ ✅ erledigt (2026-06-11)
+7. **UML-Notation im KlD vervollständigen** (1.9a): Sichtbarkeitszeichen `+/-/#/~`, Datentypen, `<<abstract>>` für `Person`, `<<system>>`/`<<external>>` für externe Klassen. Pass durch alle ~20 Klassen.
+8. **Termin-Modellierung konsolidieren** (1.9b): F92 Unterauftrag-Termine als Referenz, F93 Termin-Tabelle um Datum/Typ/Uhrzeit/Bezeichnung/Bemerkung ergänzen, F98 Geräte-Wartungstermine als Referenzen mit Rollennamen — Loop-1-A Punkt 7 + 1.9b zusammen fixen.
+9. ~~**Mockup-Lücken aus LF50/LF60** schließen (1.9c): AuftragErstellen um Geräte-Buchungs-Block; Geräte-Suche um Verfügbarkeits-Zeitraum + Ausrüstungstyp-Filter; Unterauftrags-Block in AuftragDetail.~~ ✅ erledigt (2026-06-11)
 
 ### Phase B — Strukturelle Aufwertung (1.0-Ziel)
 7. **Besonderheiten-Kapitel anlegen** (6-10 Punkte): Mockup-Anzahl, Java-Swing-Mapping, UI-Philosophie, Allgemeinheit, Tablet-Vorschlag, Bedienbarkeit (3-Klick-Regel), Rechtschreibung/Sorgfalt, …
@@ -269,10 +297,13 @@
 ### Phase C — Konsistenz / Stil
 12. UC-Templates / Beschreibungstexte für „Geräte verwalten", „Gerät anlegen", „Verfügbarkeit prüfen" ergänzen.
 13. „verwalten"-Konvention im UC-Kapitel definieren.
-14. Mockup-Rollensicht klarstellen (Verwaltungsmitarbeiter mit Bauleiter-Aufgaben oder rollentrennen).
+14. ~~Mockup-Rollensicht klarstellen (Verwaltungsmitarbeiter mit Bauleiter-Aufgaben oder rollentrennen).~~ ✅ erledigt (2026-06-11)
 15. MVC-Bild ergänzen: `Datenbasis ..|> IUpdateEventSender`, `Sidebar ..|> IUpdateEventListener`.
 16. Arbeitsauftrag-Attributnamen MVC↔KlD vereinheitlichen.
 17. Bezeichnungs-Drift bereinigen (Tabelle in 1.4).
+18. **QaA-Verweise systematisch durchgehen** (1.9b): F43 als `labelName: "Rollensystem"` ankern, F97 als `labelName` für Kategorie-Erweiterung anlegen, F101→F97 verweisen, Z.369-Verweis korrigieren. Neue Dokument-QaA mit Attributtabelle ergänzen.
+19. **F89 Wording** prüfen („erbt von Person" vs. fachliche Korrektheit für Firmen).
+20. ~~**Terminplaner-Termintypen-Legende entfernen** (1.9c) — beseitigt Inkonsistenz Dashboard ↔ Terminplaner ↔ Streifenmuster.~~ ✅ erledigt (2026-06-11)
 
 ### Phase D — Kürzungen
 18. `2_Analyse_des_Lastenhefts.typ` löschen.
@@ -288,10 +319,12 @@
 
 ## 4. Statistik
 
-- **Gesamtbefunde**: ca. **40 kritisch**, **45 wichtig**, **25 stilistisch**, **35 Tippfehler**, **15 Anmerkungen** über 9 Subagent-Berichte.
-- **Inkonsistenzen Bild ↔ Text**: in jedem Diagramm-Kapitel mindestens eine, oft mehrere. Schwerpunkt im Klassendiagramm und in den Mockup-Statusfarben.
-- **Strukturelle 1.0-Lücken**: 5 Note-Killer.
-- **Sicherer Streichbar (Kürzungen)**: ~150 Zeilen redundanter Inhalt + komplette Datei `2_Analyse_des_Lastenhefts.typ` (104 Zeilen).
+- **Gesamtbefunde initial**: ca. **50 kritisch** (inkl. UML-Notation, Termin-Modellierung, LF50/60-Mockup-Lücken aus 1.9a–c), **45 wichtig**, **25 stilistisch**, **35 Tippfehler**, **15 Anmerkungen**.
+- **Stand 2026-06-11 nach Mockup-Pass**: ca. **15 kritische Mockup-Befunde abgearbeitet** (Statusfarben, Filterchips, Geräte-Filter LF50/60, AuftragErstellen-Buchung, Unteraufträge in AuftragDetail, 2026-Demodaten, Auswahlkästchen, Termintypen-Legende, Volvo-Daten, Sarah-Bauer-Position, Bauleitung-Mitgliederzahl, Tippfehler Z.168/Z.172, LF60+LF90-Verweise, Rollensicht Z.27, Berechtigungsklasse-Wording).
+- **Verbleibend**: ~35 kritisch (Schwerpunkt Klassendiagramm + UML-Notation + Termin-Modellierung + SD), ~40 wichtig, ~22 stilistisch, ~33 Tippfehler.
+- **Inkonsistenzen Bild ↔ Text**: in den Mockups beseitigt; Klassendiagramm und SD bleiben Hauptbaustelle.
+- **Strukturelle 1.0-Lücken**: 5 Note-Killer + UML-Notation als systematische Vorlesungs-Verletzung.
+- **Sicher streichbar (Kürzungen)**: ~150 Zeilen redundanter Inhalt + komplette Datei `2_Analyse_des_Lastenhefts.typ` (104 Zeilen).
 
 ---
 
@@ -314,12 +347,16 @@
 
 ## 6. Empfehlung an den Autor
 
-Die größten Hebel zur Note 1.0 sind:
+**Bereits erledigt im Pass 2026-06-11:** GUI-Mockup-Konsistenz (Statusfarben-Tabelle, Filterchips, Geräte-Filter LF50/60, AuftragErstellen-Buchungs-Block, Unteraufträge in AuftragDetail, 2026-Demodaten, Auswahlkästchen-Position, Termintypen-Legende entfernt, Volvo-Demodaten, Sarah-Bauer-Position, Mitgliederzahl Bauleitung, Tippfehler, Rollensicht-Aussage Z.27, LF60+LF90-Verweise).
 
-1. **Klassendiagramm reparieren** (Phase A 1-3) — heilt automatisch ~70 % der Kreuzkonsistenz-Befunde
-2. **Besonderheiten-Kapitel anlegen** + **swe-utils integrieren** (Phase B 7-8) — schließt zwei direkt note-relevante Lücken
-3. **`2_Analyse_des_Lastenhefts.typ` löschen** und Aufgabenstellung/Analyse trennen (Phase B 9, Phase D 18) — strukturelle Klarheit
+**Verbleibende größte Hebel zur Note 1.0:**
+
+1. **Klassendiagramm reparieren** (Phase A 1-3, 7) — heilt automatisch ~70 % der Kreuzkonsistenz-Befunde. Inkl. UML-Notation (Sichtbarkeit, Datentypen, abstract/interface) als systematischer Pass.
+2. **Termin-Modellierung konsolidieren** (Phase A 8) — F92/F93/F98 zusammen als ein Block fixen. Behebt 4-5 Befunde gleichzeitig.
+3. **SD-Hauptdiagramm** (Phase A 4-5) — Phase 2 nachziehen oder Caption umformulieren; `:Buchung`-Lebenslinie ergänzen.
+4. **Besonderheiten-Kapitel anlegen** + **swe-utils integrieren** (Phase B 7-8) — schließt zwei direkt note-relevante Lücken. Optional: Mobile/Tablet-Mockup als Besonderheit.
+5. **`2_Analyse_des_Lastenhefts.typ` löschen** und Aufgabenstellung/Analyse trennen (Phase B 9, Phase D 18) — strukturelle Klarheit.
 
 Die Tippfehler/Stil-Punkte sind mengenmäßig groß, aber einzeln gering relevant — am besten in einem letzten Korrekturlese-Pass abarbeiten.
 
-**Geschätzter Aufwand**: Phase A+B: 1-2 Werktage konzentrierter Arbeit. Phase C+D+E: 1 Werktag.
+**Geschätzter Aufwand verbleibend**: Phase A+B: 1,5-2 Werktage konzentrierter Arbeit. Phase C+D+E: 1 Werktag.
