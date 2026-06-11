@@ -145,6 +145,7 @@
     [Betrag], [Dezimalzahl], [Rechnungsbetrag],
     [Fälligkeitsdatum], [Datum], [Fälligkeitsdatum der Rechnung],
     [Status], [Text], [Offen, bezahlt, überfällig],
+    [Dokument], [Referenz], [Referenz auf zugehörige Rechnungs-PDF aus dem Finanzbuchhaltungssystem #referenceQ("q_Dokument-Entitaet")],
   ))
 ]
 
@@ -248,8 +249,8 @@
   Siehe genaue Definition der oben genannten Entitäten: @verwalteten-Objekte
 ]
 #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
-  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status, Kostenvoranschlag (aus Finanzsystem) 
-  
+  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status sowie zugeordnete Dokumente (Baupläne, Kostenvoranschläge, Angebote, Mahnungen) #referenceQ("q_Dokument-Entitaet").
+
   Siehe die genaue Definition: @e_Arbeitsauftrag.
 ]
 #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
@@ -382,6 +383,7 @@
     [Starttermin], [Referenz], [Referenz auf Termin (geplanter Projektbeginn)],
     [Endtermin], [Referenz], [Referenz auf Termin (geplantes Projektende)],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
+    [Dokumente], [Referenzen], [Liste übergeordneter Projektdokumente (z.B. Projektpläne, Verträge) #referenceQ("q_Dokument-Entitaet")],
     [Status], [Text], [Geplant, laufend, abgeschlossen],
   ))
 ]
@@ -392,13 +394,12 @@
     [Auftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Auftragsbezeichnung], [Text], [Kurzbeschreibung des Auftrags],
     [Projekt], [Referenz], [Referenz auf zugehöriges Projekt],
-    [Bauplan], [Text], [Dateipfad zu Bauplänen (PDF-Dateien)],
+    [Dokumente], [Referenzen], [Liste zugeordneter Dokumente (Baupläne, Kostenvoranschläge, Angebote, Mahnungen) #referenceQ("q_Dokument-Entitaet")],
     [Person], [Referenzen], [Liste der beteiligten Personen],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
     [Starttermin], [Referenz], [Referenz auf Termin (Auftragsbeginn)],
     [Endtermin], [Referenz], [Referenz auf Termin (geplantes Auftragsende)],
     [Zwischentermin], [Referenzen], [Liste von Zwischenterminen (0 bis viele)],
-    [Kostenvoranschlag], [Dezimalzahl], [Geschätzter Betrag (aus Finanzsystem lesend)],
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
   ))
@@ -438,10 +439,10 @@
   Die Anforderung gilt für alle Bürorechner im Bürogebäude. Der Zugriff von außen (Tablet-Projekt) ist nicht Teil des ersten Entwicklungsauftrags.
 ]
 #QaA[Soll es weitere finanzbezogene Daten geben, die beachter werden sollen?][
-  Nein. Gehälter, Löhne und Projektkosten werden im separaten Finanzbuchhaltungssystem verwaltet. Nur Rechnungen, Mahnungen und Kostenvoranschläge werden lesend aus dem Finanzsystem übernommen.
+  Nein. Gehälter, Löhne und Projektkosten werden im separaten Finanzbuchhaltungssystem verwaltet. Nur Rechnungen, Mahnungen und Kostenvoranschläge werden lesend aus dem Finanzsystem übernommen und im System als `Dokument` modelliert #referenceQ("q_Dokument-Entitaet").
 ]
 #QaA[[INTERN] Über welche Schnittstelle soll das neue System die Finanzdaten (Rechnungen, Mahnungen, Kostenvoranschläge) aus dem Finanzbuchhaltungssystem einlesen?][
-  Über einen CSV-Export aus dem Finanzbuchhaltungssystem. Die Schnittstelle ist unidirektional (nur lesen).
+  Über einen CSV-Export aus dem Finanzbuchhaltungssystem. Die Schnittstelle ist unidirektional (nur lesen). Die übernommenen Dokumente (Rechnungen, Mahnungen, Kostenvoranschläge) werden über die Entität `Dokument` verwaltet #referenceQ("q_Dokument-Entitaet").
 ]
 #QaA[Wie häufig sollen die Finanzdaten aus dem Buchhaltungssystem synchronisiert werden - in Echtzeit, täglich oder manuell?][
   Die Synchronisation erfolgt manuell durch den Administrator bei Bedarf (z.B. wöchentlich oder nach Rechnungsstellung).
@@ -480,7 +481,7 @@
       [Unterauftrag], [@e_Unterauftrag],
       [Unterauftragnehmer], [@e_Unterauftragnehmer],
       [Projekt], [@e_Projekt],
-      [Bauplan], [wird über die Entität #link(label("e_Dokument"))[Dokument] modelliert @chapter-Vereinfachungen],
+      [Bauplan], [wird gemäß Vereinfachung als Dateipfad innerhalb der Entität #link(label("e_Dokument"))[Dokument] modelliert @chapter-Vereinfachungen],
       [Dokument], [@e_Dokument],
       [Ausrüstung], [@e_Ausrüstung],
       [Geräte-Typ], [@e_Geräte-Typ],
@@ -547,7 +548,7 @@
     Die Hauptinformationen (Bezeichnung, Projekt, Termine, Status) werden in einer Übersicht angezeigt. Detaildaten (Baupläne, beteiligte Personen, Baumaschinen) werden über Tabs oder Detailansichten zugänglich gemacht.
   ]
   #QaA[[INTERN] In welcher Form sollen die Daten vorliegen (einzelne Dateien, Daten in der Datenbank)? ][
-    Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV), später in einer Datenbank. Baupläne und Bilder bleiben als separate Dateien im Dateisystem, referenziert über Dateipfade #referenceG("LD 10").
+    Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV), später in einer Datenbank. Baupläne und sonstige Auftragsdokumente werden über die Entität `Dokument` #referenceQ("q_Dokument-Entitaet"), Bilder über die Entität `Bild` als separate Dateien im Dateisystem abgelegt und über Dateipfade referenziert #referenceG("LD 10").
   ]
   #QaA(labelName: "Dokument-Entitaet")[Wie sollen Baupläne, Kostenvoranschläge, Angebote, Mahnungen und ähnliche Auftragsdokumente einheitlich verwaltet werden?][
     Sämtliche dokumentartigen Dateien (Baupläne, Kostenvoranschläge, Angebote, Mahnungen, Rechnungs-PDFs und sonstige Vertragsunterlagen) werden über eine zentrale Entität `Dokument` verwaltet. Hierdurch wird vermieden, dass an mehreren Entitäten redundante Datei-Attribute (Dateipfad, Dateiname, Format etc.) gepflegt werden müssen. Die Dokumente werden -- analog zu Bildern #referenceG("LF 80") -- als separate Dateien im Dateisystem abgelegt und über die `Dokument`-Entität referenziert. Auf Dokumente verweisen insbesondere `Arbeitsauftrag` (Baupläne, Kostenvoranschläge, Angebote, Mahnungen), `Projekt` (übergeordnete Projektpläne) sowie `Rechnung` (Rechnungs-PDF aus dem Finanzbuchhaltungssystem).
@@ -840,7 +841,7 @@
     Buchung, Anwesenheitszeit, Bild, Rechnung und Finanzbuchhaltungssystem können keine Bilder.
   ]
   #QaA[[INTERN] Welche Bildformate sollen, unterstützt werden können? ][
-    Standard-Bildformate: JPG, PNG, GIF. Optional auch PDF für Dokumente.
+    Standard-Bildformate: JPG, PNG, GIF. PDFs und andere Dateiformate werden nicht über die Bild-Entität, sondern über die Entität `Dokument` verwaltet #referenceQ("q_Dokument-Entitaet").
   ]
   #QaA[Dürfen gleiche Bilder doppelt existieren oder soll es eine zentrale Bildverwaltung geben? ][
     Bilder werden zentral in einem Verzeichnis gespeichert. Mehrere Objekte können auf dasselbe Bild referenzieren (über Dateipfad).
@@ -864,7 +865,7 @@
       [Hochladedatum], [Datum], [Datum des Uploads],
       [Hochlader], [Referenz], [Referenz auf Benutzer (Mitarbeiter)],
       [Dateigröße], [Ganzzahl], [Größe in Bytes],
-      [Format], [Text], [JPG, PNG, GIF, PDF],
+      [Format], [Text], [JPG, PNG, GIF],
     ))
   ]
   #QaA[[INTERN] Wie viel Speicherplatz soll für die Bilder vorgesehen werden? ][
@@ -954,7 +955,7 @@
     Hochrechnung basierend auf: ca. 200 Mitarbeiter, 500 Aufträge pro Jahr über 10 Jahre = 5.000 Aufträge, 100 Baumaschinen/Werkzeuge, Anwesenheitszeiten (200 Mitarbeiter × 250 Arbeitstage × 10 Jahre = 500.000 Einträge, aber nur aktuelle Jahre online).
   ]
   #QaA[[INTERN] Wie viel Speicher steht zur Verfügung und wie viel wird benötigt? ][
-    Verfügbar: Server mit ca. 500 GB Speicher. Benötigt: ca. 100-150 GB (Datenbank: 5-10 GB, Bilder: 20-30 GB, Baupläne als PDF: 50-100 GB), abhängig von der Anzahl und Größe der Dokumente.
+    Verfügbar: Server mit ca. 500 GB Speicher. Benötigt: ca. 100-150 GB (Datenbank: 5-10 GB, Bilder: 20-30 GB, Dokumente wie Baupläne und Kostenvoranschläge als PDF: 50-100 GB #referenceQ("q_Dokument-Entitaet")), abhängig von der Anzahl und Größe der Dokumente.
   ]
   #QaA[Aus welchen Arten von Daten sollen die Elemente bestehen (nur Text oder hochauflösende Baupläne usw.)? ][
     Strukturierte Textdaten (Aufträge, Mitarbeiter, Buchungen) und Dateien (Baupläne als PDF, Bilder als JPG/PNG). Baupläne können mehrere MB groß sein.
