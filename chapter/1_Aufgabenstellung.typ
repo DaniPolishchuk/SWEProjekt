@@ -339,7 +339,7 @@
   Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig. Es gibt keine dedizierten Datenbankadministratoren - diese Aufgabe übernimmt der Administrator. Hinweis zur Begriffstrennung: "Verwaltungsmitarbeiter" ist sowohl eine Position (Mitarbeitertyp) als auch eine Benutzerrolle (Zugriffskontrolle). Diese Mitarbeiter werden der Gruppe "Verwaltung" zugeordnet.
 ]
 #QaA[Wie sollen die Berechtigungen umgesetzt werden? Soll es ein bestimmtes Rollensystem geben?][
-  Ja, es soll ein festes Rollensystem mit vier vordefinierten Rollen geben: Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter und Administrator. Die Rollen sind fest vorgegeben und nicht konfigurierbar.
+  Ja, es soll ein festes Rollensystem mit vier vordefinierten Rollen geben: Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter und Administrator. Die Rollen sind fest vorgegeben und nicht konfigurierbar.@e_Rolle
 ]
 #QaA[Wer soll genau zur "Verwaltung" zählen - nur Büromitarbeiter oder auch Bau- und Projektleiter im Büro? ][
   Zur Verwaltung zählen ausschließlich die Verwaltungsmitarbeiter im Büro. Bau- und Projektleiter haben eine eigene Rolle mit anderen Rechten.
@@ -348,7 +348,7 @@
   Verwaltungsdaten umfassen: Mitarbeiterstammdaten, Gruppenzuordnungen, Gerätedaten und Bilder. Ausgeschlossen sind projektbezogene Daten wie Projekte und Arbeitsaufträge.
 ]
 #QaA(labelName: "Verwaltungsmitarbeiter-Leserecht-Projektdaten")[Sollen Verwaltungsmitarbeiter auf projektbezogene Daten nur Leserechte oder auch Schreibzugriff haben? ][
-  Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator. Ausnahme ist die Geräteverwaltung, wo Verwaltungsmitarbeiter VVollzugriff haben.
+  Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator. Ausnahme ist die Geräteverwaltung, wo Verwaltungsmitarbeiter Vollzugriff haben.
 ]
 #QaA[Soll ein Bau-/Projektleiter Vollzugriff auf alle oder nur auf seine eigenen Projekte haben? ][
   Ein Bau-/Projektleiter hat Vollzugriff auf alle projektbezogenen Daten (alle Projekte und Aufträge), nicht nur auf die ihm zugeordneten. Dies ermöglicht flexible Projektzusammenarbeit und Vertretungsregelungen.
@@ -379,8 +379,8 @@
     [Projektname], [Text], [Bezeichnung des Projekts],
     [Projektleiter], [Referenz], [Referenz auf Mitarbeiter (Projektleiter)],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
-    [Starttermin], [Datum], [Geplanter Projektbeginn],
-    [Endtermin], [Datum], [Geplantes Projektende],
+    [Starttermin], [Referenz], [Geplanter Projektbeginn],
+    [Endtermin], [Referenz], [Geplantes Projektende],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
     [Status], [Text], [Geplant, laufend, abgeschlossen],
   ))
@@ -395,8 +395,8 @@
     [Bauplan], [Text], [Dateipfad zu Bauplänen (PDF-Dateien)],
     [Person], [Referenzen], [Liste der beteiligten Personen],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
-    [Starttermin], [Datum], [Auftragsbeginn],
-    [Endtermin], [Datum], [Geplantes Auftragsende],
+    [Starttermin], [Referenz], [Auftragsbeginn],
+    [Endtermin], [Referenz], [Geplantes Auftragsende],
     [Zwischentermin], [Referenzen], [Liste von Zwischenterminen (0 bis viele)],
     [Kostenvoranschlag], [Dezimalzahl], [Geschätzter Betrag (aus Finanzsystem lesend)],
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
