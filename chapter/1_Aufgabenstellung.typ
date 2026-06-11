@@ -379,8 +379,8 @@
     [Projektname], [Text], [Bezeichnung des Projekts],
     [Projektleiter], [Referenz], [Referenz auf Mitarbeiter (Projektleiter)],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
-    [Starttermin], [Referenz], [Geplanter Projektbeginn],
-    [Endtermin], [Referenz], [Geplantes Projektende],
+    [Starttermin], [Referenz], [Referenz auf Termin (geplanter Projektbeginn)],
+    [Endtermin], [Referenz], [Referenz auf Termin (geplantes Projektende)],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
     [Status], [Text], [Geplant, laufend, abgeschlossen],
   ))
@@ -395,8 +395,8 @@
     [Bauplan], [Text], [Dateipfad zu Bauplänen (PDF-Dateien)],
     [Person], [Referenzen], [Liste der beteiligten Personen],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
-    [Starttermin], [Referenz], [Auftragsbeginn],
-    [Endtermin], [Referenz], [Geplantes Auftragsende],
+    [Starttermin], [Referenz], [Referenz auf Termin (Auftragsbeginn)],
+    [Endtermin], [Referenz], [Referenz auf Termin (geplantes Auftragsende)],
     [Zwischentermin], [Referenzen], [Liste von Zwischenterminen (0 bis viele)],
     [Kostenvoranschlag], [Dezimalzahl], [Geschätzter Betrag (aus Finanzsystem lesend)],
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
@@ -594,8 +594,8 @@
         [Bezeichnung], [Text], [Kurzbeschreibung des Unterauftrags],
         [Arbeitsauftrag], [Referenz], [Referenz auf den Arbeitsauftrag],
         [Unterauftragnehmer], [Referenz], [Referenz auf externen Unterauftragnehmer],
-        [Starttermin], [Datum], [Beginn des Unterauftrags],
-        [Endtermin], [Datum], [Ende des Unterauftrags],
+        [Starttermin], [Referenz], [Referenz auf Termin (Beginn des Unterauftrags)],
+        [Endtermin], [Referenz], [Referenz auf Termin (Ende des Unterauftrags)],
         [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
         [Kosten], [Dezimalzahl], [Vereinbarter Betrag],
         [Bemerkung], [Text], [Zusätzliche Hinweise],
@@ -618,6 +618,11 @@
 
       Der Terminplan verweist dabei auf einen oder mehrere Termine, wobei diese folgende Attribute umfassen:
       #entityFigure("Termin", arguments(
+        [Termin-ID], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
+        [Bezeichnung], [Text], [Titel des Termins (z.B. "Starttermin Projekt X")],
+        [Typ], [Text], [Starttermin, Endtermin, Zwischentermin],
+        [Datum], [Datum], [Konkretes Datum des Termins],
+        [Uhrzeit], [Zeit], [Optionale Uhrzeit des Termins],
         [Arbeitsauftrag], [Referenzen], [Liste aller Arbeitsaufträge],
         [Projekt], [Referenzen], [Liste aller Projekte],
         [Buchung], [Referenzen], [Liste aller Buchungen],
@@ -673,6 +678,8 @@
     ))
 
     Die Benutzungszeiträume werden über Buchungen ermittelt.
+
+    Hinweis: Anschaffungsdatum, letzter und nächster Wartungstermin werden als einfaches `Datum` modelliert und nicht als Referenz auf die Entität `Termin`. Wartungsdaten sind reine administrative Metadaten des Geräts und erscheinen nicht im Terminplaner — eine Verknüpfung mit der `Termin`-Entität wäre daher nicht sinnvoll.
   ]
 
   #QaA[Gibt es Unterschiede in der Definition/ den Eigenschaften der Geräte (groß, klein, Kategorie)? ][
