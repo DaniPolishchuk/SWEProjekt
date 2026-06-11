@@ -124,7 +124,7 @@ class Termin #FFE8CC {
     datum
     startzeit
     endzeit
-    typ
+    beschreibung
 }
 
 class Rechnung #FFE8CC {
@@ -211,46 +211,49 @@ Mitarbeiter        -down-|> Person
 Unterauftragnehmer -down-|> Person
 
 ' Adresse
-Person         -down-> "1"    Adresse
-Lager          -down-> "1"    Adresse
-Projekt        -right-> "1"   Adresse
-Arbeitsauftrag -right-> "1"   Adresse
+Person         -down->    Adresse
+Lager          -down->    Adresse
+Projekt        -right->   Adresse
+Arbeitsauftrag -right->   Adresse
 
 ' Mitarbeiter
-Mitarbeiter -right-> "1"    Rolle
+Mitarbeiter -right->        Rolle
 Mitarbeiter *-right- "0..*" Anwesenheitszeit
 Mitarbeiter "0..*" -left- "0..*" Gruppe
 Gruppe      -right-> "0..1" Mitarbeiter
 
 ' Projekt & Auftrag
-Projekt        -right-> "1"    Mitarbeiter
-Arbeitsauftrag -down->  "1"    Projekt
+Projekt        -right->        Mitarbeiter
+Arbeitsauftrag -down->         Projekt
 Arbeitsauftrag -right-> "1..*" Mitarbeiter
 Arbeitsauftrag *-left-  "0..*" Unterauftrag
 Arbeitsauftrag -left->  "0..*" Dokument
 Unterauftrag   -down->  "0..1" Unterauftragnehmer
-Termin         -left->  "0..*" Arbeitsauftrag
-Termin         -down->  "0..*" Projekt
+' Rollenmuster: Arbeitsauftrag/Projekt/Mitarbeiter verweisen auf Termin in verschiedenen Rollen
+Arbeitsauftrag -left->  "0..*" Termin : <<Haupttermin>>
+Arbeitsauftrag -down->  "0..*" Termin : <<Zwischentermin>>
+Projekt        -right-> "0..*" Termin : <<Projekttermin>>
+Mitarbeiter    -up->    "0..*" Termin : <<Urlaubstermin>>
 
 ' Rechnung
-Rechnung          -down-> "1" Arbeitsauftrag
-Finanzbuchhaltung ..>     Rechnung : <<read>>
+Rechnung "0..*"   -down->   Arbeitsauftrag
+Finanzbuchhaltung ..>       Rechnung : <<read>>
 
 ' Geraete
-Geraet -down->  "1"    GeraeteTyp
-Geraet -left->  "1"    Lager
-Geraet -left->  "0..*" Termin
+Geraet -down->        GeraeteTyp
+Geraet -left->        Lager
+Geraet -right-> "0..*" Termin : <<Wartungstermin>>
 Lager  *-down-  "0..*" Ausruestung
 
 ' Koordinator: Buchung
 Buchung -down->  "1..*" Geraet
-Buchung -left->  "1"    Arbeitsauftrag
-Buchung -right-> "1"    Mitarbeiter
+Buchung -left->         Arbeitsauftrag
+Buchung -right->        Mitarbeiter
 
 ' Bilder (LF80)
 Mitarbeiter *-down-> "0..*" Bild
 Projekt     "0..*" -down-> "0..*" Bild
 Geraet      "0..*" -down-> "0..*" Bild
-Bild        -up->   "1"    Mitarbeiter
+Bild        -up->          Mitarbeiter
 
 @enduml
