@@ -148,6 +148,9 @@
     [Dokument], [Referenz], [Referenz auf zugehörige Rechnungs-PDF aus dem Finanzbuchhaltungssystem #referenceQ("q_Dokument-Entitaet")],
   ))
 ]
+#QaA[Können einem Arbeitsauftrag mehrere Rechnungen zugeordnet sein?][
+  Ja, üblicherweise gibt es zu einem Auftrag mehrere Rechnungen (z.B. Teil- und Schlussrechnungen). Jede Rechnung gehört dabei zu genau einem Auftrag. Die Rechnungen werden aus dem Finanzbuchhaltungssystem übernommen und sollen in der Auftragsdetailansicht einsehbar sein.
+]
 
 
 == Lastenheft
@@ -322,6 +325,9 @@
     [Rolle], [Referenz], [Referenz auf Benutzerrolle],
   ))
 ]
+#QaA[Hat eine Person genau eine Adresse oder können auch mehrere Adressen hinterlegt werden (z.B. Haupt- und Zweitwohnsitz)?][
+  Genau eine. Für Lohnzettel und Korrespondenz reicht die Hauptadresse aus. Bei einem Umzug wird die alte Adresse ersetzt, nicht zusätzlich gespeichert.
+]
 #[#set text(fill: answerColor)
   Eine Adresse umfasst folgende Attribute (wird von Personen und Lagern, referenziert):
 
@@ -380,12 +386,17 @@
     [Projektname], [Text], [Bezeichnung des Projekts],
     [Projektleiter], [Referenz], [Referenz auf Mitarbeiter (Projektleiter)],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
-    [Starttermin], [Referenz], [Referenz auf Termin (geplanter Projektbeginn)],
-    [Endtermin], [Referenz], [Referenz auf Termin (geplantes Projektende)],
+    [Termine], [Referenz], [Genau ein Starttermin und ein Endtermin (Multiplizität 2). Zwischentermine werden auf Projektebene nicht modelliert, sondern ergeben sich aus den Terminen der zugehörigen Arbeitsaufträge.],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
-    [Dokumente], [Referenzen], [Liste übergeordneter Projektdokumente (z.B. Projektpläne, Verträge) #referenceQ("q_Dokument-Entitaet")],
+    [Dokumente], [Referenz], [Liste übergeordneter Projektdokumente (z.B. Projektpläne, Verträge) #referenceQ("q_Dokument-Entitaet")],
     [Status], [Text], [Geplant, laufend, abgeschlossen],
   ))
+]
+#QaA[Wie viele Projektleiter hat ein Projekt? Kann ein Projekt zeitweise auch ohne Projektleiter sein?][
+  Jedes Projekt hat genau einen Projektleiter, der die Verantwortung trägt. Ein Projekt ohne Projektleiter soll es nicht geben -- die Zuweisung erfolgt direkt beim Anlegen des Projekts. Ein Projektleiter kann allerdings mehrere Projekte gleichzeitig leiten.
+]
+#QaA[Können einem Projekt Zwischentermine zugeordnet werden, oder hat es nur einen Start- und Endtermin?][
+  Ein Projekt hat nur einen Starttermin und einen Endtermin. Zwischentermine werden auf Projektebene nicht angelegt, da sich diese natürlich aus den Terminen der einzelnen Arbeitsaufträge ergeben -- jeder Auftrag hat seine eigenen Termine, die als "Zwischenschritte" innerhalb des Projekts dienen.
 ]
 #QaA(labelName: "charakteristischen-Daten")[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
   Ein Arbeitsauftrag umfasst folgende Attribute:
@@ -394,17 +405,21 @@
     [Auftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
     [Auftragsbezeichnung], [Text], [Kurzbeschreibung des Auftrags],
     [Projekt], [Referenz], [Referenz auf zugehöriges Projekt],
-    [Dokumente], [Referenzen], [Liste zugeordneter Dokumente (Baupläne, Kostenvoranschläge, Angebote, Mahnungen) #referenceQ("q_Dokument-Entitaet")],
-    [Person], [Referenzen], [Liste der beteiligten Personen],
+    [Dokumente], [Referenz], [Liste zugeordneter Dokumente (Baupläne, Kostenvoranschläge, Angebote, Mahnungen) #referenceQ("q_Dokument-Entitaet")],
+    [Mitarbeiter], [Referenz], [Liste der beteiligten Mitarbeiter (Multiplizität 1..\*; mindestens ein Mitarbeiter muss zugeordnet sein)],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
-    [Starttermin], [Referenz], [Referenz auf Termin (Auftragsbeginn)],
-    [Endtermin], [Referenz], [Referenz auf Termin (geplantes Auftragsende)],
-    [Zwischentermin], [Referenzen], [Liste von Zwischenterminen (0 bis viele)],
+    [Termine], [Referenz], [Liste aller Termine des Auftrags (Multiplizität 2..\*; mindestens ein Starttermin und ein Endtermin vom Typ 'Starttermin' bzw. 'Endtermin' sind Pflicht, Zwischentermine optional)],
     [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
   ))
 
   //INFO: lieber keine Gruppen referenzieren, da z.V. die verantwortlichen Personen fett sein sollen oder zusätzliche Referenzen
+]
+#QaA[Kann ein Arbeitsauftrag ohne beteiligte Mitarbeiter existieren?][
+  Nein. Jeder Arbeitsauftrag muss mindestens einem Mitarbeiter zugeordnet sein. Die Multiplizität auf der Mitarbeiter-Seite beträgt daher 1..\*. Die Referenz zeigt auf konkrete Mitarbeiter-Instanzen (nicht auf die abstrakte Basisklasse Person), da nur angestellte Mitarbeiter -- nicht externe Unterauftragnehmer -- Arbeitsaufträge zugewiesen bekommen.
+]
+#QaA[Muss jeder Arbeitsauftrag einen Start- und Endtermin haben?][
+  Ja. Jeder Arbeitsauftrag besitzt mindestens zwei Termine: genau einen Starttermin und genau einen Endtermin. Die Multiplizität zur Termin-Entität beträgt daher 2..\*. Zusätzliche Zwischentermine sind optional. Der Typ eines Termins -- Starttermin, Endtermin oder Zwischentermin -- wird über das Attribut _Typ_ der Termin-Entität unterschieden. Diese Regel wird auf Anwendungsebene erzwungen.
 ]
 #QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
   Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
@@ -418,6 +433,12 @@
 ]
 #QaA[Soll es Aufträge ohne Projekte geben können? ][
   Nein, jeder Auftrag muss einem Projekt zugeordnet sein.
+]
+#QaA[Was passiert mit den Arbeitsaufträgen, wenn ein Projekt gelöscht wird?][
+  Wenn ein Projekt gelöscht wird, werden auch alle zugehörigen Arbeitsaufträge mit gelöscht. Ein Arbeitsauftrag kann ohne sein Projekt nicht weiter existieren. Im Klassendiagramm wird dies als Komposition modelliert. In der Praxis werden Projekte aber selten gelöscht, sondern als abgeschlossen markiert -- die Daten bleiben dann gemäß der 10-Jahres-Aufbewahrungsfrist erhalten #referenceG("LL 20").
+]
+#QaA[Kann ein Mitarbeiter gleichzeitig in mehreren Arbeitsaufträgen mitarbeiten?][
+  Ja. Ein Mitarbeiter kann mehreren Arbeitsaufträgen zugewiesen sein. Außerdem soll jeder Mitarbeiter (insbesondere Vorarbeiter) in der Anwendung sehen können, welche Arbeitsaufträge ihm zugewiesen sind #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge").
 ]
 #QaA[Sollen Mitarbeiter eine Mitarbeiternummer haben? ][
   Ja, jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer, die automatisch vom System vergeben wird #referenceQ("q_Attribute-Mitarbeiter")
@@ -539,6 +560,9 @@
 
     Die Zuordnung von Mitarbeitern zu Gruppen erfolgt über eine n:m-Beziehung.
   ]
+  #QaA[Muss jeder Mitarbeiter zu einer Gruppe gehören oder kann er auch ohne Gruppe geführt werden?][
+    Nein, ein Mitarbeiter muss nicht zwingend einer Gruppe zugeordnet sein. Zum Beispiel kann der Administrator oder ein neu eingestellter Mitarbeiter zunächst ohne Gruppe geführt werden, bis die Zuordnung erfolgt.
+  ]
   ],
   textFigure(short)[LF 30], [Zu den zentralen Daten eines Auftrags gehören: Projekt- und Baupläne, alle erstellten Angebote, Rechnungen und Mahnungen, Kostenvoranschläge, alle am Auftrag beteiligte Personen, Großgeräte, Einsatzort, Start-, End- und Zwischentermine usw.
   #QaA[Über welche charakteristischen Merkmale sollen die zentralen Daten verfügen? ][
@@ -579,7 +603,7 @@
       Als eigene Klasse mit Referenz zum Auftrag. Die Beziehung ist 1:n (ein Auftrag kann mehrere Unteraufträge haben).
     ]
     #QaA[[INTERN] Welche Abhängigkeiten soll der Unterauftrag von seinem Auftrag haben (z.B. geteilte Ressourcen)? ][
-      Der Unterauftrag erbt das Projekt und den Einsatzort vom Auftrag. Er kann eigene Termine, beteiligte Personen und Baumaschinen haben.
+      Der Unterauftrag erbt das Projekt und den Einsatzort vom Auftrag. Er kann eigene Termine haben. Mitarbeiter und Baumaschinen werden auf Unterauftrags-Ebene nicht zugewiesen, da diese vom externen Unterauftragnehmer selbst gestellt werden.
     ]
     #QaA[Sollen die Unterauftragnehmer ebenfalls separat verwaltet werden? ][
       Ja, externe Unterauftragnehmer werden als Kontaktdaten (Name, Firma, Telefon, E-Mail) verwaltet und können Unteraufträgen zugeordnet werden.
@@ -593,15 +617,26 @@
       #entityFigure("Unterauftrag", arguments(
         [Unterauftragsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
         [Bezeichnung], [Text], [Kurzbeschreibung des Unterauftrags],
-        [Arbeitsauftrag], [Referenz], [Referenz auf den Arbeitsauftrag],
-        [Unterauftragnehmer], [Referenz], [Referenz auf externen Unterauftragnehmer],
-        [Starttermin], [Referenz], [Referenz auf Termin (Beginn des Unterauftrags)],
-        [Endtermin], [Referenz], [Referenz auf Termin (Ende des Unterauftrags)],
+        [Arbeitsauftrag], [Referenz], [Referenz auf den übergeordneten Arbeitsauftrag],
+        [Unterauftragnehmer], [Referenz], [Referenz auf genau einen externen Unterauftragnehmer (Pflicht)],
+        [Termine], [Referenz], [Liste aller Termine des Unterauftrags (mindestens ein Starttermin und ein Endtermin sind Pflicht, weitere Zwischentermine optional -- analog zum Arbeitsauftrag)],
         [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
         [Kosten], [Dezimalzahl], [Vereinbarter Betrag],
         [Bemerkung], [Text], [Zusätzliche Hinweise],
       ))
 
+    ]
+    #QaA[Muss zu jedem Unterauftrag ein Unterauftragnehmer angegeben werden?][
+      Ja, jeder Unterauftrag wird an genau eine externe Firma vergeben. Ohne Unterauftragnehmer macht ein Unterauftrag keinen Sinn -- dann wäre es eine interne Aufgabe.
+    ]
+    #QaA[Kann ein Unterauftrag an mehrere Firmen gleichzeitig vergeben werden?][
+      Nein, ein Unterauftrag geht immer an genau eine externe Firma. Wenn zwei verschiedene Firmen an einer Sache arbeiten sollen, werden zwei getrennte Unteraufträge angelegt -- das ist auch für die Abrechnung übersichtlicher.
+    ]
+    #QaA[Sollen einem Unterauftrag eigene Mitarbeiter oder Baumaschinen zugewiesen werden?][
+      Nein, das ist nicht nötig. Der Unterauftragnehmer bringt seine eigenen Leute und sein eigenes Material mit -- darum kümmert sich seine Firma selbst. Das System speichert nur den Unterauftragnehmer als Vertragspartner sowie die Termine und Kosten.
+    ]
+    #QaA[Können auch beim Unterauftrag Zwischentermine angelegt werden?][
+      Ja, genau wie beim Arbeitsauftrag. Üblich sind Start- und Endtermin, aber bei längeren Unteraufträgen können auch Zwischentermine wichtig sein (z.B. Zwischenabnahmen).
     ]
 
     #[#set text(fill: answerColor)
@@ -624,9 +659,9 @@
         [Typ], [Text], [Starttermin, Endtermin, Zwischentermin],
         [Datum], [Datum], [Konkretes Datum des Termins],
         [Uhrzeit], [Zeit], [Optionale Uhrzeit des Termins],
-        [Arbeitsauftrag], [Referenzen], [Liste aller Arbeitsaufträge],
-        [Projekt], [Referenzen], [Liste aller Projekte],
-        [Buchung], [Referenzen], [Liste aller Buchungen],
+        [Arbeitsauftrag], [Referenz], [Liste aller Arbeitsaufträge],
+        [Projekt], [Referenz], [Liste aller Projekte],
+        [Buchung], [Referenz], [Liste aller Buchungen],
       )) //INFO: Termin nötig => Termin verweist jeweils => Überschrfift => Termin
     ]
     #QaA(labelName: "Form-Terminplaner")[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
@@ -673,6 +708,7 @@
       [Lager], [Referenz], [Referenz auf das Lager],
       [Standort], [Text], [Aktueller Standort (falls nicht im Lager)],
       [Status], [Text], [Verfügbar, gebucht, in Wartung, defekt],
+      [Ausrüstung], [Referenz], [Liste der aktuell montierten Ausrüstungsteile \(z.B. Baggerschaufel, Anbauhammer\). Eine Ausrüstung kann am Gerät montiert oder im Lager frei verfügbar sein. Multiplizität 0..\*],
       [Anschaffungsdatum], [Datum], [Datum der Anschaffung],
       [Letzter Wartungstermin], [Datum], [Datum der letzten Wartung],
       [Nächster Wartungstermin], [Datum], [Geplanter nächster Wartungstermin],
@@ -709,6 +745,12 @@
       [Status], [Text], [Verfügbar, zugeordnet, in Wartung, defekt],
     ))
   ]
+  #QaA[Wie hängen Geräte und Ausrüstung zusammen? Gehört die Ausrüstung fest zu einem Gerät oder kann sie ausgetauscht werden?][
+    Eine Ausrüstung (z.B. Baggerschaufel oder Anbauhammer) kann an einem passenden Gerät montiert sein, ist aber nicht fest mit ihm verbunden. Sie kann abmontiert und an einem anderen kompatiblen Gerät genutzt werden. Wenn eine Ausrüstung gerade nicht an einem Gerät hängt, liegt sie im Lager. Ein Gerät kann mehrere Ausrüstungsteile gleichzeitig haben (z.B. ein Bagger mit Schaufel und Anbauhammer).
+  ]
+  #QaA[Was passiert mit der Ausrüstung, wenn das Gerät gebucht wird? Muss sie separat gebucht werden?][
+    Wenn ein Gerät gebucht wird, geht die aktuell daran montierte Ausrüstung automatisch mit -- es ist also keine separate Buchung der montierten Teile nötig. Wird eine Ausrüstung später für ein anderes Gerät gebraucht, wird sie umgebaut. Eine Ausrüstung allein (ohne Gerät) wird nicht gebucht.
+  ]
   #QaA[Nach welchen Kriterien soll gesucht werden (Filter, Textsuche, Eigenschaften)? ][
     Kombination aus Textsuche (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
   ]
@@ -722,7 +764,7 @@
 
     #entityFigure("Buchung", arguments(
       [Buchungsnummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-      [Gerät], [Referenzen], [Liste der Geräte],
+      [Gerät], [Referenz], [Referenz auf genau ein gebuchtes Gerät -- für mehrere Geräte werden separate Buchungen angelegt],
       [Auftrag], [Referenz], [Referenz auf Arbeitsauftrag],
       [Startdatum], [Datum], [Beginn der Buchung],
       [Enddatum], [Datum], [Ende der Buchung],
@@ -730,6 +772,9 @@
       [Buchungsdatum], [Datum], [Datum der Buchungserstellung],
       [Status], [Text], [Aktiv, abgeschlossen, storniert],
     ))
+  ]
+  #QaA[Wird mit einer Buchung genau ein Gerät gebucht, oder können auch mehrere Geräte gemeinsam in einer Buchung erfasst werden?][
+    Genau ein Gerät pro Buchung. Wenn für eine Baustelle mehrere Geräte benötigt werden (z.B. Bagger, Kran und LKW), werden dafür separate Buchungen angelegt. Das ist übersichtlicher und erleichtert die Verfügbarkeitsprüfung sowie die spätere Abrechnung.
   ]
   #QaA[[INTERN] Wie soll der Umgang mit gleichzeitigen Buchungen erfolgen (First come, first served)? ][
     Ja, First-come-first-served. Laut Vereinfachung ist kein Locking-Mechanismus erforderlich. Bei zeitgleichen Buchungen gewinnt die zuerst gespeicherte.
@@ -763,6 +808,9 @@
   ]
   #QaA[Sollen die Benutzungszeiträume manuell eingegeben werden oder über die Buchungen ermittelt werden? ][
     Die Benutzungszeiträume werden automatisch über die Buchungen ermittelt. Jede Buchung hat einen Start- und Endzeitpunkt.
+  ]
+  #QaA[Soll man in der Lager-Übersicht sehen können, welche Geräte sich aktuell in einem Lager befinden?][
+    Ja, in der Detailansicht eines Lagers werden alle aktuell zugeordneten Geräte angezeigt. So lässt sich auf einen Blick erkennen, welche Maschinen und Werkzeuge an einem Standort verfügbar sind.
   ]
   #QaA[Soll die/ das nächste Baumaschine/ -Werkzeug angezeigt werden?][
     Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine Berechnung der Distanz zum Einsatzort wird nicht benötigt. GPS-Ortung ist nicht erforderlich.
@@ -901,6 +949,9 @@
       [Typ], [Text], [Anwesend, Urlaub, Krankheit, sonstige Abwesenheit],
       [Bemerkung], [Text], [Optional: z.B. "Baustelle Projekt X"],
     ))
+  ]
+  #QaA[Was passiert mit den erfassten Anwesenheitszeiten, wenn ein Mitarbeiter aus dem System entfernt wird?][
+    Die Anwesenheitszeiten gehören fest zum jeweiligen Mitarbeiter und werden gemeinsam mit ihm aus dem aktiven System entfernt. Aus rechtlichen Gründen werden sie aber nicht direkt vernichtet, sondern für die gesetzlich vorgeschriebene Aufbewahrungsfrist archiviert #referenceG("LL 20"). Eine Anwesenheitszeit ohne zugehörigen Mitarbeiter ergibt keinen Sinn.
   ]
   #QaA[Soll Abwesenheit auch erfasst werden? Wenn ja, wie soll das erfolgen? ][
     Ja, Abwesenheiten (Urlaub, Krankheit) werden als separate Einträge mit Typ (Urlaub, Krankheit, sonstige) und Zeitraum erfasst.
