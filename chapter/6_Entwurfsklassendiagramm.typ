@@ -1,0 +1,114 @@
+= Entwurfsklassendiagramm
+
+== Einleitung
+
+Nachdem in Abschnitt 3.2 das Analyse-Klassendiagramm die fachlichen Entitäten der Verwaltungssoftware und ihre wesentlichen Beziehungen aus Sicht des Lastenhefts modelliert hat, verlagert das nun vorgestellte Entwurfsklassendiagramm den Modellierungsschwerpunkt auf die softwaretechnische Umsetzung. Es baut inhaltlich vollständig auf dem Analyse-Klassendiagramm auf, verfeinert dieses jedoch um Sichtbarkeiten, Datentypen, Konstruktoren und fachliche Operationen, führt zentrale Entwurfsmuster ein und ergänzt diejenigen technischen Klassen, die zur konkreten Realisierung der Software erforderlich sind, aber im Analyseklassendiagramm bewusst ausgeblendet blieben.
+
+Das Entwurfsklassendiagramm ist gemäß Aufgabenstellung 3.3 zu erstellen und stellt gemeinsam mit dem in Abschnitt 5 dargestellten Kommunikationsschema die verbindliche Entwurfsgrundlage für die spätere Implementierung dar. Die dortige Beschränkung auf eine einzelne, repräsentative Maske wird an dieser Stelle ergänzt: Während Abschnitt 5 die konkrete Ausgestaltung des Model-View-Controller-Musters für die Auftragsübersicht in feinster Detailtiefe zeigt, konzentriert sich das vorliegende Kapitel auf die Gesamtarchitektur des fachlichen Kerns und der Persistenzschicht der Anwendung. Die view- und ereignisspezifischen Klassen aus Abschnitt 5 werden hier bewusst nicht wiederholt, um doppelte Modellierungstiefe und die daraus resultierende Unübersichtlichkeit zu vermeiden. Anstelle dessen wird das GUI-Paket im Entwurfsklassendiagramm auf zwei Ankerklassen (`GUIController` und `IUpdateEventListener`) reduziert, um den strukturellen Bezug zum Beobachter-Muster und zur zentralen Datenbasis erkennbar zu halten.
+
+== Aufbau des Diagramms
+
+Das Entwurfsklassendiagramm ist in neun thematisch abgegrenzte Pakete gegliedert, die zur besseren Übersicht farblich hervorgehoben und mit einem `Package`-Rahmen umgeben sind. Die farbliche Kodierung wurde weitgehend aus dem Analyse-Klassendiagramm übernommen, sodass sich verwandte Klassen in beiden Diagrammen wiederfinden:
+
+- *Externe Systeme* (lila): Finanzbuchhaltung, Altsystem und Drucker als Nachbarsysteme mit dem Stereotyp `<<external>>`.
+- *Personen* (blau): abstrakte Klasse `Person` sowie `Mitarbeiter`, `Unterauftragnehmer`, `Anwesenheitszeit` und `Gruppe`.
+- *Projekte und Aufträge* (orange): abstrakte Klasse `Auftrag` als Wurzel der Auftragshierarchie sowie `Arbeitsauftrag`, `Unterauftrag`, `Projekt`, `Rechnung`, `Dokument` und `Termin`.
+- *Geräteverwaltung* (grün): `Geräte-Typ`, `Gerät`, `Ausrüstung`, `Lager` und die Assoziationsklasse `Buchung`.
+- *Bilder* (rot): Schnittstelle `Bildbar` und Klasse `Bild`.
+- *Persistenz und Import/Export* (dunkelgrün): `Datenbasis` als Singleton, `AuftragFactory` mit ihren konkreten Fabriken sowie die Adapter-Kette rund um `IImportQuelle` und `AltsystemAdapter`.
+- *GUI* (hellblau, reduziert): `GUIController` und `IUpdateEventListener` als Ankerklassen, ergänzt durch einen expliziten Verweis auf das ausführliche Kommunikationsschema in Abschnitt 5.
+- *Datentypen* (grau): die Wertklassen `Adresse`, `Zeitraum` und `Datei` sowie sämtliche Enumerationen (`Rolle`, `Position`, `AuftragStatus`, `BuchungStatus`, `GerätStatus`, `AnwesenheitTyp`, `GerätKategorie`, `Gruppentyp`, `TerminTyp` und `DokumentTyp`).
+
+Um die Übersichtlichkeit zu wahren, wurden nach dem Vorbild der herangezogenen Referenzarbeit (Programmentwurf Immobilienverwaltung, Kapitel 7.1.1) im Paket _Datentypen_ keine Assoziationslinien zu den restlichen Klassen eingezeichnet. Die Verwendung der Enumerationen und Wertobjekte lässt sich unmittelbar aus den typisierten Attributen der jeweiligen Klasse ablesen (z.B. `- status: AuftragStatus`).
+
+#pagebreak(weak: true)
+
+#figure(
+  image("../assets/klassendiagramm/Entwurfsklassendiagramm.drawio.svg", width: 100%),
+  caption: [Entwurfsklassendiagramm der Verwaltungssoftware],
+) <fig-entwurfs-klassendiagramm>
+
+#pagebreak(weak: true)
+
+== Wesentliche Änderungen gegenüber dem Analyse-Klassendiagramm
+
+Die im Folgenden aufgezählten Änderungen sind bewusste Entwurfsentscheidungen und werden in den anschließenden Abschnitten inhaltlich begründet.
+
++ *Einführung der abstrakten Klasse `Auftrag`.* `Arbeitsauftrag` und `Unterauftrag` erben nunmehr gemeinsam von einer neuen, abstrakten Oberklasse `Auftrag`. Damit werden die im Analyse-Klassendiagramm noch redundant modellierten Attribute (Auftragsnummer, Bezeichnung, Status, Bemerkung) sowie die Terminzuordnung in einer einzigen Klasse zusammengeführt. Die abstrakte Methode `kosten(): BigDecimal` wird von den beiden konkreten Unterklassen in typspezifischer Weise überschrieben.
++ *Korrekte Darstellung der Buchung als Assoziationsklasse.* Die im Analyse-Klassendiagramm noch als reguläre Klasse gezeichnete `Buchung` ist im Entwurf über eine gestrichelte Verbindungslinie an die Assoziation zwischen `Gerät` und `Arbeitsauftrag` angeschlossen und damit -- entsprechend dem Koordinator-Muster und der UML-Notation -- als vollwertige Assoziationsklasse ausgezeichnet.
++ *`Rolle` als Enumeration.* Da die im Lastenheft geforderten Benutzerrollen fest vorgegeben sind und zur Laufzeit weder erweitert noch verändert werden, wurde die zuvor als eigenständige Klasse modellierte Rolle in eine Enumeration überführt. Damit ist die Menge der zulässigen Rollen bereits zur Übersetzungszeit garantiert und die Zugriffsprüfung wird typsicher.
++ *Auslagerung von Wertobjekten in ein eigenes Datentypen-Paket.* Die drei rein deskriptiven Wertklassen `Adresse`, `Zeitraum` und `Datei` sowie alle Enumerationen wurden mit dem Stereotyp `<<datatype>>` bzw. `<<enumeration>>` versehen und in einem eigenen Paket zusammengefasst. Hierdurch werden Vorschriften über deren Unveränderlichkeit auf einer einzigen Stelle sichtbar; Änderungen an einem Enumerationswert wirken sich konsistent im gesamten Modell aus.
++ *Explizite Modellierung der Bildzuordnung durch das Interface `Bildbar`.* Die im Analyse-Klassendiagramm bewusst offen gelassene Frage, wie ein Bild einem Auftrag, Projekt, Gerät oder Mitarbeiter zugeordnet werden soll, wird im Entwurf durch die Einführung der Schnittstelle `Bildbar` beantwortet. Die Klassen `Arbeitsauftrag`, `Projekt`, `Gerät` und `Mitarbeiter` implementieren dieses Interface, wodurch das `Bild` genau einen abstrakten Bindungspunkt statt vier unterschiedliche kennt.
++ *Einführung der Datenbasis als Singleton.* Die im Lastenheft (LD 10) geforderte zentrale Datenhaltung wird durch die Klasse `Datenbasis` mit dem Stereotyp `<<singleton>>` realisiert. Sie hält für jede persistente Entitätsart eine Liste vor und stellt zentrale Suchmethoden (`findAufträge`), Duplikatsprüfung (`existiertBereits`, LF 100) sowie das Ereignisnetz für den Beobachter-Mechanismus zur Verfügung.
++ *Zentrale Objekterzeugung über `AuftragFactory`.* Um Auftragsnummern konsistent zu vergeben und die Erzeugung von `Arbeitsauftrag` bzw. `Unterauftrag` einheitlich zu regeln, wird eine abstrakte Fabrik eingeführt, die in Form der konkreten Ableitungen `ArbeitsauftragFactory` und `UnterauftragFactory` implementiert ist (Fabrikmethode).
++ *Adapter für den Altsystem-Import.* Die im Lastenheft geforderte Datenmigration aus dem alten System wird über die Schnittstelle `IImportQuelle` und den Objektadapter `AltsystemAdapter` gekapselt. Ein alternativer `CSVImporter` implementiert dieselbe Schnittstelle, sodass die aufrufende Klasse `ImportAdapter` unverändert bleibt, wenn zusätzliche Importquellen ergänzt werden.
+
+== Beschreibung der Pakete
+
+Nach dem Vorbild der Referenzarbeit erfolgt die inhaltliche Erläuterung des Entwurfsklassendiagramms paketweise. Auf die einzelnen Attribute und Signaturen wird nur dann eingegangen, wenn deren Bedeutung nicht bereits aus dem Klassenkopf im Diagramm hervorgeht.
+
+=== Externe Systeme
+
+Das Paket _Externe Systeme_ fasst die drei Nachbarsysteme zusammen, mit denen die Verwaltungssoftware kommuniziert. Die Klasse `Finanzbuchhaltung` stellt die Schnittstelle für den ausschließlich lesenden Zugriff auf Rechnungs-, Mahnungs- und Kostenvoranschlagsdaten bereit; die Verbindung zur Klasse `Rechnung` wird als `<<use>>`-Abhängigkeit modelliert. Die Klasse `Altsystem` kapselt das im Lastenheft beschriebene Legacy-System und wird ausschließlich durch den `AltsystemAdapter` verwendet. Die Klasse `Drucker` bündelt die Druckfunktionen für `Dokument` und `Rechnung` und ist ebenfalls über eine `<<use>>`-Abhängigkeit an das Paket _Projekte und Aufträge_ gebunden.
+
+=== Personen
+
+Das Paket _Personen_ übernimmt weitgehend die Struktur des Analyse-Klassendiagramms, konkretisiert sie jedoch um Sichtbarkeiten und Typangaben. Die abstrakte Klasse `Person` fasst die gemeinsamen Personenstammdaten zusammen und definiert einen `protected`-Konstruktor sowie die Operation `getFullName(): String`. `Mitarbeiter` und `Unterauftragnehmer` erben von `Person` und ergänzen ihre jeweiligen Fachattribute. Die Klasse `Mitarbeiter` bietet zusätzlich die Operation `anwesenheitEintragen(...)` an, die eine neue `Anwesenheitszeit` erzeugt und der Komposition hinzufügt; die Rückreferenz auf die Rolle erfolgt typsicher über das Enum `Rolle`. Die Klasse `Gruppe` bleibt in ihrer Analyse-Struktur bestehen, wird aber um explizite Operationen zur Mitgliederverwaltung erweitert.
+
+=== Projekte und Aufträge
+
+Das Paket _Projekte und Aufträge_ ist im Entwurf gegenüber der Analyse deutlich strukturierter, da hier die abstrakte Klasse `Auftrag` als Wurzel der Auftragshierarchie eingeführt wird. Sie bündelt die für `Arbeitsauftrag` und `Unterauftrag` identischen Attribute, definiert die zugehörigen `Termin`-Assoziationen mit Multiplizität `2..*` und fordert von ihren Ableitungen die konkrete Implementierung der abstrakten Operation `kosten(): BigDecimal`. Die Selbstassoziation `Auftrag "1" *-- "0..*" Auftrag` mit den Rollennamen `parent` und `enthält` realisiert das Kompositum-Muster (siehe Abschnitt 6.5). `Projekt` bleibt aus der Analyse übernommen und stellt weiterhin über eine Komposition den Container für die zugehörigen Arbeitsaufträge dar; die Operation `auftragAnlegen(): Arbeitsauftrag` delegiert die Erzeugung an die zuständige `ArbeitsauftragFactory`. `Rechnung`, `Dokument` und `Termin` bleiben inhaltlich unverändert, werden aber um Typreferenzen auf die Enumerationen `DokumentTyp` und `TerminTyp` sowie auf die Wertklasse `Datei` angereichert.
+
+=== Geräteverwaltung
+
+Im Paket _Geräteverwaltung_ finden sich die aus der Analyse bekannten Klassen `Geräte-Typ`, `Gerät`, `Ausrüstung`, `Lager` und `Buchung` in unveränderter fachlicher Bedeutung, aber mit deutlich präzisierter Notation. Die Assoziationsklasse `Buchung` ist -- wie oben beschrieben -- korrekt über eine gestrichelte Linie an die Assoziation `Gerät ↔ Arbeitsauftrag` angebunden und trägt den Zeitraum als Attribut vom Wertklassentyp `Zeitraum` sowie den Status vom Enumerationstyp `BuchungStatus`. Die Operation `istVerfügbarIn(z: Zeitraum): boolean` an der Klasse `Gerät` realisiert die im Lastenheft geforderte Verfügbarkeitssuche (LF 50) und bildet gleichzeitig den zentralen Aufrufpunkt für die Verfügbarkeitsprüfung im Sequenzdiagramm (siehe Abschnitt 4.1).
+
+=== Bilder
+
+Das Paket _Bilder_ umfasst die Schnittstelle `Bildbar` und die konkrete Klasse `Bild`. Die vier Klassen `Arbeitsauftrag`, `Projekt`, `Gerät` und `Mitarbeiter` implementieren `Bildbar` (gestrichelte Linien mit ausgefüllter Dreieckspitze). Auf diese Weise entfällt die im Analyse-Klassendiagramm zunächst offen gelassene Alternative aus vier separaten Assoziationen zugunsten einer einzigen, austauschbaren Verbindung `Bild "0..*" -- "0..1" Bildbar`. Neue bildtragende Klassen können nachträglich hinzugefügt werden, ohne dass die Klasse `Bild` verändert werden muss.
+
+=== Persistenz und Import/Export
+
+Das Paket _Persistenz und Import/Export_ ist die zentrale Neuerung des Entwurfs und beherbergt sämtliche Klassen, die den fachlichen Kern der Anwendung mit der Datenhaltung und den externen Systemen verbinden. Herzstück ist die als `<<singleton>>` markierte Klasse `Datenbasis`, die als zentrale Datenhaltung nach LD 10 sämtliche persistenten Entitäten aggregiert, die im Lastenheft geforderten globalen Suchen (`findAufträge`), die Duplikatsprüfung (`existiertBereits`, LF 100) sowie das Ereignisnetz für den Beobachter-Mechanismus zur Verfügung stellt. Die abstrakte Klasse `AuftragFactory` und ihre konkreten Ableitungen `ArbeitsauftragFactory` und `UnterauftragFactory` kapseln die typspezifische Erzeugung neuer Aufträge einschließlich der zentralen Vergabe von Auftragsnummern. Für die Datenmigration und den Datenimport steht die Schnittstelle `IImportQuelle` bereit, die vom `AltsystemAdapter` (mit einer `<<use>>`-Abhängigkeit auf die externe Klasse `Altsystem`) sowie vom `CSVImporter` implementiert wird; ihr aufrufender Client `ImportAdapter` kennt nur die Schnittstelle. Für den Export übernimmt der `CSVExporter` die entgegengesetzte Richtung.
+
+=== GUI (reduziert)
+
+Das Paket _GUI_ ist -- wie eingangs erwähnt -- bewusst reduziert dargestellt. Es enthält lediglich die als `<<singleton>>` gekennzeichnete Klasse `GUIController`, welche die Schnittstelle `IUpdateEventListener` implementiert und die zentrale Steuerinstanz der Benutzeroberfläche repräsentiert. Eine begleitende Notiz weist auf das ausführliche Kommunikationsschema in Abschnitt 5 hin, in dem die weiteren View-, Controller- und Event-Klassen samt Java-Swing-Anbindung vollständig modelliert sind.
+
+=== Datentypen
+
+Das Paket _Datentypen_ fasst sämtliche Wertobjekte und Enumerationen zusammen. Die Wertklassen `Adresse`, `Zeitraum` und `Datei` sind mit dem Stereotyp `<<datatype>>` versehen; die zehn Enumerationen `Rolle`, `Position`, `AuftragStatus`, `BuchungStatus`, `GerätStatus`, `AnwesenheitTyp`, `GerätKategorie`, `Gruppentyp`, `TerminTyp` und `DokumentTyp` sind einheitlich als `<<enumeration>>` gekennzeichnet. Wie im Aufbau bereits erwähnt, wurden aus Gründen der Übersichtlichkeit keine Assoziationslinien zu den übrigen Klassen eingezeichnet.
+
+== Verwendete Entwurfsmuster
+
+Entwurfsmuster sind Lösungsvorlagen für wiederkehrende Probleme des Softwareentwurfs. Im Folgenden werden die im Entwurfsklassendiagramm eingesetzten Muster einzeln vorgestellt und ihre Anwendung begründet.
+
+=== Singleton
+
+Die Klassen `Datenbasis` und `GUIController` sind jeweils mit dem Stereotyp `<<singleton>>` ausgezeichnet. Beide Klassen dürfen im gesamten System genau eine Instanz besitzen: die `Datenbasis`, weil die im Lastenheft (LD 10) geforderte zentrale Datenhaltung ansonsten in verschiedene, potentiell inkonsistente Zustände zerfallen würde, und der `GUIController`, weil er als Bindeglied zwischen sämtlichen Views und der Geschäftslogik einen eindeutigen Eintrittspunkt bilden muss. Der Zugriff erfolgt in beiden Fällen über die statische Operation `getInstance()`, das jeweilige `INSTANCE`-Attribut ist als privat und statisch (im Diagramm unterstrichen) markiert, der Konstruktor ist privat. Auf diese Weise wird sowohl die Einzigartigkeit als auch die kontrollierte Erzeugung sichergestellt.
+
+=== Kompositum
+
+Das Kompositum-Muster wird durch die Selbstassoziation der abstrakten Klasse `Auftrag` realisiert. Sowohl `Arbeitsauftrag` als auch `Unterauftrag` erben von `Auftrag` und können, weil sie über die geerbte Referenz auf `parent` bzw. `enthält` verfügen, rekursiv weitere Unteraufträge tragen. Dadurch entsteht eine gerichtete Baumstruktur, in der ein Arbeitsauftrag beliebig viele Unteraufträge halten und ein Unterauftrag seinerseits wiederum in weitere Teilaufträge zerlegt werden kann. Da die Operation `kosten(): BigDecimal` an der abstrakten Wurzel definiert ist, kann der Gesamtaufwand eines Arbeitsauftrags durch die rekursive Summation der Kosten aller enthaltenen Teile bestimmt werden, ohne dass der aufrufende Client zwischen Blatt- und Kompositknoten unterscheiden muss.
+
+=== Beobachter
+
+Die Klasse `Datenbasis` bringt über die Operationen `register(l: IUpdateEventListener)`, `unregister(l: IUpdateEventListener)` und `fireUpdate()` einen klassischen Beobachter-Mechanismus ein. Interessierte Empfänger implementieren die Schnittstelle `IUpdateEventListener` und werden bei relevanten Datenänderungen automatisch benachrichtigt. Im vorliegenden Entwurfsklassendiagramm ist der `GUIController` als exemplarischer Beobachter modelliert; weitere Beobachter (etwa die im Abschnitt 5 eingeführten `AuftragsTabelleView` oder `AufträgeÜbersichtPanel`) werden dort ausführlich behandelt. Das Muster entkoppelt die Datenbasis von den konkreten Empfängern ihrer Ereignisse -- die `Datenbasis` selbst kennt keine der aufrufenden Sichten und bleibt entsprechend testbar.
+
+=== Fabrikmethode
+
+Die zentrale Erzeugung neuer Auftragsobjekte ist über das Fabrikmethode-Muster geregelt. Die abstrakte Klasse `AuftragFactory` definiert die Signatur `erzeugeAuftrag(...): Auftrag`, die von den beiden konkreten Ableitungen `ArbeitsauftragFactory` und `UnterauftragFactory` typspezifisch überschrieben wird. Der Zähler an der abstrakten Klasse gewährleistet die eindeutige Vergabe von Auftragsnummern über beide Arten hinweg. Vorteil dieses Musters ist, dass ein aufrufender Client (etwa `Projekt.auftragAnlegen()`) unverändert bleibt, wenn im späteren Entwurf zusätzliche Auftragsarten hinzukommen sollten; die Erweiterung erfolgt ausschließlich über eine neue Fabrikklasse.
+
+=== Objektadapter
+
+Der Objektadapter wird beim Datenimport aus dem Altsystem eingesetzt. Die Schnittstelle `IImportQuelle` gibt eine einheitliche Sicht auf beliebige Importquellen vor (`leseDaten(): List<Object>` und `istVerfügbar(): boolean`). Die konkrete Klasse `AltsystemAdapter` implementiert diese Schnittstelle und delegiert intern an die externe Klasse `Altsystem`, deren proprietäres Format (`legacyExport(): byte[]`) sie in die für die restliche Anwendung einheitliche Datenstruktur überführt. Analog dazu implementiert `CSVImporter` dieselbe Schnittstelle für den Import aus CSV-Dateien. Der `ImportAdapter` als aufrufender Client kennt nur die Schnittstelle `IImportQuelle`, wodurch sich zusätzliche Importquellen ohne Änderungen an der aufrufenden Klasse ergänzen lassen. Damit wird die im Lastenheft geforderte Datenmigration konsequent nach dem Prinzip der Abhängigkeitsumkehr modelliert.
+
+=== Assoziationsklasse (Koordinator)
+
+Die Klasse `Buchung` bleibt inhaltlich das aus dem Analyse-Klassendiagramm bekannte Koordinator-Objekt zwischen `Gerät` und `Arbeitsauftrag`, wird jedoch im Entwurf durch die korrekte UML-Notation der Assoziationsklasse gekennzeichnet. Die reguläre Assoziation zwischen `Gerät` und `Arbeitsauftrag` wird um eine gestrichelte Verbindungslinie zur Klasse `Buchung` ergänzt; damit ist unmissverständlich modelliert, dass die Attribute der Buchung (Zeitraum, Status, buchender Mitarbeiter) nicht einer der beiden beteiligten Klassen allein zugeordnet werden können, sondern der Assoziation selbst.
+
+== Reflexion
+
+Das vorliegende Entwurfsklassendiagramm bündelt die im Analyse-Klassendiagramm entwickelte fachliche Struktur mit den infrastrukturellen Klassen, die zur konkreten Umsetzung der Software erforderlich sind. Durch die Einführung der abstrakten Klasse `Auftrag` konnten redundante Attribute vermieden und gleichzeitig das Kompositum-Muster sinnvoll platziert werden. Die Zusammenführung der Bildzuordnung über die Schnittstelle `Bildbar` löst eine im Analyse-Klassendiagramm bewusst offen gelassene Modellierungsfrage und macht das Diagramm gleichzeitig erweiterbar. Die konsequente Trennung von Wertobjekten und Enumerationen in ein eigenes Paket erhöht die Lesbarkeit und ermöglicht spätere Änderungen an zentraler Stelle.
+
+Gleichzeitig wurde die Modellierungstiefe an mehreren Stellen bewusst begrenzt: Im Datentypen-Paket wurden keine Assoziationslinien eingezeichnet, im GUI-Paket erscheinen lediglich zwei Ankerklassen mit einem Verweis auf das ausführliche Kommunikationsschema in Abschnitt 5, und der Beobachter-Mechanismus wird auf die Kernklassen `Datenbasis`, `GUIController` und `IUpdateEventListener` reduziert. Diese bewusste Reduktion folgt der Erkenntnis, dass eine vollständige Modellierung sämtlicher Detailbeziehungen dem Übersichtscharakter des Diagramms zuwidergelaufen wäre. Der aufmerksame Leser findet in Abschnitt 5 sowie in den Sequenz- und Aktivitätsdiagrammen die feinere Ausgestaltung, während das vorliegende Diagramm den strukturellen Gesamtblick liefert.
