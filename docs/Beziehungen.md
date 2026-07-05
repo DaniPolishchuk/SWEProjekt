@@ -130,16 +130,6 @@ Komposition (gefüllte Raute) wird verwendet wenn:
 |--------|---------------|-----|----------|-----------|
 | Dokument (als Hochlader) | `Dokument ✕------> 1 Mitarbeiter` (Rollenname `hochlader`) | Assoziation, unidirektional mit X | Dokument kennt Hochlader | Audit-Feld (Zeile 580): wer das Dokument hochgeladen hat. X auf Mitarbeiter-Seite, weil Mitarbeiter seine hochgeladenen Dokumente nicht direkt am Objekt zurückverfolgen muss -- bei Bedarf über die Dokumenten-Suchmaske mit Filter "Hochlader". |
 | Buchung (als Bucher) | `Buchung ✕------> 1 Mitarbeiter` (Rollenname `gebuchtVon`) | Assoziation, unidirektional mit X | Buchung kennt Bucher | Audit-Feld (Zeile 753) für Nachvollziehbarkeit ("Wer hat Bagger 3 gebucht?"). X auf Mitarbeiter-Seite analog zu Hochlader -- ein Mitarbeiter muss seine Buchungen nicht direkt am Objekt hängen haben (bei Bedarf über Buchungs-Suchmaske mit Filter). |
-| Bild (als Hochlader) | `Bild ✕------> 1 Mitarbeiter` (Rollenname `hochlader`) | Assoziation, unidirektional mit X | Bild kennt Hochlader | Audit-Feld (Zeile 890) analog zu Dokument-Hochlader. |
-
-**Bemerkung zur Bild-Element-Beziehung (offen, später zu klären):**
-
-Bild hat zusätzlich ein Attribut `Element` (Zeile 887), das auf das zugeordnete Objekt verweisen kann (Auftrag, Projekt, Maschine, Mitarbeiter). Die Modellierung ist aktuell als generisches "Element"-Attribut mit Typ-Diskriminator angelegt -- das ist ein Anti-Pattern. Saubere Modellierung wäre:
-
-- **Variante A:** Abstrakte Klasse oder Interface `Bildbar`, das von Auftrag, Projekt, Gerät und Mitarbeiter implementiert wird. Bild → Bildbar mit einer Beziehung.
-- **Variante B:** Vier separate Beziehungen Bild → Auftrag, Projekt, Gerät, Mitarbeiter.
-
-Diese Designentscheidung bleibt vorerst offen und wird beim Klassendiagramm-Entwurf abschließend geklärt. Multiplizität laut Zeile 858: "beliebig viele Bilder" pro Element, also `0..*` -- ein Bild kann höchstens einem Element zugeordnet sein (`0..1`).
 
 ### Projekt
 
@@ -155,9 +145,7 @@ Diese Designentscheidung bleibt vorerst offen und wird beim Klassendiagramm-Entw
 
 **Auf Projekt zeigend:**
 
-| Quelle | Multiplizität | Typ | Begründung |
-|--------|---------------|-----|-----------|
-| Bild (als zugeordnetes Element) | `Bild 0..* -------- 0..1 Projekt` (Rollenname `zugeordnetesElement`) | Assoziation, bidirektional | Lastenheft Zeile 858 (LF 80): "Allen Elementen sollen beliebig viele Bilder mit Titel zugeordnet werden können." Zeile 862-863: Projekte gehören zu den primären Bildträgern. Bidirektional, weil Detailansicht die Galerie zeigt (Zeile 876). **Hinweis:** Diese Beziehung ist Teil der noch offenen `Bildbar`-Designentscheidung (siehe Bemerkung in Mitarbeiter-Sektion). |
+(keine direkten Bild-Beziehungen mehr -- Projekt erbt von `Bildbar` und bekommt die Bild-Zuordnung über die Bildbar-Komposition. Siehe Sektion Bildbar.)
 
 ### Gerät
 
@@ -174,7 +162,8 @@ Diese Designentscheidung bleibt vorerst offen und wird beim Klassendiagramm-Entw
 | Quelle | Multiplizität | Typ | Richtung | Begründung |
 |--------|---------------|-----|----------|-----------|
 | Buchung | `Buchung 0..* ✕-------> 1 Gerät` | Assoziation, unidirektional mit X | Buchung kennt Gerät | Lastenheft Zeile 760 (korrigiert): "Referenz auf genau ein gebuchtes Gerät -- für mehrere Geräte werden separate Buchungen angelegt." Neue QaA bestätigt Multiplizität 1. X auf Gerät-Seite, weil Gerät seine Buchungen nicht direkt am Objekt hängen haben muss -- Verfügbarkeitsprüfung erfolgt über Buchungs-Suchmaske mit Filter "Gerät" und "Zeitraum". |
-| Bild (als zugeordnetes Element) | `Bild 0..* -------- 0..1 Gerät` (Rollenname `zugeordnetesElement`) | Assoziation, bidirektional | Lastenheft Zeile 858 + 862-863: Geräte (Baumaschinen und Bauwerkzeuge) gehören zu den primären Bildträgern. Bidirektional wegen Galerie in Detailansicht. **Hinweis:** Teil der offenen `Bildbar`-Designentscheidung. |
+
+(keine direkten Bild-Beziehungen mehr -- Gerät erbt von `Bildbar` und bekommt die Bild-Zuordnung über die Bildbar-Komposition. Siehe Sektion Bildbar.)
 
 **Geklärte Punkte für Gerät:**
 
@@ -185,22 +174,47 @@ Diese Designentscheidung bleibt vorerst offen und wird beim Klassendiagramm-Entw
 - Geräte-Typ ist eine reine Stammdaten-Klasse (X auf Gerät-Seite)
 - Wartungstermine werden als einfaches `Datum` modelliert (nicht als Termin-Referenz, Zeile 718)
 
+### Bildbar (abstrakte Klasse) und Bild
+
+`Bildbar` ist eine abstrakte Klasse, von der alle Entitäten erben, die Bilder zugeordnet bekommen können sollen. Damit wird das Anti-Pattern eines generischen `Element`-Attributs mit Typ-Diskriminator vermieden und stattdessen eine saubere, einzige Beziehung zwischen `Bild` und `Bildbar` modelliert.
+
+**Vererbung (kein Multiplizitäten, leerer Dreieckskopf zur Oberklasse):**
+
+| Unterklasse | Notation | Begründung |
+|-------------|----------|-----------|
+| Mitarbeiter → Bildbar | `Mitarbeiter ─▷ Bildbar (abstract)` | Lastenheft Zeile 862--863: Mitarbeiter gehört zu den primären Bildträgern (z.B. Mitarbeiterfoto). |
+| Auftrag → Bildbar | `Auftrag ─▷ Bildbar (abstract)` | Lastenheft Zeile 858 + 862--863: Auftrag (Arbeits- und Unterauftrag) gehört zu den primären Bildträgern (z.B. Baufortschritts-Bilder). |
+| Projekt → Bildbar | `Projekt ─▷ Bildbar (abstract)` | Lastenheft Zeile 862--863: Projekte gehören zu den primären Bildträgern (z.B. Übersichtsbilder). |
+| Gerät → Bildbar | `Gerät ─▷ Bildbar (abstract)` | Lastenheft Zeile 862--863: Baumaschinen und Bauwerkzeuge gehören zu den primären Bildträgern. |
+
+Generalisierungsmenge: `{disjoint, incomplete}` -- ein Objekt ist entweder Mitarbeiter, Auftrag, Projekt oder Gerät (nicht mehrere gleichzeitig), und es können später weitere bildbare Klassen ergänzt werden.
+
+**Komposition Bildbar ↔ Bild (von Bildbar ausgehend):**
+
+| Ziel | Multiplizität | Typ | Richtung | Begründung |
+|------|---------------|-----|----------|-----------|
+| Bild | `Bildbar ◆-------> 0..* Bild` (Raute beim Bildbar) | **Komposition** (Bildbar = Ganzes) | unidirektional (Bildbar kennt seine Bilder) | Lastenheft Zeile 858 (LF 80): "Allen Elementen sollen beliebig viele Bilder mit Titel zugeordnet werden können." Komposition, weil ein Bild ohne sein Element nicht existieren kann -- wird das Element gelöscht, werden seine Bilder mitgelöscht. Multiplizität `0..*` an der Pfeilspitze (Vorlesungs-Vereinbarung: Multiplizitäten ausschließlich an der Pfeilspitze). Unidirektional, weil Bild seine Quelle nicht zurückkennen muss -- die Zuordnung ist über die Komposition eindeutig (jedes Bild gehört zu genau einem Bildbar, kein Bild wandert zwischen Elementen). |
+
+**Auf Bild zeigend (Audit-Feld):**
+
+| Quelle | Multiplizität | Typ | Richtung | Begründung |
+|--------|---------------|-----|----------|-----------|
+| Bild → Mitarbeiter (als Hochlader) | `Bild ✕-------> 1 Mitarbeiter` (Rollenname `hochlader`) | Assoziation, unidirektional mit X | Bild kennt Hochlader | Lastenheft Zeile 890: jedes Bild hat einen Hochlader (Audit-Feld). Multiplizität `1` an der Pfeilspitze (Pflicht). X auf Bild-Seite, weil Mitarbeiter seine hochgeladenen Bilder nicht direkt am Objekt hängen haben muss -- bei Bedarf über die Bilder-Suchmaske mit Filter "Hochlader". Keine Komposition: das Bild gehört zum Bildbar-Element, nicht zum Hochlader -- wenn der Mitarbeiter ausscheidet, bleibt das Bild erhalten. |
+
+**Geklärte Punkte für Bildbar:**
+
+- `Bildbar` ist eine abstrakte Klasse ohne eigene Attribute -- rein strukturell als gemeinsamer Typ
+- Die generischen Attribute `[Element]` und `[Elementtyp]` werden in `Bild` durch die Bildbar-Komposition ersetzt
+- Komposition (gefüllte Raute) ist korrekt: Bilder sind existenzabhängig vom Element, kaskadierendes Löschen, exklusive Zugehörigkeit
+- Multiplizitäten stehen nur an den Pfeilspitzen, nicht an den Pfeilenden (Vorlesung Folie 62, Vereinbarung 1)
+- Vererbungspfeile tragen keine Multiplizitäten (Vererbung ist keine Assoziation)
+- Der Hochlader bleibt als separate Assoziation `Bild → Mitarbeiter` bestehen -- ist nicht Teil der Bildbar-Hierarchie
+
 ---
 
 ## Mögliche Verbesserungen für das Klassendiagramm
 
 Diese Punkte wurden in den Diskussionen identifiziert, sind aber bewusst noch nicht final entschieden. Sie sollten beim Klassendiagramm-Entwurf abschließend geklärt werden.
-
-### Bildbar-Pattern (Bild ↔ Element)
-
-Aktuell modelliert das Lastenheft die Bild-zu-Element-Beziehung als generisches Attribut `[Element], [Referenz auf zugeordnetes Objekt (Auftrag, Projekt, Maschine, Mitarbeiter)]` mit Typ-Diskriminator `[Elementtyp]` (Zeile 887-888). Das ist ein Anti-Pattern.
-
-**Saubere Modellierungsvarianten:**
-
-- **Variante A (empfohlen):** Abstrakte Klasse oder Interface `Bildbar`, das von Auftrag, Projekt, Gerät und Mitarbeiter implementiert wird. Bild → Bildbar mit einer einzigen Beziehung. Vorteil: erweiterbar, sauber, ein zentrales Konzept.
-- **Variante B:** Vier separate Beziehungen Bild → Auftrag, Projekt, Gerät, Mitarbeiter. Vorteil: explizit, kein abstraktes Konzept nötig. Nachteil: vier statt eine Beziehung, schwerer erweiterbar.
-
-Für die Abschlussbewertung ist Variante A meist besser, da sie ein eigenes Analysemuster zeigt.
 
 ### Auftrag-Hierarchie (gemeinsame abstrakte Klasse)
 
