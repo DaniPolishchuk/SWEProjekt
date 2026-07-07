@@ -18,6 +18,7 @@ skinparam noteBorderColor #C9A227
 skinparam dpi 150
 skinparam nodesep 25
 skinparam ranksep 45
+skinparam linetype ortho
 
 ' =====================================================================
 ' VIEW (oben)
