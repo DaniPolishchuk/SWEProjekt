@@ -236,6 +236,39 @@ Arbeitsauftrag und Unterauftrag teilen viele Attribute und Beziehungen:
 
 Aktuell hängen Dokumente und Termine direkt am Auftrag. Im Lastenheft (LF 30) wird auch von "Angeboten, Rechnungen und Mahnungen" gesprochen, die mit Auftragspositionen vergleichbar wären. Das **Liste-Analysemuster** (siehe CLAUDE.md) wäre hier ein guter Kandidat.
 
+### Rolle als Enumeration statt Klasse
+
+Aktuell ist `Rolle` eine eigene Klasse mit Assoziation zu `Mitarbeiter` (siehe Mitarbeiter-Sektion, Zeile 115). Da im Lastenheft nur vier feste Werte vorgegeben sind (Administrator, Verwaltung, Bau-/Projektleiter, Vorarbeiter) und die Klasse keine eigenen Attribute oder Operationen hat, sollte sie als `<<enumeration>>` modelliert werden. Der Mitarbeiter bekommt dann ein Attribut `rolle: Rolle` statt einer Assoziationslinie. Konsistent mit den Enums, die in `chapter/7_Besonderheiten.typ` bereits vorgesehen sind.
+
+### Position-Enum bei Mitarbeiter ergänzen
+
+Die im Lastenheft geforderte Trennung zwischen Berechtigung (`Rolle`) und fachlicher Tätigkeit (Maurer, Elektriker, Zimmermann, Vorarbeiter, Polier, Bauleiter, ...) sollte durch ein separates Enum `Position` abgebildet werden. Attribut `position: Position` bei Mitarbeiter.
+
+### Bildbar als Interface statt abstrakte Klasse
+
+`Bildbar` ist aktuell als abstrakte Klasse mit Vererbungspfeil modelliert. Da `Mitarbeiter` bereits von `Person` erbt, würde eine zusätzliche Vererbung von `Bildbar` in Java zu Mehrfachvererbung führen (nicht erlaubt). Umstellung: `Bildbar` als `<<interface>>`, alle bildbaren Klassen realisieren es mit **gestricheltem Realisierungspfeil** (leeres Dreieck). Mitarbeiter erbt normal von Person **und** realisiert Bildbar.
+
+### Buchung als Assoziationsklasse
+
+Buchung ist aktuell eine eigenständige Klasse mit drei unidirektionalen Referenzen (Arbeitsauftrag, Gerät, Mitarbeiter). Vorlesungs-konformer wäre die Modellierung als **Assoziationsklasse** zwischen `Arbeitsauftrag` und `Gerät` mit gestrichelter Anschlusslinie (Folie 57). Die Attribute `Zeitraum` und `Status` sind klassische "Verbindungs-Attribute", die weder zu Auftrag noch zu Gerät passen. Der Bucher (Mitarbeiter) bleibt als separate Assoziation mit X (Audit-Feld).
+
+### Termin als Komposition statt Assoziation
+
+Termine sind aktuell als bidirektionale Assoziation zu Arbeitsauftrag/Unterauftrag/Projekt modelliert (Zeile 72, 99, 142). Alle drei Komposition-Kriterien sind aber erfüllt:
+1. Ein Termin ohne seinen Auftrag ergibt keinen Sinn (Existenzabhängigkeit)
+2. Wird der Auftrag gelöscht, verschwinden auch seine Termine (kaskadierendes Löschen)
+3. Ein Termin gehört zu genau einem Auftrag (exklusive Zugehörigkeit -- keine geteilten Termine)
+
+Umstellung auf **Komposition** (gefüllte Raute beim Auftrag/Projekt).
+
+### Status- und Typ-Enums explizit im Diagramm zeichnen
+
+Die in `chapter/7_Besonderheiten.typ` bereits geplanten Enums (`AuftragStatus`, `BuchungStatus`, `GerätStatus`, `TerminTyp`, `DokumentTyp`, `AnwesenheitTyp`, `GerätKategorie`, `Gruppentyp`) sollten als `<<enumeration>>`-Klassen im Klassendiagramm sichtbar sein, nicht nur als Text-Attribute. Beim jeweiligen Objekt als Attribut `status: AuftragStatus` etc. referenziert.
+
+### Multiplizitäten-Konvention klarstellen
+
+Konvention für dieses Projekt: Im Klassendiagramm werden Multiplizitäten **nur** dort angegeben, wo sie **nicht 1** sind. Fehlt eine Multiplizität, ist implizit 1 gemeint (Vorlesung Folie 62, Vereinbarung 3+4). Bidirektionale Beziehungen zeigen beide Multiplizitäten nur, wenn mindestens eine davon nicht 1 ist. In dieser Markdown werden Multiplizitäten trotzdem an beiden Enden dokumentiert, weil sie hier als Nachschlagewerk dienen -- im PNG-Diagramm werden sie nach Konvention reduziert.
+
 ---
 
 ## Offene Fragen

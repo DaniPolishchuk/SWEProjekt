@@ -52,6 +52,10 @@ alt Datensatz mit identischen Schlüsselattributen gefunden
       Der Aufrufer zeigt dem Benutzer
       eine Warnung an; Korrektur oder
       Abbruch des Vorgangs möglich.
+      <<extend>> LF 100: Ein angemeldeter
+      Administrator kann die Warnung
+      explizit überschreiben und den
+      Datensatz dennoch anlegen.
     end note
 else kein Duplikat gefunden
     UI --> UI: 2.1: Rückgabe -- kein Duplikat

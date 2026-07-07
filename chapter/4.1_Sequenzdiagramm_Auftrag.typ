@@ -32,7 +32,7 @@ Zur besseren Lesbarkeit des Diagramms wurden die Referenz-Fragmente (`ref`) farb
 
 Die Erzeugung neuer Objekte wird gemäß Vorlesung durch eine `new()`-Nachricht auf das Objektsymbol dargestellt; die zugehörige Lebenslinie beginnt konzeptuell erst an dieser Stelle. Aus Gründen der Diagramm-Werkzeugkonvention werden die Objektköpfe bereits am oberen Bildrand angezeigt; ihre Aktivierung durch den `new()`-Aufruf markiert dennoch den tatsächlichen Beginn der Lebenslinie. Rückkehrnachrichten werden als gestrichelte Pfeile dargestellt und ebenfalls dezimal nummeriert. Da es sich um ein Analyse-Sequenzdiagramm handelt, sind in Anlehnung an die Vorlesungsregel (Folie 19) auch sprechende Prosa-Bezeichnungen statt formaler Methodensignaturen zugelassen. Ein physisches Löschen von Lebenslinien (Kreuz `X` am unteren Ende) kommt im Hauptdiagramm nicht vor: Alle im Anlegevorgang erzeugten Objekte werden zusammen mit dem Auftrag persistiert und bleiben gemäß LL 20 dauerhaft in der Datenbasis erhalten.
 
-#figure(image("../assets/Sequenzdiagramm_Auftrag.png", height: 100%), caption: [Sequenzdiagramm "Auftrag anlegen"]) <fig:sd_auftrag>
+#figure(image("../assets/Sequenzdiagramm_Auftrag.png", width: 100%), caption: [Sequenzdiagramm "Auftrag anlegen"]) <fig:sd_auftrag>
 
 == Diagrammbetrachtung: Auftrag anlegen
 

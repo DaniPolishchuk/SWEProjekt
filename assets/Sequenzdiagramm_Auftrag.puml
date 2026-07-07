@@ -1,5 +1,5 @@
 @startuml Sequenzdiagramm_Auftrag
-title Sequenzdiagramm: Auftrag anlegen und löschen
+title Sequenzdiagramm: Auftrag anlegen
 
 ' ====================================================
 '  Skinparams -- Optik analog zu den 1.0-Beispielarbeiten
@@ -148,18 +148,16 @@ opt Unteraufträge werden ergänzt
         UI -> Unterauftrag: 8.2: Attribute eintragen
         UI -> Auftrag: 8.3: Unterauftrag hinzufügen(Unterauftrag)
 
-        opt Unterauftragnehmer wird zugeordnet
-            alt Unterauftragnehmer existiert bereits
-                Leiter -> UI: 8.4: Unterauftragnehmer wählen
-                UI -> Unterauftrag: 8.5: Unterauftragnehmer zuordnen(UAN)
-            else Unterauftragnehmer noch nicht vorhanden
-                group #FFD7D7 ref Objekt anlegen :Unterauftragnehmer
-                    UI -> UAN: 8.6: new()
-                    activate UAN
-                    UAN --> UI: 8.7: UAN-Referenz
-                end
-                UI -> Unterauftrag: 8.8: Unterauftragnehmer zuordnen(UAN)
+        alt Unterauftragnehmer existiert bereits
+            Leiter -> UI: 8.4: Unterauftragnehmer wählen
+            UI -> Unterauftrag: 8.5: Unterauftragnehmer zuordnen(UAN)
+        else Unterauftragnehmer neu anlegen
+            group #FFD7D7 ref Objekt anlegen :Unterauftragnehmer
+                UI -> UAN: 8.6: new()
+                activate UAN
+                UAN --> UI: 8.7: UAN-Referenz
             end
+            UI -> Unterauftrag: 8.8: Unterauftragnehmer zuordnen(UAN)
         end
     end
 end
@@ -174,10 +172,17 @@ end
 
 alt Duplikat gefunden
     UI --> Leiter: 9.3: Warnung -- Auftrag existiert bereits
-    note right of UI: Bau-/Projektleiter kann Eingaben\nkorrigieren oder Vorgang abbrechen.
+    note right of UI
+      Bau-/Projektleiter kann Eingaben
+      korrigieren oder Vorgang abbrechen.
+      <<extend>> LF 100: Ein angemeldeter
+      Administrator kann die Warnung
+      explizit überschreiben und den
+      Datensatz dennoch anlegen.
+    end note
 else kein Duplikat
-    group #E5D4F7 ref Status setzen :Arbeitsauftrag = "Offen"
-        UI -> Auftrag: 9.4: Status setzen("Offen")
+    group #E5D4F7 ref Status setzen :Arbeitsauftrag = "OFFEN"
+        UI -> Auftrag: 9.4: Status setzen("OFFEN")
     end
     UI -> DB: 9.5: Arbeitsauftrag persistieren
     DB --> UI: 9.6: Bestätigung

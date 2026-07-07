@@ -1,5 +1,5 @@
 @startuml Aktivitaetsdiagramm_Buchung
-title Aktivitätsdiagramm: Baumaschine anlegen und buchen
+title Aktivitätsdiagramm: Gerät anlegen und buchen
 
 ' ====================================================
 '  Skinparams -- konsistent zum SD-Kapitel
@@ -43,27 +43,29 @@ start
 
 :Neuen Geräte-Typ anlegen wählen; <<#FFE3B0>>
 
-|Datenbasis|
-:Bestehende Geräte-Typen laden; <<#CFE3F3>>
-
-|Verwaltungsmitarbeiter|
-if (Geräte-Typ existiert bereits?) then (ja)
-  :Warnung ausgeben\n(Duplikat gefunden); <<#FFD7D7>>
-  :Eingabe korrigieren\noder Vorgang abbrechen; <<#FFD7D7>>
-  stop
-else (nein)
-endif
-
-:Pflichtfelder eingeben\n(Bezeichnung, Typ, Kategorie);
+:Pflichtfelder eingeben\n(Bezeichnung, Typ, Kategorie); <<#FFE3B0>>
 |System (UI Bauverwaltung)|
 :Eingaben validieren; <<#C8E6C9>>
 
 while (Pflichtfelder unvollständig?) is (ja)
   |Verwaltungsmitarbeiter|
-  :Pflichtfelder korrigieren;
+  :Pflichtfelder korrigieren; <<#FFE3B0>>
   |System (UI Bauverwaltung)|
   :Eingaben validieren; <<#C8E6C9>>
 endwhile (nein)
+
+|Datenbasis|
+:Bestehende Geräte-Typen laden\n(Duplikatsprüfung LF 100); <<#CFE3F3>>
+
+|System (UI Bauverwaltung)|
+if (Geräte-Typ existiert bereits?) then (ja)
+  :Warnung ausgeben\n(Duplikat -- LF 100); <<#FFD7D7>>
+  |Verwaltungsmitarbeiter|
+  :Eingabe korrigieren\noder Vorgang abbrechen; <<#FFD7D7>>
+  stop
+else (nein)
+  |System (UI Bauverwaltung)|
+endif
 
 :Geräte-Typ-Instanz erzeugen\nund Attribute setzen; <<#C8E6C9>>
 
@@ -84,56 +86,65 @@ endwhile (nein)
 :Lagerliste laden; <<#CFE3F3>>
 
 |Verwaltungsmitarbeiter|
-if (Passendes Lager vorhanden?) then (nein)
-  fork
-    :Neue Lagerbezeichnung\nund Adresse eingeben;
-  fork again
+if (Passendes Lager vorhanden?) then (ja)
+  :Lager aus Liste auswählen; <<#FFE3B0>>
+else (nein)
+  :Neue Lagerbezeichnung\nund Adresse eingeben; <<#FFE3B0>>
+  |Datenbasis|
+  :Bestehende Lager laden\n(Duplikatsprüfung LF 100); <<#CFE3F3>>
+  |System (UI Bauverwaltung)|
+  if (Lager bereits vorhanden?) then (ja)
+    :Warnung ausgeben\n(Duplikat -- LF 100); <<#FFD7D7>>
+    |Verwaltungsmitarbeiter|
+    :Eingabe korrigieren\noder Vorgang abbrechen; <<#FFD7D7>>
+    stop
+  else (nein)
     |System (UI Bauverwaltung)|
-    :Lager-Instanz erzeugen\n(Lager + Adresse); <<#C8E6C9>>
-    |Datenbasis|
-    :Lager persistieren; <<#C8E6C9>>
-  end fork
+  endif
+  :Adresse-Instanz erzeugen; <<#C8E6C9>>
+  :Lager-Instanz erzeugen\nund Adresse zuordnen; <<#C8E6C9>>
+  |Datenbasis|
+  :Lager persistieren; <<#C8E6C9>>
   |Verwaltungsmitarbeiter|
-else (ja)
-  :Lager aus Liste auswählen;
 endif
 
-:Pflichtfelder eingeben\n(Gerätennummer, Seriennummer,\nAnschaffungsdatum, Wartungstermin);
+:Pflichtfelder eingeben\n(Gerätenummer, Seriennummer,\nAnschaffungsdatum, Wartungstermin); <<#FFE3B0>>
 |System (UI Bauverwaltung)|
 :Eingaben validieren; <<#C8E6C9>>
 
 while (Pflichtfelder unvollständig?) is (ja)
   |Verwaltungsmitarbeiter|
-  :Pflichtfelder korrigieren;
+  :Pflichtfelder korrigieren; <<#FFE3B0>>
   |System (UI Bauverwaltung)|
   :Eingaben validieren; <<#C8E6C9>>
 endwhile (nein)
 
 |Datenbasis|
-:Bestehende Geräte laden; <<#CFE3F3>>
+:Bestehende Geräte laden\n(Duplikatsprüfung LF 100); <<#CFE3F3>>
 
-|Verwaltungsmitarbeiter|
+|System (UI Bauverwaltung)|
 if (Seriennummer bereits vorhanden?) then (ja)
   :Warnung ausgeben\n(Duplikat -- LF 100); <<#FFD7D7>>
+  |Verwaltungsmitarbeiter|
   :Eingabe korrigieren\noder Vorgang abbrechen; <<#FFD7D7>>
   stop
 else (nein)
+  |System (UI Bauverwaltung)|
 endif
 
-|System (UI Bauverwaltung)|
 :Gerät-Instanz erzeugen; <<#C8E6C9>>
 :Geräte-Typ zuordnen; <<#C8E6C9>>
 :Lager zuordnen; <<#C8E6C9>>
-:Status setzen ("Verfügbar"); <<#C8E6C9>>
+:Status setzen ("VERFUEGBAR"); <<#C8E6C9>>
 
 |Verwaltungsmitarbeiter|
 if (Zubehör wird ergänzt?) then (ja)
-  :Ausrüstungsdaten eingeben\n(Bezeichnung, Kompatibilität, Gewicht);
+  :Ausrüstungsdaten eingeben\n(Bezeichnung, Kompatibilität, Gewicht); <<#FFE3B0>>
   |System (UI Bauverwaltung)|
   :Ausrüstungs-Instanz erzeugen\nund Gerät zuordnen (Baugruppe-Muster); <<#C8E6C9>>
   |Verwaltungsmitarbeiter|
   while (Weiteres Zubehör ergänzen?) is (ja)
-    :Nächste Ausrüstung eingeben;
+    :Nächste Ausrüstung eingeben; <<#FFE3B0>>
     |System (UI Bauverwaltung)|
     :Ausrüstungs-Instanz erzeugen\nund Gerät zuordnen; <<#C8E6C9>>
     |Verwaltungsmitarbeiter|
@@ -146,7 +157,7 @@ endif
 :Bestätigung; <<#C8E6C9>>
 
 |Verwaltungsmitarbeiter|
-:Bestätigung anzeigen\n(Gerät angelegt);
+:Bestätigung anzeigen\n(Gerät angelegt); <<#C8E6C9>>
 
 ' ====================================================
 '  TEIL C: Gerät für Arbeitsauftrag buchen
@@ -171,7 +182,7 @@ if (Gerät im Zeitraum verfügbar?) then (nein)
     |Datenbasis|
     :Geräte desselben Typs\nladen (verfügbar im Zeitraum); <<#CFE3F3>>
     |Bau-/Projektleiter|
-    :Alternatives Gerät auswählen;
+    :Alternatives Gerät auswählen; <<#FFE3B0>>
   else (nein)
     stop
   endif
@@ -179,25 +190,21 @@ else (ja)
 endif
 
 |Datenbasis|
-:Auftragsliste laden; <<#FFE3B0>>
+:Auftragsliste laden; <<#CFE3F3>>
 
 |Bau-/Projektleiter|
 :Arbeitsauftrag aus Liste auswählen; <<#FFE3B0>>
 
 |System (UI Bauverwaltung)|
-:Buchungs-Instanz erzeugen\n(Buchungsnummer, Startdatum,\nEnddatum, buchender Mitarbeiter); <<#A5D6A7>>
-:Gerät zuordnen; <<#A5D6A7>>
-:Arbeitsauftrag zuordnen; <<#A5D6A7>>
-:Buchungs-Status setzen ("Aktiv"); <<#A5D6A7>>
-:Gerät-Status setzen ("Gebucht"); <<#C8E6C9>>
+:Buchungs-Instanz erzeugen\n(Gerät, Arbeitsauftrag, Zeitraum,\naktiver Benutzer als Parameter); <<#A5D6A7>>
+:Buchungs-Status setzen ("AKTIV"); <<#A5D6A7>>
 
 |Datenbasis|
 :Buchung persistieren; <<#A5D6A7>>
-:Gerät-Status persistieren; <<#C8E6C9>>
 :Bestätigung; <<#A5D6A7>>
 
 |Bau-/Projektleiter|
-:Bestätigung anzeigen\n(Buchung angelegt);
+:Bestätigung anzeigen\n(Buchung angelegt); <<#A5D6A7>>
 
 stop
 

@@ -28,9 +28,9 @@ skinparam sequence {
 ' ====================================================
 '  Dieses Unterprogramm kapselt den Statuswechsel
 '  eines Domänenobjekts. Es wird aufgerufen für:
-'    - Arbeitsauftrag: "Offen", "Gelöscht"
-'    - Buchung:        "Storniert"
-'    - Gerät:          "Verfügbar", "Gebucht"
+'    - Arbeitsauftrag: OFFEN, ARCHIVIERT
+'    - Buchung:        AKTIV, STORNIERT
+'    - Gerät:          VERFUEGBAR, IN_WARTUNG, DEFEKT
 ' ====================================================
 
 participant ":UI Bauverwaltung" as UI   #DCE9F9
