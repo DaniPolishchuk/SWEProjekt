@@ -144,7 +144,7 @@
     [Auftrag], [Referenz], [Referenz auf zugehörigen Auftrag],
     [Betrag], [Dezimalzahl], [Rechnungsbetrag],
     [Fälligkeitsdatum], [Datum], [Fälligkeitsdatum der Rechnung],
-    [Status], [Text], [Offen, bezahlt, überfällig],
+    [Status], [Text], [Offen, bezahlt, überfällig (aus dem Finanzbuchhaltungssystem übernommen)],
     [Dokument], [Referenz], [Referenz auf zugehörige Rechnungs-PDF aus dem Finanzbuchhaltungssystem #referenceQ("q_Dokument-Entitaet")],
   ))
 ]
@@ -182,7 +182,7 @@
   Beim Tablet-System: Zugriff über die Tablet-App mittels einer VPN und einer REST-API zum Server. Die App synchronisiert Daten vor Ort und ermöglicht auch Offline-Arbeit.
 ]
 #QaA[Wie oft soll auf das System von außerhalb zugegriffen werden?][
-  Es wird eine Anzahl von maximal 5 zeitglichen Zugriffen erwartet. Zudem ist ein Offline-Betrieb mit Synchronisation bei Rückkehr ins Büro vorgesehen, sodass auch ohne aktive Verbindung gearbeitet werden kann und sich die Anzahl an Zugriffen entsprechend anpasst.
+  Es wird eine Anzahl von maximal 5 zeitgleichen Zugriffen erwartet. Zudem ist ein Offline-Betrieb mit Synchronisation bei Rückkehr ins Büro vorgesehen, sodass auch ohne aktive Verbindung gearbeitet werden kann und sich die Anzahl an Zugriffen entsprechend anpasst.
 ]
 #QaA[[INTERN] Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
   Das System hat keine direkte externe Internetverbindung (kein Zugriff über öffentliche Netzwerke). Der Server läuft im internen Firmennetz. Für das spätere Tablet-Projekt: Bauleiter können per VPN auf das interne Firmennetz zugreifen (z.B. über gesichertes VPN vom Laptop/Tablet). Die Daten werden dabei vor der Fahrt zur Baustelle synchronisiert (Offline-First-Ansatz), sodass auch ohne aktive Verbindung gearbeitet werden kann. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Eine ungeschützte Internet-Exposition des Servers ist nicht vorgesehen.
@@ -213,8 +213,8 @@
   #set text(size: 11pt)
     ```csv
   Mitarbeiternummer;Vorname;Nachname;Geburtsdatum;Email;Position;Rolle
-  1001;Max;Mustermann;1985-03-15;max.mustermann@bau.de;Bauleiter;Projektleiter
-  1002;Anna;Schmidt;1990-07-22;anna.schmidt@bau.de;Verwaltung;Verwaltung
+  1001;Max;Mustermann;1985-03-15;max.mustermann@bau.de;Bauleiter;BAU_PROJEKTLEITER
+  1002;Anna;Schmidt;1990-07-22;anna.schmidt@bau.de;Verwaltungsmitarbeiter;VERWALTUNGSMITARBEITER
   ```
 ]
 
@@ -284,22 +284,23 @@
         - Bearbeitungsrechte auf Geräte
         - volle Einsicht in den Terminplaner
       ],
-    [Vorarbeiter], 
+    [Vorarbeiter],
       [
-        - Lesezugriff auf Arbeitsaufträge, Geräte und Terminplaner mit den für ihre Arbeit relevanten Informationen
+        - Lesezugriff auf Arbeitsaufträge, Geräte und Terminplaner mit den für ihre Arbeit relevanten Informationen; einfache Bauarbeiter erhalten dieselbe Rolle mit denselben lesenden Rechten
 
-      ],
-    [Mitarbeiter], 
-      [
-        - Lesezugriff auf eigene Anwesenheitszeiten und Terminplaner mit den für ihre Arbeit relevanten Informationen
       ],
   ), caption: "Berechtigungen")<Rolle-Berechtigungen>
 
-  Eine Rolle umfasst dabei folgende Attribute:
+  Die Rolle wird -- da das Rollensystem fest vorgegeben ist und zur Laufzeit weder erweitert noch verändert werden soll -- modellierungstechnisch als Enumeration umgesetzt. Sie ist ausschließlich der Zugriffssteuerung zugeordnet und darf nicht mit dem Analysemuster "Rolle" der Vorlesung (mehrere benannte Assoziationen einer Person zu verschiedenen Bezugsobjekten) verwechselt werden.
+
   #entityFigure("Rolle", arguments(
-    [Rollennummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
-    [Name], [Text], [Name der Rolle],
+    [`ADMINISTRATOR`], [Enum-Wert], [Vollzugriff auf alle Daten, Systemverwaltung, Import/Export, Backup],
+    [`VERWALTUNGSMITARBEITER`], [Enum-Wert], [Vollzugriff auf Verwaltungsdaten, Leserechte auf projektbezogene Daten],
+    [`BAU_PROJEKTLEITER`], [Enum-Wert], [Vollzugriff auf Projekte, Arbeitsaufträge und Buchungen],
+    [`VORARBEITER`], [Enum-Wert], [Lesezugriff auf Arbeitsaufträge, Geräte und Terminplaner],
   ))
+
+  Die *fachliche Tätigkeit* eines Mitarbeiters (Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter, Bauarbeiter, Verwaltungsmitarbeiter) wird davon getrennt als Enumeration `Position` modelliert und ist ein Attribut der Klasse `Mitarbeiter`. Eine Sonderrolle `MITARBEITER` als Berechtigungsstufe existiert bewusst nicht; Bauarbeiter ohne Verwaltungsaufgaben erhalten die Rolle `VORARBEITER` mit Lesezugriff auf die für sie relevanten Daten.
 ]
 
 #QaA(labelName: "Attribute-Mitarbeiter")[Welche Attribute soll ein Mitarbeiter haben?][
@@ -322,7 +323,7 @@
     [Beschäftigungsort], [Text], [Büro oder Baustelle],
     [Vertragsbeginn], [Datum], [Beginn des Arbeitsverhältnisses],
     [Vertragsende], [Datum], [Ende des Arbeitsverhältnisses (optional)],
-    [Rolle], [Referenz], [Referenz auf Benutzerrolle],
+    [Rolle], [Enum-Wert], [Berechtigungsstufe vom Typ der Enumeration `Rolle` (`ADMINISTRATOR`, `VERWALTUNGSMITARBEITER`, `BAU_PROJEKTLEITER`, `VORARBEITER`)],
   ))
 ]
 #QaA[Hat eine Person genau eine Adresse oder können auch mehrere Adressen hinterlegt werden (z.B. Haupt- und Zweitwohnsitz)?][
@@ -389,7 +390,7 @@
     [Termine], [Referenz], [Genau ein Starttermin und ein Endtermin (Multiplizität 2). Zwischentermine werden auf Projektebene nicht modelliert, sondern ergeben sich aus den Terminen der zugehörigen Arbeitsaufträge.],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
     [Dokumente], [Referenz], [Liste übergeordneter Projektdokumente (z.B. Projektpläne, Verträge) #referenceQ("q_Dokument-Entitaet")],
-    [Status], [Text], [Geplant, laufend, abgeschlossen],
+    [Status], [Enum-Wert], [Wert der Enumeration `ProjektStatus` (`GEPLANT`, `LAUFEND`, `ABGESCHLOSSEN`); die auftragsspezifischen Zustände `PAUSIERT`, `VERZUG` und `ARCHIVIERT` treten auf Projektebene bewusst nicht auf, da die entsprechende Semantik nur einzelnen Arbeitsaufträgen zukommt],
   ))
 ]
 #QaA[Wie viele Projektleiter hat ein Projekt? Kann ein Projekt zeitweise auch ohne Projektleiter sein?][
@@ -409,7 +410,7 @@
     [Mitarbeiter], [Referenz], [Liste der beteiligten Mitarbeiter (Multiplizität 1..\*; mindestens ein Mitarbeiter muss zugeordnet sein)],
     [Einsatzort], [Referenz], [Referenz auf Adresse der Baustelle],
     [Termine], [Referenz], [Liste aller Termine des Auftrags (Multiplizität 2..\*; mindestens ein Starttermin und ein Endtermin vom Typ 'Starttermin' bzw. 'Endtermin' sind Pflicht, Zwischentermine optional)],
-    [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
+    [Status], [Enum-Wert], [Wert der Enumeration `AuftragStatus` (`OFFEN`, `IN_ARBEIT`, `PAUSIERT`, `VERZUG`, `ABGESCHLOSSEN`, `ARCHIVIERT`); `ARCHIVIERT` realisiert das logische Löschen gemäß LL 20],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
   ))
 
@@ -620,7 +621,7 @@
         [Arbeitsauftrag], [Referenz], [Referenz auf den übergeordneten Arbeitsauftrag],
         [Unterauftragnehmer], [Referenz], [Referenz auf genau einen externen Unterauftragnehmer (Pflicht)],
         [Termine], [Referenz], [Liste aller Termine des Unterauftrags (mindestens ein Starttermin und ein Endtermin sind Pflicht, weitere Zwischentermine optional -- analog zum Arbeitsauftrag)],
-        [Status], [Text], [Offen, in Bearbeitung, abgeschlossen],
+        [Status], [Enum-Wert], [Wert der Enumeration `AuftragStatus`, analog zum übergeordneten Arbeitsauftrag; `IN_ARBEIT` beschreibt die aktive Bearbeitung durch den Unterauftragnehmer],
         [Kosten], [Dezimalzahl], [Vereinbarter Betrag],
         [Bemerkung], [Text], [Zusätzliche Hinweise],
       ))
@@ -680,7 +681,7 @@
   Alle Baumaschinen und -werkzeuge sind einzelnen Lagern zugeordnet (Plätze und/oder Gebäude auf mehreren Grundstücken). Der momentane Standort muss zur Optimierung der Projektabläufe aktualisiert werden können. \
   Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können ("welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?").
   #QaA[Sollen die Arten von Baumaschinen, Bauwerkzeugen und Ausrüstung fest vorgegeben oder dynamisch vom Benutzer änderbar sein?][
-    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut..
+    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut.
   ]
 
   #QaA(labelName: "Oberbegriff-Gerät")[Gibt es einen Unterschied zwischen "Baumaschine", "Bauwerkzeug" und "Gerät" bzw. ist "Gerät" ein allgemeiner Begriff für Baumaschinen und Bauwerkzeuge?][
@@ -707,7 +708,7 @@
       [Seriennummer], [Text], [Herstellerseriennummer],
       [Lager], [Referenz], [Referenz auf das Lager],
       [Standort], [Text], [Aktueller Standort (falls nicht im Lager)],
-      [Status], [Text], [Verfügbar, gebucht, in Wartung, defekt],
+      [Status], [Enum-Wert], [Wert der Enumeration `GerätStatus` (`VERFUEGBAR`, `IN_WARTUNG`, `DEFEKT`, `AUSSER_BETRIEB`). Der `GerätStatus` beschreibt ausschließlich dauerhafte technische Zustände; die zeitraumbezogene Belegung eines Geräts wird bewusst *nicht* als Statuswert `GEBUCHT` modelliert, sondern anhand aktiver `Buchung`-Objekte für den jeweiligen Zeitraum ermittelt (siehe LF 50, Verfügbarkeitsprüfung)],
       [Ausrüstung], [Referenz], [Liste der aktuell montierten Ausrüstungsteile \(z.B. Baggerschaufel, Anbauhammer\). Eine Ausrüstung kann am Gerät montiert oder im Lager frei verfügbar sein. Multiplizität 0..\*],
       [Anschaffungsdatum], [Datum], [Datum der Anschaffung],
       [Letzter Wartungstermin], [Datum], [Datum der letzten Wartung],
@@ -813,7 +814,7 @@
     Ja, in der Detailansicht eines Lagers werden alle aktuell zugeordneten Geräte angezeigt. So lässt sich auf einen Blick erkennen, welche Maschinen und Werkzeuge an einem Standort verfügbar sind.
   ]
   #QaA[Soll die/ das nächste Baumaschine/ -Werkzeug angezeigt werden?][
-    Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine Berechnung der Distanz zum Einsatzort wird nicht benötigt. GPS-Ortung ist nicht erforderlich.
+    Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine kilometergenaue Berechnung der Distanz zum Einsatzort mit Routing-Diensten oder GPS-Ortung ist ausdrücklich *nicht* gefordert. Optional -- und im GUI-Kapitel als bewusst gewählte Zusatzfunktion ausgewiesen -- kann eine grobe Sortierung nach Entfernung auf Basis der beim Lager hinterlegten statischen Adresse (Postleitzahl-/Ortsvergleich) angeboten werden; ein externer Kartendienst ist dafür nicht erforderlich.
   ]
   #QaA[Ist auch der Ort eines Objekts innerhalb eines Lagers relevant (z.B. "Regal 3, oben rechts”)? ][
     Nein, die genaue Position innerhalb eines Lagers ist nicht erforderlich. Es reicht die Zuordnung zum Lager selbst.
@@ -884,7 +885,7 @@
     Ein Element ist jedes verwaltete Objekt (siehe @verwalteten-Objekte).
   ]
   #QaA[Sind alle Elemente gemeint oder sollen nur ausgewählte Elemente über Bilder verfügen? ][
-    Primär Aufträge, Projekte, Baumaschinen und Bauwerkzeuge. Mitarbeiter und Gruppen können optional auch Bilder haben (z.B. Profilbilder).
+    Primär Aufträge, Projekte, Baumaschinen und Bauwerkzeuge. Mitarbeiter können optional auch Bilder haben (z.B. Profilbilder). Gruppen sind vom Kunden ursprünglich als optional bildfähig genannt worden; da im Datenmodell jedoch keine sinnvolle Anzeigemöglichkeit für ein "Gruppenbild" vorgesehen ist (Gruppen werden ausschließlich über Mitgliederlisten dargestellt), wird auf eine Bildzuordnung für die Klasse `Gruppe` bewusst verzichtet. Diese Reduktion wird im Analyse-Klassendiagramm dadurch sichtbar, dass `Gruppe` kein Untertyp von `Bildbar` ist.
 
     Buchung, Anwesenheitszeit, Bild, Rechnung und Finanzbuchhaltungssystem können keine Bilder.
   ]
@@ -908,13 +909,13 @@
       [Titel], [Text], [Vom Benutzer vergebener Titel],
       [Dateipfad], [Text], [Pfad zur Bilddatei im Verzeichnis],
       [Dateiname], [Text], [Ursprünglicher Dateiname],
-      [Element], [Referenz], [Referenz auf zugeordnetes Objekt (Auftrag, Projekt, Maschine, Mitarbeiter)],
-      [Elementtyp], [Text], [Typ des zugeordneten Elements (zur Filterung)],
       [Hochladedatum], [Datum], [Datum des Uploads],
-      [Hochlader], [Referenz], [Referenz auf Benutzer (Mitarbeiter)],
+      [Hochlader], [Referenz], [Referenz auf Mitarbeiter (Uploader)],
       [Dateigröße], [Ganzzahl], [Größe in Bytes],
       [Format], [Text], [JPG, PNG, GIF],
     ))
+
+    Die Zuordnung des Bildes zum darzustellenden Objekt (Auftrag, Projekt, Gerät, Mitarbeiter) erfolgt bewusst nicht über die Attribute `Element` und `Elementtyp`, wie im Lastenheft-Beispiel skizziert, sondern polymorph über die im Analyse-Klassendiagramm eingeführte Klasse `Bildbar` (siehe @fig-analyse-klassendiagramm). Dadurch entfallen die redundanten Attribute im `Bild`, und die Typinformation ergibt sich zur Laufzeit unmittelbar aus dem konkreten `Bildbar`-Untertyp.
   ]
   #QaA[[INTERN] Wie viel Speicherplatz soll für die Bilder vorgesehen werden? ][
     Zunächst ca. 20-30 GB für Bilder. Der Speicherplatz kann bei Bedarf erweitert werden.
@@ -1094,7 +1095,7 @@
     ]
 
     #QaA[Soll eine bestimmte Barrierefreiheit (Accessibility) bei der grafischen Benutzeroberfläche beachtet werden (z.B. Unterstützung für Sehbehinderte, Spracheingabe)?][
-      Es reichen die gesätzlichen Anforderungen an Barrierefreiheit (z.B. ausreichende Kontraste, skalierbare Schriftgrößen). Es müssen keine weiteren speziellen Funktionen implementiert werden.
+      Es reichen die gesetzlichen Anforderungen an Barrierefreiheit (z.B. ausreichende Kontraste, skalierbare Schriftgrößen). Es müssen keine weiteren speziellen Funktionen implementiert werden.
     ]
   ],
   [Wartbarkeit], 

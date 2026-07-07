@@ -15,6 +15,8 @@ Das Diagramm ist in folgende thematische Bereiche gegliedert, die zur besseren �
 
 Klassen, die von mehreren Bereichen genutzt werden (`Adresse`, `Termin`), wurden bewusst ohne Farbmarkierung dargestellt, da sie als Querschnittsklassen keinem einzelnen Bereich eindeutig zugeordnet werden können.
 
+*Hinweis zu den Attributbezeichnungen:* Die im Kapitel "Analyse des Lastenhefts" pro Entität aufgeführten Attributtabellen (etwa @e_Mitarbeiter, @e_Gruppe, @e_Lager) sind für alle Diagramme dieser Arbeit verbindlich. Falls in einer früheren Fassung des exportierten Klassendiagramms noch abweichende Schreibungen (`Geburtstag` statt `Geburtsdatum`, `Beschäftigungsart` statt `Beschäftigungsort`, `Gruppetyp` statt `Gruppentyp`, ein transient gebliebenes `Entwurf`-Attribut bei `Lager`) sichtbar geblieben sind, sind diese durch die zugehörige Entitätstabelle zu ersetzen -- sie stellen redaktionelle Übertragungsfehler dar, keine fachlichen Modelländerungen.
+
 #figure(image("../assets/klassendiagramm/Klassendiagramm.png", width: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
 
 == Beschreibung der Klassen
@@ -37,13 +39,13 @@ Die Klasse `Adresse` kapselt Adressinformationen (Straße, Hausnummer, PLZ, Ort,
 
 *Rolle (Berechtigungs-Enumeration)*
 
-Die Enumeration `Rolle` definiert die Berechtigungsstufe eines Mitarbeiters im System. Die vordefinierten Werte -- `ADMINISTRATOR`, `VERWALTUNGSMITARBEITER`, `BAU_PROJEKTLEITER`, `VORARBEITER` und `MITARBEITER` -- bestimmen die Zugriffsrechte gemäß der Berechtigungstabelle aus der Lastenheftanalyse. Jeder Mitarbeiter hat genau eine Rolle. Diese Enumeration übernimmt konsequent die Sicht des Entwurfsklassendiagramms; sie ist ausschließlich für die Zugriffssteuerung zuständig und nicht mit dem Analysemuster "Rolle" im Sinne der Vorlesung zu verwechseln.
+Die Enumeration `Rolle` definiert die Berechtigungsstufe eines Mitarbeiters im System. Die vordefinierten Werte -- `ADMINISTRATOR`, `VERWALTUNGSMITARBEITER`, `BAU_PROJEKTLEITER` und `VORARBEITER` -- bestimmen die Zugriffsrechte gemäß der Berechtigungstabelle aus der Lastenheftanalyse. Jeder Mitarbeiter hat genau eine Rolle. Diese Enumeration übernimmt konsequent die Sicht des Entwurfsklassendiagramms; sie ist ausschließlich für die Zugriffssteuerung zuständig und nicht mit dem Analysemuster "Rolle" im Sinne der Vorlesung zu verwechseln. Ein zusätzlicher Rollenwert `MITARBEITER` als Berechtigungsstufe existiert bewusst nicht: Einfache Bauarbeiter und Vorarbeiter erhalten dieselbe lesende Berechtigung über den Wert `VORARBEITER`; die fachliche Unterscheidung erfolgt über die davon getrennte Enumeration `Position`.
 
 Die *fachliche Funktion* eines Mitarbeiters im Unternehmen (etwa Projektleiter, Bauleiter, Baugruppenleiter, Vorarbeiter oder Bauarbeiter) wird davon getrennt als Enumeration `Position` modelliert und ist ein Attribut der Klasse `Mitarbeiter`. Dadurch werden Berechtigungen (`Rolle`) und Aufgabenprofil (`Position`) sauber voneinander abgegrenzt: Ein Mitarbeiter kann beispielsweise die Position `BAULEITER` innehaben und gleichzeitig die Rolle `BAU_PROJEKTLEITER` tragen -- die Position spiegelt die fachliche Tätigkeit im Bauunternehmen wider, während die Rolle den systemseitigen Berechtigungsrahmen setzt.
 
 *Gruppe*
 
-Die Klasse `Gruppe` repräsentiert die Organisationsstruktur des Unternehmens. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe) werden über das Attribut `Gruppentyp` unterschieden (LF 20). Ein Mitarbeiter kann mehreren Gruppen angehören, und eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung, bidirektional). Jede Gruppe kann optional einen Gruppenleiter haben, der über eine separate Assoziation zu `Mitarbeiter` referenziert wird.
+Die Klasse `Gruppe` repräsentiert die Organisationsstruktur des Unternehmens. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe) werden über das Attribut `Gruppentyp` unterschieden (LF 20). Ein Mitarbeiter kann mehreren Gruppen angehören, und eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung, bidirektional). Da in der GUI zusätzlich der zeitliche Beginn der Mitgliedschaft, eine Rolle innerhalb der Gruppe (Mitglied, Stellvertreter) sowie ein optionaler Kennzeichner für Stellvertretung sichtbar gemacht werden sollen, wird die n:m-Beziehung textlich um eine Assoziationsklasse `Gruppenmitgliedschaft` mit den Attributen `rolleInGruppe`, `seit` und `istStellvertreter` konkretisiert; das Klassendiagramm zeigt zur besseren Übersicht nur die zugrundeliegende n:m-Assoziation. Jede Gruppe kann optional einen Gruppenleiter haben, der über eine separate Assoziation zu `Mitarbeiter` referenziert wird. Bei Gruppen vom Typ `Baugruppe` gilt zusätzlich der textliche Constraint, dass mindestens ein Gruppenleiter zugewiesen sein muss (Baugruppenleiter-Pflicht); für alle anderen Gruppentypen bleibt der Gruppenleiter fakultativ. Die Constraint-Formulierung in OCL-artiger Notation lautet: `if gruppentyp = BAUGRUPPE then gruppenleiter->size() = 1 and mitglieder->size() >= 1`.
 
 *Anwesenheitszeit*
 
@@ -83,7 +85,7 @@ Die Klasse `Gerät` repräsentiert ein konkretes, physisch vorhandenes Geräteex
 
 *Ausrüstung (Baugruppe-Muster)*
 
-Die Klasse `Ausrüstung` modelliert Zubehörteile, die Geräten zugeordnet werden können (LF 50): Baggerschaufeln, Kranzubehör und Anbaugeräte. Die Zuordnung wird als Aggregation zum `Gerät` modelliert (leere Raute), da Ausrüstungsteile nicht fest mit einem Gerät verbunden sind -- sie können abmontiert und an einem anderen kompatiblen Gerät genutzt werden; wenn kein Gerät zugeordnet ist, liegen sie im Lager.
+Die Klasse `Ausrüstung` modelliert Zubehörteile, die Geräten zugeordnet werden können (LF 50): Baggerschaufeln, Kranzubehör und Anbaugeräte. Die Zuordnung wird als Aggregation modelliert; die leere Raute wird gemäß UML-Regel am *Ganzen* -- also am `Gerät` -- platziert, da Ausrüstungsteile nicht fest mit einem Gerät verbunden sind: sie können abmontiert und an einem anderen kompatiblen Gerät genutzt werden, und wenn kein Gerät zugeordnet ist, liegen sie im Lager.
 
 *Lager*
 
@@ -91,7 +93,7 @@ Die Klasse `Lager` repräsentiert die Lagerorte der Geräte (LF 50). Attribute u
 
 *Buchung (Koordinator-Muster)*
 
-Die Klasse `Buchung` realisiert das Koordinator-Muster (LF 50) in Form einer Assoziationsklasse zwischen `Gerät` und `Arbeitsauftrag`. Sie verknüpft genau ein Gerät mit genau einem `Arbeitsauftrag` und trägt eigene Attribute: Buchungsnummer, Startdatum, Enddatum sowie den Status vom Typ `BuchungStatus` mit den festen Werten `AKTIV`, `ABGESCHLOSSEN` und `STORNIERT`. Zusätzlich wird der buchende Mitarbeiter referenziert. Die zeitraumbezogene Belegung eines Geräts ergibt sich ausschließlich aus den aktiven Buchungen; darauf setzt die im Lastenheft geforderte Verfügbarkeitssuche unmittelbar auf. Die Notation als Assoziationsklasse wird bereits im Analyse-Klassendiagramm durch eine gestrichelte Anschlusslinie an die Assoziation `Gerät ↔ Arbeitsauftrag` sichtbar gemacht und ist somit konsistent zur Modellierung im Entwurfsklassendiagramm.
+Die Klasse `Buchung` realisiert das Koordinator-Muster (LF 50) in Form einer Assoziationsklasse zwischen `Gerät` und `Arbeitsauftrag`. Sie verknüpft genau ein Gerät mit genau einem `Arbeitsauftrag` und trägt eigene Attribute: Buchungsnummer, Startdatum und Enddatum als Buchungszeitraum, Buchungsdatum (Zeitpunkt der Buchungserstellung) sowie den Status vom Typ `BuchungStatus` mit den festen Werten `AKTIV`, `ABGESCHLOSSEN` und `STORNIERT`. Zusätzlich wird über eine benannte Assoziation `gebuchtVon` der buchende Mitarbeiter referenziert. Diese Attribute stimmen mit der Attributtabelle aus der Lastenheftanalyse (Frage zur Buchung) überein und bilden zugleich die Grundlage der im Aktivitätsdiagramm modellierten Verfügbarkeitsprüfung -- ohne Start- und Enddatum wäre `VERFUEGBARKEIT-PRUEFEN` nicht aus dem Modell ableitbar. Die zeitraumbezogene Belegung eines Geräts ergibt sich ausschließlich aus den aktiven Buchungen; darauf setzt die im Lastenheft geforderte Verfügbarkeitssuche unmittelbar auf. Die Notation als Assoziationsklasse wird bereits im Analyse-Klassendiagramm durch eine gestrichelte Anschlusslinie an die Assoziation `Gerät ↔ Arbeitsauftrag` sichtbar gemacht und ist somit konsistent zur Modellierung im Entwurfsklassendiagramm.
 
 *Bildbar (abstrakter Obertyp)*
 
@@ -118,10 +120,10 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 === Muster: Baugruppe
 
 #figure(caption: [Analysemuster Baugruppe -- Gerät mit Ausrüstung])[
-  Die Aggregation zwischen `Gerät` und `Ausrüstung` (`Gerät "0..1" ◇── "0..*" Ausrüstung`) modelliert physische Baugruppen mit zugehörigem Zubehör. Die leere Raute (Aggregation) drückt aus, dass Ausrüstungsteile auch unabhängig vom Gerät existieren können -- nämlich im Lager.
+  Die Aggregation zwischen `Gerät` und `Ausrüstung` (`Gerät "1" ◇── "0..*" Ausrüstung`) modelliert physische Baugruppen mit zugehörigem Zubehör. Die leere Raute (Aggregation) sitzt am *Gerät* als übergeordnetem Teil und drückt aus, dass ein Gerät null bis mehrere Ausrüstungsteile aufnehmen kann, umgekehrt eine Ausrüstung aber auch unabhängig vom Gerät im Lager existieren darf.
 ]
 
-*Begründung:* Das Lastenheft (LF 50) nennt explizit Zubehörteile wie Baggerschaufeln und Kranzubehör, die einem Gerät zugeordnet werden können, aber nicht fest mit ihm verbunden sind. Eine Ausrüstung kann abmontiert und an einem anderen kompatiblen Gerät genutzt werden. Daher wird Aggregation (leere Raute) statt Komposition verwendet: Ausrüstung kann ohne ein zugeordnetes Gerät im Lager liegen. Die Multiplizität `0..1` auf der Gerät-Seite berücksichtigt, dass eine Ausrüstung aktuell keinem Gerät zugeordnet sein muss.
+*Begründung:* Das Lastenheft (LF 50) nennt explizit Zubehörteile wie Baggerschaufeln und Kranzubehör, die einem Gerät zugeordnet werden können, aber nicht fest mit ihm verbunden sind. Eine Ausrüstung kann abmontiert und an einem anderen kompatiblen Gerät genutzt werden. Daher wird eine Aggregation (leere Raute am Ganzen, d.h. am Gerät) statt einer Komposition verwendet: Ausrüstung kann ohne ein zugeordnetes Gerät im Lager liegen und wird beim Löschen des Geräts nicht mitgelöscht.
 
 === Muster: Liste
 
@@ -138,7 +140,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 === Muster: Koordinator (Assoziationsklasse)
 
 #figure(caption: [Analysemuster Koordinator -- Buchung])[
-  Die Klasse `Buchung` verknüpft `Gerät` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungszeitraum bestehend aus Start- und Enddatum, Buchungsnummer, Status sowie Referenz auf den buchenden Mitarbeiter). Sie realisiert das Koordinator-Muster als eigenständige Klasse mit Assoziationen zu beiden beteiligten Klassen.
+  Die Klasse `Buchung` verknüpft `Gerät` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungszeitraum bestehend aus Start- und Enddatum, Buchungsnummer, Status sowie Referenz auf den buchenden Mitarbeiter). Sie realisiert das Koordinator-Muster in der UML-Notation einer Assoziationsklasse, die über eine gestrichelte Anschlusslinie an die Assoziation zwischen `Gerät` und `Arbeitsauftrag` angebunden ist. Zwei separate Assoziationen der `Buchung` zu `Gerät` bzw. `Arbeitsauftrag` werden bewusst nicht verwendet, da die Attribute der Buchung fachlich nur der Verbindung als Ganzes zuzuordnen sind.
 ]
 
 *Begründung:* Die Buchung eines Geräts für einen Arbeitsauftrag benötigt eigene Attribute (Buchungszeitraum, Buchungsstatus, buchender Mitarbeiter), die weder dem Gerät noch dem Auftrag sinnvoll zugeordnet werden können. Pro Buchung wird genau ein Gerät reserviert; bei Bedarf an mehreren Geräten werden separate Buchungen angelegt. Die Buchung ermöglicht die im Lastenheft geforderte Verfügbarkeitssuche und Planbarkeit (LF 50).
@@ -154,9 +156,9 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 == Multiplizitäten und Navigierbarkeit
 
 Gemäß den Kurskonventionen (SWE1) werden folgende Regeln angewendet:
-- Multiplizitäten werden ausschließlich am navigierten Ende der Assoziation (Pfeilspitze) angegeben; das Ursprungsende bleibt gemäß Vorlesungskonvention unbeschriftet und wird implizit als `1` gelesen
-- Unidirektionale Assoziationen (Pfeilspitze) werden bevorzugt
-- Bidirektionale Assoziationen nur dort, wo beide Navigationsrichtungen geschäftlich benötigt werden (z.B. Mitarbeiter -- Gruppe, Gerät -- Lager); auch hier werden Multiplizitäten nur an den jeweiligen Zielenden ausgewiesen
-- Kompositionen (gefüllte Raute) kennzeichnen existenzabhängige Teile mit kaskadierendem Löschen
-- Aggregationen (leere Raute) kennzeichnen nicht-exklusive Teilbeziehungen (Ausrüstung -- Gerät)
+- Multiplizitäten werden bei unidirektionalen Assoziationen ausschließlich am navigierten Ende (Pfeilspitze) angegeben; das Ursprungsende bleibt gemäß Vorlesungskonvention unbeschriftet und wird implizit als `1` gelesen
+- Bei den wenigen bewusst bidirektional geführten Assoziationen (Mitarbeiter -- Gruppe für die n:m-Beziehung; Gerät -- Lager, damit die Lagerdetailansicht alle dort befindlichen Geräte auflisten kann) sind Multiplizitäten an beiden Enden erforderlich, damit die geforderte Rückrichtung eindeutig lesbar bleibt; diese Ausnahme wird pro Assoziation im Diagramm sichtbar durch das Fehlen der Pfeilspitze und im Text ausdrücklich benannt
+- Unidirektionale Assoziationen (Pfeilspitze) werden konsequent bevorzugt und stellen die Regel dar
+- Kompositionen (gefüllte Raute) kennzeichnen existenzabhängige Teile mit kaskadierendem Löschen; die Raute wird immer am *Ganzen* platziert
+- Aggregationen (leere Raute) kennzeichnen nicht-exklusive Teilbeziehungen; die Raute steht ebenfalls am *Ganzen* -- bei der Beziehung `Gerät ◇── Ausrüstung` folglich am Gerät als übergeordnetem Teil
 - Referenzen auf andere Klassen werden ausschließlich als Assoziationslinien modelliert, nicht als Attribute in der Klasse

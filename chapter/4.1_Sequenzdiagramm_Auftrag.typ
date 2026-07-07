@@ -1,6 +1,6 @@
 = Sequenzdiagramm
 
-Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Auftrag anlegen und archivieren" als UML-Sequenzdiagramm modelliert. Ergänzend zur strukturellen Sicht des Analyse-Klassendiagramms (siehe @fig-analyse-klassendiagramm) wird damit der dynamische Ablauf zwischen den beteiligten Lebenslinien sichtbar gemacht. Die Anlage eines Arbeitsauftrags wird im Hauptdiagramm ausführlich dargestellt; die Archivierung ist als eigenständiges Unterprogramm ausgelagert und wird im Anschluss modelliert. Auf diese Weise bleibt das Hauptdiagramm übersichtlich, während die vollständige Behandlung des Archivierungsvorgangs im dedizierten Untersequenzdiagramm erfolgt. Im Anschluss an die Diagrammdarstellung folgt eine ausführliche Beschreibung der einzelnen Bildbereiche sowie eine ergänzende Modellierung als Pseudocode.
+Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Auftrag anlegen und Auftrag löschen" -- fachlich konsequent umgesetzt als "Auftrag anlegen und archivieren" -- als UML-Sequenzdiagramm modelliert. Die Aufgabenstellung nennt den Vorgang "Auftrag löschen"; da ein physisches Entfernen jedoch mit der im Lastenheft (LL 20) geforderten zehnjährigen Aufbewahrungspflicht unvereinbar ist, wird "Löschen" durchgängig als logisches Löschen (Archivierung) umgesetzt. Diese Übersetzung wird im gesamten Kapitel, in den Untersequenzdiagrammen sowie im Pseudocode einheitlich verwendet; die abweichende Bezeichnung der Modell-Dateien (etwa `SD_Unterprogramm_AuftragLoeschen`) ist dabei aus historischen Gründen erhalten geblieben und mit "Auftrag archivieren" inhaltlich deckungsgleich zu lesen. Ergänzend zur strukturellen Sicht des Analyse-Klassendiagramms (siehe @fig-analyse-klassendiagramm) wird damit der dynamische Ablauf zwischen den beteiligten Lebenslinien sichtbar gemacht. Die Anlage eines Arbeitsauftrags wird im Hauptdiagramm ausführlich dargestellt; die Archivierung ist als eigenständiges Unterprogramm ausgelagert und wird im Anschluss modelliert. Auf diese Weise bleibt das Hauptdiagramm übersichtlich, während die vollständige Behandlung des Archivierungsvorgangs im dedizierten Untersequenzdiagramm erfolgt. Im Anschluss an die Diagrammdarstellung folgt eine ausführliche Beschreibung der einzelnen Bildbereiche sowie eine ergänzende Modellierung als Pseudocode.
 
 Aus Gründen der Übersichtlichkeit werden in diesem Diagramm folgende Vereinfachungen getroffen, die sämtlich konsistent zur Aufgabenstellung und zu den getroffenen Annahmen der vorherigen Kapitel sind:
 - Es wird kein Anmelde- oder Authentifizierungsvorgang modelliert, da Logins gemäß Aufgabenvereinfachung nicht Bestandteil dieser Arbeit sind.
@@ -29,6 +29,8 @@ Zur besseren Lesbarkeit des Diagramms wurden die Referenz-Fragmente (`ref`) farb
 - *Lachsrosa:* Referenzen auf das Unterprogramm "Objekt anlegen", welches die Instanziierung einer neuen Domänenobjekt-Lebenslinie kapselt. Es wird im Hauptdiagramm mehrfach aufgerufen und ist daher zur visuellen Wiedererkennung farblich abgesetzt.
 - *Hellblau:* Referenzen auf prüfende Operationen, hier insbesondere die "Duplikatsprüfung" gemäß LF 100. Diese Operationen verändern keinen Zustand, sondern werten lediglich den Datenbestand aus.
 - *Helles Lila:* Referenzen auf das Unterprogramm "Status setzen", welches den Wechsel des Status-Attributs einer Lebenslinie modelliert.
+
+*Hinweis zum Zugriff auf die Datenbasis:* Die im Diagramm eingezeichnete Lebenslinie `:Datenbasis` wird im Entwurf durch das Singleton-Muster realisiert; jeder tatsächliche Zugriff geschieht folglich über die statische Operation `Datenbasis.getInstance()`. Auf Analyseebene wird dieser Zugriff bewusst abstrahiert dargestellt, um die Lesbarkeit der Nachrichtenfolge nicht durch technische Details zu belasten. Dieselbe Konvention gilt analog für die Swimlane `:Datenbasis` im Aktivitätsdiagramm.
 
 Die Erzeugung neuer Objekte wird gemäß Vorlesung durch eine `new()`-Nachricht auf das Objektsymbol dargestellt; die zugehörige Lebenslinie beginnt konzeptuell erst an dieser Stelle. Aus Gründen der Diagramm-Werkzeugkonvention werden die Objektköpfe bereits am oberen Bildrand angezeigt; ihre Aktivierung durch den `new()`-Aufruf markiert dennoch den tatsächlichen Beginn der Lebenslinie. Rückkehrnachrichten werden als gestrichelte Pfeile dargestellt und ebenfalls dezimal nummeriert. Da es sich um ein Analyse-Sequenzdiagramm handelt, sind in Anlehnung an die Vorlesungsregel (Folie 19) auch sprechende Prosa-Bezeichnungen statt formaler Methodensignaturen zugelassen. Ein physisches Löschen von Lebenslinien (Kreuz `X` am unteren Ende) kommt im Hauptdiagramm nicht vor: Alle im Anlegevorgang erzeugten Objekte werden zusammen mit dem Auftrag persistiert und bleiben gemäß LL 20 dauerhaft in der Datenbasis erhalten.
 
@@ -84,7 +86,7 @@ Die drei im Hauptdiagramm (@fig:sd_auftrag) per lachsrosafarbenem, hellblauem un
 
 #figure(image("../assets/SD_Unterprogramm_Duplikatspruefung.png", width: 100%), caption: [Untersequenzdiagramm: Unterprogramm DUPLIKATSPRÜFUNG (LF 100)]) <fig:sd_duplikat>
 
-Das in @fig:sd_duplikat dargestellte Unterprogramm realisiert die in LF 100 geforderte Prüfung auf bereits vorhandene Datensätze vor jeder Neuanlage. Die UI übergibt der Datenbasis die Schlüsselattribute des anzulegenden Objekts (z.B. Auftragsnummer beim `Arbeitsauftrag`, Seriennummer beim `Gerät`, Mitarbeiternummer beim `Mitarbeiter`); die Datenbasis liefert die Treffermenge zurück. Das anschließende `alt`-Fragment trennt zwischen einem gefundenen Duplikat -- in diesem Fall gibt das Unterprogramm einen Verweis auf den bestehenden Datensatz zurück, sodass der Aufrufer eine Warnung ausgeben kann -- und dem Regelfall ohne Treffer. Die Kapselung als eigenes Unterprogramm ermöglicht die Wiederverwendung an allen Neuanlage-Stellen des Systems, ohne den Prüfablauf redundant zu modellieren.
+Das in @fig:sd_duplikat dargestellte Unterprogramm realisiert die in LF 100 geforderte Prüfung auf bereits vorhandene Datensätze vor jeder Neuanlage. Die UI übergibt der Datenbasis die fachlichen Duplikatskriterien des anzulegenden Objekts. Diese Kriterien sind ausdrücklich nicht die automatisch vergebenen Ordnungsnummern (z.B. `Auftragsnummer`), da diese beim Neuanlegen naturgemäß noch nicht vorliegen können. Verwendet werden stattdessen die im Lastenheft LF 100 genannten fachlichen Schlüsselattribute pro Entitätsart, konkret: `Arbeitsauftrag` -> `Projektreferenz + Auftragsbezeichnung`; `Gerät` -> `Seriennummer` (oder `Bezeichnung + Kategorie`, falls Seriennummer fehlt); `Mitarbeiter` -> `Vorname + Nachname + Geburtsdatum`; `Lager` -> `Bezeichnung + Adresse`; `Geräte-Typ` -> `Bezeichnung`. Die Datenbasis liefert die Treffermenge zurück. Das anschließende `alt`-Fragment trennt zwischen einem gefundenen Duplikat -- in diesem Fall gibt das Unterprogramm einen Verweis auf den bestehenden Datensatz zurück, sodass der Aufrufer eine Warnung ausgeben kann -- und dem Regelfall ohne Treffer. Die Kapselung als eigenes Unterprogramm ermöglicht die Wiederverwendung an allen Neuanlage-Stellen des Systems, ohne den Prüfablauf redundant zu modellieren.
 
 === Unterprogramm: Status setzen <chapter-sd-status>
 
@@ -100,7 +102,7 @@ Das in @fig:sd_duplikat dargestellte Unterprogramm realisiert die in LF 100 gefo
 
 == Pseudocode: Auftrag anlegen und archivieren
 
-Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreibung des Kontrollflusses. Er ist in mehrere kleinere Listings unterteilt: ein Hauptlisting für das Gesamtszenario sowie vier Listings für die im Diagramm referenzierten Unterprogramme. Schlüsselwörter werden ohne Umlaute in Großbuchstaben dargestellt und entsprechen damit der in der Vorlesung empfohlenen Notation.
+Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreibung des Kontrollflusses. Er ist in mehrere kleinere Listings unterteilt: ein Hauptlisting für das Gesamtszenario sowie vier Listings für die im Diagramm referenzierten Unterprogramme. Als *Kontrollwörter* (BEGINN/ENDE, WENN/DANN/SONST/ENDE WENN, FALLS/IST/SONST/ENDE-FALLS, FUEHRE AUS, WIEDERHOLE/BIS, SOLANGE/ENDE SOLANGE, GEBE ... ZURUECK, EMPFANGE) werden gemäß Vorlesungskonvention Großbuchstaben ohne Umlaute verwendet. Operative Verben innerhalb einer Aktion (etwa "Setze", "Persistiere", "Lade", "Ordne ... zu") folgen dagegen der ergonomischen Konvention einer natürlichsprachigen Aktivitätsbeschreibung mit gemischter Groß-/Kleinschreibung, um die inhaltliche Aktion leicht lesbar zu halten. Diese bewusste Trennung zwischen (a) Kontrollwörtern und (b) beschreibenden Verben wurde konsequent auch in den Listings des Aktivitätsdiagramm-Kapitels beibehalten.
 
 #figure(
   raw(
@@ -207,15 +209,17 @@ Das Unterprogramm OBJEKT-ANLEGEN ist bewusst rekursiv aufrufbar: Sofern ein Attr
 #figure(
   raw(
 "  1 BEGINN DUPLIKATSPRUEFUNG
-  2   EMPFANGE Datenobjekt mit zu pruefenden Attributen;
-  3   Lade bestehende Datensaetze derselben Klasse aus der Datenbasis;
-  4   WENN ein Datensatz mit identischen Schluesselattributen existiert;
-  5   DANN
-  6     GEBE Treffer mit Verweis auf bestehenden Datensatz zurueck;
-  7   SONST
-  8     GEBE 'kein Duplikat' zurueck;
-  9   ENDE WENN
- 10 ENDE DUPLIKATSPRUEFUNG",
+  2   EMPFANGE Datenobjekt mit fachlichen Duplikatskriterien gemaess LF 100;
+  3   // z.B. Auftrag: Projekt + Bezeichnung; Geraet: Seriennummer;
+  4   //      Mitarbeiter: Vor-/Nachname + Geburtsdatum; Lager: Name + Adresse
+  5   Lade bestehende Datensaetze derselben Klasse aus der Datenbasis;
+  6   WENN ein Datensatz mit uebereinstimmenden Duplikatskriterien existiert;
+  7   DANN
+  8     GEBE Treffer mit Verweis auf bestehenden Datensatz zurueck;
+  9   SONST
+ 10     GEBE 'kein Duplikat' zurueck;
+ 11   ENDE WENN
+ 12 ENDE DUPLIKATSPRUEFUNG",
     lang: "text",
     block: true,
   ),
@@ -232,8 +236,14 @@ Das Unterprogramm DUPLIKATSPRUEFUNG bündelt die in LF 100 geforderte Prüfung a
   3   WENN der neue Statuswert gueltig ist;
   4   DANN
   5     Setze das Statusattribut auf den neuen Wert;
-  6   ENDE WENN
-  7 ENDE STATUS-SETZEN",
+  6     Persistiere die Statusaenderung ueber das aufrufende Programm;
+  7     GEBE 'ok' zurueck;
+  8   SONST
+  9     // Ungueltige Statuswerte werden zurueckgewiesen, ohne die
+ 10     // Datenbasis zu veraendern (konsistent zur Diagrammbeschreibung).
+ 11     GEBE Fehler 'ungueltiger Statuswert' zurueck;
+ 12   ENDE WENN
+ 13 ENDE STATUS-SETZEN",
     lang: "text",
     block: true,
   ),

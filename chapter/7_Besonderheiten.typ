@@ -32,7 +32,7 @@ Die im Lastenheft in LF 100 geforderte Duplikatsprüfung wird nicht nur erwähnt
 
 == Wiederverwendbare Unterprogramme im Sequenzdiagramm
 
-Das Sequenzdiagramm zum Szenario "Auftrag anlegen" wurde bewusst nicht monolithisch, sondern über vier eigenständige Untersequenzdiagramme (`OBJEKT-ANLEGEN`, `DUPLIKATSPRUEFUNG`, `STATUS-SETZEN`, `AUFTRAG-ARCHIVIEREN`) modularisiert. Insbesondere das Unterprogramm `OBJEKT-ANLEGEN` wurde generisch und rekursiv aufrufbar gestaltet, sodass es unabhängig von der konkreten Domänenklasse wiederverwendbar ist und die im Lastenheft (LF 70) geforderte Erweiterbarkeit von Auswahllisten bereits in der Modellierung sichtbar wird. Der zugehörige nummerierte Pseudocode nutzt durchgängig die aus der Vorlesung bekannten deutschen Schlüsselwörter in Großbuchstaben und ohne Umlaute.
+Das Sequenzdiagramm zum Szenario "Auftrag anlegen" wurde bewusst nicht monolithisch, sondern über vier eigenständige Untersequenzdiagramme (`OBJEKT-ANLEGEN`, `DUPLIKATSPRUEFUNG`, `STATUS-SETZEN`, `AUFTRAG-ARCHIVIEREN`) modularisiert. Insbesondere das Unterprogramm `OBJEKT-ANLEGEN` wurde generisch und rekursiv aufrufbar gestaltet, sodass es unabhängig von der konkreten Domänenklasse wiederverwendbar ist und die im Lastenheft (LF 70) geforderte Erweiterbarkeit von Auswahllisten bereits in der Modellierung sichtbar wird. Der zugehörige nummerierte Pseudocode nutzt für Kontrollwörter durchgängig die aus der Vorlesung bekannten deutschen Großbuchstaben ohne Umlaute; operative Verben innerhalb einer einzelnen Aktion behalten aus Gründen der Lesbarkeit ihre natürlichsprachige Schreibweise, was in den Vorbemerkungen zu Sequenz- und Aktivitätsdiagramm ausdrücklich begründet ist.
 
 == Ausdifferenziertes MVC-Kommunikationsschema
 
