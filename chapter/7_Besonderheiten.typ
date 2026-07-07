@@ -1,0 +1,33 @@
+= Besonderheiten
+
+Für den vorliegenden Programmentwurf wurden an mehreren Stellen methodische und fachliche Schwerpunkte gesetzt, die über die in der Aufgabenstellung geforderten Mindestanforderungen hinausgehen und die Arbeit von einem reinen Erfüllen der Pflichtvorgaben abheben. Die folgenden Abschnitte fassen diese Besonderheiten zusammen, damit sie im Rahmen der Bewertung nicht übersehen werden.
+
+== Konsequente Anwendung von Analysemustern
+Im Analyse-Klassendiagramm wurden fünf Analysemuster aus der Vorlesung explizit identifiziert, in eigenen Unterabschnitten benannt und jeweils fachlich begründet: das Exemplartyp-Muster für die Trennung von Geräte-Typ und konkretem Geräteexemplar, das Baugruppe-Muster für die Zuordnung von Ausrüstung zu Baumaschinen, das Listen-Muster für mehrere Kompositionen entlang der Auftragshierarchie, das Koordinator-Muster für die Buchung als Assoziationsklasse sowie das Rollen-Muster für die mehrfach benannten Assoziationen zwischen Mitarbeitern und ihren Bezugsobjekten. Die Muster wurden nicht nur genannt, sondern jeweils mit Bezug auf die konkrete Lastenheftanforderung motiviert.
+
+== Sechs Entwurfsmuster mit begründeter Auswahl
+Das Entwurfsklassendiagramm greift die Analysemuster auf und ergänzt sie um sechs klassische Entwurfsmuster: Singleton für Datenbasis und `GUIController`, Kompositum für die selbstreferenzielle Auftragshierarchie, Beobachter für die Datenaktualisierung über eigene Listener-Schnittstellen, Fabrikmethode für die typspezifische Erzeugung von Arbeitsaufträgen und Unteraufträgen, Objektadapter für die Anbindung des Altsystems sowie die Assoziationsklasse als Realisierung des Koordinator-Musters. Jedes Muster wurde bewusst und mit expliziter Begründung eingesetzt, nicht als Selbstzweck.
+
+== Umfangreiche und rollenbasierte GUI-Ausarbeitung
+Statt der geforderten zwei GUI-Ansichten wurden acht produktionsnahe Mockups ausgearbeitet, die einen typischen Tagesablauf eines Bauleiters vollständig abbilden. Sämtliche Ansichten folgen einem einheitlichen Designsystem mit permanenter Seitenleiste, verankerter Topbar, einer konsistenten Statusfarbpalette und einer domänenauthentischen Akzentfarbe (Bauorange in Anlehnung an Sicherheitswesten und Baustellenmarkierungen). Die Sichtbarkeit einzelner Funktionen wurde konsequent an die im Klassendiagramm modellierte Rollenstruktur gekoppelt und im Kapitel zur GUI ausdrücklich diskutiert.
+
+== Duplikatsprüfung als durchgängiges Querschnittskonzept
+Die im Lastenheft in LF 100 geforderte Duplikatsprüfung wird nicht nur erwähnt, sondern durchgängig über alle Modellierungsebenen hinweg realisiert: als eigenständiges Unterprogramm im Sequenzdiagramm, als hellblau markierte Verfeinerung im Aktivitätsdiagramm, in nummeriertem Pseudocode sowie als sichtbarer Live-Hinweis im GUI-Mockup zum Anlegen eines neuen Auftrags. Diese durchgängige Verankerung verhindert, dass eine zentrale Qualitätsanforderung nur auf einer einzigen Ebene modelliert wird.
+
+== Wiederverwendbare Unterprogramme im Sequenzdiagramm
+Das Sequenzdiagramm zum Szenario "Auftrag anlegen und löschen" wurde bewusst nicht monolithisch, sondern über vier eigenständige Untersequenzdiagramme (`OBJEKT-ANLEGEN`, `DUPLIKATSPRÜFUNG`, `STATUS-SETZEN`, `AUFTRAG-LÖSCHEN`) modularisiert. Insbesondere das Unterprogramm `OBJEKT-ANLEGEN` wurde generisch und rekursiv aufrufbar gestaltet, sodass es unabhängig von der konkreten Klasse wiederverwendbar ist und die im Lastenheft (LF 70) geforderte Erweiterbarkeit von Auswahllisten in der Modellierung sichtbar wird. Der zugehörige nummerierte Pseudocode nutzt durchgängig die aus der Vorlesung bekannten deutschen Schlüsselwörter.
+
+== Ausdifferenziertes MVC-Kommunikationsschema
+Die im Aufgabenteil geforderte GUI-Modellierung mit MVC wurde um ein eigenes Event-Paket mit vier fachlich benannten Listener-Schnittstellen (`IFilterListener`, `IAuftragSelectionListener`, `IUpdateEventListener`, `IUpdateEventSender`) ergänzt, das die Schichten View, Controller und Model vollständig entkoppelt. Der Nachrichtenfluss beim exemplarischen Filtervorgang wurde in acht aufeinanderfolgenden Schritten beschrieben; die bewusste Koexistenz eines nativen Java-Swing-Beobachterpfads und eines fachlich eigenen Ereignispfads wurde im Reflexionsteil ausdrücklich begründet.
+
+== Bildbar-Abstraktion für einheitliche Bildzuordnung
+Statt vier separate Assoziationen zwischen der Klasse `Bild` und den bildtragenden Entitäten (`Mitarbeiter`, `Arbeitsauftrag`, `Projekt`, `Gerät`) vorzusehen, wurde die abstrakte Oberklasse `Bildbar` mit der Generalisierungsmenge `{disjoint, incomplete}` eingeführt. Dadurch entsteht eine einzige, einheitliche Komposition zwischen `Bildbar` und `Bild`, was die im Lastenheft (LF 80) geforderte Bildhinterlegung elegant realisiert und für spätere bildtragende Entitäten offen bleibt.
+
+== Domänenspezifische Verfügbarkeitssuche mit Standortlogik
+Die Buchung von Baumaschinen wurde nicht auf eine einfache Verfügbarkeitsprüfung reduziert, sondern durchgängig um die im Lastenheft geforderte Standortdimension erweitert. Die im GUI-Mockup dargestellte Suche kombiniert Gerätekategorie, Buchungszeitraum, Einsatzort und Ausrüstungsanforderung; die Ergebnisliste wird nach Entfernung zum Einsatzort und Verfügbarkeit sortiert. Diese domänenspezifische Ausprägung erfüllt die Anforderungen LF 50 und LF 60 in einer für den Bauleiter unmittelbar praktikablen Weise.
+
+== Vorschlag zur Tablet-Realisierung und Übertragbarkeit
+Der im Lastenheft angesprochene, jedoch nicht Teil des ersten Auftrags stellende Tablet-Ansatz wurde in der GUI-Reflexion und im Entwurfsklassendiagramm konzeptionell vorbereitet: Die kartenbasierten Layouts der Mockups sind bewusst mobiletauglich gehalten, und die strikte Schichtentrennung im MVC-Kommunikationsschema erlaubt einen späteren Austausch der View-Schicht ohne Eingriffe in die Geschäftslogik. Damit ist die Anwendung nicht nur für das Bauunternehmen der Rhein-Neckar-Region ausgelegt, sondern grundsätzlich auf weitere Bauunternehmen und Endgeräte übertragbar.
+
+== Konsistenz zwischen den Diagrammen
+Über sämtliche Diagramme hinweg wurde eine einheitliche Farbcodierung, Terminologie und Multiplizitätskonvention eingehalten: Die Farbgruppen des Analyse-Klassendiagramms (Personen blau, Projekte und Aufträge orange, Geräte grün, externe Systeme lila) finden sich im Entwurfsklassendiagramm und in den Statusfarben der GUI wieder. Attributnamen, Klassennamen und Rollenbezeichnungen wurden über Analyse, Entwurf, Sequenz- und Aktivitätsdiagramm konsistent verwendet, sodass ein durchgängiger roter Faden von der Lastenheftanalyse bis zum Entwurfsklassendiagramm entsteht.

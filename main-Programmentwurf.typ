@@ -83,3 +83,5 @@ TINF24B1
 #include "chapter/5_GUI-Modellierung-MVC.typ"
 
 #include "chapter/6_Entwurfsklassendiagramm.typ"
+
+#include "chapter/7_Besonderheiten.typ"
