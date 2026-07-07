@@ -12,7 +12,7 @@ Aus Gründen der Übersichtlichkeit werden folgende Vereinfachungen getroffen:
 
 == Szenariobetrachtung: Gerät anlegen und buchen <chapter-AD-Szenariobetrachtung>
 
-Das nachfolgende Aktivitätsdiagramm modelliert das Szenario "Gerät anlegen und buchen" in drei aufeinanderfolgenden Phasen, die durch Swimlanes auf die beteiligten Akteure und Systemkomponenten verteilt werden. Die vier Swimlanes entsprechen den Verantwortlichkeitsbereichen aus dem Use-Case-Diagramm (siehe Kapitel "Use-Case-Diagramm"): *Verwaltungsmitarbeiter* (zuständig für Geräteverwaltung gemäß LF 50), *Bau-/Projektleiter* (zuständig für Buchungen), *System (UI Bauverwaltung)* (Geschäftslogik und Instanzerzeugung) sowie *Datenbasis* (Persistierung und Abfragen).
+Das nachfolgende Aktivitätsdiagramm modelliert das Szenario "Gerät anlegen und buchen" in drei aufeinanderfolgenden Phasen. Die Phasen A und B (Anlage) sowie die Phase C (Buchung) werden gemäß UML-Konvention als zwei eigenständige Aktivitäten mit jeweils eigenem Start- und Endknoten dargestellt, da es sich fachlich um zeitlich versetzte Vorgänge unterschiedlicher Akteure handelt. Jede der beiden Aktivitäten nutzt drei Swimlanes: Aktivität 1 ("Gerät anlegen") mit *Verwaltungsmitarbeiter* (zuständig für Geräteverwaltung gemäß LF 50), *System (UI Bauverwaltung)* (Geschäftslogik und Instanzerzeugung) sowie *Datenbasis* (Persistierung und Abfragen); Aktivität 2 ("Gerät für Arbeitsauftrag buchen") mit *Bau-/Projektleiter* anstelle des Verwaltungsmitarbeiters, gefolgt von denselben System- und Datenbasis-Lanes.
 
 *Phase A -- Geräte-Typ anlegen:* In der ersten Phase legt der Verwaltungsmitarbeiter einen neuen `Geräte-Typ` an (Exemplartyp-Muster, siehe @fig-analyse-klassendiagramm). Nach Auswahl der Funktion "Neuen Geräte-Typ anlegen" erfasst der Benutzer zuerst die Pflichtfelder (Bezeichnung, Typ, Kategorie); erst nach vollständiger, valider Eingabe lädt das System den Bestand und führt die Duplikatsprüfung gemäß LF 100 durch. Bei einem Treffer wird der Vorgang mit einer Warnmeldung abgebrochen; ein angemeldeter Administrator kann die Warnung als `<<extend>>`-Sonderberechtigung explizit übersteuern. Sind die Pflichtfelder vollständig, valide und ohne Duplikatstreffer, erzeugt das System eine `Geräte-Typ`-Instanz und persistiert sie.
 
@@ -171,7 +171,7 @@ Das Hauptlisting referenziert vier Unterprogramme: OBJEKT-ANLEGEN und DUPLIKATSP
   supplement: [Listing],
 ) <lst:lager>
 
-Das Unterprogramm LAGER-AUSWAEHLEN-ODER-ANLEGEN kapselt die im Aktivitätsdiagramm als Fork/Join dargestellte Verzweigung. Im Pseudocode wird sie als sequenzielles WENN/SONST-Konstrukt modelliert, da Pseudocode keine echte Parallelisierung abbildet; die konzeptuelle Aussage -- Benutzereingabe und Systemreaktion können logisch unabhängig beschrieben werden -- bleibt erhalten. Ergänzend wird an dieser Stelle die im Lastenheft (LF 100) geforderte Duplikatsprüfung explizit auch für Lager durchgeführt: Der Vergleich von Bezeichnung und Adresse verhindert die versehentliche Doppelanlage eines Lagers.
+Das Unterprogramm LAGER-AUSWAEHLEN-ODER-ANLEGEN kapselt die im Aktivitätsdiagramm sequenziell dargestellte Verzweigung "passendes Lager vorhanden ja/nein" als WENN/SONST-Konstrukt. Ergänzend wird an dieser Stelle die im Lastenheft (LF 100) geforderte Duplikatsprüfung explizit auch für Lager durchgeführt: Der Vergleich von Bezeichnung und Adresse verhindert die versehentliche Doppelanlage eines Lagers.
 
 #figure(
   raw(
