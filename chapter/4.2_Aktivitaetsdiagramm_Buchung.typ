@@ -29,13 +29,17 @@ Die Farbkonvention der Aktionsknoten orientiert sich an der im Sequenzdiagramm-K
 - *Dunkelgrün (`#A5D6A7`):* Buchungsspezifische Systemaktionen (Instanzerzeugung und Persistierung der `Buchung`-Instanz gemäß Koordinator-Muster).
 - *Hellrot (`#FFD7D7`):* Fehler- und Warnpfade (Duplikate gefunden, Gerät nicht verfügbar).
 
-Entscheidungsknoten (Rauten) kennzeichnen Verzweigungen im Kontrollfluss; Schleifenkonstrukte (`while/endwhile`) modellieren die im Klassendiagramm festgelegten `0..*`-Multiplizitäten für wiederholbare Eingaben. Der Kontrollfluss verläuft durchgehend sequenziell; auf Fork/Join-Konstrukte wurde bewusst verzichtet, da im vorliegenden Szenario keine echte Nebenläufigkeit vorliegt.
+Entscheidungsknoten (Rauten) kennzeichnen Verzweigungen im Kontrollfluss; Schleifenkonstrukte (`while/endwhile`) modellieren die im Klassendiagramm festgelegten `0..*`-Multiplizitäten für wiederholbare Eingaben. Anlage- und Buchungsvorgang sind gemäß UML-Konvention als *zwei eigenständige Aktivitäten* mit jeweils eigenem Start- und Endknoten dargestellt, damit die semantische Unabhängigkeit -- Anlage und Buchung sind zeitlich versetzte Vorgänge unterschiedlicher Akteure -- auch im Diagramm sichtbar wird.
 
-#figure(image("../assets/Aktivitaetsdiagramm_Buchung.png", width: 100%), caption: [Aktivitätsdiagramm "Gerät anlegen und buchen"]) <fig:ad_buchung>
+#figure(image("../assets/Aktivitaetsdiagramm_Anlegen.png", height: 90%), caption: [Aktivitätsdiagramm 1: Gerät anlegen]) <fig:ad_anlegen>
+
+#pagebreak(weak: true)
+
+#figure(image("../assets/Aktivitaetsdiagramm_Buchen.png", width: 100%), caption: [Aktivitätsdiagramm 2: Gerät für Arbeitsauftrag buchen]) <fig:ad_buchen>
 
 == Diagrammbetrachtung: Gerät anlegen und buchen
 
-Das in @fig:ad_buchung dargestellte Aktivitätsdiagramm beschreibt den vollständigen Ablauf vom Anlegen eines Geräte-Typs über die Instanziierung eines konkreten Geräts bis zur Buchung für einen Arbeitsauftrag. Wie in der Einleitung zu diesem Kapitel ausgeführt, wird auf die Modellierung von Anmeldevorgängen, Datenbankfehlern und nebenläufigen Akteurszugriffen verzichtet. Die folgenden Absätze beschreiben die einzelnen Bildbereiche von oben nach unten.
+Die in @fig:ad_anlegen und @fig:ad_buchen dargestellten Aktivitätsdiagramme beschreiben den vollständigen Ablauf vom Anlegen eines Geräte-Typs über die Instanziierung eines konkreten Geräts (Aktivität 1) bis zur eigenständigen Buchung dieses Geräts für einen Arbeitsauftrag (Aktivität 2). Wie in der Einleitung zu diesem Kapitel ausgeführt, wird auf die Modellierung von Anmeldevorgängen, Datenbankfehlern und nebenläufigen Akteurszugriffen verzichtet. Die folgenden Absätze beschreiben die einzelnen Bildbereiche der beiden Diagramme.
 
 *Phase A: Geräte-Typ anlegen*
 

@@ -227,6 +227,9 @@ AuftragsTabelleView -down[#5C6BC0]->         IAuftragSelectionListener : meldet
 ' View realisiert UpdateEventListener (lila, gestrichelt)
 AufträgeÜbersichtPanel .down[#7B1FA2,thickness=2].|> IUpdateEventListener : <<realisiert>>
 
+' Datenbasis realisiert die Sender-Schnittstelle (lila, gestrichelt)
+Datenbasis .up[#7B1FA2,thickness=2].|> IUpdateEventSender : <<realisiert>>
+
 ' AbstractTableModel-Vererbung (blau, dick)
 AuftragsTableModel -up[#0033A0,thickness=2]-|> AbstractTableModel : <<erbt>>
 

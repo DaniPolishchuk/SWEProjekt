@@ -1,6 +1,6 @@
 <mxfile host="localhost" agent="Claude">
   <diagram name="Entwurfsklassendiagramm" id="entwurfKD">
-    <mxGraphModel dx="2355" dy="1030" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3400" pageHeight="2700" math="0" shadow="0">
+    <mxGraphModel dx="2548" dy="2183" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3400" pageHeight="2700" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -55,13 +55,13 @@
         <mxCell id="c-anwes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Anwesenheitszeit&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- anwesenheitsId: int&lt;br/&gt;- datum: LocalDate&lt;br/&gt;- startzeit: LocalTime&lt;br/&gt;- endzeit: LocalTime&lt;br/&gt;- typ: AnwesenheitTyp&lt;br/&gt;- bemerkung: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ dauer(): Duration&lt;/p&gt;" vertex="1">
           <mxGeometry height="150" width="130" x="75" y="630" as="geometry" />
         </mxCell>
-        <mxCell id="c-auftrag" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;&lt;i&gt;Auftrag&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;# auftragsnummer: int&lt;br/&gt;# bezeichnung: String&lt;br/&gt;# status: AuftragStatus&lt;br/&gt;# bemerkung: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ statusSetzen(neu: AuftragStatus)&lt;br/&gt;+ getUnteraufträge(): List&amp;lt;Auftrag&amp;gt;&lt;br/&gt;+ &lt;i&gt;kosten(): BigDecimal&lt;/i&gt;&lt;/p&gt;" vertex="1">
+        <mxCell id="c-auftrag" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;&lt;i&gt;Auftrag&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;# auftragsnummer: int&lt;br/&gt;# bezeichnung: String&lt;br/&gt;# status: AuftragStatus&lt;br/&gt;# bemerkung: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ statusSetzen(neu: AuftragStatus)&lt;br/&gt;+ &lt;i&gt;kosten(): BigDecimal&lt;/i&gt;&lt;/p&gt;" vertex="1">
           <mxGeometry height="160" width="190" x="890" y="360" as="geometry" />
         </mxCell>
-        <mxCell id="c-projekt" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Projekt&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- projektnummer: int&lt;br/&gt;- projektname: String&lt;br/&gt;- beschreibung: String&lt;br/&gt;- status: AuftragStatus&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ auftragAnlegen(): Arbeitsauftrag&lt;br/&gt;+ projektAbschliessen()&lt;br/&gt;+ getArbeitsaufträge(): List&lt;/p&gt;" vertex="1">
+        <mxCell id="c-projekt" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Projekt&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- projektnummer: int&lt;br/&gt;- projektname: String&lt;br/&gt;- beschreibung: String&lt;br/&gt;- status: AuftragStatus&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ auftragAnlegen(): Arbeitsauftrag&lt;br/&gt;+ projektAbschliessen()&lt;/p&gt;" vertex="1">
           <mxGeometry height="150" width="180" x="1240" y="360" as="geometry" />
         </mxCell>
-        <mxCell id="c-arbauft" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Arbeitsauftrag&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- auftragsbezeichnung: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ dokumentAnhängen(d: Dokument)&lt;br/&gt;+ mitarbeiterZuweisen(m: Mitarbeiter)&lt;br/&gt;+ terminHinzufügen(t: Termin)&lt;br/&gt;+ kosten(): BigDecimal&lt;/p&gt;" vertex="1">
+        <mxCell id="c-arbauft" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Arbeitsauftrag&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- auftragsbezeichnung: String&lt;br/&gt;- kostenvoranschlag: BigDecimal&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ dokumentAnhängen(d: Dokument)&lt;br/&gt;+ mitarbeiterZuweisen(m: Mitarbeiter)&lt;br/&gt;+ terminHinzufügen(t: Termin)&lt;br/&gt;+ kosten(): BigDecimal&lt;/p&gt;" vertex="1">
           <mxGeometry height="130" width="200" x="890" y="620" as="geometry" />
         </mxCell>
         <mxCell id="c-unterauft" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Unterauftrag&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- kosten: BigDecimal&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ Unterauftrag(...)&lt;br/&gt;+ kosten(): BigDecimal&lt;br/&gt;+ ausgeführtVon(): Unterauftragnehmer&lt;/p&gt;" vertex="1">
@@ -97,8 +97,8 @@
         <mxCell id="c-bild" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Bild&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- bildId: int&lt;br/&gt;- titel: String&lt;br/&gt;- datei: Datei&lt;br/&gt;- hochladedatum: LocalDate&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ Bild(titel, datei, hochlader)&lt;/p&gt;" vertex="1">
           <mxGeometry height="130" width="160" x="1890" y="345" as="geometry" />
         </mxCell>
-        <mxCell id="c-db" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;singleton&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Datenbasis&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- &lt;u&gt;INSTANCE: Datenbasis&lt;/u&gt;&lt;br/&gt;- projekte: List&amp;lt;Projekt&amp;gt;&lt;br/&gt;- mitarbeiter: List&amp;lt;Mitarbeiter&amp;gt;&lt;br/&gt;- geräte: List&amp;lt;Gerät&amp;gt;&lt;br/&gt;- lager: List&amp;lt;Lager&amp;gt;&lt;br/&gt;- buchungen: List&amp;lt;Buchung&amp;gt;&lt;br/&gt;- dokumente: List&amp;lt;Dokument&amp;gt;&lt;br/&gt;- bilder: List&amp;lt;Bild&amp;gt;&lt;br/&gt;- gruppen: List&amp;lt;Gruppe&amp;gt;&lt;br/&gt;- rechnungen: List&amp;lt;Rechnung&amp;gt;&lt;br/&gt;- listener: List&amp;lt;IUpdateEventListener&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- Datenbasis()&lt;br/&gt;+ &lt;u&gt;getInstance(): Datenbasis&lt;/u&gt;&lt;br/&gt;+ findAufträge(k): List&lt;br/&gt;+ speichern(o: Object)&lt;br/&gt;+ löschen(o: Object)&lt;br/&gt;+ existiertBereits(o): boolean&lt;br/&gt;+ register(l), unregister(l)&lt;br/&gt;+ fireUpdate()&lt;/p&gt;" vertex="1">
-          <mxGeometry height="320" width="200" x="1520" y="580" as="geometry" />
+        <mxCell id="c-db" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;singleton&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Datenbasis&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- &lt;u&gt;INSTANCE: Datenbasis&lt;/u&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- Datenbasis()&lt;br/&gt;+ &lt;u&gt;getInstance(): Datenbasis&lt;/u&gt;&lt;br/&gt;+ findAufträge(k): List&lt;br/&gt;+ speichern(o: Object)&lt;br/&gt;+ löschen(o: Object)&lt;br/&gt;+ existiertBereits(o): boolean&lt;br/&gt;+ register(l), unregister(l)&lt;br/&gt;+ fireUpdate()&lt;/p&gt;" vertex="1">
+          <mxGeometry height="200" width="200" x="1520" y="580" as="geometry" />
         </mxCell>
         <mxCell id="c-factory" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=center;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin: 0px; font-style: italic;&quot;&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px;&quot;&gt;&lt;b&gt;&lt;i&gt;AuftragFactory&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;text-align: justify;&quot;&gt;&lt;p style=&quot;margin:0&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));&quot;&gt;+ &lt;/span&gt;&lt;i style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));&quot;&gt;erzeugeAuftrag(...): Auftrag&lt;/i&gt;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));&quot;&gt;+ zähler(): int&lt;/span&gt;&lt;/div&gt;&lt;p&gt;&lt;/p&gt;" vertex="1">
           <mxGeometry height="90" width="260" x="1810" y="580" as="geometry" />
@@ -124,11 +124,14 @@
         <mxCell id="c-csvexp" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=center;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin: 0px;&quot;&gt;&lt;b&gt;CSVExporter&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;&quot;&gt;&lt;p style=&quot;margin: 0px;&quot;&gt;+ exportiere(db: Datenbasis, pfad: String)&lt;/p&gt;" vertex="1">
           <mxGeometry height="95" width="260" x="1810" y="925" as="geometry" />
         </mxCell>
-        <mxCell id="c-gui" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;singleton&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;GUIController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- &lt;u&gt;INSTANCE: GUIController&lt;/u&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ &lt;u&gt;getInstance(): GUIController&lt;/u&gt;&lt;br/&gt;+ onFilterChanged(e)&lt;br/&gt;+ onAuftragSelected(id)&lt;br/&gt;+ onDataUpdated(e)&lt;/p&gt;" vertex="1">
-          <mxGeometry height="130" width="160" x="65" y="890" as="geometry" />
+        <mxCell id="c-gui" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;singleton&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;GUIController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- &lt;u&gt;INSTANCE: GUIController&lt;/u&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ &lt;u&gt;getInstance(): GUIController&lt;/u&gt;&lt;br/&gt;+ onFilterChanged(e)&lt;br/&gt;+ onAuftragSelected(id)&lt;br/&gt;+ registerView(v: IUpdateEventListener)&lt;/p&gt;" vertex="1">
+          <mxGeometry height="140" width="205" x="37.5" y="890" as="geometry" />
         </mxCell>
         <mxCell id="c-iup" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;&lt;i&gt;IUpdateEventListener&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ onDataUpdated(e: UpdateEvent)&lt;/p&gt;" vertex="1">
           <mxGeometry height="80" width="190" x="370" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="c-iue" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;&lt;i&gt;IUpdateEventSender&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ register(l: IUpdateEventListener)&lt;br/&gt;+ unregister(l: IUpdateEventListener)&lt;br/&gt;+ fireUpdate()&lt;/p&gt;" vertex="1">
+          <mxGeometry height="110" width="200" x="1520" y="910" as="geometry" />
         </mxCell>
         <mxCell id="c-adresse" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=11;fontColor=#000000;" value="&lt;p style=&quot;margin:0;text-align:center;font-style:italic&quot;&gt;&amp;lt;&amp;lt;datatype&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin:0;text-align:center&quot;&gt;&lt;b&gt;Adresse&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;- strasse: String&lt;br/&gt;- hausnummer: String&lt;br/&gt;- plz: String&lt;br/&gt;- ort: String&lt;br/&gt;- land: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0&quot;&gt;+ getters/setters&lt;/p&gt;" vertex="1">
           <mxGeometry height="150" width="120" x="70" y="1120" as="geometry" />
@@ -244,7 +247,9 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="edge-rech-arbauft" edge="1" parent="1" source="c-rechnung" style="endArrow=none;html=1;rounded=0;fontColor=#000000;edgeStyle=orthogonalEdgeStyle;exitX=0.619;exitY=-0.008;exitDx=0;exitDy=0;exitPerimeter=0;" target="c-arbauft" value="0..*     1">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" x="0.2001" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="edge-arbauft-dok" edge="1" parent="1" source="c-arbauft" style="endArrow=open;html=1;rounded=0;startArrow=cross;startFill=0;fontColor=#000000;edgeStyle=orthogonalEdgeStyle;exitX=0.995;exitY=0.585;exitDx=0;exitDy=0;exitPerimeter=0;" target="c-dokument" value="0..*">
           <mxGeometry relative="1" x="-0.2368" as="geometry">
@@ -255,7 +260,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="edge-auftr-termin" edge="1" parent="1" source="c-auftrag" style="endArrow=none;html=1;rounded=0;fontColor=#000000;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="c-termin" value="1     2..*">
-          <mxGeometry relative="1" x="0.2667" as="geometry">
+          <mxGeometry relative="1" x="0.2043" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
               <mxPoint x="830" y="440" />
@@ -365,6 +370,16 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="edge-projekt-projektleiter" edge="1" parent="1" source="c-projekt" style="endArrow=open;html=1;rounded=0;startArrow=cross;startFill=0;fontColor=#000000;edgeStyle=orthogonalEdgeStyle;entryX=0.997;entryY=0.163;entryDx=0;entryDy=0;entryPerimeter=0;" target="c-mitarb" value="projektleiter 1">
+          <mxGeometry relative="1" x="0.4035" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1330" y="330" />
+              <mxPoint x="620" y="330" />
+              <mxPoint x="620" y="389" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
         <mxCell id="edge-mitarb-rolle" edge="1" parent="1" source="c-mitarb" style="endArrow=open;html=1;rounded=0;startArrow=cross;startFill=0;fontColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="e-rolle" value="rolle 1">
           <mxGeometry relative="1" x="-0.0448" as="geometry">
             <mxPoint as="offset" />
@@ -375,15 +390,17 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="edge-arbauft-adresse" edge="1" parent="1" source="c-arbauft" style="endArrow=open;html=1;rounded=0;startArrow=cross;startFill=0;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="c-adresse" value="Einsatzort 1">
+        <mxCell id="edge-arbauft-adresse" edge="1" parent="1" source="c-arbauft" style="endArrow=open;html=1;rounded=0;startArrow=cross;startFill=0;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;" value="Einsatzort 1">
           <mxGeometry relative="1" x="-0.1464" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
               <mxPoint x="780" y="685" />
               <mxPoint x="780" y="1020" />
-              <mxPoint x="240" y="1020" />
-              <mxPoint x="240" y="1195" />
+              <mxPoint x="270" y="1020" />
+              <mxPoint x="270" y="1170" />
+              <mxPoint x="190" y="1170" />
             </Array>
+            <mxPoint x="190" y="1170" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="edge-projekt-adresse" edge="1" parent="1" source="c-projekt" style="endArrow=open;html=1;rounded=0;startArrow=cross;startFill=0;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.999;entryY=0.159;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;entryPerimeter=0;" target="c-adresse" value="Einsatzort 1">
@@ -457,10 +474,12 @@
         <mxCell id="edge-impad-iimport" edge="1" parent="1" source="c-impad" style="endArrow=open;html=1;rounded=0;fontColor=#000000;exitX=0;exitY=0.75;exitDx=0;exitDy=0;elbow=vertical;entryX=1;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="c-iimport" value="quelle">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge-impad-db" edge="1" parent="1" source="c-impad" style="endArrow=open;html=1;rounded=0;fontColor=#000000;entryX=0.85;entryY=1.002;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;entryPerimeter=0;" target="c-db">
+        <mxCell id="edge-impad-db" edge="1" parent="1" source="c-impad" style="endArrow=open;html=1;rounded=0;fontColor=#000000;entryX=0.75;entryY=1;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="c-db">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1690" y="1085" />
+              <mxPoint x="1750" y="1085" />
+              <mxPoint x="1750" y="880" />
+              <mxPoint x="1670" y="880" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -476,29 +495,24 @@
             <mxPoint x="1013" y="240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="edge-gui-db" edge="1" parent="1" source="c-gui" style="endArrow=open;html=1;rounded=0;fontColor=#000000;exitX=0.75;exitY=1;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;" value="1">
+        <mxCell id="edge-gui-db" edge="1" parent="1" source="c-gui" style="endArrow=open;html=1;rounded=0;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="c-db" value="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="190" y="1040" />
-              <mxPoint x="1590" y="1040" />
-              <mxPoint x="1590" y="901" />
+              <mxPoint x="140" y="1040" />
+              <mxPoint x="1490" y="1040" />
+              <mxPoint x="1490" y="730" />
             </Array>
             <mxPoint x="1590" y="900" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="edge-gui-iup" edge="1" parent="1" source="c-gui" style="endArrow=block;endFill=0;dashed=1;endSize=16;html=1;rounded=0;fontColor=#000000;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="c-iup">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="465" y="988" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="edge-db-iue" edge="1" parent="1" source="c-db" style="endArrow=block;endFill=0;dashed=1;endSize=16;html=1;rounded=0;fontColor=#000000;edgeStyle=orthogonalEdgeStyle;" target="c-iue">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="edge-db-iup" edge="1" parent="1" source="c-db" style="endArrow=open;html=1;rounded=0;fontColor=#000000;exitX=0;exitY=0.75;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;" value="benachrichtigt 0..*">
+        <mxCell id="edge-db-iup" edge="1" parent="1" source="c-db" style="endArrow=open;html=1;rounded=0;fontColor=#000000;exitX=0.25;exitY=1;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;" value="benachrichtigt 0..*">
           <mxGeometry relative="1" x="-0.4681" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
-              <mxPoint x="1440" y="820" />
-              <mxPoint x="1440" y="880" />
+              <mxPoint x="1570" y="880" />
             </Array>
             <mxPoint x="560" y="880" as="targetPoint" />
           </mxGeometry>

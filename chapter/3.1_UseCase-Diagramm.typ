@@ -204,7 +204,7 @@ Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewähl
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.pdf"), caption: [Use-Case-Verfeinerung: Gerät anlegen]) <uc_geraet-anlegen>
 #v(1em)
 
-Das Diagramm @uc_geraet-anlegen verwendet eine zweistufige Farbcodierung: Die hellblau hinterlegten Use-Cases beschreiben die übergeordneten Prozessschritte, die der Verwaltungsmitarbeiter im Rahmen des Anlegevorgangs direkt ausführt. Die lila dargestellten Elemente sind bewusst *nicht* als eigenständige Akteurs-Use-Cases zu verstehen, sondern dienen lediglich der grafischen Auflistung der beim Schritt "Geräteeigenschaften definieren" zu erfassenden Pflichtattribute; sie treten in der Modellierung als Attribute des Use-Case-Basisschritts auf und werden aus Kompaktheitsgründen im Diagramm einheitlich sichtbar dargestellt. Der Use-Case "Auf Duplikate prüfen" wird gemäß LF 100 vom System automatisch ausgelöst; er ist im Diagramm als `<<include>>` an "Geräteeigenschaften definieren" gekoppelt und bezeichnet damit einen Systemschritt, keine explizite Benutzeraktion.
+Das Diagramm @uc_geraet-anlegen stellt die übergeordneten Prozessschritte, die der Verwaltungsmitarbeiter im Rahmen des Anlegevorgangs direkt ausführt, einheitlich als hellblau hinterlegte Use-Cases dar. Bewusst verzichtet wurde auf eine feingranulare Modellierung der einzelnen Pflichtattribute als eigenständige Use-Cases: Diese Attribute treten fachlich nicht als Akteurshandlungen auf, sondern werden vollständig im Rahmen des Basisschritts "Geräteeigenschaften definieren" erfasst und dort textuell aufgelistet (siehe unten). Der Use-Case "Auf Duplikate prüfen" wird gemäß LF 100 vom System automatisch ausgelöst; er ist im Diagramm als `<<include>>` an "Geräteeigenschaften definieren" gekoppelt und bezeichnet damit einen Systemschritt, keine explizite Benutzeraktion.
 
 *Gerätetyp auswählen*
 
@@ -212,15 +212,17 @@ Zu Beginn des Anlegevorgangs wählt der Verwaltungsmitarbeiter den Gerätetyp au
 
 *Geräteeigenschaften definieren*
 
-Dieser Use-Case bildet den zentralen Schritt des gesamten Anlegevorgangs und umfasst die Erfassung aller gerätebeschreibenden Pflichtattribute. Er bindet mittels _<\<include>>_ die folgenden sieben Use-Cases ein, von denen jeder ein konkretes Attribut des Geräts definiert:
+Dieser Use-Case bildet den zentralen Schritt des gesamten Anlegevorgangs und umfasst die Erfassung aller gerätebeschreibenden Pflichtattribute. Da eine Modellierung der einzelnen Attribute als jeweils eigenständige Use-Cases die Use-Case-Ebene mit reinen Datenfeldern überfrachten würde, werden die Pflichtattribute stattdessen im Rahmen dieses Use-Cases textuell aufgeführt:
 
-- *Gerätenummer definieren:* Jedem Gerät wird eine eindeutige Gerätenummer zugewiesen, die automatisch vom System vergeben wird.
-- *Bezeichnung definieren:* Es wird eine sprechende Bezeichnung des Geräts eingetragen (z.B. "Kettenbagger CAT 320" oder "20-t-Turmdrehkran").
-- *Kategorie definieren:* Das Gerät wird einer Gerätekategorie aus einer vordefinierten, erweiterbaren Auswahlliste zugeordnet (z.B. Bagger, Kran, Schalungsteil) #referenceG("LF 70").
-- *Seriennummer definieren:* Die vom Hersteller vergebene Seriennummer des konkreten Geräteexemplars wird erfasst.
-- *Status definieren:* Beim Anlegen erhält das Gerät einen initialen Verfügbarkeitsstatus, z.B. "verfügbar", "in Wartung" oder "defekt".
-- *Anschaffungsdatum definieren:* Das Datum der Anschaffung des Geräts wird hinterlegt.
-- *Wartungstermine definieren:* Geplante Wartungstermine (letzter und nächster Wartungstermin) werden erfasst, um die Verfügbarkeit des Geräts langfristig planbar zu halten.
+- *Gerätenummer:* Jedem Gerät wird eine eindeutige Gerätenummer zugewiesen, die automatisch vom System vergeben wird.
+- *Bezeichnung:* Es wird eine sprechende Bezeichnung des Geräts eingetragen (z.B. "Kettenbagger CAT 320" oder "20-t-Turmdrehkran").
+- *Kategorie:* Das Gerät wird einer Gerätekategorie aus einer vordefinierten, erweiterbaren Auswahlliste zugeordnet (z.B. Bagger, Kran, Schalungsteil) #referenceG("LF 70").
+- *Seriennummer:* Die vom Hersteller vergebene Seriennummer des konkreten Geräteexemplars wird erfasst.
+- *Status:* Beim Anlegen erhält das Gerät einen initialen Verfügbarkeitsstatus vom Typ `GerätStatus`, in der Regel `VERFUEGBAR`.
+- *Anschaffungsdatum:* Das Datum der Anschaffung des Geräts wird hinterlegt.
+- *Wartungstermine:* Geplante Wartungstermine (letzter und nächster Wartungstermin) werden erfasst, um die Verfügbarkeit des Geräts langfristig planbar zu halten.
+
+Die Validierung der eingegebenen Werte erfolgt systemseitig; unvollständige oder unplausible Angaben führen zu einer Korrektur des jeweiligen Feldes durch den Benutzer.
 
 *Lager und Standort zuordnen*
 

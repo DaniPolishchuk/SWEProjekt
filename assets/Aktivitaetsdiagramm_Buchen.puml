@@ -1,0 +1,86 @@
+@startuml Aktivitaetsdiagramm_Buchen
+title Aktivitätsdiagramm 2: Gerät für Arbeitsauftrag buchen
+
+' ====================================================
+'  Skinparams -- konsistent zum SD-Kapitel
+' ====================================================
+skinparam dpi 150
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 11
+skinparam roundCorner 8
+skinparam ArrowThickness 1
+skinparam ActivityBorderThickness 1
+
+skinparam ActivityBackgroundColor #FFFFFF
+skinparam ActivityBorderColor #555555
+skinparam ActivityStartColor #333333
+skinparam ActivityEndColor #333333
+
+skinparam SwimlaneBorderColor #888888
+skinparam SwimlaneBorderThickness 1
+
+' Farbkonvention (konsistent zum SD-Kapitel):
+'   #FFE3B0 = Benutzer-Aktionen (Akteur-Aktionen)
+'   #CFE3F3 = prüfende Operationen (Verfügbarkeit, Duplikat laden)
+'   #A5D6A7 = Buchungs-Aktionen (Koordinator-Muster)
+'   #FFD7D7 = Fehler-/Warnpfade
+'
+' Voraussetzung: das zu buchende Gerät wurde bereits durch das
+' Aktivitätsdiagramm 1 "Gerät anlegen" angelegt und persistent gespeichert.
+
+|Bau-/Projektleiter|
+start
+
+:Buchungsverwaltung öffnen; <<#FFE3B0>>
+
+:Gerät und Buchungszeitraum\nauswählen; <<#FFE3B0>>
+
+|Datenbasis|
+:Buchungen für das Gerät laden; <<#CFE3F3>>
+
+|System (UI Bauverwaltung)|
+:Verfügbarkeit prüfen\n(Zeitraumkollision?); <<#CFE3F3>>
+
+|Bau-/Projektleiter|
+if (Gerät im Zeitraum verfügbar?) then (nein)
+  :Hinweis: Gerät nicht verfügbar; <<#FFD7D7>>
+  if (Alternative Geräte suchen?) then (ja)
+    |Datenbasis|
+    :Geräte desselben Typs\nladen (verfügbar im Zeitraum); <<#CFE3F3>>
+    |Bau-/Projektleiter|
+    :Alternatives Gerät auswählen; <<#FFE3B0>>
+  else (nein)
+    stop
+  endif
+else (ja)
+endif
+
+|Datenbasis|
+:Auftragsliste laden; <<#CFE3F3>>
+
+|Bau-/Projektleiter|
+:Arbeitsauftrag aus Liste auswählen; <<#FFE3B0>>
+
+|System (UI Bauverwaltung)|
+:Buchungs-Instanz erzeugen\n(Buchungsnummer, Zeitraum,\nbuchender Mitarbeiter); <<#A5D6A7>>
+:Gerät zuordnen; <<#A5D6A7>>
+:Arbeitsauftrag zuordnen; <<#A5D6A7>>
+:Buchungs-Status setzen ("AKTIV"); <<#A5D6A7>>
+floating note right
+  Der GerätStatus wird nicht verändert.
+  Die zeitraumbezogene Belegung ergibt sich
+  aus den aktiven Buchungen; GerätStatus
+  bleibt technischen Zuständen (VERFUEGBAR,
+  IN_WARTUNG, DEFEKT, AUSSER_BETRIEB) vorbehalten.
+end note
+
+|Datenbasis|
+:Buchung persistieren; <<#A5D6A7>>
+:Bestätigung; <<#A5D6A7>>
+
+|Bau-/Projektleiter|
+:Bestätigung anzeigen\n(Buchung angelegt); <<#A5D6A7>>
+
+stop
+
+@enduml
