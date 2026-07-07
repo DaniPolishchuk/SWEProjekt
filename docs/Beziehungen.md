@@ -214,12 +214,6 @@ Generalisierungsmenge: `{disjoint, incomplete}` -- ein Objekt ist entweder Mitar
 
 ## Mögliche Verbesserungen für das Klassendiagramm
 
-Diese Punkte wurden in den Diskussionen identifiziert, sind aber bewusst noch nicht final entschieden. Sie sollten beim Klassendiagramm-Entwurf abschließend geklärt werden.
-
-**Klassifikation:**
-- 🔴 **KRITISCH** -- das Lastenheft (`chapter/1_Aufgabenstellung.typ`) enthält bereits Aussagen oder Attributtabellen, die bei Umsetzung dieses Punkts angepasst werden müssen. Widerspruch würde entstehen wenn nur das Diagramm geändert wird.
-- 🟢 **ADD-ON** -- reine Diagramm-Verbesserung ohne Lastenheft-Widerspruch. Kann optional umgesetzt werden ohne Textänderungen im Lastenheft.
-
 ### 🟢 Auftrag-Hierarchie (gemeinsame abstrakte Klasse)
 
 Arbeitsauftrag und Unterauftrag teilen viele Attribute und Beziehungen:
@@ -244,34 +238,6 @@ Aktuell hängen Dokumente und Termine direkt am Auftrag. Im Lastenheft (LF 30) w
 
 Lastenheft-Status: Rechnungspositionen werden im Lastenheft nirgends gefordert -- Rechnung hat nur ein Attribut `Betrag` (Gesamtbetrag, Zeile 140--152). Reine Zusatz-Modellierung ohne Lastenheft-Bezug.
 
-### 🔴 Rolle als Enumeration statt Klasse
-
-Aktuell ist `Rolle` eine eigene Klasse mit Assoziation zu `Mitarbeiter` (siehe Mitarbeiter-Sektion, Zeile 115). Da im Lastenheft nur vier feste Werte vorgegeben sind (Administrator, Verwaltung, Bau-/Projektleiter, Vorarbeiter) und die Klasse keine eigenen Attribute oder Operationen hat, sollte sie als `<<enumeration>>` modelliert werden. Der Mitarbeiter bekommt dann ein Attribut `rolle: Rolle` statt einer Assoziationslinie. Konsistent mit den Enums, die in `chapter/7_Besonderheiten.typ` bereits vorgesehen sind.
-
-**Was im Lastenheft angepasst werden muss:**
-- Zeile 299--302: `Rolle`-Attributtabelle (`Rollennummer`, `Name`) wird ungültig -- entweder entfernen oder als "Enum-Wert" umformulieren
-- Assoziation Mitarbeiter → Rolle (aktuell in Beziehungen.md Zeile 115) wird zu Attribut `rolle: Rolle`
-
-### 🔴 Position-Enum bei Mitarbeiter ergänzen
-
-Die im Lastenheft geforderte Trennung zwischen Berechtigung (`Rolle`) und fachlicher Tätigkeit (Maurer, Elektriker, Zimmermann, Vorarbeiter, Polier, Bauleiter, ...) sollte durch ein separates Enum `Position` abgebildet werden. Attribut `position: Position` bei Mitarbeiter.
-
-**Was im Lastenheft angepasst werden muss:**
-- Zeile 321: Position-Attribut aktuell als `[Text]` mit Aufzählung -- muss zu `[Enum Position]` umgeändert werden
-- Zeile 215: CSV-Import-Beispiel enthält Position als Text-Feld -- konsistent zu Enum umstellen
-
-### 🟢 Bildbar als Interface statt abstrakte Klasse
-
-`Bildbar` ist aktuell als abstrakte Klasse mit Vererbungspfeil modelliert. Da `Mitarbeiter` bereits von `Person` erbt, würde eine zusätzliche Vererbung von `Bildbar` in Java zu Mehrfachvererbung führen (nicht erlaubt). Umstellung: `Bildbar` als `<<interface>>`, alle bildbaren Klassen realisieren es mit **gestricheltem Realisierungspfeil** (leeres Dreieck). Mitarbeiter erbt normal von Person **und** realisiert Bildbar.
-
-Lastenheft-Status: LF 80 (Zeile 858--917) fordert nur, dass "allen Elementen Bilder zugeordnet werden können" -- ob als Interface oder abstrakte Klasse modelliert ist reine UML/Java-Entscheidung. Kein Widerspruch im Lastenheft.
-
-### 🟢 Buchung als Assoziationsklasse
-
-Buchung ist aktuell eine eigenständige Klasse mit drei unidirektionalen Referenzen (Arbeitsauftrag, Gerät, Mitarbeiter). Vorlesungs-konformer wäre die Modellierung als **Assoziationsklasse** zwischen `Arbeitsauftrag` und `Gerät` mit gestrichelter Anschlusslinie (Folie 57). Die Attribute `Zeitraum` und `Status` sind klassische "Verbindungs-Attribute", die weder zu Auftrag noch zu Gerät passen. Der Bucher (Mitarbeiter) bleibt als separate Assoziation mit X (Audit-Feld).
-
-Lastenheft-Status: Buchung (Zeile 763--774) ist mit denselben Attributen definiert, die auch in einer Assoziationsklasse stünden. Kein Text-Widerspruch -- reine UML-Notationswahl.
-
 ### 🟢 Termin als Komposition statt Assoziation
 
 Termine sind aktuell als bidirektionale Assoziation zu Arbeitsauftrag/Unterauftrag/Projekt modelliert (Zeile 72, 99, 142). Alle drei Komposition-Kriterien sind aber erfüllt:
@@ -282,18 +248,6 @@ Termine sind aktuell als bidirektionale Assoziation zu Arbeitsauftrag/Unterauftr
 Umstellung auf **Komposition** (gefüllte Raute beim Auftrag/Projekt).
 
 Lastenheft-Status: Das Lastenheft impliziert bereits Komposition (Zeile 422, 438 -- kaskadierendes Löschen, Existenzabhängigkeit). Keine Textänderung nötig, nur Diagramm-Notation.
-
-### 🔴 Status- und Typ-Enums explizit im Diagramm zeichnen
-
-Die in `chapter/7_Besonderheiten.typ` bereits geplanten Enums (`AuftragStatus`, `BuchungStatus`, `GerätStatus`, `TerminTyp`, `DokumentTyp`, `AnwesenheitTyp`, `GerätKategorie`, `Gruppentyp`) sollten als `<<enumeration>>`-Klassen im Klassendiagramm sichtbar sein, nicht nur als Text-Attribute. Beim jeweiligen Objekt als Attribut `status: AuftragStatus` etc. referenziert.
-
-**Was im Lastenheft angepasst werden muss:** Attribute die aktuell als `[Text]` mit Wert-Aufzählungen deklariert sind, müssen zu Enum-Referenzen umgeändert werden:
-- Zeile 147 (Rechnung-Status)
-- Zeile 412 (Auftrag-Status)
-- Zeile 585 (Dokument-Typ)
-- Zeile 710 (Gerät-Status)
-- Zeile 773 (Buchung-Status)
-- Zeile 950 (Anwesenheit-Typ)
 
 ### 🟢 Multiplizitäten-Konvention klarstellen
 
@@ -318,5 +272,3 @@ Diese Punkte sind im Lastenheft noch nicht abschließend geklärt und sollten vo
 5. **Auftragsstatus-Übergänge:** Bisher nur als Text-Attribut. Sollen Statuswechsel als Operationen modelliert werden (z.B. `auftragAbschliessen()`, `auftragStornieren()`)?
 
 6. **Anwesenheitszeit-Komposition:** Aus rechtlichen Gründen werden Anwesenheitszeiten archiviert statt gelöscht. Ist Komposition trotzdem die richtige Modellierung? Konsistent mit Projekt → Arbeitsauftrag, wo wir das gleiche Argument akzeptiert haben.
-
-7. **Rolle-Konfigurierbarkeit:** Im Lastenheft fest vorgegeben (4 Rollen). Sollte die Klasse `Rolle` als Enum oder als eigenständige Klasse modelliert werden?
