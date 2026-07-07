@@ -1,6 +1,6 @@
 = Aktivitätsdiagramm
 
-Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Baumaschine anlegen und buchen" als UML-Aktivitätsdiagramm modelliert. Während das Sequenzdiagramm in @chapter-Sequenzdiagramm-Szenariobetrachtung den Nachrichtenaustausch zwischen Lebenslinien in zeitlicher Reihenfolge darstellt, visualisiert das Aktivitätsdiagramm den Kontrollfluss mit Entscheidungen, Schleifen und parallelen Abläufen. Es eignet sich damit besonders gut zur Darstellung von Abläufen, die mehrere Akteure und Verantwortlichkeitsbereiche umfassen -- hier konkret den Verwaltungsmitarbeiter beim Anlegen von Geräten sowie den Bau-/Projektleiter beim Anlegen einer Buchung.
+Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Gerät anlegen und buchen" (im Datenmodell konsequent als Gerät geführt; das ursprünglich verwendete Wort "Baumaschine" bezeichnet lediglich die konkrete Ausprägung `Baumaschine` innerhalb der Enumeration `GerätTyp`) als UML-Aktivitätsdiagramm modelliert. Während das Sequenzdiagramm in @chapter-Sequenzdiagramm-Szenariobetrachtung den Nachrichtenaustausch zwischen Lebenslinien in zeitlicher Reihenfolge darstellt, visualisiert das Aktivitätsdiagramm den Kontrollfluss mit Entscheidungen, Schleifen und parallelen Abläufen. Es eignet sich damit besonders gut zur Darstellung von Abläufen, die mehrere Akteure und Verantwortlichkeitsbereiche umfassen -- hier konkret den Verwaltungsmitarbeiter beim Anlegen von Geräten sowie den Bau-/Projektleiter beim Anlegen einer Buchung.
 
 Aus Gründen der Übersichtlichkeit werden folgende Vereinfachungen getroffen:
 - Es wird kein Anmelde- oder Authentifizierungsvorgang modelliert.
@@ -14,11 +14,11 @@ Aus Gründen der Übersichtlichkeit werden folgende Vereinfachungen getroffen:
 
 Das nachfolgende Aktivitätsdiagramm modelliert das Szenario "Baumaschine anlegen und buchen" in drei aufeinanderfolgenden Phasen, die durch Swimlanes auf die beteiligten Akteure und Systemkomponenten verteilt werden. Die vier Swimlanes entsprechen den Verantwortlichkeitsbereichen aus dem Use-Case-Diagramm (siehe Kapitel "Use-Case-Diagramm"): *Verwaltungsmitarbeiter* (zuständig für Geräteverwaltung gemäß LF 50), *Bau-/Projektleiter* (zuständig für Buchungen), *System (UI Bauverwaltung)* (Geschäftslogik und Instanzerzeugung) sowie *Datenbasis* (Persistierung und Abfragen).
 
-*Phase A -- Geräte-Typ anlegen:* In der ersten Phase legt der Verwaltungsmitarbeiter einen neuen `Geräte-Typ` an (Exemplartyp-Muster, siehe @fig-analyse-klassendiagramm). Vor der Eingabe der Pflichtfelder (Bezeichnung, Typ, Kategorie) wird gemäß LF 100 eine Duplikatsprüfung durchgeführt: Die Datenbasis liefert die bestehenden Geräte-Typen, und bei einem Treffer wird der Vorgang mit einer Warnmeldung abgebrochen. Sind die Pflichtfelder vollständig und valide, erzeugt das System eine `Geräte-Typ`-Instanz und persistiert sie.
+*Phase A -- Geräte-Typ anlegen:* In der ersten Phase legt der Verwaltungsmitarbeiter einen neuen `Geräte-Typ` an (Exemplartyp-Muster, siehe @fig-analyse-klassendiagramm). Nach Auswahl der Funktion "Neuen Geräte-Typ anlegen" erfasst der Benutzer die Pflichtfelder (Bezeichnung, Typ, Kategorie); erst nach Vorlage aussagekräftiger Attribute lässt sich sinnvoll gegen den Bestand prüfen. Die im Diagramm sichtbare Reihenfolge "bestehende Geräte-Typen laden" $arrow$ "Entscheidung Geräte-Typ existiert bereits" ist deshalb als *systemseitige Duplikatsprüfung nach der Pflichtfeldeingabe* zu lesen: Der Ladevorgang der bestehenden Typen entspricht LF 100 und dient dem Vergleich mit den soeben eingegebenen Attributen. Bei einem Treffer wird der Vorgang mit einer Warnmeldung abgebrochen; ein angemeldeter Administrator kann die Warnung explizit übersteuern. Sind die Pflichtfelder vollständig, valide und ohne Duplikatstreffer, erzeugt das System eine `Geräte-Typ`-Instanz und persistiert sie.
 
-*Phase B -- Konkretes Gerät (Exemplar) anlegen:* In der zweiten Phase legt der Verwaltungsmitarbeiter ein konkretes `Gerät`-Exemplar an. Zunächst wird ein `Lager` zugeordnet -- entweder durch Auswahl aus der bestehenden Liste oder durch paralleles Anlegen einer neuen `Lager`- und `Adresse`-Instanz (Fork/Join-Konstrukt). Die Fork-Parallelisierung modelliert hierbei, dass die Benutzereingabe der Lagerdaten und die systemseitige Instanzerzeugung logisch voneinander trennbar sind. Nach der Validierung der Geräte-Pflichtfelder und einer erneuten Duplikatsprüfung auf Seriennummernebene (LF 100) erzeugt das System die `Gerät`-Instanz, ordnet ihr den Geräte-Typ und das Lager zu und setzt den initialen Status auf "Verfügbar". Optional können in einer Schleife beliebig viele `Ausrüstungs`-Objekte ergänzt werden (Baugruppe-Muster, LF 50).
+*Phase B -- Konkretes Gerät (Exemplar) anlegen:* In der zweiten Phase legt der Verwaltungsmitarbeiter ein konkretes `Gerät`-Exemplar an. Zunächst wird ein `Lager` zugeordnet -- entweder durch Auswahl aus der bestehenden Liste oder durch Anlegen einer neuen `Lager`- und `Adresse`-Instanz. Das Diagramm nutzt an dieser Stelle eine Fork/Join-Notation, um die konzeptuelle Trennung zwischen Benutzereingabe (Lagerbezeichnung, Adresse) und systemseitiger Instanziierung sichtbar zu machen. In einer tatsächlichen Implementierung verläuft dieser Abschnitt strikt sequenziell -- zuerst die Eingabe, dann die Instanzerzeugung durch das System --, weshalb die Fork/Join-Darstellung ausdrücklich als *Modellierungsvereinfachung zur Kompaktheit* zu verstehen ist. Bevor das neue Lager persistiert wird, findet eine Duplikatsprüfung gemäß LF 100 anhand von Bezeichnung und Adresse statt. Nach der Validierung der Geräte-Pflichtfelder und einer erneuten Duplikatsprüfung auf Seriennummernebene (LF 100) erzeugt das System die `Gerät`-Instanz, ordnet ihr den Geräte-Typ und das Lager zu und setzt den initialen Status auf `VERFUEGBAR`. Optional können in einer Schleife beliebig viele `Ausrüstungs`-Objekte ergänzt werden (Baugruppe-Muster, LF 50).
 
-*Phase C -- Gerät für Arbeitsauftrag buchen:* In der dritten Phase wechselt der handelnde Akteur zum Bau-/Projektleiter. Dieser öffnet die Buchungsverwaltung, wählt das gewünschte Gerät und einen Buchungszeitraum aus. Das System führt anschließend die im Use-Case-Diagramm als `<<include>>` modellierte Verfügbarkeitsprüfung durch (LF 50): Die Datenbasis liefert bestehende Buchungen für das Gerät, und das System prüft auf Zeitraumkollisionen. Ist das Gerät nicht verfügbar, wird ein Hinweis ausgegeben; optional kann eine alternative Suche nach Geräten desselben Typs im gewünschten Zeitraum angestoßen werden. Bei Verfügbarkeit wählt der Bau-/Projektleiter den zugehörigen Arbeitsauftrag aus der Auftragsliste und bestätigt die Buchung. Das System erzeugt die `Buchungs`-Instanz (Koordinator-Muster) mit allen Pflichtattributen, ordnet Gerät und Auftrag zu, setzt den Buchungsstatus auf "Aktiv" und aktualisiert den Gerätestatus auf "Gebucht".
+*Phase C -- Gerät für Arbeitsauftrag buchen:* In der dritten Phase wechselt der handelnde Akteur zum Bau-/Projektleiter. Dieser öffnet die Buchungsverwaltung, wählt das gewünschte Gerät und einen Buchungszeitraum aus. Das System führt anschließend die im Use-Case-Diagramm als `<<include>>` modellierte Verfügbarkeitsprüfung durch (LF 50): Die Datenbasis liefert bestehende Buchungen für das Gerät, und das System prüft auf Zeitraumkollisionen. Ist das Gerät nicht verfügbar, wird ein Hinweis ausgegeben; optional kann eine alternative Suche nach Geräten desselben Typs im gewünschten Zeitraum angestoßen werden. Bei Verfügbarkeit wählt der Bau-/Projektleiter den zugehörigen Arbeitsauftrag aus der Auftragsliste und bestätigt die Buchung. Das System erzeugt die `Buchungs`-Instanz (Koordinator-Muster) mit allen Pflichtattributen, ordnet Gerät und Auftrag zu, setzt den Buchungsstatus auf `AKTIV`. Der Gerätestatus wird dabei bewusst *nicht* verändert: Da mehrere zeitlich versetzte Buchungen für dasselbe Gerät gleichzeitig existieren können, wird die konkrete Belegung stets aus den aktiven `Buchung`-Objekten des jeweils angefragten Zeitraums berechnet.
 
 *Notationserklärung und Farbkonvention*
 
@@ -49,7 +49,7 @@ Der Anlegevorgang eines konkreten Geräts beginnt mit der Lagerauswahl. Das Syst
 
 Die zweite Validierungsschleife ("Pflichtfelder unvollständig?") entspricht strukturell der ersten; erfasst werden Gerätenummer, Seriennummer, Anschaffungsdatum und Wartungstermin. Es folgt eine zweite Duplikatsprüfung, diesmal auf Seriennummernebene (LF 100), da Seriennummern global eindeutig sein müssen. Das Ergebnis wird wiederum über einen Entscheidungsknoten verzweigt; im Duplikat-Fall endet der Ablauf mit einem Abbruch-Endknoten.
 
-Nach erfolgreicher Prüfung erzeugt das System die `Gerät`-Instanz (hellgrüne Knoten), ordnet ihr den zuvor angelegten `Geräte-Typ` und das ausgewählte `Lager` zu und setzt den initialen Gerätestatus auf "Verfügbar". Der anschließende Entscheidungsknoten "Zubehör wird ergänzt?" leitet optional in eine Schleife für die Ausrüstungserfassung, die das Baugruppe-Muster aus dem Klassendiagramm direkt widerspiegelt: Jede `Ausrüstungs`-Instanz wird erzeugt und dem Gerät zugeordnet; die Schleife läuft, solange der Benutzer weiteres Zubehör ergänzen möchte.
+Nach erfolgreicher Prüfung erzeugt das System die `Gerät`-Instanz (hellgrüne Knoten), ordnet ihr den zuvor angelegten `Geräte-Typ` und das ausgewählte `Lager` zu und setzt den initialen Gerätestatus auf `VERFUEGBAR`. Der anschließende Entscheidungsknoten "Zubehör wird ergänzt?" leitet optional in eine Schleife für die Ausrüstungserfassung, die das Baugruppe-Muster aus dem Klassendiagramm direkt widerspiegelt: Jede `Ausrüstungs`-Instanz wird erzeugt und dem Gerät zugeordnet; die Schleife läuft, solange der Benutzer weiteres Zubehör ergänzen möchte.
 
 *Phase C: Buchungsvorgang*
 
@@ -61,7 +61,7 @@ Den Abschluss bildet die Erzeugung der `Buchungs`-Instanz durch das System (dunk
 
 *Reflexion und ehrliche Einordnung*
 
-Das Aktivitätsdiagramm abstrahiert an mehreren Stellen bewusst von Implementierungsdetails: Die Fork/Join-Parallelisierung beim Lager-Anlegen ist konzeptuell korrekt, würde in einer tatsächlichen GUI jedoch sequentiell ablaufen (erst Eingabe, dann Systemreaktion). Die Darstellung als Fork wurde gewählt, um die Trennung von Benutzereingabe und Systemlogik im Diagramm explizit zu machen -- auf Kosten einer gewissen Realitätsnähe. Außerdem wurde die Löschung eines Geräts oder das Stornieren einer Buchung bewusst ausgeklammert: Diese Szenarien werden durch das im Sequenzdiagramm (vgl. @fig:sd_auftrag) eingeführte Unterprogramm "Status setzen" abgedeckt und hätten das vorliegende Diagramm über ein handhabbares Maß hinaus verlängert.
+Das Aktivitätsdiagramm abstrahiert an mehreren Stellen bewusst von Implementierungsdetails: Die Fork/Join-Parallelisierung beim Lager-Anlegen ist als konzeptuelle Trennung zwischen Benutzereingabe und Systemreaktion gedacht; sie ist auch als Modellierungsvereinfachung ausgewiesen, da in einer tatsächlichen GUI der Ablauf sequenziell verläuft (erst Eingabe, dann Instanziierung). Die Duplikatsprüfung beim Geräte-Typ ist im Diagramm der Eingabe der Pflichtfelder zwar visuell vorgelagert; sie ist jedoch als systemseitige Prüfung *nach* der Pflichtfeldeingabe zu lesen, da eine Duplikatsprüfung ohne Kenntnis der eingegebenen Attribute nicht sinnvoll wäre. Beide Punkte wurden im Text explizit gemacht, damit die grafisch bedingte Kompaktheit des Diagramms den Nachvollzug nicht verkürzt. Außerdem wurde die Archivierung eines Geräts oder das Stornieren einer Buchung bewusst ausgeklammert: Diese Szenarien werden durch das im Sequenzdiagramm (vgl. @fig:sd_auftrag) eingeführte Unterprogramm "Status setzen" abgedeckt und hätten das vorliegende Diagramm über ein handhabbares Maß hinaus verlängert.
 
 == Pseudocode: Baumaschine anlegen und buchen
 
@@ -89,7 +89,7 @@ Der folgende Pseudocode ergänzt das Aktivitätsdiagramm um eine textuelle Besch
  18
  19   // Phase B: Konkretes Geraet anlegen
  20   FUEHRE LAGER-AUSWAEHLEN-ODER-ANLEGEN AUS ;
- 21   EMPFANGE Pflichtfelder (Geraenummer, Seriennummer,
+ 21   EMPFANGE Pflichtfelder (Geraetenummer, Seriennummer,
  22           Anschaffungsdatum, Wartungstermin);
  23   SOLANGE Pflichtfelder des Geraets unvollstaendig:
  24     EMPFANGE korrigierte Pflichtfelder;
@@ -101,7 +101,7 @@ Der folgende Pseudocode ergänzt das Aktivitätsdiagramm um eine textuelle Besch
  30   ENDE WENN
  31   FUEHRE OBJEKT-ANLEGEN mit Klasse Geraet AUS ;
  32   Ordne Geraete-Typ und Lager dem Geraet zu;
- 33   FUEHRE STATUS-SETZEN mit Geraet und Wert 'Verfuegbar' AUS ;
+ 33   FUEHRE STATUS-SETZEN mit Geraet und Wert 'VERFUEGBAR' AUS ;
  34   WENN Zubehoer wird ergaenzt;
  35   DANN
  36     WIEDERHOLE
@@ -125,7 +125,8 @@ Der folgende Pseudocode ergänzt das Aktivitätsdiagramm um eine textuelle Besch
  54     ENDE WENN
  55   ENDE WENN
  56   EMPFANGE Arbeitsauftrag aus der Auftragsliste;
- 57   FUEHRE BUCHUNG-ANLEGEN mit Geraet und Arbeitsauftrag AUS ;
+ 57   FUEHRE BUCHUNG-ANLEGEN mit (Geraet, Arbeitsauftrag, Zeitraum,
+ 58                              aktivem Benutzer) AUS ;
  58
  59 ENDE BAUMASCHINE-ANLEGEN-UND-BUCHEN",
     lang: "text",
@@ -141,17 +142,24 @@ Das Hauptlisting referenziert vier Unterprogramme: OBJEKT-ANLEGEN und DUPLIKATSP
   raw(
 "  1 BEGINN LAGER-AUSWAEHLEN-ODER-ANLEGEN
   2   Lade bestehende Lager aus der Datenbasis;
-  3   FALLS Lager IST
-  4     vorhanden: EMPFANGE Auswahl des passenden Lagers ;
-  5     nicht vorhanden:
-  6       EMPFANGE neue Lagerbezeichnung und Adresse;
-  7       FUEHRE OBJEKT-ANLEGEN mit Klasse Adresse AUS ;
-  8       FUEHRE OBJEKT-ANLEGEN mit Klasse Lager AUS ;
-  9       Ordne Adresse dem Lager zu;
- 10       Persistiere Lager in der Datenbasis;
- 11   ENDE-FALLS
- 12   GEBE Lagerreferenz zurueck;
- 13 ENDE LAGER-AUSWAEHLEN-ODER-ANLEGEN",
+  3   WENN passendes Lager vorhanden;
+  4   DANN
+  5     EMPFANGE Auswahl des passenden Lagers;
+  6   SONST
+  7     EMPFANGE neue Lagerbezeichnung und Adresse;
+  8     FUEHRE DUPLIKATSPRUEFUNG mit (Bezeichnung, Adresse) AUS ;
+  9     WENN ein Duplikat gefunden wurde;
+ 10     DANN
+ 11       GEBE Warnung aus und ueberlasse Korrektur dem Benutzer;
+ 12     SONST
+ 13       FUEHRE OBJEKT-ANLEGEN mit Klasse Adresse AUS ;
+ 14       FUEHRE OBJEKT-ANLEGEN mit Klasse Lager AUS ;
+ 15       Ordne Adresse dem Lager zu;
+ 16       Persistiere Lager in der Datenbasis;
+ 17     ENDE WENN
+ 18   ENDE WENN
+ 19   GEBE Lagerreferenz zurueck;
+ 20 ENDE LAGER-AUSWAEHLEN-ODER-ANLEGEN",
     lang: "text",
     block: true,
   ),
@@ -159,7 +167,7 @@ Das Hauptlisting referenziert vier Unterprogramme: OBJEKT-ANLEGEN und DUPLIKATSP
   supplement: [Listing],
 ) <lst:lager>
 
-Das Unterprogramm LAGER-AUSWAEHLEN-ODER-ANLEGEN kapselt die im Aktivitätsdiagramm als Fork/Join dargestellte Verzweigung. Im Pseudocode wird sie als FALLS-Konstrukt modelliert, da Pseudocode keine echte Parallelisierung abbildet; die konzeptuelle Aussage -- Benutzereingabe und Systemreaktion können unabhängig voneinander beschrieben werden -- bleibt erhalten.
+Das Unterprogramm LAGER-AUSWAEHLEN-ODER-ANLEGEN kapselt die im Aktivitätsdiagramm als Fork/Join dargestellte Verzweigung. Im Pseudocode wird sie als sequenzielles WENN/SONST-Konstrukt modelliert, da Pseudocode keine echte Parallelisierung abbildet; die konzeptuelle Aussage -- Benutzereingabe und Systemreaktion können logisch unabhängig beschrieben werden -- bleibt erhalten. Ergänzend wird an dieser Stelle die im Lastenheft (LF 100) geforderte Duplikatsprüfung explizit auch für Lager durchgeführt: Der Vergleich von Bezeichnung und Adresse verhindert die versehentliche Doppelanlage eines Lagers.
 
 #figure(
   raw(
@@ -186,17 +194,19 @@ Das Unterprogramm VERFUEGBARKEIT-PRUEFEN realisiert die in LF 50 geforderte Verf
 #figure(
   raw(
 "  1 BEGINN BUCHUNG-ANLEGEN
-  2   EMPFANGE Geraetereferenz und Arbeitsauftragsreferenz;
-  3   FUEHRE OBJEKT-ANLEGEN mit Klasse Buchung AUS ;
-  4   Ordne Geraet der Buchung zu;
-  5   Ordne Arbeitsauftrag der Buchung zu;
-  6   Setze buchenden Mitarbeiter auf aktiven Benutzer;
-  7   FUEHRE STATUS-SETZEN mit Buchung und Wert 'Aktiv' AUS ;
-  8   FUEHRE STATUS-SETZEN mit Geraet und Wert 'Gebucht' AUS ;
-  9   Persistiere Buchung in der Datenbasis;
- 10   Persistiere aktualisierten Geraete-Status;
- 11   GEBE Buchungsbestaetigung an den Bau-/Projektleiter aus;
- 12 ENDE BUCHUNG-ANLEGEN",
+  2   EMPFANGE Geraetereferenz, Arbeitsauftragsreferenz, Buchungszeitraum
+  3           und aktiven Benutzer;
+  4   FUEHRE OBJEKT-ANLEGEN mit Klasse Buchung AUS ;
+  5   Setze Startdatum und Enddatum der Buchung aus dem Buchungszeitraum;
+  6   Ordne Geraet der Buchung zu;
+  7   Ordne Arbeitsauftrag der Buchung zu;
+  8   Setze buchenden Mitarbeiter auf aktiven Benutzer;
+  9   FUEHRE STATUS-SETZEN mit Buchung und Wert 'AKTIV' AUS ;
+ 10   Persistiere Buchung in der Datenbasis;
+ 11   // Der Geraetestatus bleibt unveraendert: Belegung wird zeitraumbezogen
+ 12   // aus aktiven Buchungen abgeleitet, nicht durch einen globalen Status.
+ 13   GEBE Buchungsbestaetigung an den Bau-/Projektleiter aus;
+ 14 ENDE BUCHUNG-ANLEGEN",
     lang: "text",
     block: true,
   ),
@@ -204,4 +214,4 @@ Das Unterprogramm VERFUEGBARKEIT-PRUEFEN realisiert die in LF 50 geforderte Verf
   supplement: [Listing],
 ) <lst:buchung_anlegen>
 
-Das Unterprogramm BUCHUNG-ANLEGEN realisiert das Koordinator-Muster aus dem Analyse-Klassendiagramm direkt im Pseudocode: Die `Buchung`-Instanz verknüpft `Gerät` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungsnummer, Zeitraum, buchender Mitarbeiter, Status). Bemerkenswert ist, dass sowohl der Buchungsstatus als auch der Gerätestatus gesetzt und separat persistiert werden -- zwei logisch unabhängige Statuswechsel, die aber kausal zusammenhängen: Ein gebuchtes Gerät ist nicht mehr verfügbar, und eine aktive Buchung existiert nur für ein als "Gebucht" markiertes Gerät. Diese Kopplung ist im Koordinator-Muster implizit enthalten und wird hier durch die sequentielle Ausführung zweier STATUS-SETZEN-Aufrufe explizit gemacht.
+Das Unterprogramm BUCHUNG-ANLEGEN realisiert das Koordinator-Muster aus dem Analyse-Klassendiagramm direkt im Pseudocode: Die `Buchung`-Instanz verknüpft `Gerät` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungsnummer, Zeitraum, buchender Mitarbeiter, Status). Bewusst *nicht* verändert wird dabei der `GerätStatus`: Anders als eine frühere Modellierungsvariante suggeriert, würde ein globaler Wert `GEBUCHT` das Gerät für sämtliche Zeiträume blockieren und ist damit unvereinbar mit einer zeitraumbezogenen Buchungslogik. Die Verfügbarkeit eines Geräts wird konsequent aus den aktiven `Buchung`-Objekten und ihrem Zeitraum berechnet (siehe Listing 4.2.3, VERFUEGBARKEIT-PRUEFEN); der `GerätStatus` bleibt für technische, dauerhafte Zustände wie `VERFUEGBAR`, `IN_WARTUNG` oder `DEFEKT` reserviert.

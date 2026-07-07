@@ -311,7 +311,7 @@
       #linebreak()
 
       #for author in authors {
-        text(13pt)[*#author.firstname #author.lastname*\: #author.identification_number #linebreak() ]
+        text(13pt)[*#author.firstname #author.lastname*\ #author.identification_number #linebreak() ]
       }
 
       #linebreak()

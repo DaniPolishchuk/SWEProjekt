@@ -1,6 +1,6 @@
 = Sequenzdiagramm
 
-Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Auftrag anlegen und löschen" als UML-Sequenzdiagramm modelliert. Ergänzend zur strukturellen Sicht des Analyse-Klassendiagramms (siehe @fig-analyse-klassendiagramm) wird damit der dynamische Ablauf zwischen den beteiligten Lebenslinien sichtbar gemacht. Im Anschluss an die Diagrammdarstellung folgt eine ausführliche Beschreibung der einzelnen Bildbereiche sowie eine ergänzende Modellierung als Pseudocode.
+Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Auftrag anlegen und archivieren" als UML-Sequenzdiagramm modelliert. Ergänzend zur strukturellen Sicht des Analyse-Klassendiagramms (siehe @fig-analyse-klassendiagramm) wird damit der dynamische Ablauf zwischen den beteiligten Lebenslinien sichtbar gemacht. Die Anlage eines Arbeitsauftrags wird im Hauptdiagramm ausführlich dargestellt; die Archivierung ist als eigenständiges Unterprogramm ausgelagert und wird im Anschluss modelliert. Auf diese Weise bleibt das Hauptdiagramm übersichtlich, während die vollständige Behandlung des Archivierungsvorgangs im dedizierten Untersequenzdiagramm erfolgt. Im Anschluss an die Diagrammdarstellung folgt eine ausführliche Beschreibung der einzelnen Bildbereiche sowie eine ergänzende Modellierung als Pseudocode.
 
 Aus Gründen der Übersichtlichkeit werden in diesem Diagramm folgende Vereinfachungen getroffen, die sämtlich konsistent zur Aufgabenstellung und zu den getroffenen Annahmen der vorherigen Kapitel sind:
 - Es wird kein Anmelde- oder Authentifizierungsvorgang modelliert, da Logins gemäß Aufgabenvereinfachung nicht Bestandteil dieser Arbeit sind.
@@ -9,31 +9,34 @@ Aus Gründen der Übersichtlichkeit werden in diesem Diagramm folgende Vereinfac
 - Bestätigungs- und Hinweisdialoge der grafischen Oberfläche werden nur dort dargestellt, wo sie für das Verständnis des Ablaufs relevant sind.
 - Zugriffe auf die zentrale Datenbasis werden lediglich exemplarisch modelliert, nicht für jede Lese- und Schreiboperation einzeln.
 - Der Kostenvoranschlag wird gemäß @fig-analyse-klassendiagramm aus dem externen Finanzbuchhaltungssystem lesend übernommen. Da das Diagramm von einer leeren Datenbasis ausgeht, wird der externe lesende Zugriff hier nicht modelliert, jedoch in der textuellen Beschreibung berücksichtigt.
+- Im Sinne der gesetzlichen Aufbewahrungspflicht (LL 20 aus dem Lastenheftbereich "Produktleistungen") wird ein Auftrag niemals physisch aus der Datenbasis entfernt, sondern durch Setzen des Statuswerts `ARCHIVIERT` logisch gelöscht. Die Lebenslinie des Arbeitsauftrags im Diagramm bleibt daher bestehen; das Diagramm modelliert das fachliche "Löschen" konsequent als Archivierungsvorgang.
 
-== Szenariobetrachtung: Auftrag anlegen und löschen <chapter-Sequenzdiagramm-Szenariobetrachtung>
+== Szenariobetrachtung: Auftrag anlegen und archivieren <chapter-Sequenzdiagramm-Szenariobetrachtung>
 
-Das im Folgenden dargestellte Sequenzdiagramm modelliert das vollständige Szenario "Auftrag anlegen und löschen" aus Sicht des Akteurs `Bau-/Projektleiter`. Ausgangspunkt ist eine vollständig leere Datenbasis. Sämtliche im Verlauf des Szenarios benötigten Domänenobjekte werden erst durch das Szenario selbst angelegt; ein Vorhandensein von Mitarbeitern, Projekten oder Adressen wird nicht vorausgesetzt. Diese Vorgehensweise entspricht der Annahme der Aufgabenstellung sowie dem Vorgehen der Beispielarbeit "Handwerksbetriebe".
+Das im Folgenden dargestellte Sequenzdiagramm modelliert das Anlegen eines Arbeitsauftrags aus Sicht des Akteurs `Bau-/Projektleiter`. Ausgangspunkt ist eine vollständig leere Datenbasis. Sämtliche im Verlauf des Szenarios benötigten Domänenobjekte werden erst durch das Szenario selbst angelegt; ein Vorhandensein von Mitarbeitern, Projekten oder Adressen wird nicht vorausgesetzt. Diese Vorgehensweise entspricht der Annahme der Aufgabenstellung. Der zeitlich versetzt stattfindende Archivierungsvorgang für einen bestehenden Auftrag ist im Hauptdiagramm bewusst nicht mehr enthalten, sondern in das in @chapter-sd-loeschen ausgeführte Untersequenzdiagramm ausgelagert; dies hält das Hauptdiagramm fokussiert und vermeidet die im Analyse-Sequenzdiagramm sonst unvermeidbare visuelle Überfrachtung.
 
-Der Anlegevorgang verläuft entlang einer festen Schrittfolge: Zunächst wird ein übergeordnetes `Projekt` mit zugehörigem Einsatzort (`Adresse`) angelegt. Anschließend werden die Pflichtfelder des `Arbeitsauftrags` erfasst (Auftragsnummer, Auftragsbezeichnung, Bauplan-Dateipfad, Start-/Endtermin, Kostenvoranschlag), wobei der Auftrag dem Projekt zugeordnet und mit einem eigenen Einsatzort versehen wird. Es folgt die Anlage des `Haupttermins` (Start-/Endtermin) sowie optional eines `Zwischentermins`. Im Anschluss werden beteiligte `Mitarbeiter` ergänzt -- entweder durch Auswahl aus der bestehenden Datenbasis oder durch Neuanlage. Optional können `Unterauftrag`-Objekte mit zugehörigen `Unterauftragnehmern` ergänzt werden. Vor dem Speichern wird gemäß LF 100 eine Duplikatsprüfung durchgeführt; bei erfolgreicher Prüfung erhält der Auftrag den initialen Status "Offen" und wird persistiert.
+Der Anlegevorgang verläuft entlang einer festen Schrittfolge: Zunächst wird ein übergeordnetes `Projekt` mit zugehörigem Einsatzort (`Adresse`) angelegt. Anschließend werden die Pflichtfelder des `Arbeitsauftrags` erfasst (Auftragsnummer, Auftragsbezeichnung, zugehöriges `Dokument` mit dem Bauplan, Start-/Endtermin, Kostenvoranschlag), wobei der Auftrag dem Projekt zugeordnet und mit einem eigenen Einsatzort versehen wird. Es folgt die Anlage des `Haupttermins` (Start-/Endtermin) sowie optional eines `Zwischentermins`. Im Anschluss werden beteiligte `Mitarbeiter` ergänzt -- entweder durch Auswahl aus der bestehenden Datenbasis oder durch Neuanlage. Optional können `Unterauftrag`-Objekte ergänzt werden, denen jeweils verpflichtend ein `Unterauftragnehmer` zugeordnet wird (Auswahl aus dem Bestand oder Neuanlage). Bevor die neu erzeugten Objekte in die zentrale Datenbasis übernommen werden, wird gemäß LF 100 die Duplikatsprüfung durchgeführt; bei erfolgreicher Prüfung erhält der Auftrag den initialen Status `OFFEN` und wird persistiert. Die im Diagramm sichtbaren `new()`-Aufrufe erzeugen zunächst rein transiente Objekte in der Steuerlogik der `:UI Bauverwaltung`; erst mit der Nachricht 9.5 ("Arbeitsauftrag persistieren") werden diese Objekte gemeinsam als konsistenter Gesamtdatensatz in die Datenbasis übertragen. Diese modellierungstechnische Vereinfachung wahrt die Konsistenz mit LF 100 (Prüfung vor der Aufnahme neuer Datensätze), ohne die Lebenslinien für jedes einzelne Attribut zu vervielfachen.
 
-Der Löschvorgang erfolgt zeitlich versetzt und nutzt die im Klassendiagramm modellierten Kompositionen zur kaskadierenden Entfernung abhängiger Objekte. Vor der eigentlichen Löschung prüft das System, ob aktive `Buchung`-Objekte für den Arbeitsauftrag bestehen. Sofern dies der Fall ist, werden diese durch das Unterprogramm "Status setzen" auf den Wert "Storniert" gesetzt. Anschließend werden zunächst die per Komposition zugeordneten `Unterauftrag`- und `Termin`-Objekte entfernt, ehe der `Arbeitsauftrag` selbst auf den Status "Geloescht" gesetzt und aus der Datenbasis entfernt wird.
+Sollte im Verlauf der Duplikatsprüfung ein Treffer entdeckt werden, greift die für den Administrator im Lastenheft (LF 100) vorgesehene Sonderregelung: Der Bau-/Projektleiter kann den Vorgang abbrechen oder korrigieren; ein angemeldeter Administrator kann die Warnung darüber hinaus explizit überschreiben und den Datensatz dennoch anlegen. Diese Sonderberechtigung wird im Diagramm durch die zugehörige Notiz am `alt`-Fragment kenntlich gemacht und im Pseudocode über einen zusätzlichen Fallzweig abgebildet.
 
-Optionale und wiederholbare Bestandteile des Szenarios sind in der Diagrammdarstellung explizit als solche gekennzeichnet: Die Erfassung beteiligter Personen sowie das Ergänzen von Unteraufträgen werden mittels `loop`-Fragmenten dargestellt, Zwischentermine und Unteraufträge sowie die Zuordnung eines `Unterauftragnehmers` mittels `opt`-Fragmenten. Die wiederkehrende Anlage einzelner Objekte ist als `ref`-Fragment in das Unterprogramm "Objekt anlegen" ausgelagert.
+Der spätere Archivierungsvorgang setzt gemäß der gesetzlichen Aufbewahrungspflicht (LL 20) den Status des Auftrags auf `ARCHIVIERT`; der Datensatz bleibt dabei für die vom Lastenheft geforderten zehn Jahre online lesbar. Vor der Statusänderung prüft das System, ob aktive `Buchung`-Objekte für den Arbeitsauftrag bestehen. Sofern dies der Fall ist, werden diese durch das Unterprogramm "Status setzen" auf den Wert `STORNIERT` gesetzt. Die vollständige Abfolge dieses Vorgangs ist in @chapter-sd-loeschen dokumentiert.
+
+Optionale und wiederholbare Bestandteile des Szenarios sind in der Diagrammdarstellung explizit als solche gekennzeichnet: Die Erfassung beteiligter Personen sowie das Ergänzen von Unteraufträgen werden mittels `loop`-Fragmenten dargestellt, Zwischentermine und Unteraufträge mittels `opt`-Fragmenten. Die wiederkehrende Anlage einzelner Objekte ist als `ref`-Fragment in das Unterprogramm "Objekt anlegen" ausgelagert.
 
 === Notationserklärung und Farbkonvention
 
-Zur besseren Lesbarkeit des Diagramms wurden die Referenz-Fragmente (`ref`) farblich nach Aufgabenbereich gruppiert. Diese Konvention orientiert sich an der Beispielarbeit "Immobilienverwaltung" und wird im gesamten Sequenzdiagramm-Kapitel einheitlich verwendet:
+Zur besseren Lesbarkeit des Diagramms wurden die Referenz-Fragmente (`ref`) farblich nach Aufgabenbereich gruppiert. Diese Konvention wird im gesamten Sequenzdiagramm-Kapitel einheitlich verwendet:
 - *Lachsrosa:* Referenzen auf das Unterprogramm "Objekt anlegen", welches die Instanziierung einer neuen Domänenobjekt-Lebenslinie kapselt. Es wird im Hauptdiagramm mehrfach aufgerufen und ist daher zur visuellen Wiedererkennung farblich abgesetzt.
 - *Hellblau:* Referenzen auf prüfende Operationen, hier insbesondere die "Duplikatsprüfung" gemäß LF 100. Diese Operationen verändern keinen Zustand, sondern werten lediglich den Datenbestand aus.
 - *Helles Lila:* Referenzen auf das Unterprogramm "Status setzen", welches den Wechsel des Status-Attributs einer Lebenslinie modelliert.
 
-Die Erzeugung neuer Objekte wird gemäß Vorlesung durch eine `new()`-Nachricht auf das Objektsymbol dargestellt; die zugehörige Lebenslinie beginnt erst an dieser Stelle. Das Löschen von Lebenslinien wird durch ein Kreuz (`X`) am Ende der Lebenslinie markiert. Rückkehrnachrichten werden als gestrichelte Pfeile dargestellt und ebenfalls dezimal nummeriert. Da es sich um ein Analyse-Sequenzdiagramm handelt, sind in Anlehnung an die Vorlesungsregel (Folie 19) auch sprechende Prosa-Bezeichnungen statt formaler Methodensignaturen zugelassen.
+Die Erzeugung neuer Objekte wird gemäß Vorlesung durch eine `new()`-Nachricht auf das Objektsymbol dargestellt; die zugehörige Lebenslinie beginnt konzeptuell erst an dieser Stelle. Aus Gründen der Diagramm-Werkzeugkonvention werden die Objektköpfe bereits am oberen Bildrand angezeigt; ihre Aktivierung durch den `new()`-Aufruf markiert dennoch den tatsächlichen Beginn der Lebenslinie. Rückkehrnachrichten werden als gestrichelte Pfeile dargestellt und ebenfalls dezimal nummeriert. Da es sich um ein Analyse-Sequenzdiagramm handelt, sind in Anlehnung an die Vorlesungsregel (Folie 19) auch sprechende Prosa-Bezeichnungen statt formaler Methodensignaturen zugelassen. Ein physisches Löschen von Lebenslinien (Kreuz `X` am unteren Ende) kommt im Hauptdiagramm nicht vor: Alle im Anlegevorgang erzeugten Objekte werden zusammen mit dem Auftrag persistiert und bleiben gemäß LL 20 dauerhaft in der Datenbasis erhalten.
 
-#figure(image("../assets/Sequenzdiagramm_Auftrag.png", height: 100%), caption: [Sequenzdiagramm "Auftrag anlegen und löschen"]) <fig:sd_auftrag>
+#figure(image("../assets/Sequenzdiagramm_Auftrag.png", height: 100%), caption: [Sequenzdiagramm "Auftrag anlegen"]) <fig:sd_auftrag>
 
-== Diagrammbetrachtung: Auftrag anlegen und löschen
+== Diagrammbetrachtung: Auftrag anlegen
 
-Das in @fig:sd_auftrag dargestellte Sequenzdiagramm beschreibt den vollständigen Lebenszyklus eines Arbeitsauftrags von der Anlage bis zur Löschung. Wie in der Einleitung zu diesem Kapitel ausgeführt, wird auf die Modellierung von Anmeldevorgängen, Datenbankfehlern und parallelen Abläufen verzichtet, um die fachliche Verständlichkeit nicht durch technische Detailtreue zu beeinträchtigen. Die folgenden Absätze beschreiben die einzelnen Bildbereiche von oben nach unten.
+Das in @fig:sd_auftrag dargestellte Sequenzdiagramm beschreibt den Anlegevorgang eines Arbeitsauftrags von der ersten Interaktion bis zur erfolgreichen Persistierung. Der zeitlich versetzt stattfindende Archivierungsvorgang ist im Untersequenzdiagramm @fig:sd_auftrag_loeschen ausführlich dokumentiert. Wie in der Einleitung zu diesem Kapitel ausgeführt, wird auf die Modellierung von Anmeldevorgängen, Datenbankfehlern und parallelen Abläufen verzichtet, um die fachliche Verständlichkeit nicht durch technische Detailtreue zu beeinträchtigen. Die folgenden Absätze beschreiben die einzelnen Bildbereiche von oben nach unten.
 
 === Initiale Interaktion und Projektanlage
 
@@ -53,27 +56,23 @@ Die Terminerfassung wird durch das Anlegen eines `:Termin`-Objekts als Hauptterm
 
 Die Erfassung der beteiligten Personen erfolgt innerhalb eines `loop`-Fragments ("Solange weitere beteiligte Personen ergänzt werden"), das die im Klassendiagramm festgelegte Multiplizität von 1..\* widerspiegelt. Innerhalb des Loops unterscheidet ein `alt`-Fragment zwischen dem Fall, dass ein Mitarbeiter bereits in der Datenbasis vorhanden ist (Nachrichten 7 -- 7.3) und dem Fall einer Neuanlage (7.4 -- 7.7). Im zweiten Pfad wird erneut das Unterprogramm "Objekt anlegen" referenziert, womit deutlich wird, dass auch bisher nicht im System geführte Mitarbeiter im Rahmen des Auftragsanlegens neu erfasst werden können.
 
-=== Optionale Unteraufträge und Unterauftragnehmer
+=== Optionale Unteraufträge mit verpflichtender Zuordnung eines Unterauftragnehmers
 
-Die Erfassung von Unteraufträgen ist insgesamt als `opt`-Fragment dargestellt, da gemäß Klassendiagramm die Multiplizität der Komposition zwischen `Arbeitsauftrag` und `Unterauftrag` mit 0..\* angegeben ist. Innerhalb dieses Fragments erlaubt ein verschachtelter `loop` das mehrfache Anlegen von Unteraufträgen (Nachrichten 8 -- 8.3). Jeder Unterauftrag kann optional einem `Unterauftragnehmer` zugeordnet werden (verschachteltes `opt`-Fragment), wobei ein weiteres `alt`-Fragment zwischen Auswahl aus der Datenbasis und Neuanlage unterscheidet (8.4 -- 8.8). Die Verschachtelung der Fragmente ist gemäß Vorlesung (Folie 45) explizit zulässig.
+Die Erfassung von Unteraufträgen ist insgesamt als `opt`-Fragment dargestellt, da gemäß Klassendiagramm die Multiplizität der Komposition zwischen `Arbeitsauftrag` und `Unterauftrag` mit 0..\* angegeben ist. Innerhalb dieses Fragments erlaubt ein verschachtelter `loop` das mehrfache Anlegen von Unteraufträgen (Nachrichten 8 -- 8.3). Anders als das noch offene `opt` an der Stelle des Unterauftragnehmers zunächst suggerieren mag, ist die Zuordnung eines `Unterauftragnehmers` zu einem Unterauftrag *fachlich verpflichtend*: Ohne einen ausführenden Unterauftragnehmer wäre ein Unterauftrag im Kontext des Bauunternehmens sinnlos (vgl. den Lastenheftbereich "Produktfunktionen" zu LF 40). Das `opt`-Fragment kennzeichnet deshalb ausschließlich die technische Wahlfreiheit zwischen den zwei möglichen Zuordnungswegen -- Auswahl eines bereits vorhandenen Unterauftragnehmers aus der Datenbasis oder Neuanlage eines Unterauftragnehmers als Kontaktdatensatz. Das nachgelagerte `alt`-Fragment (8.4 -- 8.8) macht diese Unterscheidung explizit; einer der beiden Zweige wird pro Unterauftrag verpflichtend durchlaufen. Die Verschachtelung der Fragmente ist gemäß Vorlesung (Folie 45) explizit zulässig.
 
 === Duplikatsprüfung, Statuswechsel und Persistierung
 
-Mit Nachricht 9 bestätigt der Bau-/Projektleiter den Speichervorgang. Vor der eigentlichen Persistierung wird das Unterprogramm "Duplikatsprüfung" referenziert (hellblauer `ref`-Block), das die im Lastenheft unter LF 100 geforderte Prüfung auf bereits existierende Auftragsdaten kapselt. Das anschließende `alt`-Fragment trennt zwischen einem gefundenen Duplikat (Warnmeldung an den Benutzer; das beigefügte Notiz-Symbol verweist auf die Möglichkeit der Korrektur oder des Abbruchs durch den Benutzer) und einem gültigen Datensatz. Im gültigen Fall wird der Status des Auftrags durch Aufruf des Unterprogramms "Status setzen" (lila `ref`-Block) auf "Offen" gesetzt und der Auftrag in die Datenbasis persistiert (9.4 -- 9.7).
+Mit Nachricht 9 bestätigt der Bau-/Projektleiter den Speichervorgang. Vor der eigentlichen Persistierung wird das Unterprogramm "Duplikatsprüfung" referenziert (hellblauer `ref`-Block), das die im Lastenheft unter LF 100 geforderte Prüfung auf bereits existierende Auftragsdaten kapselt. Das anschließende `alt`-Fragment trennt zwischen einem gefundenen Duplikat und einem gültigen Datensatz. Im Duplikatfall erhält der Benutzer eine Warnmeldung; die beigefügte Notiz am Fragment weist auf zwei zulässige Reaktionen hin: der Bau-/Projektleiter kann seine Eingaben korrigieren oder den Vorgang abbrechen; ein angemeldeter Administrator kann die Warnung darüber hinaus explizit überschreiben (LF 100). Diese Sonderberechtigung wird als dritter Fallzweig auch im Pseudocode explizit modelliert. Im gültigen Fall wird der Status des Auftrags durch Aufruf des Unterprogramms "Status setzen" (lila `ref`-Block) auf `OFFEN` gesetzt und der gemeinsam mit allen zugeordneten Objekten aufgebaute Datensatz in die Datenbasis persistiert (9.4 -- 9.7).
 
-=== Löschvorgang mit Kompositionskaskade
-
-Der Löschvorgang wird durch eine horizontale Trennlinie ("Löschvorgang") vom Anlegevorgang abgegrenzt. Nach Auswahl des zu löschenden Auftrags (Nachricht 10) prüft die UI, ob aktive Buchungen für diesen Auftrag bestehen (10.1 -- 10.2). Das `alt`-Fragment trennt zwei Pfade: Bei aktiven Buchungen werden diese in einem `loop` einzeln durch das Unterprogramm "Status setzen" auf den Wert "Storniert" gesetzt (10.4 -- 10.5); ohne aktive Buchungen wird die Löschbestätigung direkt eingeholt (10.6 -- 10.7).
-
-Im Anschluss erfolgt die im Klassendiagramm angekündigte Kompositionskaskade: Sämtliche per Komposition zugeordneten `Unterauftrag`- und `Termin`-Objekte werden gelöscht, was im Diagramm jeweils durch ein abschließendes Kreuz (`X`) auf der entsprechenden Lebenslinie ersichtlich ist (Nachrichten 11 und 12). Der Arbeitsauftrag selbst wird zunächst durch das Unterprogramm "Status setzen" auf den Wert "Geloescht" gesetzt (Nachricht 13), die Löschung in der Datenbasis vermerkt (13.1 -- 13.2) und schließlich die Lebenslinie selbst gelöscht (13.3). Den Abschluss bildet die Bestätigung an den Bau-/Projektleiter (13.4).
+Wichtig für das Verständnis des Prüfzeitpunkts ist die Tatsache, dass alle bis zu diesem Punkt erzeugten Domänenobjekte (`Projekt`, `Adresse`, `Arbeitsauftrag`, `Termin`, `Mitarbeiter`, `Unterauftrag`, `Unterauftragnehmer`) zunächst rein in der Steuerlogik der `:UI Bauverwaltung` bestehen und noch nicht in der zentralen Datenbasis abgelegt sind. Die Duplikatsprüfung greift deshalb LF 100-konform vor der Aufnahme neuer Datensätze in die Datenbasis; erst der abschließende Aufruf 9.5 überträgt den vollständigen, geprüften Datensatz als konsistentes Ganzes in die Datenbasis.
 
 === Reflexion und ehrliche Einordnung
 
-An mehreren Stellen des Diagramms wurde aus Gründen der Lesbarkeit auf eine vollständige Parameterauflistung in den Nachrichten verzichtet; insbesondere die zusammenfassende Nachricht "Attribute eintragen" abstrahiert von der konkreten Aufzählung sämtlicher primitiver Pflichtfelder. Diese Abstraktion ist durch die Vorlesungsempfehlung gedeckt, primitive Attribute in einer einzigen Aktion zusammenzufassen, führt jedoch dazu, dass das Diagramm allein nicht ausreicht, um sämtliche Eingaben des Benutzers nachzuvollziehen -- hierfür dient die ergänzende Diagrammbetrachtung dieses Kapitels sowie die Q&A-Analyse aus @chapter-Zielgruppen-Rollen. Eine weitere bewusste Vereinfachung ist die fehlende Modellierung des lesenden Zugriffs auf das externe Finanzbuchhaltungssystem; in einer realen Implementierung würde der Kostenvoranschlag an dieser Stelle aus dem Finanzsystem geladen, was hier jedoch die Konsistenz der Annahme einer leeren Datenbasis durchbrechen würde.
+An mehreren Stellen des Diagramms wurde aus Gründen der Lesbarkeit auf eine vollständige Parameterauflistung in den Nachrichten verzichtet; insbesondere die zusammenfassende Nachricht "Attribute eintragen" abstrahiert von der konkreten Aufzählung sämtlicher primitiver Pflichtfelder. Diese Abstraktion ist durch die Vorlesungsempfehlung gedeckt, primitive Attribute in einer einzigen Aktion zusammenzufassen, führt jedoch dazu, dass das Diagramm allein nicht ausreicht, um sämtliche Eingaben des Benutzers nachzuvollziehen -- hierfür dient die ergänzende Diagrammbetrachtung dieses Kapitels sowie die Q&A-Analyse aus @chapter-Zielgruppen-Rollen. Eine weitere bewusste Vereinfachung ist die fehlende Modellierung des lesenden Zugriffs auf das externe Finanzbuchhaltungssystem; in einer realen Implementierung würde der Kostenvoranschlag an dieser Stelle aus dem Finanzsystem geladen, was hier jedoch die Konsistenz der Annahme einer leeren Datenbasis durchbrechen würde. Zudem sei angemerkt, dass das Hauptdiagramm bewusst auf die Modellierung des Archivierungsvorgangs verzichtet: Dieser wird eigenständig in @chapter-sd-loeschen behandelt und über den `ref`-Aufruf im Pseudocode klar an das Hauptszenario gekoppelt.
 
 == Untersequenzdiagramme der Unterprogramme
 
-Die drei im Hauptdiagramm (@fig:sd_auftrag) per lachsrosafarbenem, hellblauem und lila `ref`-Block referenzierten Unterprogramme sowie das Lösch-Unterprogramm werden im Folgenden als eigenständige Sequenzdiagramme ausgeführt. Diese Darstellung entspricht dem Vorgehen der Beispielarbeit "Immobilienverwaltung" und macht den inneren Ablauf der Unterprogramme nachvollziehbar, ohne das Hauptdiagramm zu überfrachten.
+Die drei im Hauptdiagramm (@fig:sd_auftrag) per lachsrosafarbenem, hellblauem und lila `ref`-Block referenzierten Unterprogramme sowie das Lösch-Unterprogramm werden im Folgenden als eigenständige Sequenzdiagramme ausgeführt. Diese Aufteilung macht den inneren Ablauf der Unterprogramme nachvollziehbar, ohne das Hauptdiagramm zu überfrachten.
 
 === Unterprogramm: Objekt anlegen <chapter-sd-objekt-anlegen>
 
@@ -91,25 +90,25 @@ Das in @fig:sd_duplikat dargestellte Unterprogramm realisiert die in LF 100 gefo
 
 #figure(image("../assets/SD_Unterprogramm_StatusSetzen.png", width: 100%), caption: [Untersequenzdiagramm: Unterprogramm STATUS-SETZEN]) <fig:sd_status>
 
-@fig:sd_status modelliert den Statuswechsel eines beliebigen Domänenobjekts. Das Unterprogramm wird im Hauptszenario an drei verschiedenen Stellen aufgerufen: beim initialen Speichern des `Arbeitsauftrags` (Status "Offen"), beim Stornieren aktiver `Buchung`-Objekte vor dem Löschvorgang (Status "Storniert") sowie beim Löschen des Auftrags selbst (Status "Gelöscht"). Die im Analyse-Klassendiagramm (siehe @fig-analyse-klassendiagramm) für `Arbeitsauftrag` und `Buchung` definierten Statuswerte sind damit vollständig abgedeckt. Die Validierungsprüfung im `alt`-Fragment stellt sicher, dass nur in der Klasse vorgesehene Statuswerte gesetzt werden können; ungültige Aufrufe werden zurückgewiesen, ohne die Datenbasis zu verändern.
+@fig:sd_status modelliert den Statuswechsel eines beliebigen Domänenobjekts. Das Unterprogramm wird im Hauptszenario an drei verschiedenen Stellen aufgerufen: beim initialen Speichern des `Arbeitsauftrags` (Status `OFFEN`), beim Stornieren aktiver `Buchung`-Objekte vor dem Archivierungsvorgang (Status `STORNIERT`) sowie beim Archivieren des Auftrags selbst (Status `ARCHIVIERT`). Die im Analyse-Klassendiagramm (siehe @fig-analyse-klassendiagramm) für `Arbeitsauftrag` und `Buchung` definierten Statuswerte sind damit vollständig abgedeckt. Die Validierungsprüfung im `alt`-Fragment stellt sicher, dass nur in der Klasse vorgesehene Statuswerte gesetzt werden können; ungültige Aufrufe werden zurückgewiesen, ohne die Datenbasis zu verändern.
 
-=== Unterprogramm: Auftrag löschen <chapter-sd-loeschen>
+=== Unterprogramm: Auftrag archivieren <chapter-sd-loeschen>
 
-#figure(image("../assets/SD_Unterprogramm_AuftragLoeschen.png", width: 100%), caption: [Untersequenzdiagramm: Unterprogramm AUFTRAG-LÖSCHEN]) <fig:sd_auftrag_loeschen>
+#figure(image("../assets/SD_Unterprogramm_AuftragLoeschen.png", width: 100%), caption: [Untersequenzdiagramm: Unterprogramm AUFTRAG-ARCHIVIEREN]) <fig:sd_auftrag_loeschen>
 
-@fig:sd_auftrag_loeschen fasst den gesamten Löschvorgang zusammen, der im Hauptdiagramm durch die Trennlinie "Löschvorgang" eingeleitet wird. Das Unterprogramm gliedert sich in drei Phasen: Zunächst werden -- sofern vorhanden -- aktive `Buchung`-Objekte über das Unterprogramm STATUS-SETZEN auf "Storniert" gesetzt (LF 50: Buchungsverwaltung). Anschließend erfolgt die Kompositionskaskade gemäß Analyse-Klassendiagramm: `Unterauftrag`- und `Termin`-Instanzen werden in je einem `loop`-Fragment einzeln gelöscht, da sie per Komposition existenzabhängig vom `Arbeitsauftrag` sind (LF 40). Erst danach wird der Auftrag selbst auf "Gelöscht" gesetzt, der Löschvorgang persistiert und die Lebenslinie beendet. Diese Reihenfolge verhindert verwaiste Referenzen in der zentralen Datenbasis (LD 10).
+@fig:sd_auftrag_loeschen fasst den gesamten Archivierungsvorgang zusammen, der zeitlich versetzt zum Anlegen erfolgt und aus dem Hauptdiagramm bewusst ausgelagert wurde. Das Unterprogramm gliedert sich in drei Phasen: Zunächst werden -- sofern vorhanden -- aktive `Buchung`-Objekte über das Unterprogramm STATUS-SETZEN auf `STORNIERT` gesetzt (LF 50: Buchungsverwaltung). Anschließend wird der Auftrag selbst über STATUS-SETZEN auf `ARCHIVIERT` überführt und die Statusänderung in der Datenbasis persistiert; die per Komposition zugeordneten `Unterauftrag`- und `Termin`-Objekte bleiben zusammen mit dem Arbeitsauftrag erhalten, da eine physische Entfernung mit der im Lastenheft geforderten zehnjährigen Aufbewahrungspflicht (LL 20) unvereinbar wäre. Erst nach Ablauf dieser Frist entscheidet der Administrator getrennt, ob ein archivierter Datensatz endgültig entfernt werden darf. Diese Reihenfolge verhindert verwaiste Referenzen in der zentralen Datenbasis (LD 10) und macht zugleich sichtbar, dass "Löschen" aus fachlicher Sicht im vorliegenden System stets ein logisches Löschen im Sinne einer Archivierung ist.
 
-== Pseudocode: Auftrag anlegen und löschen
+== Pseudocode: Auftrag anlegen und archivieren
 
-Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreibung des Kontrollflusses. Er ist gemäß der Konvention der Beispielarbeit "Immobilienverwaltung" in mehrere kleinere Listings unterteilt: ein Hauptlisting für das Gesamtszenario sowie vier Listings für die im Diagramm referenzierten Unterprogramme. Schlüsselwörter werden ohne Umlaute in Großbuchstaben dargestellt und entsprechen damit der in der Vorlesung empfohlenen Notation.
+Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreibung des Kontrollflusses. Er ist in mehrere kleinere Listings unterteilt: ein Hauptlisting für das Gesamtszenario sowie vier Listings für die im Diagramm referenzierten Unterprogramme. Schlüsselwörter werden ohne Umlaute in Großbuchstaben dargestellt und entsprechen damit der in der Vorlesung empfohlenen Notation.
 
 #figure(
   raw(
 "  1 ----------------------------------------------------
   2 -        PSEUDOCODE SEQUENZDIAGRAMM                -
-  3 -        AUFTRAG ANLEGEN UND LOESCHEN              -
+  3 -        AUFTRAG ANLEGEN UND ARCHIVIEREN           -
   4 ----------------------------------------------------
-  5 BEGINN AUFTRAG-ANLEGEN-UND-LOESCHEN
+  5 BEGINN AUFTRAG-ANLEGEN-UND-ARCHIVIEREN
   6
   7   // Phase 1: Auftrag anlegen
   8   EMPFANGE Eingabe des Bau-/Projektleiters;
@@ -117,7 +116,7 @@ Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreib
  10   FUEHRE OBJEKT-ANLEGEN mit Klasse Adresse als Projekt-Einsatzort AUS ;
  11
  12   SOLANGE Pflichtfelder des Arbeitsauftrags unvollstaendig:
- 13     EMPFANGE Pflichtfelder (Auftragsnummer, Bezeichnung, Bauplan-Pfad,
+ 13     EMPFANGE Pflichtfelder (Auftragsnummer, Bezeichnung, Bauplan-Dokument,
  14             Start-/Endtermin, Kostenvoranschlag);
  15   ENDE SOLANGE
  16   FUEHRE OBJEKT-ANLEGEN mit Klasse Arbeitsauftrag und den Attributen AUS ;
@@ -129,49 +128,60 @@ Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreib
  22   ENDE WENN
  23
  24   WIEDERHOLE
- 25     FALLS Mitarbeiter IST
- 26       bereits vorhanden: EMPFANGE Auswahl aus der Mitarbeiterliste ;
- 27       nicht vorhanden:   FUEHRE OBJEKT-ANLEGEN mit Klasse Mitarbeiter AUS ;
- 28     ENDE-FALLS
- 29     Fuege Mitarbeiter als beteiligte Person dem Arbeitsauftrag hinzu;
- 30   BIS keine weiteren beteiligten Personen ergaenzt werden;
- 31
- 32   WENN Unterauftraege ergaenzt werden sollen;
- 33   DANN
- 34     WIEDERHOLE
- 35       FUEHRE OBJEKT-ANLEGEN mit Klasse Unterauftrag AUS ;
- 36       WENN ein Unterauftragnehmer zugeordnet werden soll;
- 37       DANN
- 38         FALLS Unterauftragnehmer IST
- 39           bereits vorhanden: EMPFANGE Auswahl ;
- 40           nicht vorhanden:   FUEHRE OBJEKT-ANLEGEN mit Klasse
- 41                              Unterauftragnehmer AUS ;
- 42         ENDE-FALLS
- 43       ENDE WENN
- 44     BIS keine weiteren Unterauftraege angelegt werden;
- 45   ENDE WENN
- 46
- 47   FUEHRE DUPLIKATSPRUEFUNG mit Auftragsdaten AUS ;
- 48   WENN ein Duplikat gefunden wurde;
- 49   DANN
- 50     GEBE Warnung aus und ueberlasse Korrektur dem Benutzer;
- 51   SONST
- 52     FUEHRE STATUS-SETZEN mit Arbeitsauftrag und Wert 'Offen' AUS ;
- 53     Persistiere Arbeitsauftrag in der Datenbasis;
- 54   ENDE WENN
- 55
- 56   // Phase 2: Auftrag loeschen (zeitlich versetzt)
- 57   FUEHRE AUFTRAG-LOESCHEN mit dem ausgewaehlten Arbeitsauftrag AUS ;
- 58
- 59 ENDE AUFTRAG-ANLEGEN-UND-LOESCHEN",
+ 25     WENN Mitarbeiter bereits vorhanden;
+ 26     DANN
+ 27       EMPFANGE Auswahl aus der Mitarbeiterliste;
+ 28     SONST
+ 29       FUEHRE OBJEKT-ANLEGEN mit Klasse Mitarbeiter AUS ;
+ 30     ENDE WENN
+ 31     Fuege Mitarbeiter als beteiligte Person dem Arbeitsauftrag hinzu;
+ 32   BIS keine weiteren beteiligten Personen ergaenzt werden;
+ 33
+ 34   WENN Unterauftraege ergaenzt werden sollen;
+ 35   DANN
+ 36     WIEDERHOLE
+ 37       FUEHRE OBJEKT-ANLEGEN mit Klasse Unterauftrag AUS ;
+ 38       // Zuordnung des Unterauftragnehmers ist fachlich verpflichtend
+ 39       WENN Unterauftragnehmer bereits vorhanden;
+ 40       DANN
+ 41         EMPFANGE Auswahl des Unterauftragnehmers;
+ 42       SONST
+ 43         FUEHRE OBJEKT-ANLEGEN mit Klasse Unterauftragnehmer AUS ;
+ 44       ENDE WENN
+ 45       Ordne Unterauftragnehmer dem Unterauftrag zu;
+ 46     BIS keine weiteren Unterauftraege angelegt werden;
+ 47   ENDE WENN
+ 48
+ 49   FUEHRE DUPLIKATSPRUEFUNG mit Auftragsdaten AUS ;
+ 50   WENN ein Duplikat gefunden wurde;
+ 51   DANN
+ 52     WENN aktiver Benutzer ist Administrator und Override bestaetigt;
+ 53     DANN
+ 54       // LF 100: Admin darf die Duplikatswarnung ueberschreiben
+ 55       FUEHRE STATUS-SETZEN mit Arbeitsauftrag und Wert 'OFFEN' AUS ;
+ 56       Persistiere Arbeitsauftrag samt aller zugeordneten Objekte
+ 57                    in der Datenbasis;
+ 58     SONST
+ 59       GEBE Warnung aus und ueberlasse Korrektur/Abbruch dem Benutzer;
+ 60     ENDE WENN
+ 61   SONST
+ 62     FUEHRE STATUS-SETZEN mit Arbeitsauftrag und Wert 'OFFEN' AUS ;
+ 63     Persistiere Arbeitsauftrag samt aller zugeordneten Objekte
+ 64                  in der Datenbasis;
+ 65   ENDE WENN
+ 66
+ 67   // Phase 2: Auftrag archivieren (zeitlich versetzt, LL 20)
+ 68   FUEHRE AUFTRAG-ARCHIVIEREN mit dem ausgewaehlten Arbeitsauftrag AUS ;
+ 69
+ 70 ENDE AUFTRAG-ANLEGEN-UND-ARCHIVIEREN",
     lang: "text",
     block: true,
   ),
-  caption: [Listing 4.1.1: Hauptszenario "Auftrag anlegen und löschen"],
+  caption: [Listing 4.1.1: Hauptszenario "Auftrag anlegen und archivieren"],
   supplement: [Listing],
 ) <lst:auftrag_haupt>
 
-Das Hauptlisting verzichtet -- konsistent zum Sequenzdiagramm -- vollständig auf Datenbankzugriffe. Dies entspricht der Argumentation der Beispielarbeit "Immobilienverwaltung", dass die Konsistenz zwischen Diagramm und Pseudocode nur dann gewährleistet ist, wenn beide Darstellungen dieselbe Abstraktionsebene nutzen. Lese- und Schreibvorgänge auf die zentrale Datenbasis werden ausschließlich im Sequenzdiagramm sichtbar gemacht.
+Das Hauptlisting verzichtet -- konsistent zum Sequenzdiagramm -- vollständig auf Datenbankzugriffe. Auf diese Weise bleiben Diagramm und Pseudocode auf derselben Abstraktionsebene, was die Konsistenz zwischen beiden Darstellungen erst gewährleistet. Lese- und Schreibvorgänge auf die zentrale Datenbasis werden ausschließlich im Sequenzdiagramm sichtbar gemacht.
 
 #figure(
   raw(
@@ -192,7 +202,7 @@ Das Hauptlisting verzichtet -- konsistent zum Sequenzdiagramm -- vollständig au
   supplement: [Listing],
 ) <lst:objekt_anlegen>
 
-Das Unterprogramm OBJEKT-ANLEGEN ist bewusst rekursiv aufrufbar: Sofern ein Attribut der anzulegenden Klasse selbst eine Referenz auf ein noch nicht existierendes Objekt darstellt (beispielsweise eine `Adresse` als Einsatzort eines `Projekts`), wird OBJEKT-ANLEGEN rekursiv für das referenzierte Objekt aufgerufen. Diese Modellierung greift das Vorgehen der Beispielarbeit "Handwerksbetriebe" auf und vermeidet, dass jedes konkrete Anlegen einer Domänenklasse als separates Unterprogramm dargestellt werden muss.
+Das Unterprogramm OBJEKT-ANLEGEN ist bewusst rekursiv aufrufbar: Sofern ein Attribut der anzulegenden Klasse selbst eine Referenz auf ein noch nicht existierendes Objekt darstellt (beispielsweise eine `Adresse` als Einsatzort eines `Projekts`), wird OBJEKT-ANLEGEN rekursiv für das referenzierte Objekt aufgerufen. Diese Modellierung vermeidet, dass jedes konkrete Anlegen einer Domänenklasse als separates Unterprogramm dargestellt werden muss.
 
 #figure(
   raw(
@@ -231,37 +241,31 @@ Das Unterprogramm DUPLIKATSPRUEFUNG bündelt die in LF 100 geforderte Prüfung a
   supplement: [Listing],
 ) <lst:status>
 
-STATUS-SETZEN kapselt den Wechsel des Statusattributs einer Lebenslinie. Es wird im Sequenzdiagramm sowohl beim initialen Anlegen (Status "Offen") als auch beim Stornieren von Buchungen (Status "Storniert") und beim Löschen des Auftrags (Status "Geloescht") aufgerufen.
+STATUS-SETZEN kapselt den Wechsel des Statusattributs einer Lebenslinie. Es wird im Sequenzdiagramm sowohl beim initialen Anlegen (Status `OFFEN`) als auch beim Stornieren von Buchungen (Status `STORNIERT`) und beim Archivieren des Auftrags (Status `ARCHIVIERT`) aufgerufen.
 
 #figure(
   raw(
-"  1 BEGINN AUFTRAG-LOESCHEN
-  2   EMPFANGE Referenz auf den zu loeschenden Arbeitsauftrag;
+"  1 BEGINN AUFTRAG-ARCHIVIEREN
+  2   EMPFANGE Referenz auf den zu archivierenden Arbeitsauftrag;
   3   Lade alle aktiven Buchungen fuer diesen Arbeitsauftrag;
   4   WENN aktive Buchungen vorliegen;
   5   DANN
   6     SOLANGE noch aktive Buchungen vorhanden sind:
-  7       FUEHRE STATUS-SETZEN mit Buchung und Wert 'Storniert' AUS ;
+  7       FUEHRE STATUS-SETZEN mit Buchung und Wert 'STORNIERT' AUS ;
   8     ENDE SOLANGE
   9   ENDE WENN
  10
- 11   // Kompositionskaskade: existenzabhaengige Teile zuerst loeschen
- 12   SOLANGE der Arbeitsauftrag Unterauftraege enthaelt:
- 13     Loesche den Unterauftrag (Lebenslinie wird beendet);
- 14   ENDE SOLANGE
- 15   SOLANGE dem Arbeitsauftrag Termine zugeordnet sind:
- 16     Loesche den Termin (Lebenslinie wird beendet);
- 17   ENDE SOLANGE
- 18
- 19   FUEHRE STATUS-SETZEN mit Arbeitsauftrag und Wert 'Geloescht' AUS ;
- 20   Persistiere den Loeschvorgang in der Datenbasis;
- 21   Loesche den Arbeitsauftrag (Lebenslinie wird beendet);
- 22 ENDE AUFTRAG-LOESCHEN",
+ 11   // Logisches Loeschen gemaess LL 20: kein physisches Entfernen
+ 12   FUEHRE STATUS-SETZEN mit Arbeitsauftrag und Wert 'ARCHIVIERT' AUS ;
+ 13   Persistiere die Statusaenderung in der Datenbasis;
+ 14   // Unterauftraege und Termine bleiben mit dem Auftrag erhalten,
+ 15   // da sie fuer die 10-jaehrige Aufbewahrungspflicht referenziert werden.
+ 16 ENDE AUFTRAG-ARCHIVIEREN",
     lang: "text",
     block: true,
   ),
-  caption: [Listing 4.1.5: Unterprogramm AUFTRAG-LOESCHEN],
+  caption: [Listing 4.1.5: Unterprogramm AUFTRAG-ARCHIVIEREN],
   supplement: [Listing],
 ) <lst:loeschen>
 
-Die Kompositionskaskade ist als eigener Schleifen-Block innerhalb von AUFTRAG-LOESCHEN modelliert, um die im Klassendiagramm festgelegte Existenzabhängigkeit von `Unterauftrag` und `Termin` explizit nachvollziehbar zu machen. Erst nach vollständiger Entfernung sämtlicher abhängiger Teile wird der übergeordnete `Arbeitsauftrag` selbst gelöscht; diese Reihenfolge stellt sicher, dass keine verwaisten Referenzen entstehen und der Löschvorgang in der Datenbasis konsistent persistiert werden kann.
+Das Unterprogramm AUFTRAG-ARCHIVIEREN realisiert das im Lastenheft (LL 20) geforderte logische Löschen: Der Datensatz bleibt vollständig in der Datenbasis erhalten und wird lediglich über den neuen Status `ARCHIVIERT` von der aktiven Datenbestand-Sicht ausgenommen. Dadurch bleiben sowohl die per Komposition zugeordneten `Unterauftrag`- und `Termin`-Objekte als auch die dem Auftrag zugeordneten `Rechnung`-Referenzen für die vorgeschriebene zehnjährige Aufbewahrungsfrist zugreifbar. Ein physisches Löschen findet frühestens nach Ablauf dieser Frist durch den Administrator statt und ist bewusst nicht Teil dieses Szenarios.

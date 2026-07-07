@@ -15,6 +15,8 @@ Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktional
 Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie im Lastenheft @chapter-Zielgruppen-Rollen und @Rolle-Berechtigungen definiert wurden. Lediglich das Finanzbuchhaltungssystem ist keine klassische Benutzerrolle, sondern ein externes System, welches über eine Schnittstelle mit der Verwaltungssoftware verbunden ist.
 Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
+Nicht als Akteure im Use-Case-Diagramm dargestellt sind die beiden weiteren im Lastenheft genannten externen Systeme *Altsystem* und *Drucker*. Diese Auslassung erfolgt bewusst: Das Altsystem tritt ausschließlich als einmalige Datenquelle im Rahmen der Datenmigration in Erscheinung und wird -- konsistent zur Modellierung im Entwurfsklassendiagramm (siehe @fig-entwurfs-klassendiagramm) -- über den `AltsystemAdapter` gekapselt; im Use-Case-Diagramm ist es implizit als Datenquelle für den Use-Case "Daten importieren" enthalten. Der Drucker ist reine Peripherie ohne eigenständigen Anwendungsfall und wird vom Nutzer über die Standardschnittstelle des Betriebssystems angesprochen; er wäre als Akteur ohne fachlichen Mehrwert. Für eine Modellierungssicht, in der Altsystem und Drucker explizit erscheinen, sei auf das Entwurfsklassendiagramm verwiesen, in dem sie als `<<external>>`-Klassen samt zugehöriger Adapter-Klasse geführt sind.
+
 *Mitarbeiter*
 
 Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Anwesenheitszeiten und das Einsehen des Terminplaners mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität, für ihn relevante Daten im System zu suchen und zu filtern.
@@ -122,7 +124,7 @@ Ebenfalls können bestehende Buchungen bearbeitet oder storniert werden. Die Buc
 
 *Finanzdaten lesen*
 
-Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für den Kostenvoranschlag eines Arbeitsauftrags benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet jedoch allein im Finanzbuchhaltungssystem statt, wodurch dieses System nur Leserechte auf die Finanzdaten hat.
+Finanzdaten werden aus dem Finanzbuchhaltungssystem ausgelesen und dem Verwaltungsmitarbeiter zur Verfügung gestellt. Die Finanzdaten werden beispielsweise für den Kostenvoranschlag eines Arbeitsauftrags benötigt. Die tatsächliche Verwaltung und Berechnung der Finanzen findet ausschließlich im Finanzbuchhaltungssystem statt; die Verwaltungssoftware besitzt somit lediglich lesenden Zugriff auf die dort geführten Finanzdaten.
 
 *Daten archivieren*
 
@@ -161,7 +163,7 @@ Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchf
 #pagebreak()
 
 == Verfeinerung "Geräte verwalten" <chapter-Verfeinerung_Geräte-verwalten>
-Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung.
+Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung. Die genaue Rechteabgrenzung ergibt sich aus dem Use-Case-Diagramm und den Berechtigungstabellen: Das *Anlegen* neuer Geräte ist ausschließlich dem Verwaltungsmitarbeiter (bzw. dem Administrator) vorbehalten, während Bau-/Projektleiter Geräte lediglich *bearbeiten*, Ausrüstung zuordnen sowie Lager und Ausrüstungskatalog pflegen dürfen. Das *Löschen* eines Geräts erfolgt aus organisatorischen Gründen ausschließlich im Büro durch den Verwaltungsmitarbeiter.
 
 #v(1em)
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet verwalten.pdf"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
@@ -187,11 +189,11 @@ Die Verwaltung des Ausrüstungskatalogs obliegt sowohl den Verwaltungsmitarbeite
 
 *Gerät löschen*
 
-Um Fehler und Missverständnisse auf der Baustelle zu vermeiden, erfolgt das Löschen von Geräten im Büro von Verwaltungsmitarbeiter. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Wenn ja, wird das Löschen durch eine Warnung sowie Konfliktauflösung verhindert. Wenn keine aktiven Buchungen vorliegen, wird das Gerät gelöscht. Referenzen zu Lagern, Ausrüstung und Bildern werden aufgelöst.
+Um Fehler und Missverständnisse auf der Baustelle zu vermeiden, erfolgt das Löschen von Geräten im Büro durch den Verwaltungsmitarbeiter. Zunächst wird das Gerät ausgewählt. Das System prüft, ob aktive Buchungen für dieses Gerät existieren. Bestehen keine aktiven Buchungen, wird das Gerät logisch aus dem aktiven Bestand entfernt (Status `AUSSER_BETRIEB`); ein physisches Entfernen findet gemäß der Aufbewahrungspflicht (LL 20) nicht statt. Bestehen dagegen aktive Buchungen, wird eine Warnmeldung angezeigt, welche die betroffenen Buchungen auflistet. Erst nach ausdrücklicher Bestätigung durch den Verwaltungsmitarbeiter werden die betroffenen aktiven Buchungen automatisch storniert (siehe zugehöriger Use-Case "Buchung stornieren") und das Gerät anschließend ebenfalls logisch deaktiviert. Referenzen zu Lagern, Ausrüstung und Bildern bleiben zu Nachvollziehbarkeitszwecken erhalten; das Gerät wird lediglich aus den aktiven Auswahl- und Buchungsmasken ausgeblendet.
 
 *Buchung stornieren*
 
-Bei diesem Use-Case handelt es sich um eine Erweiterung des Use-Case "Gerät löschen". Eine Stornierung einer Buchung kommt beispielsweise dann zum Tragen, wenn das Gerät, das in der Buchung enthalten ist, gelöscht werden soll. Durch das Löschen werden die Referenzen zu Geräten und Arbeitsaufträgen aufgelöst. Des Weiteren wird das entsprechende Gerät im Terminplaner am entsprechenden Datum wieder als verfügbar angezeigt.
+Der Use-Case "Buchung stornieren" wird als `<<include>>` sowohl aus "Gerät löschen" als auch aus der regulären Buchungsverwaltung eingebunden. Eine Stornierung setzt den `BuchungStatus` auf `STORNIERT` und macht das zugrundeliegende Gerät für den bislang blockierten Zeitraum erneut buchbar; im Terminplaner erscheint das Gerät an den entsprechenden Tagen wieder als verfügbar. Die Buchung selbst bleibt in der Datenbasis erhalten, um den Vorgang später nachvollziehen zu können.
 
 #pagebreak()
 
@@ -202,7 +204,7 @@ Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewähl
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.pdf"), caption: [Use-Case-Verfeinerung: Gerät anlegen]) <uc_geraet-anlegen>
 #v(1em)
 
-Das Diagramm @uc_geraet-anlegen verwendet eine zweistufige Farbcodierung: Die hellblau hinterlegten Use-Cases beschreiben die übergeordneten Prozessschritte, die der Verwaltungsmitarbeiter im Rahmen des Anlegevorgangs direkt ausführt. Die lila dargestellten Use-Cases werden durch den Use-Case "Geräteeigenschaften definieren" mittels _<\<include>>_ eingebunden und repräsentieren die einzelnen Pflichtattribute, die beim Anlegen eines neuen Geräts zu erfassen sind.
+Das Diagramm @uc_geraet-anlegen verwendet eine zweistufige Farbcodierung: Die hellblau hinterlegten Use-Cases beschreiben die übergeordneten Prozessschritte, die der Verwaltungsmitarbeiter im Rahmen des Anlegevorgangs direkt ausführt. Die lila dargestellten Elemente sind bewusst *nicht* als eigenständige Akteurs-Use-Cases zu verstehen, sondern dienen lediglich der grafischen Auflistung der beim Schritt "Geräteeigenschaften definieren" zu erfassenden Pflichtattribute; sie treten in der Modellierung als Attribute des Use-Case-Basisschritts auf und werden aus Kompaktheitsgründen im Diagramm einheitlich sichtbar dargestellt. Der Use-Case "Auf Duplikate prüfen" wird gemäß LF 100 vom System automatisch ausgelöst; er ist im Diagramm als `<<include>>` an "Geräteeigenschaften definieren" gekoppelt und bezeichnet damit einen Systemschritt, keine explizite Benutzeraktion.
 
 *Gerätetyp auswählen*
 
