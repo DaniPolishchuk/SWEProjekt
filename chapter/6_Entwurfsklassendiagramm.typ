@@ -122,6 +122,4 @@ Die Klasse `Buchung` bleibt inhaltlich das aus dem Analyse-Klassendiagramm bekan
 
 == Reflexion
 
-Das Entwurfsklassendiagramm bündelt die fachliche Struktur des Analyse-Klassendiagramms mit den zur Umsetzung erforderlichen infrastrukturellen Klassen. Die abstrakte Klasse `Auftrag` vermeidet redundante Attribute und platziert zugleich das Kompositum-Muster; die Schnittstelle `Bildbar` löst die in der Analyse offen gelassene Bildzuordnung erweiterbar; die Trennung von Wertobjekten und Enumerationen in ein eigenes Paket erhöht die Lesbarkeit.
-
-Die Modellierungstiefe wurde bewusst begrenzt: keine Assoziationslinien im Datentypen-Paket, nur zwei Ankerklassen im GUI-Paket mit Verweis auf das Kommunikationsschema, und Reduktion des Beobachter-Mechanismus auf die Kernklassen. Die feinere Ausgestaltung findet sich im Kommunikationsschema sowie in den Sequenz- und Aktivitätsdiagrammen, während dieses Diagramm den strukturellen Gesamtblick liefert.
+Das Entwurfsklassendiagramm bündelt die fachliche Struktur der Analyse mit den zur Umsetzung nötigen infrastrukturellen Klassen; zentrale Verbesserungen sind die abstrakte Klasse `Auftrag` (Kompositum), die Schnittstelle `Bildbar` und das eigene Datentypen-Paket. Die Modellierungstiefe wurde bewusst begrenzt (keine Assoziationslinien im Datentypen-Paket, GUI-Paket auf zwei Ankerklassen reduziert); die feinere Ausgestaltung liefern das Kommunikationsschema sowie die Sequenz- und Aktivitätsdiagramme.

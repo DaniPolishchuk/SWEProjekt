@@ -2,7 +2,7 @@
 
 == Übersicht
 
-Das folgende Analyse-Klassendiagramm modelliert die zentralen Entitäten der Verwaltungssoftware für das Bauunternehmen. Die Modellierung erfolgt auf Analyseebene und orientiert sich an den im Lastenheft definierten Produktfunktionen (LF 10 -- LF 100) sowie den identifizierten Entitäten aus der Lastenheftanalyse. Sämtliche Referenzen auf andere Objekte werden als Assoziationslinien dargestellt, nicht als Attribute in den Klassen.
+Das Analyse-Klassendiagramm modelliert die zentralen Entitäten der Verwaltungssoftware auf Analyseebene, orientiert an den Produktfunktionen (LF 10 -- LF 100) und den in der Lastenheftanalyse identifizierten Entitäten. Referenzen auf andere Objekte werden als Assoziationslinien dargestellt, nicht als Attribute.
 
 Das Diagramm ist in folgende thematische Bereiche gegliedert, die zur besseren Übersicht farblich hervorgehoben wurden:
 - *Personen und Mitarbeiter* (LF 20, LF 90): Personalstammdaten, Rollen, Organisationsstruktur und Anwesenheitszeiten -- dargestellt in *Blau*

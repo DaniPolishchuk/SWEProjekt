@@ -161,7 +161,7 @@ Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchf
 #pagebreak()
 
 == Verfeinerung "Geräte verwalten" <chapter-Verfeinerung_Geräte-verwalten>
-Als Verfeinerung wurde "Geräte verwalten" aus obigem Diagramm ausgewählt, da es sich um eine zentrale Funktionalität mit komplexen Abhängigkeiten handelt. Die Verwaltung umfasst nicht nur das Anlegen, Bearbeiten und Löschen von Geräten, sondern auch die Zuordnung zu Lagern und die Verwaltung von Ausrüstung. Die genaue Rechteabgrenzung ergibt sich aus dem Use-Case-Diagramm und den Berechtigungstabellen: Das *Anlegen* neuer Geräte ist ausschließlich dem Verwaltungsmitarbeiter (bzw. dem Administrator) vorbehalten, während Bau-/Projektleiter Geräte lediglich *bearbeiten*, Ausrüstung zuordnen sowie Lager und Ausrüstungskatalog pflegen dürfen. Das *Löschen* eines Geräts erfolgt aus organisatorischen Gründen ausschließlich im Büro durch den Verwaltungsmitarbeiter.
+Die Verfeinerung "Geräte verwalten" umfasst das Anlegen, Bearbeiten und Löschen von Geräten sowie die Zuordnung zu Lagern und die Ausrüstungsverwaltung. Die Rechteabgrenzung ergibt sich aus Use-Case-Diagramm und Berechtigungstabellen: Das *Anlegen* und *Löschen* ist dem Verwaltungsmitarbeiter (bzw. Administrator) vorbehalten, während Bau-/Projektleiter Geräte nur *bearbeiten*, Ausrüstung zuordnen sowie Lager und Ausrüstungskatalog pflegen dürfen.
 
 #v(1em)
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet verwalten.pdf"), caption: [Use-Case-Verfeinerung: Geräte verwalten]) <uc_geraete-verwalten>
@@ -196,7 +196,7 @@ Der Use-Case "Buchung stornieren" wird als `<<include>>` sowohl aus "Gerät lös
 #pagebreak()
 
 == Verfeinerung "Gerät anlegen" <chapter-Verfeinerung_Geräte-anlegen>
-Als weitere Verfeinerung wurde "Gerät anlegen" aus obiger Vertiefung ausgewählt, da dieser Prozess mehrere klar voneinander abgegrenzte Teilschritte umfasst, die es näher zu beleuchten gilt. Die Verfeinerung zeigt, in welchen Schritten ein neues Gerät im System angelegt wird und welche Pflichtattribute dabei zu erfassen sind.
+Die Verfeinerung "Gerät anlegen" zeigt die einzelnen Schritte des Anlegevorgangs und die dabei zu erfassenden Pflichtattribute.
 
 #v(1em)
 #figure(image("../assets/UseCase-Diagramm/UseCase-Bauunternehmen-Vertiefung_Geraet anlegen.pdf"), caption: [Use-Case-Verfeinerung: Gerät anlegen]) <uc_geraet-anlegen>

@@ -179,7 +179,7 @@
   Maximal 5 zeitgleiche Zugriffe. Ein Offline-Betrieb mit Synchronisation bei Rückkehr ins Büro ist vorgesehen, sodass auch ohne aktive Verbindung gearbeitet werden kann.
 ]
 #QaA[[INTERN] Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
-  Das System hat keine direkte externe Internetverbindung (kein Zugriff über öffentliche Netzwerke). Der Server läuft im internen Firmennetz. Für das spätere Tablet-Projekt: Bauleiter können per VPN auf das interne Firmennetz zugreifen (z.B. über gesichertes VPN vom Laptop/Tablet). Die Daten werden dabei vor der Fahrt zur Baustelle synchronisiert (Offline-First-Ansatz), sodass auch ohne aktive Verbindung gearbeitet werden kann. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Eine ungeschützte Internet-Exposition des Servers ist nicht vorgesehen.
+  Der Server läuft im internen Firmennetz ohne öffentliche Internet-Exposition. Der spätere Tablet-Zugriff erfolgt über gesichertes VPN mit Offline-First-Synchronisation (siehe oben).
 ]
 #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
   Der Zugriff richtet sich nach den Benutzerrollen:

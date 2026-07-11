@@ -2,17 +2,11 @@
 
 Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Gerät anlegen und buchen" als UML-Aktivitätsdiagramm modelliert (im Datenmodell konsequent als `Gerät` geführt; "Baumaschine" bezeichnet lediglich einen Wert des Typattributs am `Geräte-Typ`, nämlich `BAUMASCHINE` gegenüber `BAUWERKZEUG`, und ist keine eigene Klasse). Während das Sequenzdiagramm in @chapter-Sequenzdiagramm-Szenariobetrachtung den Nachrichtenaustausch in zeitlicher Reihenfolge zeigt, visualisiert das Aktivitätsdiagramm den Kontrollfluss mit Entscheidungen und Schleifen. Es eignet sich damit besonders zur Darstellung von Abläufen über mehrere Verantwortlichkeitsbereiche -- hier den Verwaltungsmitarbeiter beim Anlegen von Geräten sowie den Bau-/Projektleiter beim Buchen.
 
-Aus Gründen der Übersichtlichkeit werden folgende Vereinfachungen getroffen:
-- Es wird kein Anmelde- oder Authentifizierungsvorgang modelliert.
-- Datenbankfehler und technische Ausnahmen werden nicht abgebildet.
-- Das Szenario setzt eine leere Datenbasis voraus; Geräte-Typen, Lager und Arbeitsaufträge werden im Verlauf des Szenarios selbst angelegt.
-- Bestätigungsdialoge werden nur dort dargestellt, wo sie für das Verständnis des Ablaufs relevant sind.
-- Die Buchung eines Geräts setzt voraus, dass ein Arbeitsauftrag bereits existiert (im Diagramm durch das Laden der Auftragsliste dargestellt); der vollständige Anlegevorgang des Auftrags ist in @fig:sd_auftrag modelliert.
-- Das Finanzbuchhaltungssystem wird nicht modelliert; Kostenvoranschläge werden im Kontext dieses Szenarios nicht betrachtet.
+Es gelten dieselben Vereinfachungen wie im Sequenzdiagramm-Kapitel (kein Anmeldevorgang, keine Datenbankfehler, leere Ausgangs-Datenbasis, Bestätigungsdialoge nur wo relevant). Zusätzlich gilt: Die Buchung setzt einen bereits existierenden Arbeitsauftrag voraus (im Diagramm durch das Laden der Auftragsliste dargestellt; der Anlegevorgang ist in @fig:sd_auftrag modelliert), und das Finanzbuchhaltungssystem wird nicht betrachtet.
 
 == Szenariobetrachtung: Gerät anlegen und buchen <chapter-AD-Szenariobetrachtung>
 
-Das nachfolgende Aktivitätsdiagramm modelliert das Szenario "Gerät anlegen und buchen" in drei aufeinanderfolgenden Phasen. Die Phasen A und B (Anlage) sowie die Phase C (Buchung) werden gemäß UML-Konvention als zwei eigenständige Aktivitäten mit jeweils eigenem Start- und Endknoten dargestellt, da es sich fachlich um zeitlich versetzte Vorgänge unterschiedlicher Akteure handelt. Jede der beiden Aktivitäten nutzt drei Swimlanes: Aktivität 1 ("Gerät anlegen") mit *Verwaltungsmitarbeiter* (zuständig für Geräteverwaltung gemäß LF 50), *System (UI Bauverwaltung)* (Geschäftslogik und Instanzerzeugung) sowie *Datenbasis* (Persistierung und Abfragen); Aktivität 2 ("Gerät für Arbeitsauftrag buchen") mit *Bau-/Projektleiter* anstelle des Verwaltungsmitarbeiters, gefolgt von denselben System- und Datenbasis-Lanes.
+Das Szenario ist in drei Phasen gegliedert: Anlage (A, B) und Buchung (C) werden als zwei eigenständige Aktivitäten mit je eigenem Start-/Endknoten dargestellt, da es zeitlich versetzte Vorgänge unterschiedlicher Akteure sind. Beide Aktivitäten nutzen drei Swimlanes -- Akteur, System (UI Bauverwaltung) und Datenbasis; Akteur ist in Aktivität 1 der Verwaltungsmitarbeiter, in Aktivität 2 der Bau-/Projektleiter.
 
 *Phase A -- Geräte-Typ anlegen:* Der Verwaltungsmitarbeiter legt einen `Geräte-Typ` an (Exemplartyp-Muster, siehe @fig-analyse-klassendiagramm) -- nach Eingabe der Pflichtfelder und Duplikatsprüfung (LF 100).
 
@@ -31,7 +25,7 @@ Die Farbkonvention der Aktionsknoten orientiert sich an der im Sequenzdiagramm-K
 - *Dunkelgrün (`#A5D6A7`):* Buchungsspezifische Systemaktionen (Instanzerzeugung und Persistierung der `Buchung`-Instanz gemäß Koordinator-Muster).
 - *Hellrot (`#FFD7D7`):* Fehler- und Warnpfade (Duplikate gefunden, Gerät nicht verfügbar).
 
-Entscheidungsknoten (Rauten) kennzeichnen Verzweigungen im Kontrollfluss; Schleifenkonstrukte (`while/endwhile`) modellieren die im Klassendiagramm festgelegten `0..*`-Multiplizitäten für wiederholbare Eingaben. Anlage- und Buchungsvorgang sind gemäß UML-Konvention als *zwei eigenständige Aktivitäten* mit jeweils eigenem Start- und Endknoten dargestellt, damit die semantische Unabhängigkeit -- Anlage und Buchung sind zeitlich versetzte Vorgänge unterschiedlicher Akteure -- auch im Diagramm sichtbar wird.
+Entscheidungsknoten (Rauten) kennzeichnen Verzweigungen, Schleifenkonstrukte (`while/endwhile`) die `0..*`-Multiplizitäten wiederholbarer Eingaben.
 
 #figure(image("../assets/Aktivitaetsdiagramm_Anlegen.png", height: 90%), caption: [Aktivitätsdiagramm 1: Gerät anlegen]) <fig:ad_anlegen>
 
@@ -63,7 +57,7 @@ Mit dem Wechsel der aktiven Swimlane auf den Bau-/Projektleiter beginnt die drit
 
 Der Entscheidungsknoten "Gerät im Zeitraum verfügbar?" verzweigt den Ablauf: Bei Nichtverfügbarkeit kann der Bau-/Projektleiter optional eine Alternativsuche nach Geräten desselben Typs anstoßen. Diese zweite Entscheidung modelliert eine benutzergesteuerte Fortsetzungsmöglichkeit, die ein vollständiges Abbrechen des Vorgangs vermeidet. Bei Verfügbarkeit -- oder nach erfolgreicher Alternativauswahl -- lädt die Datenbasis die Auftragsliste, und der Bau-/Projektleiter wählt den zugehörigen Arbeitsauftrag.
 
-Den Abschluss bildet die Erzeugung der `Buchungs`-Instanz durch das System (dunkelgrüne Knoten). Dies realisiert das Koordinator-Muster aus dem Klassendiagramm: Die Buchung verknüpft `Gerät` und `Arbeitsauftrag` und trägt eigene Attribute (Buchungsnummer, Startdatum, Enddatum, buchender Mitarbeiter). Der vom Bau-/Projektleiter ausgewählte Buchungszeitraum wird der Instanzerzeugung dabei explizit als Parameter mitgegeben, wie im entsprechenden Aktionsknoten des Diagramms sichtbar. Der Buchungsstatus wird auf `AKTIV` gesetzt, die Buchung wird in der Datenbasis persistiert, und der Bau-/Projektleiter erhält eine abschließende Bestätigung. Der `GerätStatus` wird an dieser Stelle bewusst nicht verändert: Die zeitraumbezogene Belegung ergibt sich stets aus den aktiven `Buchung`-Objekten und ist daher nicht durch einen globalen Statuswert des Geräts abzubilden.
+Den Abschluss bildet die Erzeugung der `Buchungs`-Instanz durch das System (dunkelgrüne Knoten), die das Koordinator-Muster realisiert: Die Buchung verknüpft `Gerät` und `Arbeitsauftrag`, erhält den ausgewählten Zeitraum als Parameter, den Status `AKTIV` und wird persistiert. Der `GerätStatus` bleibt dabei unverändert (Begründung siehe unten, Listing 4.2.4).
 
 *Reflexion und ehrliche Einordnung*
 

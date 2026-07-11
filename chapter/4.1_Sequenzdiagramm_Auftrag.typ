@@ -2,18 +2,18 @@
 
 Im vorliegenden Kapitel wird das Verhalten der Verwaltungssoftware anhand des Szenarios "Auftrag anlegen und archivieren" als UML-Sequenzdiagramm modelliert. Die Aufgabenstellung nennt den Vorgang "Auftrag löschen"; da ein physisches Entfernen jedoch mit der im Lastenheft (LL 20) geforderten zehnjährigen Aufbewahrungspflicht unvereinbar ist, wird "Löschen" durchgängig als logisches Löschen (Archivierung) umgesetzt -- die abweichende Bezeichnung der Modell-Dateien (etwa `SD_Unterprogramm_AuftragLoeschen`) ist damit inhaltlich deckungsgleich zu lesen. Ergänzend zur strukturellen Sicht des Analyse-Klassendiagramms (siehe @fig-analyse-klassendiagramm) wird der dynamische Ablauf zwischen den beteiligten Lebenslinien sichtbar gemacht. Die Anlage eines Arbeitsauftrags wird im Hauptdiagramm ausführlich dargestellt; die Archivierung ist als eigenständiges Unterprogramm ausgelagert, um das Hauptdiagramm übersichtlich zu halten. Auf die Diagrammdarstellung folgen eine Beschreibung der Bildbereiche sowie eine ergänzende Modellierung als Pseudocode.
 
-Aus Gründen der Übersichtlichkeit werden in diesem Diagramm folgende Vereinfachungen getroffen, die sämtlich konsistent zur Aufgabenstellung und zu den getroffenen Annahmen der vorherigen Kapitel sind:
-- Es wird kein Anmelde- oder Authentifizierungsvorgang modelliert, da Logins gemäß Aufgabenvereinfachung nicht Bestandteil dieser Arbeit sind.
-- Datenbankfehler, Verbindungsausfälle und vergleichbare technische Ausnahmen werden nicht abgebildet, da sie auf Analyseebene den Blick auf die fachliche Logik verstellen würden.
-- Nebenläufige Vorgänge oder parallele Bearbeitungen durch mehrere Akteure werden nicht betrachtet; das Szenario verläuft strikt sequentiell.
-- Bestätigungs- und Hinweisdialoge der grafischen Oberfläche werden nur dort dargestellt, wo sie für das Verständnis des Ablaufs relevant sind.
-- Zugriffe auf die zentrale Datenbasis werden lediglich exemplarisch modelliert, nicht für jede Lese- und Schreiboperation einzeln.
-- Der Kostenvoranschlag wird gemäß @fig-analyse-klassendiagramm aus dem externen Finanzbuchhaltungssystem lesend übernommen. Da das Diagramm von einer leeren Datenbasis ausgeht, wird der externe lesende Zugriff hier nicht modelliert, jedoch in der textuellen Beschreibung berücksichtigt.
-- Im Sinne der gesetzlichen Aufbewahrungspflicht (LL 20 aus dem Lastenheftbereich "Produktleistungen") wird ein Auftrag niemals physisch aus der Datenbasis entfernt, sondern durch Setzen des Statuswerts `ARCHIVIERT` logisch gelöscht. Die Lebenslinie des Arbeitsauftrags im Diagramm bleibt daher bestehen; das Diagramm modelliert das fachliche "Löschen" konsequent als Archivierungsvorgang.
+Aus Gründen der Übersichtlichkeit gelten folgende Vereinfachungen:
+- Kein Anmelde-/Authentifizierungsvorgang (gemäß Aufgabenvereinfachung).
+- Datenbankfehler und technische Ausnahmen werden nicht abgebildet.
+- Keine Nebenläufigkeit; das Szenario verläuft strikt sequentiell.
+- Bestätigungs- und Hinweisdialoge nur, wo für das Verständnis relevant.
+- Datenbankzugriffe werden nur exemplarisch modelliert, nicht je Operation.
+- Der Kostenvoranschlag würde real aus dem Finanzbuchhaltungssystem gelesen; wegen der leeren Ausgangs-Datenbasis wird dieser externe Zugriff hier nicht modelliert, aber textuell berücksichtigt.
+- Gemäß Aufbewahrungspflicht (LL 20) wird ein Auftrag nie physisch entfernt, sondern über den Status `ARCHIVIERT` logisch gelöscht; die Lebenslinie bleibt bestehen.
 
 == Szenariobetrachtung: Auftrag anlegen und archivieren <chapter-Sequenzdiagramm-Szenariobetrachtung>
 
-Das im Folgenden dargestellte Sequenzdiagramm modelliert das Anlegen eines Arbeitsauftrags aus Sicht des Akteurs `Bau-/Projektleiter`. Ausgangspunkt ist eine vollständig leere Datenbasis. Sämtliche im Verlauf des Szenarios benötigten Domänenobjekte werden erst durch das Szenario selbst angelegt; ein Vorhandensein von Mitarbeitern, Projekten oder Adressen wird nicht vorausgesetzt. Diese Vorgehensweise entspricht der Annahme der Aufgabenstellung. Der zeitlich versetzt stattfindende Archivierungsvorgang für einen bestehenden Auftrag ist im Hauptdiagramm bewusst nicht mehr enthalten, sondern in das in @chapter-sd-loeschen ausgeführte Untersequenzdiagramm ausgelagert; dies hält das Hauptdiagramm fokussiert und vermeidet die im Analyse-Sequenzdiagramm sonst unvermeidbare visuelle Überfrachtung.
+Das Sequenzdiagramm modelliert das Anlegen eines Arbeitsauftrags aus Sicht des `Bau-/Projektleiter`. Ausgangspunkt ist eine leere Datenbasis: alle benötigten Domänenobjekte werden erst durch das Szenario selbst angelegt. Der zeitlich versetzte Archivierungsvorgang ist in das Untersequenzdiagramm @chapter-sd-loeschen ausgelagert, um das Hauptdiagramm fokussiert zu halten.
 
 Der Anlegevorgang verläuft entlang einer festen Schrittfolge: Zunächst wird ein übergeordnetes `Projekt` mit Einsatzort (`Adresse`) angelegt, dann die Pflichtfelder des `Arbeitsauftrags` erfasst und dieser dem Projekt zugeordnet. Es folgen Haupttermin (Start-/Endtermin) und optional ein Zwischentermin, anschließend die beteiligten `Mitarbeiter` (Auswahl oder Neuanlage) sowie optionale `Unterauftrag`-Objekte mit je verpflichtendem `Unterauftragnehmer`. Vor der Persistierung wird gemäß LF 100 die Duplikatsprüfung durchgeführt; bei Erfolg erhält der Auftrag den Status `OFFEN` und wird persistiert.
 
@@ -32,7 +32,7 @@ Zur besseren Lesbarkeit des Diagramms wurden die Referenz-Fragmente (`ref`) farb
 
 *Hinweis zum Zugriff auf die Datenbasis:* Die im Diagramm eingezeichnete Lebenslinie `:Datenbasis` wird im Entwurf durch das Singleton-Muster realisiert; jeder tatsächliche Zugriff geschieht folglich über die statische Operation `Datenbasis.getInstance()`. Auf Analyseebene wird dieser Zugriff bewusst abstrahiert dargestellt, um die Lesbarkeit der Nachrichtenfolge nicht durch technische Details zu belasten. Dieselbe Konvention gilt analog für die Swimlane `:Datenbasis` im Aktivitätsdiagramm.
 
-Die Erzeugung neuer Objekte wird gemäß Vorlesung durch eine `new()`-Nachricht auf das Objektsymbol dargestellt; die zugehörige Lebenslinie beginnt konzeptuell erst an dieser Stelle. Aus Gründen der Diagramm-Werkzeugkonvention werden die Objektköpfe bereits am oberen Bildrand angezeigt; ihre Aktivierung durch den `new()`-Aufruf markiert dennoch den tatsächlichen Beginn der Lebenslinie. Rückkehrnachrichten werden als gestrichelte Pfeile dargestellt und ebenfalls dezimal nummeriert. Da es sich um ein Analyse-Sequenzdiagramm handelt, sind in Anlehnung an die Vorlesungsregel (Folie 19) auch sprechende Prosa-Bezeichnungen statt formaler Methodensignaturen zugelassen. Ein physisches Löschen von Lebenslinien (Kreuz `X` am unteren Ende) kommt im Hauptdiagramm nicht vor: Alle im Anlegevorgang erzeugten Objekte werden zusammen mit dem Auftrag persistiert und bleiben gemäß LL 20 dauerhaft in der Datenbasis erhalten.
+Neue Objekte werden gemäß Vorlesung per `new()`-Nachricht erzeugt; die Objektköpfe erscheinen werkzeugbedingt bereits am oberen Rand, die Lebenslinie beginnt aber erst mit dem `new()`-Aufruf. Rückkehrnachrichten sind gestrichelt und dezimal nummeriert. Als Analyse-Sequenzdiagramm sind sprechende Prosa-Bezeichnungen statt formaler Signaturen zulässig (Vorlesung, Folie 19). Ein physisches Löschen von Lebenslinien kommt nicht vor, da alle Objekte gemäß LL 20 persistiert bleiben.
 
 #figure(image("../assets/Sequenzdiagramm_Auftrag.png", width: 100%), caption: [Sequenzdiagramm "Auftrag anlegen"]) <fig:sd_auftrag>
 
@@ -181,7 +181,7 @@ Der folgende Pseudocode ergänzt das Sequenzdiagramm um eine textuelle Beschreib
   supplement: [Listing],
 ) <lst:auftrag_haupt>
 
-Das Hauptlisting verzichtet -- konsistent zum Sequenzdiagramm -- vollständig auf Datenbankzugriffe. Auf diese Weise bleiben Diagramm und Pseudocode auf derselben Abstraktionsebene, was die Konsistenz zwischen beiden Darstellungen erst gewährleistet. Lese- und Schreibvorgänge auf die zentrale Datenbasis werden ausschließlich im Sequenzdiagramm sichtbar gemacht.
+Das Hauptlisting verzichtet -- konsistent zum Diagramm -- auf Datenbankzugriffe, sodass beide Darstellungen auf derselben Abstraktionsebene bleiben; Lese-/Schreibvorgänge sind nur im Sequenzdiagramm sichtbar.
 
 #figure(
   raw(
@@ -202,7 +202,7 @@ Das Hauptlisting verzichtet -- konsistent zum Sequenzdiagramm -- vollständig au
   supplement: [Listing],
 ) <lst:objekt_anlegen>
 
-Das Unterprogramm OBJEKT-ANLEGEN ist bewusst rekursiv aufrufbar: Sofern ein Attribut der anzulegenden Klasse selbst eine Referenz auf ein noch nicht existierendes Objekt darstellt (beispielsweise eine `Adresse` als Einsatzort eines `Projekts`), wird OBJEKT-ANLEGEN rekursiv für das referenzierte Objekt aufgerufen. Diese Modellierung vermeidet, dass jedes konkrete Anlegen einer Domänenklasse als separates Unterprogramm dargestellt werden muss.
+OBJEKT-ANLEGEN ist rekursiv: Referenziert ein Attribut ein noch nicht existierendes Objekt (z.B. `Adresse` als Einsatzort eines `Projekts`), wird das Unterprogramm dafür erneut aufgerufen. So entfällt ein separates Anlege-Unterprogramm je Domänenklasse.
 
 #figure(
   raw(
@@ -225,7 +225,7 @@ Das Unterprogramm OBJEKT-ANLEGEN ist bewusst rekursiv aufrufbar: Sofern ein Attr
   supplement: [Listing],
 ) <lst:duplikat>
 
-Das Unterprogramm DUPLIKATSPRUEFUNG bündelt die in LF 100 geforderte Prüfung auf bereits vorhandene Datensätze. Die Modellierung als eigenständiges Unterprogramm erlaubt es, die Prüfung an unterschiedlichsten Stellen des Systems (Auftragsanlage, Mitarbeiteranlage, Geräteanlage) ohne Wiederholung des Pseudocodes wiederzuverwenden.
+DUPLIKATSPRUEFUNG bündelt die LF-100-Prüfung als eigenständiges Unterprogramm und ist so an allen Neuanlage-Stellen (Auftrag, Mitarbeiter, Gerät) ohne Wiederholung wiederverwendbar.
 
 #figure(
   raw(
