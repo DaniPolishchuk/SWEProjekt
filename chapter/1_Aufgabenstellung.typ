@@ -96,28 +96,22 @@
   Zusätzlich: Sanierung und Modernisierung bestehender Bauwerke.
 ]
 #QaA[Wie soll die neue Verwaltungssoftware die bisherigen Verwaltungsarbeiten konkret vereinfachen - welche manuellen Arbeitsschritte sollen automatisiert werden?][
-  Bisher werden Aufträge, Baumaschinen und Personalzuordnungen teilweise in Excel-Listen gespeichert. Die neue Software soll das Anlegen und Suchen von Aufträgen, die Buchung von Baumaschinen und die Zuordnung von Mitarbeitern zu Projekten zentral und digital ermöglichen.
+  Aufträge, Baumaschinen und Personalzuordnungen liegen bisher in Excel-Listen. Die Software soll Anlegen und Suchen von Aufträgen, Buchung von Baumaschinen und Zuordnung von Mitarbeitern zu Projekten zentral ermöglichen.
 ]
 #QaA[Welches vorhandene Softwarewerkzeug wird aktuell für die Verwaltung eingesetzt?][
-  Aktuell wird eine Kombination aus einer älteren Desktop-Anwendung und diversen Excel-Tabellen verwendet. Die Daten liegen in einer lokalen Datenbank.
+  Eine ältere Desktop-Anwendung mit lokaler Datenbank, ergänzt um diverse Excel-Tabellen.
 ]
-#QaA[Was waren die positiven Aspekte der alten Verwaltungssoftware, die in das neue System übernommen werden sollen?][
-  Die übersichtliche Darstellung der Auftragsdaten und die einfache Suche nach Mitarbeitern wurden als positiv bewertet. Diese Übersichtlichkeit soll beibehalten werden.
-]
-#QaA[Welche negativen Erfahrungen haben die Mitarbeiter mit der bisherigen veralteten Software gemacht, die im neuen System vermieden werden sollen?][
-  Die alte Software war langsam, konnte nur von einem Arbeitsplatz bedient werden und bot keine Möglichkeit, Daten mobil abzurufen. Außerdem fehlte eine zentrale Datenhaltung, sodass Daten teilweise doppelt gepflegt wurden.
+#QaA[Welche positiven und negativen Erfahrungen gab es mit der bisherigen Software, die im neuen System berücksichtigt werden sollen?][
+  Positiv bewertet und beizubehalten: die übersichtliche Darstellung der Auftragsdaten und die einfache Mitarbeitersuche. Negativ: die Software war langsam, nur an einem Arbeitsplatz bedienbar und bot keinen mobilen Zugriff; ohne zentrale Datenhaltung wurden Daten teilweise doppelt gepflegt.
 ]
 #QaA[Wie kamen technisch weniger versierte Mitarbeiter mit der bisherigen Software zurecht und welche Bedienungsprobleme traten dabei regelmäßig auf?][
-  Vorarbeiter und Bauleiter hatten Schwierigkeiten mit der unübersichtlichen Menüstruktur. Häufig wurden falsche Eingabefelder befüllt. Die neue Software soll deshalb klare, einfache Eingabemasken bieten.
+  Vorarbeiter und Bauleiter hatten Schwierigkeiten mit der unübersichtlichen Menüstruktur und befüllten häufig falsche Eingabefelder. Die neue Software soll deshalb klare, einfache Eingabemasken bieten.
 ]
 #QaA[Was genau wird unter einer "intuitiven, leicht bedienbaren Benutzeroberfläche" verstanden - soll die neue Oberfläche nach einem bestimmten Gestaltungsprinzip aufgebaut sein (z.B. möglichst wenige Klicks, alle wesentlichen Informationen auf einen Blick)?][
   Die wichtigsten Informationen (Aufträge, Baumaschinen, Mitarbeiter) sollen von einer zentralen Übersichtsseite aus erreichbar sein. Maximal drei Klicks bis zur gewünschten Information. Keine Kommandozeile oder technische Fehlermeldungen.
 ]
 #QaA(labelName: "plattformunabhängige Lösung")[Wie stellt man sich die plattformunabhängige Lösung konkret vor - soll es eine native Desktop-Anwendung mit Java, eine Web-Applikation oder eine hybride Lösung sein?][
   Es soll eine Java-Desktop-Anwendung sein, die plattformunabhängig auf Windows, Linux und macOS läuft #referenceQ("q_Leistung-PC"). Für das spätere Tablet-Projekt wird eine separate Web- oder App-Lösung in Betracht gezogen.
-]
-#QaA[Wie viele Desktoprechnern im Büro sollen gleichzeitig auf die zentrale Datenbasis zugreifen können?][
-  Bis zu 15 Desktop-Rechner sollen gleichzeitig auf die zentrale Datenbasis zugreifen können.
 ]
 #QaA[Welche ausgewählten Teile der Daten und Arbeitsabläufe sollen auf den mobilen Endgeräten (Laptops, Tablets) vor Ort verfügbar sein?][
   Auf mobilen Endgeräten sollen Auftragsdaten (Einsatzort, Termine, beteiligte Personen), Baumaschinenstandorte und Arbeitsaufträge lesend verfügbar sein.
@@ -182,7 +176,7 @@
   Beim Tablet-System: Zugriff über die Tablet-App mittels einer VPN und einer REST-API zum Server. Die App synchronisiert Daten vor Ort und ermöglicht auch Offline-Arbeit.
 ]
 #QaA[Wie oft soll auf das System von außerhalb zugegriffen werden?][
-  Es wird eine Anzahl von maximal 5 zeitgleichen Zugriffen erwartet. Zudem ist ein Offline-Betrieb mit Synchronisation bei Rückkehr ins Büro vorgesehen, sodass auch ohne aktive Verbindung gearbeitet werden kann und sich die Anzahl an Zugriffen entsprechend anpasst.
+  Maximal 5 zeitgleiche Zugriffe. Ein Offline-Betrieb mit Synchronisation bei Rückkehr ins Büro ist vorgesehen, sodass auch ohne aktive Verbindung gearbeitet werden kann.
 ]
 #QaA[[INTERN] Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
   Das System hat keine direkte externe Internetverbindung (kein Zugriff über öffentliche Netzwerke). Der Server läuft im internen Firmennetz. Für das spätere Tablet-Projekt: Bauleiter können per VPN auf das interne Firmennetz zugreifen (z.B. über gesichertes VPN vom Laptop/Tablet). Die Daten werden dabei vor der Fahrt zur Baustelle synchronisiert (Offline-First-Ansatz), sodass auch ohne aktive Verbindung gearbeitet werden kann. Bei erneuter VPN-Verbindung (z.B. nach Rückkehr oder bei verfügbarem WLAN) werden Änderungen automatisch synchronisiert. Eine ungeschützte Internet-Exposition des Servers ist nicht vorgesehen.
@@ -196,17 +190,10 @@
   @chapter-Zielgruppe-Rollen
 ]
 #QaA[Sollen alle Daten vom Tablet aus auf der Baustelle verfügbar sein?][
-  Nein, nur ausgewählte Daten: 
-  - Auftragsinformationen
-  - Einsatzort
-  - beteiligte Personen 
-  - Baumaschinenstandorte
-
-  Lesender Zugriff auf: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte, Baupläne. \
-  Schreibzugriff auf projektbezogene Daten ihrer eigenen Projekte.
+  Nein. Lesend: Auftragsdaten (Termine, Einsatzort, beteiligte Personen), Baumaschinenstandorte und Baupläne. Schreibzugriff nur auf projektbezogene Daten der eigenen Projekte.
 ]
 #QaA(labelName: "Import-Format")[Welche Formate der Daten sollen im Import bevorzugt werden?][
-  CSV-Dateien (Semikolon-separiert, UTF-8-kodiert) als primäres Importformat. Diese sind lesbar und einfach zu verarbeiten.
+  CSV-Dateien (Semikolon-separiert, UTF-8) als primäres Importformat -- lesbar und einfach zu verarbeiten.
 ]
 
 #codefigure(caption: "Beispiel für das Importformat")[ 
@@ -219,10 +206,10 @@
 ]
 
 #QaA(labelName: "Export-Format")[Welche Formate der Daten sollen im Export bevorzugt werden?][
-  Der Export soll ebenfalls im CSV-Format erfolgen, um Kompatibilität mit anderen Systemen zu gewährleisten.
+  Ebenfalls CSV, zur Kompatibilität mit anderen Systemen.
 ]
 #QaA(labelName: "Import-Export-Daten")[Welche Daten sollen genau Importiert bzw. Exportiert werden?][
-  Import: Alle relevanten Daten aus dem Altsystem werden übertragen, soweit sie in einem importierbaren Format vorliegen. Dazu gehören: Auftragsdaten, Mitarbeiterdaten, Baumaschinen- und Werkzeugdaten, Gruppenzuordnungen. Export: Selektiver Export einzelner Datensätze (z.B. Aufträge, Mitarbeiterlisten) im CSV-Format für Berichte oder Backups.
+  Import: alle importierbaren Altsystemdaten (Auftrags-, Mitarbeiter-, Baumaschinen- und Werkzeugdaten, Gruppenzuordnungen). Export: selektiver CSV-Export einzelner Datensätze (z.B. Aufträge, Mitarbeiterlisten) für Berichte oder Backups.
 ]
 #QaA[Gibt es Daten, die nicht aus dem alten System übertragen werden sollen?][
   Finanztechnische Daten (Gehälter, Löhne, Projektkosten) werden nicht übertragen, da sie im separaten Finanzbuchhaltungssystem verwaltet werden.
@@ -247,14 +234,10 @@
   Das ist Teil des späteren Tablet-Projekts. Voraussichtlich iOS (iPad) und Android. Die konkrete Entscheidung erfolgt im zweiten Entwicklungsauftrag.
 ]
 #QaA[Welche charakteristischen Merkmale weisen die bauunternehmensspezifischen Daten auf und welche Daten sollen darunter verstanden werden? ][
-  Mitarbeiter- und Gruppendaten, Aufträge und Projekte, Baumaschinen und Werkzeuge mit Standorten/Lagerorten, Buchungen, Anwesenheitszeiten und Bilder.
-
-  Siehe genaue Definition der oben genannten Entitäten: @verwalteten-Objekte
+  Mitarbeiter- und Gruppendaten, Aufträge und Projekte, Baumaschinen und Werkzeuge mit Standorten/Lagerorten, Buchungen, Anwesenheitszeiten und Bilder (genaue Definition: @verwalteten-Objekte).
 ]
 #QaA[Welche relevanten Informationen sollen über Arbeitsaufträge dargestellt werden? ][
-  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status sowie zugeordnete Dokumente (Baupläne, Kostenvoranschläge, Angebote, Mahnungen) #referenceQ("q_Dokument-Entitaet").
-
-  Siehe die genaue Definition: @e_Arbeitsauftrag.
+  Auftragsbezeichnung, zugehöriges Projekt, Start-/End-/Zwischentermine, beteiligte Personen und Gruppen, gebuchte Baumaschinen, Einsatzort, Status sowie zugeordnete Dokumente #referenceQ("q_Dokument-Entitaet") (genaue Definition: @e_Arbeitsauftrag).
 ]
 #QaA[Sollen die Bauleiter über weitere Endgeräte auf das System zugreifen können? ][
   Nur über Tablets und Laptops vor Ort auf den Baustellen.
@@ -344,7 +327,7 @@
 ]
 
 #QaA(labelName: "Aufgabe-Verwaltung-Admin")[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
-  Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig. Es gibt keine dedizierten Datenbankadministratoren - diese Aufgabe übernimmt der Administrator. Hinweis zur Begriffstrennung: "Verwaltungsmitarbeiter" ist sowohl eine Position (Mitarbeitertyp) als auch eine Benutzerrolle (Zugriffskontrolle). Diese Mitarbeiter werden der Gruppe "Verwaltung" zugeordnet.
+  Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig; dedizierte Datenbankadministratoren gibt es nicht. Intern: "Verwaltungsmitarbeiter" ist sowohl Position (Mitarbeitertyp) als auch Benutzerrolle (Zugriffskontrolle) und wird der Gruppe "Verwaltung" zugeordnet.
 ]
 #QaA[Wie sollen die Berechtigungen umgesetzt werden? Soll es ein bestimmtes Rollensystem geben?][
   Ja, es soll ein festes Rollensystem mit vier vordefinierten Rollen geben: Verwaltungsmitarbeiter, Bau-/Projektleiter, Vorarbeiter und Administrator. Die Rollen sind fest vorgegeben und nicht konfigurierbar.@e_Rolle
@@ -359,7 +342,7 @@
   Verwaltungsmitarbeiter haben auf projektbezogene Daten nur Leserechte. Schreibzugriff auf Projekte und Aufträge haben nur Bau-/Projektleiter und der Administrator. Ausnahme ist die Geräteverwaltung, wo Verwaltungsmitarbeiter Vollzugriff haben.
 ]
 #QaA[Soll ein Bau-/Projektleiter Vollzugriff auf alle oder nur auf seine eigenen Projekte haben? ][
-  Ein Bau-/Projektleiter hat Vollzugriff auf alle projektbezogenen Daten (alle Projekte und Aufträge), nicht nur auf die ihm zugeordneten. Dies ermöglicht flexible Projektzusammenarbeit und Vertretungsregelungen.
+  Vollzugriff auf alle projektbezogenen Daten, nicht nur die zugeordneten -- dies ermöglicht Projektzusammenarbeit und Vertretung.
 ]
 #QaA(labelName: "Vorarbeiter-zukünftige-Arbeitsaufträge")[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
   Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
@@ -376,9 +359,6 @@
 #QaA[Sollen die Rollen fest vordefiniert sein oder soll der Administrator neue Rollen konfigurieren können? ][
   Der Administrator kann keine neuen Rollen erstellen #referenceQ("q_Rollen-gleichzeitig").
 ]
-#QaA[Welche charakteristischen Merkmale soll die Benutzeroberfläche erfüllen, um für Menschen ohne besondere Computerkenntnisse bedienbar zu sein? ][
-  Klare Beschriftungen, große Schaltflächen, übersichtliche Eingabemasken, keine technischen Fachbegriffe in der Oberfläche. Maximal drei Klicks bis zur gewünschten Funktion.
-]
 #QaA[Welche charakteristischen Daten sollen Projekte verwalten? ][
   Ein Projekt umfasst folgende Attribute:
 
@@ -394,10 +374,7 @@
   ))
 ]
 #QaA[Wie viele Projektleiter hat ein Projekt? Kann ein Projekt zeitweise auch ohne Projektleiter sein?][
-  Jedes Projekt hat genau einen Projektleiter, der die Verantwortung trägt. Ein Projekt ohne Projektleiter soll es nicht geben -- die Zuweisung erfolgt direkt beim Anlegen des Projekts. Ein Projektleiter kann allerdings mehrere Projekte gleichzeitig leiten.
-]
-#QaA[Können einem Projekt Zwischentermine zugeordnet werden, oder hat es nur einen Start- und Endtermin?][
-  Ein Projekt hat nur einen Starttermin und einen Endtermin. Zwischentermine werden auf Projektebene nicht angelegt, da sich diese natürlich aus den Terminen der einzelnen Arbeitsaufträge ergeben -- jeder Auftrag hat seine eigenen Termine, die als "Zwischenschritte" innerhalb des Projekts dienen.
+  Genau einen, direkt beim Anlegen zugewiesen; ein Projekt ohne Projektleiter gibt es nicht. Ein Projektleiter kann mehrere Projekte gleichzeitig leiten. Zwischentermine werden auf Projektebene nicht angelegt, sondern ergeben sich aus den Terminen der Arbeitsaufträge.
 ]
 #QaA(labelName: "charakteristischen-Daten")[Welche charakteristischen Daten sollen Arbeitsaufträge verwalten? ][
   Ein Arbeitsauftrag umfasst folgende Attribute:
@@ -413,30 +390,18 @@
     [Status], [Enum-Wert], [Wert der Enumeration `AuftragStatus` (`OFFEN`, `IN_ARBEIT`, `PAUSIERT`, `VERZUG`, `ABGESCHLOSSEN`, `ARCHIVIERT`); `ARCHIVIERT` realisiert das logische Löschen gemäß LL 20],
     [Bemerkung], [Text], [Zusätzliche Hinweise],
   ))
-
-  //INFO: lieber keine Gruppen referenzieren, da z.V. die verantwortlichen Personen fett sein sollen oder zusätzliche Referenzen
 ]
 #QaA[Kann ein Arbeitsauftrag ohne beteiligte Mitarbeiter existieren?][
-  Nein. Jeder Arbeitsauftrag muss mindestens einem Mitarbeiter zugeordnet sein. Die Multiplizität auf der Mitarbeiter-Seite beträgt daher 1..\*. Die Referenz zeigt auf konkrete Mitarbeiter-Instanzen (nicht auf die abstrakte Basisklasse Person), da nur angestellte Mitarbeiter -- nicht externe Unterauftragnehmer -- Arbeitsaufträge zugewiesen bekommen.
+  Nein, mindestens ein Mitarbeiter ist Pflicht (Multiplizität 1..\*). Die Referenz zeigt auf konkrete Mitarbeiter-Instanzen, nicht auf `Person`, da nur angestellte Mitarbeiter -- keine externen Unterauftragnehmer -- Arbeitsaufträge erhalten.
 ]
 #QaA[Muss jeder Arbeitsauftrag einen Start- und Endtermin haben?][
-  Ja. Jeder Arbeitsauftrag besitzt mindestens zwei Termine: genau einen Starttermin und genau einen Endtermin. Die Multiplizität zur Termin-Entität beträgt daher 2..\*. Zusätzliche Zwischentermine sind optional. Der Typ eines Termins -- Starttermin, Endtermin oder Zwischentermin -- wird über das Attribut _Typ_ der Termin-Entität unterschieden. Diese Regel wird auf Anwendungsebene erzwungen.
+  Ja, genau ein Start- und ein Endtermin sind Pflicht (Multiplizität 2..\*), Zwischentermine optional. Der Typ wird über das Attribut _Typ_ der Termin-Entität unterschieden und auf Anwendungsebene erzwungen.
 ]
-#QaA[Sollen Projekte zu Arbeitsaufträge zugeordnet werden? ][
-  Ja, ein Projekt enthält einen oder mehrere Arbeitsaufträge. Die Zuordnung erfolgt 1:n (ein Projekt hat viele Aufträge).
-  //TODO: mit Frage 53 abgleichen -> aus was besteht was
-]
-#QaA[Sollen mehrere Projekte zu einem Arbeitsauftrag gehören können? ][
-  Nein, stattdessen kann ein Arbeitsauftrag allerdings mehrere Unteraufträge enthalten #referenceG("LF 40").
-]
-#QaA[Soll es Projekte ohne Aufträge geben können? ][
-  Ja, ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren. Aufträge werden dann später hinzugefügt.
-]
-#QaA[Soll es Aufträge ohne Projekte geben können? ][
-  Nein, jeder Auftrag muss einem Projekt zugeordnet sein.
+#QaA[Wie hängen Projekte und Arbeitsaufträge zusammen?][
+  Die Zuordnung ist 1:n: Ein Projekt enthält einen oder mehrere Arbeitsaufträge, jeder Auftrag gehört zu genau einem Projekt. Ein neu angelegtes Projekt kann zunächst ohne Aufträge existieren; ein Auftrag ohne Projekt ist nicht zulässig. Mehrere Projekte pro Auftrag sind nicht vorgesehen -- stattdessen kann ein Arbeitsauftrag mehrere Unteraufträge enthalten #referenceG("LF 40").
 ]
 #QaA[Was passiert mit den Arbeitsaufträgen, wenn ein Projekt gelöscht wird?][
-  Wenn ein Projekt gelöscht wird, werden auch alle zugehörigen Arbeitsaufträge mit gelöscht. Ein Arbeitsauftrag kann ohne sein Projekt nicht weiter existieren. Im Klassendiagramm wird dies als Komposition modelliert. In der Praxis werden Projekte aber selten gelöscht, sondern als abgeschlossen markiert -- die Daten bleiben dann gemäß der 10-Jahres-Aufbewahrungsfrist erhalten #referenceG("LL 20").
+  Sie werden mitgelöscht (Komposition), da ein Arbeitsauftrag ohne Projekt nicht existieren kann. In der Praxis werden Projekte aber als abgeschlossen markiert statt gelöscht -- die Daten bleiben gemäß 10-Jahres-Frist erhalten #referenceG("LL 20").
 ]
 #QaA[Kann ein Mitarbeiter gleichzeitig in mehreren Arbeitsaufträgen mitarbeiten?][
   Ja. Ein Mitarbeiter kann mehreren Arbeitsaufträgen zugewiesen sein. Außerdem soll jeder Mitarbeiter (insbesondere Vorarbeiter) in der Anwendung sehen können, welche Arbeitsaufträge ihm zugewiesen sind #referenceQ("q_Vorarbeiter-zukünftige-Arbeitsaufträge").
@@ -444,18 +409,15 @@
 #QaA[Sollen Mitarbeiter eine Mitarbeiternummer haben? ][
   Ja, jeder Mitarbeiter erhält eine eindeutige Mitarbeiternummer, die automatisch vom System vergeben wird #referenceQ("q_Attribute-Mitarbeiter")
 ]
-#QaA[Wie soll die Anmeldung funktionieren (Zertifikat, Passwort)? ][
-  Aufgrund von Vereinfachung nicht weiter betrachtet.
-]
-#QaA[Soll es eine 2FA geben? ][
-  Aufgrund von Vereinfachung nicht weiter betrachtet.
+#QaA[Wie soll die Anmeldung funktionieren (Zertifikat, Passwort, 2FA)? ][
+  Aufgrund der Vereinfachung nicht weiter betrachtet.
 ]
 
 === Zusammenspiel mit anderen Systemen
 #include "original/2.4_Zusammenspiel-mit-anderen-Systemen.typ"
 
 #QaA[Wie lange soll die alte Software parallel betrieben werden - bis zur vollständigen Datenmigration oder darüber hinaus?][
-  Die alte Software soll parallel betrieben werden, bis die Datenmigration abgeschlossen ist und die neue Software im produktiven Betrieb stabil läuft. Eine Überlappungsphase von ca. 2-4 Wochen ist vorgesehen.
+  Bis die Datenmigration abgeschlossen ist und das neue System stabil läuft; vorgesehen ist eine Überlappungsphase von ca. 2-4 Wochen.
 ]
 #QaA[Soll die Anforderung "keine externe Netzverbindung" für alle Arbeitsplätze, oder nur für bestimmte gelten?][
   Die Anforderung gilt für alle Bürorechner im Bürogebäude. Der Zugriff von außen (Tablet-Projekt) ist nicht Teil des ersten Entwicklungsauftrags.
@@ -470,13 +432,13 @@
   Die Synchronisation erfolgt manuell durch den Administrator bei Bedarf (z.B. wöchentlich oder nach Rechnungsstellung).
 ]
 #QaA[An wie viele Drucker soll das System angebunden werden, und sollen bestimmte Drucker für bestimmte Dokumente vorgesehen sein?][
-  Es sollen 3-5 Netzwerkdrucker im Büro angebunden werden. Die Drucker werden primär für die Erstellung von Rechnungen benötigt. Die Benutzer wählen den Drucker beim Druckvorgang aus.
+  3-5 Netzwerkdrucker im Büro, primär für Rechnungen. Der Drucker wird beim Druckvorgang ausgewählt.
 ]
 #QaA[[INTERN] Wie sollen die Drucker mit den Geräten verbunden werden?][
   Die Drucker werden über das interne Büronetzwerk (LAN) angebunden. Die Java-Anwendung nutzt die Standard-Druckfunktionen des Betriebssystems.
 ]
 #QaA[Soll die mobile Lösung auch offline funktionieren?][
-  Ja, eine Offline-Fähigkeit ist zwingend erforderlich, da auf den Baustellen nicht zwangsläufig eine Netzwerkverbindung besteht. Die Synchronisation erfolgt beim nächsten Verbindungsaufbau mit dem internen Firmen-WLAN im Bürogebäude oder über eine VPN.
+  Ja, zwingend, da auf Baustellen nicht immer eine Verbindung besteht. Synchronisation beim nächsten Verbindungsaufbau (Firmen-WLAN oder VPN).
 ]
 #QaA[[INTERN] Wie sollen Datenkonflikte bei der Synchronisation behandelt werden?][
   Der Benutzer wird zu einer manuellen Konfliktauflösung aufgefordert.
@@ -576,7 +538,7 @@
     Strukturierte Daten (Aufträge, Mitarbeiter, Buchungen) liegen zunächst in lesbaren Dateien (CSV), später in einer Datenbank. Baupläne und sonstige Auftragsdokumente werden über die Entität `Dokument` #referenceQ("q_Dokument-Entitaet"), Bilder über die Entität `Bild` als separate Dateien im Dateisystem abgelegt und über Dateipfade referenziert #referenceG("LD 10").
   ]
   #QaA(labelName: "Dokument-Entitaet")[Wie sollen Baupläne, Kostenvoranschläge, Angebote, Mahnungen und ähnliche Auftragsdokumente einheitlich verwaltet werden?][
-    Sämtliche dokumentartigen Dateien (Baupläne, Kostenvoranschläge, Angebote, Mahnungen, Rechnungs-PDFs und sonstige Vertragsunterlagen) werden über eine zentrale Entität `Dokument` verwaltet. Hierdurch wird vermieden, dass an mehreren Entitäten redundante Datei-Attribute (Dateipfad, Dateiname, Format etc.) gepflegt werden müssen. Die Dokumente werden -- analog zu Bildern #referenceG("LF 80") -- als separate Dateien im Dateisystem abgelegt und über die `Dokument`-Entität referenziert. Auf Dokumente verweisen insbesondere `Arbeitsauftrag` (Baupläne, Kostenvoranschläge, Angebote, Mahnungen), `Projekt` (übergeordnete Projektpläne) sowie `Rechnung` (Rechnungs-PDF aus dem Finanzbuchhaltungssystem).
+    Sämtliche dokumentartigen Dateien (Baupläne, Kostenvoranschläge, Angebote, Mahnungen, Rechnungs-PDFs) werden über eine zentrale Entität `Dokument` verwaltet und -- analog zu Bildern #referenceG("LF 80") -- als separate Dateien im Dateisystem abgelegt. Das vermeidet redundante Datei-Attribute an mehreren Entitäten. Auf Dokumente verweisen `Arbeitsauftrag`, `Projekt` und `Rechnung`.
 
     Ein Dokument umfasst folgende Attribute:
 
@@ -596,7 +558,6 @@
   ]
   #QaA[Sollen die beteiligten Personen aufgelistet werden oder sollen im Zuge der Übersichtlichkeit Gruppen aufgezeigt werden, die Auskunft über die Mitarbeiter geben? ][
     Beide Ansichten sollen möglich sein. In der Übersicht werden die zugeordneten Gruppen angezeigt. In der Detailansicht können die einzelnen Mitglieder der Gruppen aufgelistet werden.
-    //TODO: wichtig für UI
   ]
   ],
   textFigure(short)[LF 40], [Ein Auftrag kann von mehreren Unterauftragnehmern ausgeführt werden, d.h. Aufträge können Unteraufträge enthalten. Zur Abwicklung eines Auftrags ist ein Terminplaner erforderlich, der sämtliche Daten eines Auftrags bzw. Projekts beinhaltet.
@@ -627,17 +588,11 @@
       ))
 
     ]
-    #QaA[Muss zu jedem Unterauftrag ein Unterauftragnehmer angegeben werden?][
-      Ja, jeder Unterauftrag wird an genau eine externe Firma vergeben. Ohne Unterauftragnehmer macht ein Unterauftrag keinen Sinn -- dann wäre es eine interne Aufgabe.
-    ]
-    #QaA[Kann ein Unterauftrag an mehrere Firmen gleichzeitig vergeben werden?][
-      Nein, ein Unterauftrag geht immer an genau eine externe Firma. Wenn zwei verschiedene Firmen an einer Sache arbeiten sollen, werden zwei getrennte Unteraufträge angelegt -- das ist auch für die Abrechnung übersichtlicher.
+    #QaA[Muss zu jedem Unterauftrag ein Unterauftragnehmer angegeben werden, und kann er an mehrere Firmen vergeben werden?][
+      Jeder Unterauftrag wird an genau eine externe Firma vergeben (Pflicht). Sollen zwei Firmen mitwirken, werden zwei getrennte Unteraufträge angelegt -- auch für die Abrechnung übersichtlicher.
     ]
     #QaA[Sollen einem Unterauftrag eigene Mitarbeiter oder Baumaschinen zugewiesen werden?][
-      Nein, das ist nicht nötig. Der Unterauftragnehmer bringt seine eigenen Leute und sein eigenes Material mit -- darum kümmert sich seine Firma selbst. Das System speichert nur den Unterauftragnehmer als Vertragspartner sowie die Termine und Kosten.
-    ]
-    #QaA[Können auch beim Unterauftrag Zwischentermine angelegt werden?][
-      Ja, genau wie beim Arbeitsauftrag. Üblich sind Start- und Endtermin, aber bei längeren Unteraufträgen können auch Zwischentermine wichtig sein (z.B. Zwischenabnahmen).
+      Nein. Der Unterauftragnehmer stellt eigenes Personal und Material; das System speichert nur ihn als Vertragspartner sowie Termine und Kosten.
     ]
 
     #[#set text(fill: answerColor)
@@ -663,16 +618,13 @@
         [Arbeitsauftrag], [Referenz], [Liste aller Arbeitsaufträge],
         [Projekt], [Referenz], [Liste aller Projekte],
         [Buchung], [Referenz], [Liste aller Buchungen],
-      )) //INFO: Termin nötig => Termin verweist jeweils => Überschrfift => Termin
+      ))
     ]
     #QaA(labelName: "Form-Terminplaner")[In welcher Form soll der Terminplaner vorliegen (Kalender, Zeitleiste)? Wie sollen die Daten im Terminplaner vorliegen (Navigation zu einer weiteren Ansicht, Ansicht der Aufgaben nach Datum sortiert)? ][
       Als Kalenderansicht mit Monats- und Wochenansicht. Arbeitsaufträge und Projekte werden nach Datum sortiert angezeigt. Ein Klick auf einen Eintrag öffnet die Detailansicht.
     ]
     #QaA(labelName: "Rechte-Terminplaner")[Wie sollen die Zugriffsberechtigungen für den Terminplaner verteilt werden. Soll es Beschränkungen für bestimmte Daten geben? ][
       Mitarbeiter und Vorarbeiter haben eingeschränkte Leserechte auf die nötigsten Daten wie die Start- und Endzeiten von ihren Projekten. Verwaltungsmitarbeiter haben vollen Lesezugriff. Schreibrechte haben nur Bau-/Projektleiter und Administrator.
-    ]
-    #QaA[Welche Daten sollen unter die "sämtliche” Daten fallen? ][
-      Alle Arbeitsaufträge mit Unteraufträgen sowie Projekte mit ihren Terminen (Start, Ende, Zwischen), gebuchte Geräten, zugewiesene Mitarbeiter.
     ]
   ],
   textFigure(short)[LF 50], [Es müssen die Baumaschinen (Bagger, LKWs, Kräne, Rüttler, Großbohrmaschinen, uvm.) sowie größere Bauwerkzeuge (Schalungsteile, Bausicherungen, Zäune, etc.) verwaltet werden. \
@@ -681,7 +633,7 @@
   Alle Baumaschinen und -werkzeuge sind einzelnen Lagern zugeordnet (Plätze und/oder Gebäude auf mehreren Grundstücken). Der momentane Standort muss zur Optimierung der Projektabläufe aktualisiert werden können. \
   Daneben müssen Benutzungszeiträume angegeben werden können, um die Verfügbarkeit eines Geräts zu erhalten. Hier soll z.B. eine Baumaschine nach Ort und Verfügbarkeit gesucht werden können ("welche Maschine steht wann zur Verfügung und ist am nächsten zum Einsatzort?").
   #QaA[Sollen die Arten von Baumaschinen, Bauwerkzeugen und Ausrüstung fest vorgegeben oder dynamisch vom Benutzer änderbar sein?][
-    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen. Die konkrete Umsetzung erfolgt über ein Kategorieattribut.
+    Es gibt vordefinierte Standardkategorien (Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung etc.). Der Administrator kann bei Bedarf weitere Kategorien hinzufügen; die Umsetzung erfolgt über ein Kategorieattribut.
   ]
 
   #QaA(labelName: "Oberbegriff-Gerät")[Gibt es einen Unterschied zwischen "Baumaschine", "Bauwerkzeug" und "Gerät" bzw. ist "Gerät" ein allgemeiner Begriff für Baumaschinen und Bauwerkzeuge?][
@@ -720,17 +672,11 @@
     Hinweis: Anschaffungsdatum, letzter und nächster Wartungstermin werden als einfaches `Datum` modelliert und nicht als Referenz auf die Entität `Termin`. Wartungsdaten sind reine administrative Metadaten des Geräts und erscheinen nicht im Terminplaner — eine Verknüpfung mit der `Termin`-Entität wäre daher nicht sinnvoll.
   ]
 
-  #QaA[Gibt es Unterschiede in der Definition/ den Eigenschaften der Geräte (groß, klein, Kategorie)? ][
-    Nein, im System werden alle Baumaschinen und Bauwerkzeuge über den Oberbegriff "Gerät" mit einem Typ- und Kategorieattribut verwaltet.
+  #QaA[Wie werden Baumaschinen und Bauwerkzeuge unterschieden und welche Kategorien existieren?][
+    Beide werden über den Oberbegriff "Gerät" mit derselben Oberfläche verwaltet; die Unterscheidung erfolgt über ein Typ- und Kategorieattribut. Vordefinierte Kategorien: Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung; der Administrator kann weitere hinzufügen.
   ]
   #QaA[[INTERN] Sollen die Bauwerkzeuge generisch verwaltet werden?][
     Ja, Baumaschinen und Bauwerkzeuge werden über eine gemeinsame Basisklasse generisch verwaltet. Spezifische Eigenschaften können über Attribute oder eine Vererbungshierarchie abgebildet werden.
-  ]
-  #QaA[Falls die Arten von Baumaschinen/-werkzeuge fest vorgegeben sind (z.B. durch Klassen): Welche Arten sollen jeweils konkret existieren?][
-    Es gibt vordefinierte Standardkategorien: Bagger, LKW, Kran, Rüttler, Bohrmaschine, Schalungsteil, Zaun, Bausicherung. Der Administrator kann bei Bedarf weitere Kategorien hinzufügen.
-  ]
-  #QaA[Sollen Bauwerkzeuge und Baumaschinen zusammen verwaltet werden?][
-    Ja, beide werden über die gleiche Verwaltungsoberfläche verwaltet. Die Unterscheidung erfolgt über ein Typattribut.
   ]
   #QaA[Soll die Ausrüstung für Baumaschinen und Bauwerkzeuge einzeln verwaltet werden oder soll die Ausrüstung ausschließlich über die Suche nach den Geräten verwaltet werden? ][
     Die Ausrüstung (z.B. Baggerschaufel, Kranzubehör) wird als separate Entität verwaltet und kann Baumaschinen zugeordnet werden. Über die Suche kann nach Baumaschinen mit bestimmter Ausrüstung gefiltert werden.
@@ -752,11 +698,8 @@
   #QaA[Was passiert mit der Ausrüstung, wenn das Gerät gebucht wird? Muss sie separat gebucht werden?][
     Wenn ein Gerät gebucht wird, geht die aktuell daran montierte Ausrüstung automatisch mit -- es ist also keine separate Buchung der montierten Teile nötig. Wird eine Ausrüstung später für ein anderes Gerät gebraucht, wird sie umgebaut. Eine Ausrüstung allein (ohne Gerät) wird nicht gebucht.
   ]
-  #QaA[Nach welchen Kriterien soll gesucht werden (Filter, Textsuche, Eigenschaften)? ][
-    Kombination aus Textsuche (Bezeichnung, Seriennummer), Filterung nach Kategorie, Standort/Lager, Verfügbarkeit (Zeitraum) und Ausrüstung.
-  ]
-  #QaA[Wie soll nach der Ausrüstung gesucht werden (Kategorie, Textsuche)? ][
-    Textsuche nach Bezeichnung der Ausrüstung (z.B. "Baggerschaufel") oder Filterung nach Ausrüstungstyp (z.B. "Kranzubehör").
+  #QaA[Nach welchen Kriterien soll gesucht werden -- auch nach Ausrüstung? ][
+    Kombination aus Textsuche (Bezeichnung, Seriennummer) und Filterung nach Kategorie, Standort/Lager und Verfügbarkeit (Zeitraum). Ergänzend kann nach Ausrüstung gefiltert werden, etwa nach Ausrüstungstyp ("Kranzubehör") oder Bezeichnung ("Baggerschaufel").
   ]
   #QaA[Wie soll eine Buchung ablaufen? Was beinhaltet der Prozess (Bestätigung bestimmter Personen, etc.)? ][
     Der Benutzer wählt eine Baumaschine, gibt den Zeitraum (Start- und Enddatum) und den Auftrag an. Das System prüft die Verfügbarkeit. Bei Verfügbarkeit wird die Buchung gespeichert. Eine Bestätigung durch weitere Personen ist nicht erforderlich.
@@ -805,13 +748,10 @@
     ))
   ]
   #QaA[Woher soll die Information über das zugehörige Lager erhalten werden (GPS, Eintrag in der GUI, Buchungen)? ][
-    Über manuelle Eingabe in der GUI. Beim Anlegen einer Baumaschine wird das Lager zugeordnet. Bei Standortwechsel wird das Lager manuell aktualisiert.
-  ]
-  #QaA[Sollen die Benutzungszeiträume manuell eingegeben werden oder über die Buchungen ermittelt werden? ][
-    Die Benutzungszeiträume werden automatisch über die Buchungen ermittelt. Jede Buchung hat einen Start- und Endzeitpunkt.
+    Über manuelle Eingabe in der GUI: Beim Anlegen wird das Lager zugeordnet, bei Standortwechsel manuell aktualisiert.
   ]
   #QaA[Soll man in der Lager-Übersicht sehen können, welche Geräte sich aktuell in einem Lager befinden?][
-    Ja, in der Detailansicht eines Lagers werden alle aktuell zugeordneten Geräte angezeigt. So lässt sich auf einen Blick erkennen, welche Maschinen und Werkzeuge an einem Standort verfügbar sind.
+    Ja, die Lagerdetailansicht zeigt alle aktuell zugeordneten Geräte.
   ]
   #QaA[Soll die/ das nächste Baumaschine/ -Werkzeug angezeigt werden?][
     Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine kilometergenaue Berechnung der Distanz zum Einsatzort mit Routing-Diensten oder GPS-Ortung ist ausdrücklich *nicht* gefordert. Optional -- und im GUI-Kapitel als bewusst gewählte Zusatzfunktion ausgewiesen -- kann eine grobe Sortierung nach Entfernung auf Basis der beim Lager hinterlegten statischen Adresse (Postleitzahl-/Ortsvergleich) angeboten werden; ein externer Kartendienst ist dafür nicht erforderlich.
@@ -838,11 +778,8 @@
   #QaA(labelName: "Sortierung-Suchergebnisse")[Ist eine Sortierung nötig? ][
     Ja, die Suchergebnisse sollen nach verschiedenen Spalten sortierbar sein (aufsteigend/absteigend).
   ]
-  #QaA[Welche Suchmaske(n) sind sollen verwendet werden? ][
-    Je eine Suchmaske für: Mitarbeiter, Gruppen, Aufträge, Projekte, Geräte, Lager. Falls nötig werden kleinere Suchmasken für spezifische Daten erstellt, die über verschachtelte Ansichten erreichbar sind.
-  ]
-  #QaA[Wie sollen die Suchmasken aufgeteilt werden? ][
-    Nach Datentyp: eine Maske für Personaldaten (Mitarbeiter, Gruppen), eine für Projektdaten (Aufträge, Projekte), eine für Ressourcen (Baumaschinen, Werkzeuge, Lager).
+  #QaA[Welche Suchmasken soll es geben und wie werden sie aufgeteilt?][
+    Aufteilung nach Datentyp: eine Maske für Personaldaten (Mitarbeiter, Gruppen), eine für Projektdaten (Aufträge, Projekte) und eine für Ressourcen (Baumaschinen, Werkzeuge, Lager). Spezifischere Daten werden über kleinere, verschachtelte Suchmasken abgedeckt.
   ]
   #QaA(labelName: "Suchmasken")[Wie viele Suchmasken soll es maximal geben? ][
     Maximal große 5 Suchmasken - der Rest wird über spezifische kleinere Suchmasken abgedeckt.
@@ -852,29 +789,17 @@
   ]
   ],
   textFigure(short)[LF 70], [Die Auswahl der Daten soll möglichst über (eventuell durchsuchbare) Auswahllisten erfolgen. Dies gilt vor allem für Zuordnungen von Daten zu anderen Daten (z.B. Bau- fahrzeuge und Personen zu Projekten und Arbeitsaufträgen usw.). Die Auswahllisten sollen auf einfache Weise erweiterbar und für sämtliche Mitarbeiter im System verfügbar sein.
-  #QaA[Wie sollen Auswahllisten dargestellt werden (einzelne Auswahllisten mit einzelnen Objekten oder mit komplexer Beziehung)? ][
-    Als Listen mit einzelnen Objekten (z.B. Liste aller Mitarbeiter, Liste aller Baumaschinen). Komplexe Beziehungen werden über Referenzlisten angezeigt (z.B. "Mitarbeiter aus Gruppe X").
+  #QaA[Wie sollen Auswahllisten dargestellt werden und wie werden Beziehungen abgebildet? ][
+    Als Listen mit einzelnen Objekten (z.B. alle Mitarbeiter, alle Baumaschinen). Beziehungen werden in Detailansichten über Referenzlisten angezeigt (z.B. "Zugeordnete Mitarbeiter", "Gebuchte Baumaschinen"), nicht grafisch visualisiert.
   ]
-  #QaA[Welche Such- und Filtermöglichkeiten sollen die Auswahllisten haben? ][
-    Textsuche (Eingabefeld zum Filtern der Liste während der Eingabe) und Filterung nach Kategorien (z.B. nur Mitarbeiter einer bestimmten Gruppe anzeigen).
+  #QaA[Welche Such- und Filtermöglichkeiten sollen die Auswahllisten haben und wie werden sie angezeigt? ][
+    Textsuche zum Filtern während der Eingabe sowie Kategoriefilter. Darstellung als Dropdown-Menüs mit Suchfunktion oder als scrollbare Listen bei größeren Datenmengen.
   ]
-  #QaA[Soll es eine Vorauswahl geben? ][
-    Ja, bei bekannten Zuordnungen (z.B. beim Bearbeiten eines Auftrags) werden die bereits zugeordneten Objekte vorausgewählt angezeigt.
-  ]
-  #QaA[Wie sollen die Beziehungen zwischen den Daten dargestellt werden? ][
-    In Detailansichten über Referenzlisten (z.B. "Zugeordnete Mitarbeiter", "Gebuchte Baumaschinen"). Die Beziehungen werden nicht grafisch visualisiert.
-  ]
-  #QaA[Wie sollen die Auswahllisten angezeigt werden? (z.B. Dropdown-Menüs, Listen, Scrollbar)? ][
-    Als Dropdown-Menüs mit Suchfunktion oder als scrollbare Listen bei größeren Datenmengen (z.B. Mitarbeiterauswahl).
+  #QaA[Wie sollen sich die Auswahllisten verhalten (Vorauswahl, Mehrfachauswahl, inaktive Einträge)? ][
+    Bei bekannten Zuordnungen (z.B. beim Bearbeiten eines Auftrags) werden zugeordnete Objekte vorausgewählt. Für Zuordnungen zu Aufträgen ist Mehrfachauswahl möglich (z.B. mehrere Mitarbeiter oder Baumaschinen). Gelöschte oder inaktive Einträge werden standardmäßig ausgeblendet, lassen sich aber über einen Filter "Inaktive anzeigen" einblenden.
   ]
   #QaA[Wie sollen die Auswahllisten erweitert werden? ][
-    Durch das Anlegen neuer Objekte in der jeweiligen Verwaltungsansicht. Neue Mitarbeiter, Baumaschinen etc. werden automatisch in den Auswahllisten verfügbar.
-  ]
-  #QaA[Soll eine Mehrfachauswahl möglich sein?  ][
-    Ja, bei Zuordnungen zu Aufträgen (z.B. mehrere Mitarbeiter, mehrere Baumaschinen) soll eine Mehrfachauswahl möglich sein.
-  ]
-  #QaA[Sollen gelöschte oder inaktive Einträge bestimmt angezeigt werden? ][
-    Nein, gelöschte oder inaktive Einträge werden standardmäßig nicht in Auswahllisten angezeigt. Optional kann ein Filter "Inaktive anzeigen" aktiviert werden.
+    Durch das Anlegen neuer Objekte in der jeweiligen Verwaltungsansicht; neue Einträge werden automatisch in den Auswahllisten verfügbar.
   ]
   #QaA[[INTERN]: Soll es Lazy Loading geben oder sollen alle Daten direkt geladen werden?][
     Bei kleineren Listen (unter 100 Einträge) werden alle Daten direkt geladen. Bei größeren Listen kann Lazy Loading implementiert werden, um die Performance zu verbessern.
@@ -892,11 +817,8 @@
   #QaA[[INTERN] Welche Bildformate sollen, unterstützt werden können? ][
     Standard-Bildformate: JPG, PNG, GIF. PDFs und andere Dateiformate werden nicht über die Bild-Entität, sondern über die Entität `Dokument` verwaltet #referenceQ("q_Dokument-Entitaet").
   ]
-  #QaA[Dürfen gleiche Bilder doppelt existieren oder soll es eine zentrale Bildverwaltung geben? ][
-    Bilder werden zentral in einem Verzeichnis gespeichert. Mehrere Objekte können auf dasselbe Bild referenzieren (über Dateipfad).
-  ]
-  #QaA[Wie sollen die Bilder organisiert werden? (Nach Kategorien, nach Datum, nach Projekten, ...) ][
-    Zentral in einem Verzeichnis, mit eindeutigen Dateinamen. Optional können Unterverzeichnisse nach Typ (Auftrag, Maschine) oder Projekt angelegt werden.
+  #QaA[Dürfen gleiche Bilder doppelt existieren oder soll es eine zentrale Bildverwaltung geben? Wie werden die Bilder organisiert?][
+    Bilder werden zentral in einem Verzeichnis mit eindeutigen Dateinamen gespeichert; mehrere Objekte können dasselbe Bild über den Dateipfad referenzieren. Optional sind Unterverzeichnisse nach Typ oder Projekt möglich.
   ]
   #QaA[Wie sollen die Bilder angezeigt werden? (In einer Galerie, als Thumbnails, ...) ][
     In der Detailansicht als Galerie mit Thumbnails. Ein Klick auf ein Thumbnail öffnet das Bild in voller Größe.
@@ -952,7 +874,7 @@
     ))
   ]
   #QaA[Was passiert mit den erfassten Anwesenheitszeiten, wenn ein Mitarbeiter aus dem System entfernt wird?][
-    Die Anwesenheitszeiten gehören fest zum jeweiligen Mitarbeiter und werden gemeinsam mit ihm aus dem aktiven System entfernt. Aus rechtlichen Gründen werden sie aber nicht direkt vernichtet, sondern für die gesetzlich vorgeschriebene Aufbewahrungsfrist archiviert #referenceG("LL 20"). Eine Anwesenheitszeit ohne zugehörigen Mitarbeiter ergibt keinen Sinn.
+    Sie gehören fest zum Mitarbeiter (Komposition) und werden mit ihm aus dem aktiven System entfernt, aus rechtlichen Gründen aber gemäß Aufbewahrungsfrist archiviert statt vernichtet #referenceG("LL 20").
   ]
   #QaA[Soll Abwesenheit auch erfasst werden? Wenn ja, wie soll das erfolgen? ][
     Ja, Abwesenheiten (Urlaub, Krankheit) werden als separate Einträge mit Typ (Urlaub, Krankheit, sonstige) und Zeitraum erfasst.
@@ -965,17 +887,11 @@
   ]
   ],
   textFigure(short)[LF 100], [Vor dem Hinzufügen von neuen Daten soll eine Überprüfung stattfinden, ob diese eventuell schon vorhanden sind.
-  #QaA[Wie soll die Überprüfung erfolgen (manuell, automatisch, durch eine Suchfunktion, bei welchen Daten soll die Prüfung durchgeführt werden ...)? ][
-    Automatisch beim Speichern neuer Datensätze. Geprüft werden: Mitarbeiter (Name + Geburtsdatum), Baumaschinen (Seriennummer), Aufträge (Projektreferenz + Bezeichnung), Lager (Name).
+  #QaA[Wie soll die Überprüfung erfolgen und welche Merkmale werden berücksichtigt?][
+    Automatisch beim Speichern neuer Datensätze. Je nach Datentyp werden geprüft: Mitarbeiter (Vorname + Nachname + Geburtsdatum), Baumaschinen (Seriennummer bzw. Bezeichnung + Kategorie), Aufträge (Bezeichnung + Projekt), Lager (Name + Adresse).
   ]
-  #QaA[Wer darf eine Überprüfung durchführen (wer hat Überschreibrechte)? ][
-    Die Überprüfung erfolgt automatisch für alle Benutzer. Bei erkanntem Duplikat wird eine Warnung angezeigt. Der Administrator kann die Warnung überschreiben und das Duplikat dennoch anlegen.
-  ]
-  #QaA[Welche charakteristischen Merkmale sollen bei der Überprüfung berücksichtigt werden (z.B. Name, Datum, Kategorie, ...)? ][
-    Je nach Datentyp: Mitarbeiter (Vorname + Nachname + Geburtsdatum), Baumaschinen (Seriennummer oder Bezeichnung + Kategorie), Aufträge (Bezeichnung + Projekt), Lager (Name + Adresse).
-  ]
-  #QaA[[INTERN] Was soll passieren, wenn die Daten bereits vorhanden sind? Sollen sie aktualisiert werden, sollen sie ignoriert werden, soll eine Fehlermeldung ausgegeben werden, ...? ][
-    Eine Warnmeldung wird angezeigt ("Möglicherweise bereits vorhanden: [Vorhandener Eintrag]"). Der Benutzer kann entscheiden: Abbrechen, dennoch anlegen, oder vorhandenen Eintrag bearbeiten.
+  #QaA[[INTERN] Was soll passieren, wenn die Daten bereits vorhanden sind, und wer darf ein Duplikat dennoch anlegen?][
+    Es wird eine Warnung angezeigt ("Möglicherweise bereits vorhanden: [Vorhandener Eintrag]"). Der Benutzer kann abbrechen, den vorhandenen Eintrag bearbeiten oder -- mit Administratorrechten -- das Duplikat dennoch anlegen.
   ]
   ],
 ))
@@ -991,7 +907,7 @@
     Nein, es sollen ausschließlich kostenfreie und quelloffene Technologien verwendet werden (Java, Open-Source-Datenbanken).
   ]
   #QaA[Wer hat Zugriff auf die Datenbasis? Gibt es Admins, oder eine IT Abteilung? ][
-    Der Administrator hat vollen Zugriff auf die Datenbasis. Eine dedizierte IT-Abteilung gibt es nicht. Der Administrator ist ein Verwaltungsmitarbeiter mit erweiterten Rechten.
+    Der Administrator hat vollen Zugriff auf die Datenbasis #referenceQ("q_dedizierte-IT-Person"). Eine dedizierte IT-Abteilung gibt es nicht.
   ]
   ],
 ))

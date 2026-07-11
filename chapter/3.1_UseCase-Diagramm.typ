@@ -9,19 +9,17 @@
 }
 
 = Use-Case-Diagramm
-Im Rahmen der in diesem Abschnitt folgenden Use-Case-Analyse wird die Funktionalität der gesamten Verwaltungsanwendung für das Bauunternehmen untersucht und verdeutlicht. Zunächst wird ein allgemeines Use-Case-Diagramm erstellt, welches die Hauptfunktionalitäten der Anwendung abbildet. Hierbei wird ein funktionsorientierter Ansatz verfolgt, sodass differenziert auf die einzelnen Funktionalitäten eingegangen werden kann. Beispielhaft wird für ausgewählte Use-Cases eine Verfeinerung vorgenommen, um die Funktionalität des Verwaltens komplexerer Entitäten und des Verwaltens der Geräte näher darzustellen.
+In diesem Abschnitt wird die Funktionalität der gesamten Verwaltungsanwendung als Use-Case-Diagramm dargestellt. Zunächst wird ein allgemeines Diagramm der Hauptfunktionalitäten erstellt; anschließend werden ausgewählte Use-Cases verfeinert, um das Verwalten komplexerer Entitäten und der Geräte näher darzustellen.
 
 == Rollen-Erläuterung der Anwendung
 Das Diagramm wird aus sechs Akteuren zusammengesetzt, von denen die meisten den Rollen in der Anwendung entsprechen, wie sie im Lastenheft @chapter-Zielgruppen-Rollen und @Rolle-Berechtigungen definiert wurden. Lediglich das Finanzbuchhaltungssystem ist keine klassische Benutzerrolle, sondern ein externes System, welches über eine Schnittstelle mit der Verwaltungssoftware verbunden ist.
 Durch die Verwendung von Vererbungsbeziehungen zwischen den Akteuren werden gemeinsame Funktionalitäten auf Basisakteuren wie dem Mitarbeiter definiert. Spezialisierte Rollen erben diese Funktionen und werden um weitere Fähigkeiten erweitert.
 
-Nicht als Akteure im Use-Case-Diagramm dargestellt sind die beiden weiteren im Lastenheft genannten externen Systeme *Altsystem* und *Drucker*. Diese Auslassung erfolgt bewusst: Das Altsystem tritt ausschließlich als einmalige Datenquelle im Rahmen der Datenmigration in Erscheinung und wird -- konsistent zur Modellierung im Entwurfsklassendiagramm (siehe @fig-entwurfs-klassendiagramm) -- über den `AltsystemAdapter` gekapselt; im Use-Case-Diagramm ist es implizit als Datenquelle für den Use-Case "Daten importieren" enthalten. Der Drucker ist reine Peripherie ohne eigenständigen Anwendungsfall und wird vom Nutzer über die Standardschnittstelle des Betriebssystems angesprochen; er wäre als Akteur ohne fachlichen Mehrwert. Für eine Modellierungssicht, in der Altsystem und Drucker explizit erscheinen, sei auf das Entwurfsklassendiagramm verwiesen, in dem sie als `<<external>>`-Klassen samt zugehöriger Adapter-Klasse geführt sind.
+Nicht als Akteure dargestellt sind die externen Systeme *Altsystem* und *Drucker*. Das Altsystem tritt nur als einmalige Datenquelle bei der Migration auf (im Diagramm implizit über "Daten importieren", gekapselt durch den `AltsystemAdapter`); der Drucker ist reine Peripherie ohne eigenen Anwendungsfall. Beide erscheinen als `<<external>>`-Klassen im Entwurfsklassendiagramm (siehe @fig-entwurfs-klassendiagramm).
 
 *Mitarbeiter*
 
-Normale Mitarbeiter (z.B. Bauarbeiter) führen die ihnen zugewiesenen Aufgaben auf den Baustellen aus. Sie haben Zugriff auf die für ihre Arbeit relevanten Informationen. Dazu gehört das Lesen von Anwesenheitszeiten und das Einsehen des Terminplaners mit den für ihn relevanten Daten. Des Weiteren hat ein Mitarbeiter die Funktionalität, für ihn relevante Daten im System zu suchen und zu filtern.
-
-Der Mitarbeiter stellt dabei die grundlegende Basisrolle innerhalb der Anwendung dar. Damit fasst diese Rolle allgemeine Funktionen zusammen, die von mehreren spezifischen Rollen genutzt werden.
+Normale Mitarbeiter (z.B. Bauarbeiter) führen zugewiesene Aufgaben auf den Baustellen aus und haben Zugriff auf die für ihre Arbeit relevanten Informationen -- Lesen der eigenen Anwesenheitszeiten, Einsehen des Terminplaners sowie Suchen und Filtern relevanter Daten. Der Mitarbeiter ist die grundlegende Basisrolle und bündelt allgemeine Funktionen, die von spezifischeren Rollen genutzt werden.
 
 *Vorarbeiter*
 
@@ -47,18 +45,18 @@ Der Administrator verfügt über die Rechte aller Benutzerrollen und ist als Ver
 ) <uc_kompakt>
 #v(1em)
 
-Das in @uc_kompakt dargestellte Use-Case-Diagramm visualisiert die Gesamtübersicht der Verwaltungssoftware in einer kompakten Form. Hierbei sind die wichtigsten Use-Cases im Allgemeinen dargestellt. Diese trennen sich in weitere Diagramme zu detaillierteren Anwendungsfällen auf.
+Das in @uc_kompakt dargestellte Diagramm visualisiert die Gesamtübersicht mit den wichtigsten Use-Cases; ausgewählte Anwendungsfälle werden in weiteren Diagrammen verfeinert.
 
 *Erläuterung der Darstellung und Farbcodierung*
 
-Das Use-Case-Diagramm verwendet eine Farbcodierung zur besseren Übersichtlichkeit und Gruppierung der Funktionalitäten nach Zuständigkeitsbereichen:
+Das Use-Case-Diagramm verwendet eine Farbcodierung zur Gruppierung der Funktionalitäten nach Zuständigkeitsbereichen:
 
-- *Hellblau (Administrator-Funktionen):* Die in hellblau dargestellten Use-Cases sind ausschließlich dem Administrator vorbehalten. Diese Funktionen umfassen systemkritische Operationen wie Datenmigrationen, Import/Export und Backups.
-- *Grün (Verwaltungsbezogene Funktionen):* Die grün eingefärbten Use-Cases repräsentieren die Kernfunktionalitäten der Verwaltung. Diese Verwaltungsfunktionen betreffen sowohl Verwaltungsmitarbeiter als auch Bau- und Projektleitung. Dabei hat die Verwaltung teilweise nur lesenden Zugriff und die Bau- und Projektleitung keinen Zugriff auf Personaldaten.
-- *Orange (Vorarbeiter-Funktionen):* Die orange markierten Use-Cases zeigen die lesenden Zugriffe des Vorarbeiters. Diese Rolle hat ausschließlich Lesezugriff auf die für ihre Arbeit relevanten Informationen. Der Vorarbeiter kann eigene Arbeitsaufträge einsehen, den Terminplaner konsultieren und Informationen zu benötigten Geräte abrufen, jedoch keine Daten bearbeiten.
-- *Hellgrün (Mitarbeiter-Grundfunktionen):* Die hellgrün eingefärbten Use-Cases sind dem Mitarbeiter zugeordnet. Diese Basisrolle hat minimale Systemrechte und kann primär eigene Daten einsehen.
-- *Gelb (Externe Systemschnittstelle):* Der gelb markierte Use-Case repräsentiert die Integration mit dem Finanzbuchhaltungssystem.
-- *Rot (Vertiefung)*: Die rot markierten Use-Cases werden im Verlauf noch weiter vertieft.
+- *Hellblau (Administrator):* systemkritische Operationen (Datenmigration, Import/Export, Backups).
+- *Grün (Verwaltung):* Kernfunktionen der Verwaltung, betreffen Verwaltungsmitarbeiter und Bau-/Projektleitung.
+- *Orange (Vorarbeiter):* lesende Zugriffe auf arbeitsrelevante Informationen.
+- *Hellgrün (Mitarbeiter):* Basisrolle mit minimalen Rechten (primär eigene Daten).
+- *Gelb (externes System):* Integration des Finanzbuchhaltungssystems.
+- *Rot (Vertiefung):* im Verlauf weiter verfeinerte Use-Cases.
 
 
 *Daten suchen und filtern*
