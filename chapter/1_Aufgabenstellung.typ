@@ -441,6 +441,7 @@
 #QaA[[INTERN] Über welche Schnittstelle soll das neue System die Finanzdaten (Rechnungen, Mahnungen, Kostenvoranschläge) aus dem Finanzbuchhaltungssystem einlesen?][
   Über einen CSV-Export aus dem Finanzbuchhaltungssystem. Die Schnittstelle ist unidirektional (nur lesen). Die übernommenen Dokumente (Rechnungen, Mahnungen, Kostenvoranschläge) werden über die Entität `Dokument` verwaltet #referenceQ("q_Dokument-Entitaet").
 ]
+#pagebreak()
 #QaA[Wie häufig sollen die Finanzdaten aus dem Buchhaltungssystem synchronisiert werden - in Echtzeit, täglich oder manuell?][
   Die Synchronisation erfolgt manuell durch den Administrator bei Bedarf (z.B. wöchentlich oder nach Rechnungsstellung).
 ]
@@ -465,6 +466,7 @@
 #tableGrid(arguments(
   textFigure(short)[LF 10], [Der jeweilige Benutzer muss die Möglichkeit haben, über eine grafische Benutzeroberfläche alle für ihn relevanten Daten einfach und übersichtlich zu verwalten. \
   Es sollen zahlreiche Konfigurationsdaten lesbar gespeichert und beim nächsten Start des Programms verwendet werden (z.B. aktuelle Größe und Position des Fensters). Daneben sollen einige Elemente vor dem Start konfigurierbar sein (z.B. Überschriften, Schriftarten und -größen usw.)
+  #colbreak()
   #QaA[Welche charakteristischen Daten sollen verwaltet werden? ][
     Folgende charakteristischen Daten sollen verwaltet werden:
     #figure(table(columns: 2, align: left,
@@ -495,6 +497,7 @@
   #QaA[Was soll eine übersichtliche Verwaltung bedeuten? Welche Kriterien soll die Benutzeroberfläche erfüllen?][
     Klare Struktur mit maximal drei Klicks bis zur gewünschten Information, große Schaltflächen, verständliche Beschriftungen ohne technische Fachbegriffe, Hauptfunktionen über zentrale Übersichtsseite erreichbar.
   ]
+  #colbreak()
   #QaA[Was gehört zu den Konfigurationsdaten? Welche Daten sollen konfiguriert werden können? ][
     Fenstergröße und -position, Spaltenbreiten in Tabellen, Sortierreihenfolge, zuletzt geöffnete Ansichten, Schriftarten und -größen, Überschriften und Farbschemata.
   ]
@@ -513,6 +516,7 @@
   #QaA[[INTERN] Wie stehen die Gruppen in der technischen Umsetzung in Relation mit den Mitarbeitern? ][
     Eine n:m-Beziehung. Ein Mitarbeiter kann mehreren Gruppen angehören, eine Gruppe kann mehrere Mitarbeiter enthalten. Dies wird über eine Assoziationsklasse oder Zuordnungstabelle realisiert.
   ]
+  #colbreak()
   #QaA[Welche Kriterien müssen die einzelnen Gruppen bei der Auswahl der Mitarbeiter beachten (mind. Ein bestimmter Mitarbeiter, max. x verschiedene Mitarbeiter)? ][
     Keine festen Beschränkungen. Eine Gruppe kann temporär auch leer sein. Eine Baugruppe benötigt mindestens einen Baugruppenleiter. Die Größe ist nach oben nicht begrenzt.
   ]
@@ -653,8 +657,8 @@
     Ja, Gerät wird als Oberbegriff für Baumaschinen und Bauwerkzeuge verwendet, wobei es sich bei Baumaschinen um Fahrzeuge handelt #referenceQ("q_Eigenschaften-Fahrzeuge"). Die Unterscheidung findet im Attribut "Typ" statt.
 
     Da im Fuhrpark mehrere Geräte desselben Typs existieren (z.B. drei Bagger CAT 320), werden gemeinsame Typ-Eigenschaften in einer separaten Klasse `Geräte-Typ` zusammengefasst. Jedes konkrete Gerät (Exemplar) verweist auf genau einen `Geräte-Typ`. Damit wird vermieden, dass Typ-Attribute wie Bezeichnung und Kategorie bei jedem Exemplar redundant gespeichert werden (Exemplartyp-Muster, siehe @fig-analyse-klassendiagramm).
-
-    Ein Geräte-Typ umfasst folgende Attribute:
+    
+    #colbreak()Ein Geräte-Typ umfasst folgende Attribute:
   ]
 
   #[#set text(fill: answerColor)
@@ -691,6 +695,7 @@
   #QaA[[INTERN] Sollen die Bauwerkzeuge generisch verwaltet werden?][
     Ja, Baumaschinen und Bauwerkzeuge werden über eine gemeinsame Basisklasse generisch verwaltet. Spezifische Eigenschaften können über Attribute oder eine Vererbungshierarchie abgebildet werden.
   ]
+  #colbreak()
   #QaA[Soll die Ausrüstung für Baumaschinen und Bauwerkzeuge einzeln verwaltet werden oder soll die Ausrüstung ausschließlich über die Suche nach den Geräten verwaltet werden? ][
     Die Ausrüstung (z.B. Baggerschaufel, Kranzubehör) wird als separate Entität verwaltet und kann Baumaschinen zugeordnet werden. Über die Suche kann nach Baumaschinen mit bestimmter Ausrüstung gefiltert werden.
 
@@ -708,6 +713,7 @@
   #QaA[Wie hängen Geräte und Ausrüstung zusammen? Gehört die Ausrüstung fest zu einem Gerät oder kann sie ausgetauscht werden?][
     Eine Ausrüstung (z.B. Baggerschaufel oder Anbauhammer) kann an einem passenden Gerät montiert sein, ist aber nicht fest mit ihm verbunden. Sie kann abmontiert und an einem anderen kompatiblen Gerät genutzt werden. Wenn eine Ausrüstung gerade nicht an einem Gerät hängt, liegt sie im Lager. Ein Gerät kann mehrere Ausrüstungsteile gleichzeitig haben (z.B. ein Bagger mit Schaufel und Anbauhammer).
   ]
+  #colbreak()
   #QaA[Was passiert mit der Ausrüstung, wenn das Gerät gebucht wird? Muss sie separat gebucht werden?][
     Wenn ein Gerät gebucht wird, geht die aktuell daran montierte Ausrüstung automatisch mit -- es ist also keine separate Buchung der montierten Teile nötig. Wird eine Ausrüstung später für ein anderes Gerät gebraucht, wird sie umgebaut. Eine Ausrüstung allein (ohne Gerät) wird nicht gebucht.
   ]
@@ -748,6 +754,7 @@
   #QaA[Soll ein Grundstück zu einem Lager zugeordnet werden können? Soll zwischen der Art des Lagers unterschieden werden können (Platz, Gebäude, …)? ][
     Ja, beides. Ein Lager hat ein Typ-Attribut (Platz oder Gebäude) und kann optional einem Grundstück zugeordnet werden.
   ]
+  #colbreak()
   #QaA[Was sollen die charakteristischen Eigenschaften eines Lagers sein? ][
     Ein Lager umfasst folgende Attribute:
 
@@ -769,6 +776,7 @@
   #QaA[Soll die/ das nächste Baumaschine/ -Werkzeug angezeigt werden?][
     Die Suche zeigt verfügbare Geräte mit ihrem Lagerstandort an. Eine kilometergenaue Berechnung der Distanz zum Einsatzort mit Routing-Diensten oder GPS-Ortung ist ausdrücklich *nicht* gefordert. Optional -- und im GUI-Kapitel als bewusst gewählte Zusatzfunktion ausgewiesen -- kann eine grobe Sortierung nach Entfernung auf Basis der beim Lager hinterlegten statischen Adresse (Postleitzahl-/Ortsvergleich) angeboten werden; ein externer Kartendienst ist dafür nicht erforderlich.
   ]
+  #colbreak()
   #QaA[Ist auch der Ort eines Objekts innerhalb eines Lagers relevant (z.B. "Regal 3, oben rechts”)? ][
     Nein, die genaue Position innerhalb eines Lagers ist nicht erforderlich. Es reicht die Zuordnung zum Lager selbst.
   ]
@@ -873,6 +881,7 @@
   #QaA[Wie sollen die Anwesenheitszeiten dargestellt werden? (Nach Tagen, nach Wochen, nach Monaten, nach Stunden, nach Minuten...) ][
     Als Tabelle mit Einträgen pro Tag. Anzeigemöglichkeiten: nach Tag, Woche oder Monat filtern. Jeder Eintrag zeigt Datum, Startzeit, Endzeit und Gesamtstunden.
   ]
+  #colbreak()
   #QaA[Welche charakteristischen Merkmale sollen die Anwesenheitszeiten enthalten (z.B. Uhrzeit, Dauer, Grund für Abwesenheit, ...)? ][
     Eine Anwesenheitszeit umfasst folgende Attribute:
 

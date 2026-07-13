@@ -43,7 +43,7 @@ Die in diesem Kapitel gezeigten Mockups bilden eine bewusst gewählte Administra
 === Konsistente Tabellen, Karten und Formulare
 Tabellarische Darstellungen folgen einem einheitlichen Aufbau mit fixiertem Kopfbereich, dezenten horizontalen Trennlinien und einer typografischen Hervorhebung von Nummern und Identifikatoren in einer Festbreitenschrift. Inhaltliche Gruppierungen werden durchgängig als weiße Karten mit leichten Schatten und einheitlichen Eckenrundungen umgesetzt. Formularfelder verwenden eine identische Höhe, Beschriftung und Fehlerhervorhebung. Diese gestalterische Konsistenz reduziert die kognitive Belastung des Anwenders erheblich und unterstützt die im Lastenheft (LF 10) geforderte sehr gute Benutzbarkeit.
 
-
+#pagebreak()
 == Dashboard
 Das Dashboard (siehe @mockup_dashboard) ist die zentrale Einstiegsseite und bietet nach dem Start einen Überblick über alle für den Arbeitstag relevanten Informationen.
 
@@ -83,6 +83,7 @@ Die Kopfzeile zeigt Auftragsbezeichnung, Auftragsnummer (monospace), Statuspille
 Der Hauptbereich ist zweispaltig. Die linke Spalte enthält vier Karten: "Status \& Fortschritt" (eingesetzte Mitarbeiter, aktive Maschinen, Gesamtfortschritt, Unterbesetzungshinweis), "Finanzen \& Rechnungen" (Kostenvoranschlag, aufgelaufene Kosten, Rechnungsliste) -- da das Finanzbuchhaltungssystem laut Lastenheft führend ist, erfolgt hier nur eine lesende Darstellung, und der Eintrag "Rechnung in FiBu anfordern" öffnet lediglich die Anlagemaske im externen System, "Bemerkungen" (freie Hinweise) sowie "Fotodokumentation" gemäß LF 80 mit Upload-Kachel.
 
 Die rechte Spalte enthält zwei kompakte Karten: "Informationen" (übergeordnetes Projekt, Termine gemäß LF 30, verlinkter Bauplan als `Dokument`-Objekt) und "Beteiligte Personen" (zugeordnete Mitarbeiter mit Avatar und Position).
+#pagebreak()
 
 
 == Neuen Auftrag anlegen
@@ -98,7 +99,7 @@ Der Dialog ist zweispaltig aufgebaut; Pflichtfelder sind durch einen orangefarbe
 Die linke Spalte erfasst die Stammdaten. Das Feld "Auftragsbezeichnung" demonstriert die Duplikatsprüfung nach LF 100: Während der Eingabe blendet das System bei einem Treffer einen Hinweisbanner ein ("Potenzielles Duplikat erkannt: … (\#205012)") mit Verlinkung "Details prüfen", sodass der Anwender abbrechen, den bestehenden Eintrag bearbeiten oder dennoch anlegen kann. Es folgen Projektzuordnung (mit Option, ein neues Projekt anzulegen), Bauplan (als `Dokument`-Objekt mit Typ `BAUPLAN`) sowie Start-, End- und optionaler Zwischentermin über Datumsfelder.
 
 Die rechte Spalte erfasst Einsatzort (strukturiert in Straße, Hausnummer, PLZ, Ort -- für die standortbasierte Gerätesuche), beteiligte Personen als Mehrfachauswahl mit Chip-Darstellung sowie das Feld "Bauleiter". Letzteres ist kein eigenes Attribut, sondern eine hervorgehobene Auswahl unter den beteiligten Personen mit Position `BAULEITER`, auf Datenmodellebene über die Assoziation "beteiligte Personen" und die Enumeration `Position` abgebildet. Der Kostenvoranschlag wird automatisch aus dem Finanzbuchhaltungssystem übernommen. Die Fußzeile enthält "Vorlage speichern", "Abbrechen" und die primäre Schaltfläche "Auftrag anlegen", die erst nach erfolgreicher Validierung und Umgang mit einem etwaigen Duplikathinweis aktiv wird.
-
+#pagebreak()
 
 == Geräte- und Maschinenverwaltung
 Die Verwaltung der Geräte und Maschinen (siehe @mockup_geraete) stellt einen der zentralen Funktionsbereiche der Anwendung dar und realisiert die im Lastenheft formulierten Anforderungen LF 50, LF 70 und LF 80. Die Ansicht folgt einem zweispaltigen Master-Detail-Layout, wie es sich für die Verwaltung großer Bestände an gleichartigen Objekten bewährt hat.
@@ -127,7 +128,7 @@ Eine Schrittanzeige gliedert den Prozess in drei Phasen (Auftrag wählen, Verfü
 
 Auf dieser Grundlage zeigt der Dialog eine nach Verfügbarkeit und Entfernung sortierte Liste. Die Entfernungssortierung ist eine über das Lastenheft hinausgehende Zusatzfunktion auf Basis der statischen Lageradresse (kein Routing-Dienst nötig). Jede Ergebnis-Karte zeigt Bezeichnung, Gerätenummer, Lager mit optionaler Entfernung und den Verfügbarkeitsstatus im angefragten Zeitraum (grün = frei, bernstein = teilweise, rot = nicht buchbar). Eine Hinweiszeile kündigt an, dass beim Abschluss eine Buchungsnummer vergeben und das Gerät im Terminplaner gesperrt wird; die Fußzeile führt über "Weiter zur Bestätigung" in den letzten Schritt.
 
-
+#pagebreak()
 == Terminplaner
 Der Terminplaner (siehe @mockup_terminplaner) realisiert die Terminverwaltung nach LF 40 als kalendarische Wochenansicht mit umschaltbarer Tages- und Monatsansicht.
 

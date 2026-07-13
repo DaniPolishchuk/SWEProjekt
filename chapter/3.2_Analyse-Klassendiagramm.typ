@@ -45,7 +45,7 @@ Die *fachliche Funktion* eines Mitarbeiters im Unternehmen (etwa Projektleiter, 
 
 *Gruppe*
 
-Die Klasse `Gruppe` repräsentiert die Organisationsstruktur des Unternehmens. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe) werden über das Attribut `Gruppentyp` unterschieden (LF 20). Ein Mitarbeiter kann mehreren Gruppen angehören, und eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung, bidirektional). Da in der GUI zusätzlich der zeitliche Beginn der Mitgliedschaft, eine Rolle innerhalb der Gruppe (Mitglied, Stellvertreter) sowie ein optionaler Kennzeichner für Stellvertretung sichtbar gemacht werden sollen, wird die n:m-Beziehung textlich um eine Assoziationsklasse `Gruppenmitgliedschaft` mit den Attributen `rolleInGruppe`, `seit` und `istStellvertreter` konkretisiert; das Klassendiagramm zeigt zur besseren Übersicht nur die zugrundeliegende n:m-Assoziation. Jede Gruppe kann optional einen Gruppenleiter haben, der über eine separate Assoziation zu `Mitarbeiter` referenziert wird. Bei Gruppen vom Typ `Baugruppe` gilt zusätzlich der textliche Constraint, dass mindestens ein Gruppenleiter zugewiesen sein muss (Baugruppenleiter-Pflicht); für alle anderen Gruppentypen bleibt der Gruppenleiter fakultativ. Die Constraint-Formulierung in OCL-artiger Notation lautet: `if gruppentyp = BAUGRUPPE then gruppenleiter->size() = 1 and mitglieder->size() >= 1`.
+Die Klasse `Gruppe` repräsentiert die Organisationsstruktur des Unternehmens. Die Gruppentypen (Verwaltung, Planung, Projektleitung, Bauleitung, Baugruppe) werden über das Attribut `Gruppentyp` unterschieden (LF 20). Ein Mitarbeiter kann mehreren Gruppen angehören, und eine Gruppe kann mehrere Mitarbeiter enthalten (n:m-Beziehung, bidirektional). Da in der GUI zusätzlich der zeitliche Beginn der Mitgliedschaft, eine Rolle innerhalb der Gruppe (Mitglied, Stellvertreter) sowie ein optionaler Kennzeichner für Stellvertretung sichtbar gemacht werden sollen, wird die n:m-Beziehung textlich um eine Assoziationsklasse `Gruppenmitgliedschaft` mit den Attributen `rolleInGruppe`, `seit` und `istStellvertreter` konkretisiert; das Klassendiagramm zeigt zur besseren Übersicht nur die zugrundeliegende n:m-Assoziation. Jede Gruppe kann optional einen Gruppenleiter haben, der über eine separate Assoziation zu `Mitarbeiter` referenziert wird. Bei Gruppen vom Typ `Baugruppe` gilt zusätzlich der textliche Constraint, dass mindestens ein Gruppenleiter zugewiesen sein muss (Baugruppenleiter-Pflicht); für alle anderen Gruppentypen bleibt der Gruppenleiter fakultativ. Die Constraint-Formulierung in OCL-artiger Notation lautet:#linebreak() `if gruppentyp = BAUGRUPPE then gruppenleiter->size() = 1 and mitglieder->size() >= 1`.
 
 *Anwesenheitszeit*
 
@@ -124,7 +124,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 ]
 
 *Begründung:* Das Lastenheft (LF 50) nennt explizit Zubehörteile wie Baggerschaufeln und Kranzubehör, die einem Gerät zugeordnet werden können, aber nicht fest mit ihm verbunden sind. Eine Ausrüstung kann abmontiert und an einem anderen kompatiblen Gerät genutzt werden. Daher wird eine Aggregation (leere Raute am Ganzen, d.h. am Gerät) statt einer Komposition verwendet: Ausrüstung kann ohne ein zugeordnetes Gerät im Lager liegen und wird beim Löschen des Geräts nicht mitgelöscht.
-
+#pagebreak()
 === Muster: Liste
 
 #figure(caption: [Analysemuster Liste -- Kompositionen])[
@@ -144,7 +144,7 @@ Die externen Systeme (Finanzbuchhaltung, Altsystem, Drucker) werden als Klassen 
 ]
 
 *Begründung:* Die Buchung eines Geräts für einen Arbeitsauftrag benötigt eigene Attribute (Buchungszeitraum, Buchungsstatus, buchender Mitarbeiter), die weder dem Gerät noch dem Auftrag sinnvoll zugeordnet werden können. Pro Buchung wird genau ein Gerät reserviert; bei Bedarf an mehreren Geräten werden separate Buchungen angelegt. Die Buchung ermöglicht die im Lastenheft geforderte Verfügbarkeitssuche und Planbarkeit (LF 50).
-
+#pagebreak()
 === Muster: Rolle
 
 #figure(caption: [Analysemuster Rolle -- Mitarbeiter in mehreren benannten Assoziationen])[
