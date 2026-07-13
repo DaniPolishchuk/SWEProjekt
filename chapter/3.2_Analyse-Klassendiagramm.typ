@@ -17,7 +17,7 @@ Klassen, die von mehreren Bereichen genutzt werden (`Adresse`, `Termin`), wurden
 
 *Hinweis zu den Attributbezeichnungen:* Die im Kapitel "Analyse des Lastenhefts" pro Entität aufgeführten Attributtabellen (etwa @e_Mitarbeiter, @e_Gruppe, @e_Lager) sind für alle Diagramme dieser Arbeit verbindlich. Falls in einer früheren Fassung des exportierten Klassendiagramms noch abweichende Schreibungen (`Geburtstag` statt `Geburtsdatum`, `Beschäftigungsart` statt `Beschäftigungsort`, `Gruppetyp` statt `Gruppentyp`, ein transient gebliebenes `Entwurf`-Attribut bei `Lager`) sichtbar geblieben sind, sind diese durch die zugehörige Entitätstabelle zu ersetzen -- sie stellen redaktionelle Übertragungsfehler dar, keine fachlichen Modelländerungen.
 
-#figure(image("../assets/klassendiagramm/Klassendiagramm.png", width: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
+#figure(image("../assets/klassendiagramm/Klassendiagramm.drawio.svg", width: 100%), caption: [Analyse-Klassendiagramm der Verwaltungssoftware]) <fig-analyse-klassendiagramm>
 
 == Beschreibung der Klassen
 

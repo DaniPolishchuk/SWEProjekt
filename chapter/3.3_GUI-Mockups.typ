@@ -43,7 +43,6 @@ Die in diesem Kapitel gezeigten Mockups bilden eine bewusst gewählte Administra
 === Konsistente Tabellen, Karten und Formulare
 Tabellarische Darstellungen folgen einem einheitlichen Aufbau mit fixiertem Kopfbereich, dezenten horizontalen Trennlinien und einer typografischen Hervorhebung von Nummern und Identifikatoren in einer Festbreitenschrift. Inhaltliche Gruppierungen werden durchgängig als weiße Karten mit leichten Schatten und einheitlichen Eckenrundungen umgesetzt. Formularfelder verwenden eine identische Höhe, Beschriftung und Fehlerhervorhebung. Diese gestalterische Konsistenz reduziert die kognitive Belastung des Anwenders erheblich und unterstützt die im Lastenheft (LF 10) geforderte sehr gute Benutzbarkeit.
 
-#pagebreak()
 
 == Dashboard
 Das Dashboard (siehe @mockup_dashboard) ist die zentrale Einstiegsseite und bietet nach dem Start einen Überblick über alle für den Arbeitstag relevanten Informationen.
@@ -57,7 +56,6 @@ Die Kopfzeile begrüßt den Mitarbeiter mit Datum und Tageskennzahlen; darunter 
 
 Der Hauptbereich ist zweispaltig: links eine umschaltbare Tagesübersicht ("Termine", "Aufträge", "Buchungen") mit chronologischer Stundenleiste und verlinkten Auftragsnummern, rechts drei Karten -- "Neu eingegangene Aufträge", "Verfügbarkeitswarnungen" (defekte, in Wartung befindliche oder kollidierend gebuchte Geräte) und eine Schnellübersicht. Der untere Bereich zeigt eine filterbare Tabelle laufender Aufträge (Status, Fortschritt aus Unterauftrags-Verhältnis) als schnellen Einstieg. Die Aktionen "Bericht exportieren" (nur Administrator) und "Neuer Auftrag" oben rechts fassen die häufigsten ausgehenden Vorgänge zusammen.
 
-#pagebreak()
 
 == Auftragsübersicht
 Die Auftragsübersicht (siehe @mockup_auftraege) ist das wichtigste Werkzeug zur Verwaltung sämtlicher Aufträge und entspricht LF 30. Da sie mehrfach täglich aufgerufen wird, wurde besonderer Wert auf einen effizienten Aufbau gelegt.
@@ -71,7 +69,6 @@ Die Kopfzeile zeigt aggregierte Kennzahlen sowie die Aktionen Import, CSV-Export
 
 Die Auftragsliste ist als vertikal gestapelte Karten umgesetzt (zugänglicher und mobiltauglicher als eine Tabelle). Jede Karte zeigt statusfarbenen Akzentstreifen, Auftragsnummer (monospace), Bezeichnung, Kunde, Laufzeit, eine Statuspille gemäß Enumeration `AuftragStatus` und @statusfarben, eine gleichfarbige Fortschrittsanzeige sowie die beteiligten Mitarbeiter als Avatare ("+n" bei mehr als drei). Eine Seitennavigation gliedert große Ergebnismengen -- bei den laut Produktleistungen erwarteten ~100.000 Datensätzen der einzig praktikable Ansatz für kurze Antwortzeiten. Ein Klick auf eine Karte öffnet die Detailansicht.
 
-#pagebreak()
 
 == Auftragsdetailansicht
 Die Detailansicht eines Auftrags (siehe @mockup_auftrag_detail) bündelt sämtliche zu einem konkreten Auftrag verfügbaren Informationen auf einer einzigen Seite und ermöglicht es dem Bauleiter, von dort aus alle wesentlichen Folgeaktionen zu initiieren -- sei es das Anlegen von Unteraufträgen, das Buchen von Geräten oder das Hinterlegen von Bilddokumenten.
@@ -87,7 +84,6 @@ Der Hauptbereich ist zweispaltig. Die linke Spalte enthält vier Karten: "Status
 
 Die rechte Spalte enthält zwei kompakte Karten: "Informationen" (übergeordnetes Projekt, Termine gemäß LF 30, verlinkter Bauplan als `Dokument`-Objekt) und "Beteiligte Personen" (zugeordnete Mitarbeiter mit Avatar und Position).
 
-#pagebreak()
 
 == Neuen Auftrag anlegen
 Der Dialog zum Anlegen eines neuen Auftrags (siehe @mockup_auftrag_anlegen) wird modal über die Auftragsübersicht geöffnet und realisiert die im Lastenheft geforderte Erfassung sämtlicher relevanter Auftragsdaten in einer einzigen, kompakten Eingabemaske. Der Hintergrund der zugrundeliegenden Übersicht bleibt während der Eingabe sichtbar, jedoch leicht abgedunkelt, sodass der Anwender den Kontext seiner Eingabe nicht aus den Augen verliert.
@@ -103,7 +99,6 @@ Die linke Spalte erfasst die Stammdaten. Das Feld "Auftragsbezeichnung" demonstr
 
 Die rechte Spalte erfasst Einsatzort (strukturiert in Straße, Hausnummer, PLZ, Ort -- für die standortbasierte Gerätesuche), beteiligte Personen als Mehrfachauswahl mit Chip-Darstellung sowie das Feld "Bauleiter". Letzteres ist kein eigenes Attribut, sondern eine hervorgehobene Auswahl unter den beteiligten Personen mit Position `BAULEITER`, auf Datenmodellebene über die Assoziation "beteiligte Personen" und die Enumeration `Position` abgebildet. Der Kostenvoranschlag wird automatisch aus dem Finanzbuchhaltungssystem übernommen. Die Fußzeile enthält "Vorlage speichern", "Abbrechen" und die primäre Schaltfläche "Auftrag anlegen", die erst nach erfolgreicher Validierung und Umgang mit einem etwaigen Duplikathinweis aktiv wird.
 
-#pagebreak()
 
 == Geräte- und Maschinenverwaltung
 Die Verwaltung der Geräte und Maschinen (siehe @mockup_geraete) stellt einen der zentralen Funktionsbereiche der Anwendung dar und realisiert die im Lastenheft formulierten Anforderungen LF 50, LF 70 und LF 80. Die Ansicht folgt einem zweispaltigen Master-Detail-Layout, wie es sich für die Verwaltung großer Bestände an gleichartigen Objekten bewährt hat.
@@ -119,7 +114,6 @@ Die linke Master-Spalte enthält eine Karteireiterleiste ("Alle", "Baumaschinen"
 
 Die rechte Detailspalte zeigt zunächst ein Foto mit Statusbanner (LF 80), darunter Gerätebezeichner mit Verlinkung auf den `Geräte-Typ` und Seriennummer -- diese Trennung realisiert das Analysemuster Exemplartyp und vermeidet redundante Typ-Stammdaten. Es folgen Kennzahlenkacheln (Buchungen, Auslastung, letzte Wartung) sowie ein Karteireiterbereich ("Übersicht", "Buchungen", "Wartung", "Ausrüstung", "Standort \& Lager", "Historie"). Der Reiter "Übersicht" enthält u.a. den Bereich "Zubehör (Baugruppe-Muster)" zur Verwaltung kompatibler Anbaugeräte (LF 50) sowie eine Standortvorschau.
 
-#pagebreak()
 
 == Buchung mit Verfügbarkeitssuche
 Die Buchungsansicht (siehe @mockup_buchung) realisiert den dreistufigen Buchungsprozess für Geräte (LF 50) und wird als modaler Dialog aus jedem Kontext (Auftragsdetail, Geräteverwaltung, Terminplaner) geöffnet.
@@ -133,7 +127,6 @@ Eine Schrittanzeige gliedert den Prozess in drei Phasen (Auftrag wählen, Verfü
 
 Auf dieser Grundlage zeigt der Dialog eine nach Verfügbarkeit und Entfernung sortierte Liste. Die Entfernungssortierung ist eine über das Lastenheft hinausgehende Zusatzfunktion auf Basis der statischen Lageradresse (kein Routing-Dienst nötig). Jede Ergebnis-Karte zeigt Bezeichnung, Gerätenummer, Lager mit optionaler Entfernung und den Verfügbarkeitsstatus im angefragten Zeitraum (grün = frei, bernstein = teilweise, rot = nicht buchbar). Eine Hinweiszeile kündigt an, dass beim Abschluss eine Buchungsnummer vergeben und das Gerät im Terminplaner gesperrt wird; die Fußzeile führt über "Weiter zur Bestätigung" in den letzten Schritt.
 
-#pagebreak()
 
 == Terminplaner
 Der Terminplaner (siehe @mockup_terminplaner) realisiert die Terminverwaltung nach LF 40 als kalendarische Wochenansicht mit umschaltbarer Tages- und Monatsansicht.
@@ -147,7 +140,6 @@ Die Kopfzeile zeigt die Kalenderwoche, einen Granularitätsumschalter (Tag/Woche
 
 Ein Detailpanel rechts zeigt nach Auswahl eines Termins dessen vollständige Informationen (Titel, verlinkte Auftragsnummer, Datum/Uhrzeit/Dauer, Ort, Team, Bemerkungen, verknüpfte Buchungen) ohne Ansichtswechsel und bietet unten die Aktionen "Löschen", "Bearbeiten" und "Termin öffnen".
 
-#pagebreak()
 
 == Mitarbeiterprofil und Gruppenzuordnung
 Die letzte hier vorgestellte Ansicht (siehe @mockup_mitarbeiter) realisiert die im Lastenheft (LF 20) geforderte Mitarbeiter- und Gruppenverwaltung und veranschaulicht zugleich die für die Bauunternehmensorganisation typische n:m-Zuordnung zwischen Mitarbeitern und Gruppen.
@@ -161,7 +153,6 @@ Den oberen Teil bildet ein Profilelement mit Avatar, Name, Mitarbeiternummer, Po
 
 Der Hauptbereich ist zweispaltig: Links listet "Gruppenzugehörigkeiten" die Gruppen des Mitarbeiters als Karten mit Bezeichnung, Nummer, farbcodiertem Gruppentyp und Rolle innerhalb der Gruppe. Diese Mehrfachzugehörigkeit realisiert sichtbar die in LF 20 geforderte n:m-Beziehung. Rechts unterstützt die Karte "Verfügbare Gruppen" die Zuordnung: Sie listet die noch nicht zugeordneten Gruppen mit Suche/Filter und Auswahlkästchen; die Schaltfläche "n Gruppe(n) hinzufügen" passt sich dynamisch der Auswahl an. Diese Zuordnungslogik ist verbindendes Element zwischen Personalverwaltung und den übrigen Anwendungsbereichen (z.B. rollenspezifische Auftragsfilterung).
 
-#pagebreak()
 
 == Nicht skizzierte Ansichten
 Neben den acht Mockups existieren weitere Masken, die denselben Gestaltungsprinzipien folgen und sich daraus ableiten lassen:

@@ -34,7 +34,7 @@ Zur besseren Lesbarkeit des Diagramms wurden die Referenz-Fragmente (`ref`) farb
 
 Neue Objekte werden gemäß Vorlesung per `new()`-Nachricht erzeugt; die Objektköpfe erscheinen werkzeugbedingt bereits am oberen Rand, die Lebenslinie beginnt aber erst mit dem `new()`-Aufruf. Rückkehrnachrichten sind gestrichelt und dezimal nummeriert. Als Analyse-Sequenzdiagramm sind sprechende Prosa-Bezeichnungen statt formaler Signaturen zulässig (Vorlesung, Folie 19). Ein physisches Löschen von Lebenslinien kommt nicht vor, da alle Objekte gemäß LL 20 persistiert bleiben.
 
-#figure(image("../assets/Sequenzdiagramm_Auftrag.png", width: 100%), caption: [Sequenzdiagramm "Auftrag anlegen"]) <fig:sd_auftrag>
+#figure(image("../assets/Sequenzdiagramm_Auftrag.png", height: 100%), caption: [Sequenzdiagramm "Auftrag anlegen"]) <fig:sd_auftrag>
 
 == Diagrammbetrachtung: Auftrag anlegen
 

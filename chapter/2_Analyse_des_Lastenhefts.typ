@@ -1,6 +1,6 @@
 #let tableGrid(cells) = {
   table(..cells, columns: 2, stroke: none,
-    inset: (right: 0.5em),
+    inset: (right: 0.5em, top: 0.35em, bottom: 0.35em),
   )
 }
 

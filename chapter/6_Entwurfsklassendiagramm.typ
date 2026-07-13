@@ -39,7 +39,6 @@ Um die Übersichtlichkeit zu wahren, wurden im Paket _Datentypen_ keine Assoziat
   caption: [Entwurfsklassendiagramm der Verwaltungssoftware],
 ) <fig-entwurfs-klassendiagramm>
 
-#pagebreak(weak: true)
 
 == Wesentliche Änderungen gegenüber dem Analyse-Klassendiagramm
 

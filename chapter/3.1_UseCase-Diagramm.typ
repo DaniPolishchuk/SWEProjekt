@@ -158,7 +158,7 @@ Dieser Use-Case dient der Sicherung aller systemrelevanten Daten, um Datenverlus
 Backups werden automatisch täglich (inkrementell) und wöchentlich (vollständig) vom System erstellt. Zusätzlich hat der Administrator die Möglichkeit, manuelle Backups bei Bedarf anzustoßen, beispielsweise vor größeren Änderungen oder Updates #referenceQ("q_automatische-Datensicherung").
 Ergänzend kann der Administrator selektive Exporte einzelner Datensätze durchführen. Die Backups erfolgen im CSV-Format #referenceQ("q_Import-Export-Daten").
 
-#pagebreak()
+#pagebreak(weak: true)
 
 == Verfeinerung "Geräte verwalten" <chapter-Verfeinerung_Geräte-verwalten>
 Die Verfeinerung "Geräte verwalten" umfasst das Anlegen, Bearbeiten und Löschen von Geräten sowie die Zuordnung zu Lagern und die Ausrüstungsverwaltung. Die Rechteabgrenzung ergibt sich aus Use-Case-Diagramm und Berechtigungstabellen: Das *Anlegen* und *Löschen* ist dem Verwaltungsmitarbeiter (bzw. Administrator) vorbehalten, während Bau-/Projektleiter Geräte nur *bearbeiten*, Ausrüstung zuordnen sowie Lager und Ausrüstungskatalog pflegen dürfen.
@@ -193,7 +193,7 @@ Um Fehler und Missverständnisse auf der Baustelle zu vermeiden, erfolgt das Lö
 
 Der Use-Case "Buchung stornieren" wird als `<<include>>` sowohl aus "Gerät löschen" als auch aus der regulären Buchungsverwaltung eingebunden. Eine Stornierung setzt den `BuchungStatus` auf `STORNIERT` und macht das zugrundeliegende Gerät für den bislang blockierten Zeitraum erneut buchbar; im Terminplaner erscheint das Gerät an den entsprechenden Tagen wieder als verfügbar. Die Buchung selbst bleibt in der Datenbasis erhalten, um den Vorgang später nachvollziehen zu können.
 
-#pagebreak()
+#pagebreak(weak: true)
 
 == Verfeinerung "Gerät anlegen" <chapter-Verfeinerung_Geräte-anlegen>
 Die Verfeinerung "Gerät anlegen" zeigt die einzelnen Schritte des Anlegevorgangs und die dabei zu erfassenden Pflichtattribute.

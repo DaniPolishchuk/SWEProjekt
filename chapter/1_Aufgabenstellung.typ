@@ -23,6 +23,7 @@
     [#figure(
       block(
         inset: (left: 1em),
+        spacing: 0.65em,
         align(left)[
           #text(fill: orange, weight: "bold")[F#str(n). #question] \
           #text(fill: answerColor)[#answer]
@@ -81,6 +82,9 @@
 }
 
 = Analyse des Lastenhefts
+#show figure.where(kind: "qa"): set block(spacing: 0.8em)
+#show figure: set block(breakable: true)
+#set table(inset: 5pt)
 == Einleitung <chapter-Einleitung>
 #include "original/1.0_Einleitung.typ"
 
@@ -90,6 +94,7 @@
 #QaA[Welche überregionalen Gebiete deckt das Bauunternehmen ab und gibt es geplante Expansionen in weitere Regionen?][
   Das Kerngebiet ist die Rhein-Neckar-Region sowie angrenzende Gebiete in Baden-Württemberg und Rheinland-Pfalz. Eine Expansion ist derzeit nicht geplant.
 ]
+#pagebreak()
 #QaA[Welche konkreten Fachbereiche umfasst das breite Angebotsspektrum im Hoch- und Tiefbau neben den genannten Bauwerkstypen?][
   Hochbau: Wohngebäude, Bürogebäude, Hallenbauten \
   Tiefbau: Brücken, Unterführungen, Kanalbau \
@@ -110,6 +115,8 @@
 #QaA[Was genau wird unter einer "intuitiven, leicht bedienbaren Benutzeroberfläche" verstanden - soll die neue Oberfläche nach einem bestimmten Gestaltungsprinzip aufgebaut sein (z.B. möglichst wenige Klicks, alle wesentlichen Informationen auf einen Blick)?][
   Die wichtigsten Informationen (Aufträge, Baumaschinen, Mitarbeiter) sollen von einer zentralen Übersichtsseite aus erreichbar sein. Maximal drei Klicks bis zur gewünschten Information. Keine Kommandozeile oder technische Fehlermeldungen.
 ]
+#pagebreak()
+
 #QaA(labelName: "plattformunabhängige Lösung")[Wie stellt man sich die plattformunabhängige Lösung konkret vor - soll es eine native Desktop-Anwendung mit Java, eine Web-Applikation oder eine hybride Lösung sein?][
   Es soll eine Java-Desktop-Anwendung sein, die plattformunabhängig auf Windows, Linux und macOS läuft #referenceQ("q_Leistung-PC"). Für das spätere Tablet-Projekt wird eine separate Web- oder App-Lösung in Betracht gezogen.
 ]
@@ -131,6 +138,8 @@
 
 #QaA(labelName: "Eigenschaften-Fahrzeuge")[Welche Eigenschaften müssen Fahrzeuge im System haben?][
   Fahrzeuge werden im System als "Baumaschinen" bezeichnet.]
+  #pagebreak()
+
 #QaA[Welche Eigenschaften müssen Rechnungen im System haben?][
   Rechnungen umfassen folgende Attribute:
   #entityFigure("Rechnung", arguments(
@@ -181,6 +190,8 @@
 #QaA[[INTERN] Soll eine bestimmte Sicherheit beim Zugriff von außen existieren?][
   Der Server läuft im internen Firmennetz ohne öffentliche Internet-Exposition. Der spätere Tablet-Zugriff erfolgt über gesichertes VPN mit Offline-First-Synchronisation (siehe oben).
 ]
+#pagebreak()
+
 #QaA[Auf welche Teile des Systems soll zugegriffen werden dürfen (Siehe Rollen)?][
   Der Zugriff richtet sich nach den Benutzerrollen:
   - Verwaltung Vollzugriff auf Verwaltungsdaten
@@ -217,6 +228,7 @@
 #QaA(labelName: "Export-Verschlüsselung")[[INTERN] Sollen die Exportdaten verschlüsselt werden?][
   Nein, eine Verschlüsselung der Exportdaten ist nicht erforderlich. Die Dateien werden nur intern verwendet.
 ]
+#pagebreak()
 
 === Anwendungsbereiche
 #include "original/2.2_Anwendungsbereiche.typ" 
@@ -297,7 +309,7 @@
     [Adresse], [Referenz], [Referenz auf Adresse]
   ))
 
-  Ein Mitarbeiter erbt von `Person` und ergänzt folgende Attribute:
+  #colbreak()Ein Mitarbeiter erbt von `Person` und ergänzt folgende Attribute:
 
   #entityFigure("Mitarbeiter", arguments(
     [Mitarbeiternummer], [Ganzzahl], [Eindeutige ID, automatisch vergeben],
@@ -325,7 +337,7 @@
 
   Intern: Die Datentypen "Text" und "Ganzzahl" entsprechen in Java String und int bzw. Integer. "Referenz" bedeutet eine Objektreferenz bzw. Fremdschlüssel in der Datenbank.
 ]
-
+#pagebreak()
 #QaA(labelName: "Aufgabe-Verwaltung-Admin")[Soll es Mitarbeiter geben, die nur für die Verwaltung der Daten angestellt sind?][
   Ja, die Verwaltungsmitarbeiter im Büro sind primär für die Datenpflege zuständig; dedizierte Datenbankadministratoren gibt es nicht. Intern: "Verwaltungsmitarbeiter" ist sowohl Position (Mitarbeitertyp) als auch Benutzerrolle (Zugriffskontrolle) und wird der Gruppe "Verwaltung" zugeordnet.
 ]
@@ -347,6 +359,7 @@
 #QaA(labelName: "Vorarbeiter-zukünftige-Arbeitsaufträge")[Soll ein Vorarbeiter nur aktuelle Arbeitsaufträge einsehen oder auch vergangene und zukünftige Arbeitsauträge? ][
   Ein Vorarbeiter kann seine aktuellen und zukünftigen Arbeitsaufträge einsehen. Vergangene abgeschlossene Aufträge sind ebenfalls lesbar.
 ]
+#pagebreak()
 #QaA(labelName: "Rollen-gleichzeitig")[Soll eine Person mehrere Rollen gleichzeitig haben können, und sollen dann die kombinierten Rechte gelten? ][
   Nein, jeder Benutzer hat genau eine Rolle. Ein Projektleiter, der auch Verwaltungsaufgaben übernimmt, erhält die Rolle mit den höheren Rechten.
 ]
@@ -370,7 +383,7 @@
     [Termine], [Referenz], [Genau ein Starttermin und ein Endtermin (Multiplizität 2). Zwischentermine werden auf Projektebene nicht modelliert, sondern ergeben sich aus den Terminen der zugehörigen Arbeitsaufträge.],
     [Beschreibung], [Text], [Detaillierte Projektbeschreibung],
     [Dokumente], [Referenz], [Liste übergeordneter Projektdokumente (z.B. Projektpläne, Verträge) #referenceQ("q_Dokument-Entitaet")],
-    [Status], [Enum-Wert], [Wert der Enumeration `ProjektStatus` (`GEPLANT`, `LAUFEND`, `ABGESCHLOSSEN`); die auftragsspezifischen Zustände `PAUSIERT`, `VERZUG` und `ARCHIVIERT` treten auf Projektebene bewusst nicht auf, da die entsprechende Semantik nur einzelnen Arbeitsaufträgen zukommt],
+    [Status], [Enum-Wert], [Wert der Enumeration `ProjektStatus` (`GEPLANT`, `LAUFEND`, `ABGESCHLOSSEN`); die Zustände `PAUSIERT`, `VERZUG` und `ARCHIVIERT` treten auf Projektebene bewusst nicht auf, da die entsprechende Semantik nur einzelnen Arbeitsaufträgen zukommt],
   ))
 ]
 #QaA[Wie viele Projektleiter hat ein Projekt? Kann ein Projekt zeitweise auch ohne Projektleiter sein?][
